@@ -10,7 +10,13 @@ use Models\Auszubildender;
 use Models\Phase;
 use Models\Standardplan;
 
-include_once("../" . "config.php");
+if (!defined("BASE")) {
+    include_once(BASE . "/config.php");
+}
+else {
+    include_once(dirname(__DIR__) . "/config.php");
+}
+
 include_models();
 
 class Helper {

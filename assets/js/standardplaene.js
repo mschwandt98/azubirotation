@@ -60,7 +60,6 @@ jQuery(function($) {
             });
 
             $.get(APISTANDARDPLAN + "Get", function(data) {
-
                 data = JSON.parse(data);
 
                 var standardplaene = $("#Standardplaene");

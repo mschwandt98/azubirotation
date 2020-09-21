@@ -12,12 +12,14 @@
 <div style="margin-top: 100px; text-align: center;">
     <button onclick="StartPlanning();">Start planning</button>
 </div>
+<div id="Plan"></div>
 
 <script>
     function StartPlanning() {
 
         jQuery.get("core/CreatePlan.php", function(response){
-            // nothing to do
+            $("#Plan").empty();
+            $("#Plan").append(response);
         });
     }
 </script>
