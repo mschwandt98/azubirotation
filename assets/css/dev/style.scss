@@ -1,0 +1,73 @@
+$selectline-blue: #009fda;
+$selectline-blue-hover: #0c88b9;
+$selectline-dark-blue: #003359;
+$selectline-text-blue: #4b556a;
+
+$gray: #bdbdcb;
+
+$rgba-selectline-blue: rgba(0, 159, 218, 0.4);
+
+body {
+    color: $selectline-text-blue;
+    font-size: 16px;
+    margin: 0;
+}
+
+input[type="button"],
+input[type="submit"] {
+    border: 0;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    outline: 0;
+    padding: 8px 16px;
+    text-transform: uppercase;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+input[type="button"] {
+    background-color: $selectline-blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $selectline-blue-hover;
+    }
+}
+
+input[type="submit"] {
+    background-color: $selectline-dark-blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $selectline-blue;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 16px;
+}
+
+.data-item {
+    border: 1px solid $rgba-selectline-blue;
+    border-radius: 8px;
+    box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
+    padding: 16px 24px;
+
+    &:hover {
+        box-shadow: 0px 0px 16px 0px rgba($gray, 0.4);
+    }
+
+    .title {
+        color: $selectline-blue;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+}
