@@ -1,11 +1,8 @@
 <?php
-define("BASE", dirname(dirname(__DIR__)));
-include_once(BASE . "/config.php");
-include_once(BASE . "/models/Phase.php");
-include_once(BASE . "/models/Standardplan.php");
-
 use Models\Standardplan;
 use Models\Phase;
+
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
 global $pdo;
 

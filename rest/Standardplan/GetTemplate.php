@@ -4,10 +4,7 @@ use Models\Phase;
 
 if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildungsberuf"])) {
 
-    define("BASE", dirname(dirname(__DIR__)));
-    include_once(BASE . "/config.php");
-    include_once(BASE . "/models/Phase.php");
-    include_once(BASE . "/models/Standardplan.php");
+    include_once(dirname(dirname(__DIR__)) . "/config.php");
 
     global $pdo;
 
