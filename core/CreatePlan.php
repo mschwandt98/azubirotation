@@ -39,7 +39,7 @@ foreach ($azubis as $azubi) {
     $endDatum = new DateTime($azubi->Ausbildungsende);
     $weeks = $startDatum->diff($endDatum)->days / 7;
     $weeksLeft = $weeks;
-    $phaseStart = clone($startDatum);
+    $phaseStart = clone $startDatum;
 
     if ($lowestStartDate > $startDatum) {
         $lowestStartDate = $startDatum;
@@ -49,6 +49,7 @@ foreach ($azubis as $azubi) {
         $highestEndDate = $endDatum;
     }
 
+    $planung[$azubi->ID] = new Item($azubi);
     $standardplan = $standardplaene[$beruf->Bezeichnung];
     $completedPhases = [];
 
@@ -68,41 +69,84 @@ foreach ($azubis as $azubi) {
             return;
         }
 
-        $phaseEnd = clone(GetEndDateOfPhase(clone($phaseStart), $phase->Wochen));
+        $phaseEnd = clone GetEndDateOfPhase(clone $phaseStart, $phase->Wochen);
 
         if ($phaseEnd > $endDatum) {
-            $phaseEnd = clone($endDatum);
+            $phaseEnd = clone $endDatum;
         }
 
-        $planung[$azubi->ID][] = [
-            "StartDate" => clone($phaseStart),
-            "EndDate" => clone($phaseEnd),
+        $planung[$azubi->ID]->Phasen[] = [
+            "StartDate" => clone $phaseStart,
+            "EndDate" => clone $phaseEnd,
             "Wochen" => $phase->Wochen,
             "Abteilung" => $phase->Abteilung,
             "Farbe" => $currentAbteilung->Farbe
         ];
 
-        $phaseStart = clone($phaseEnd);
+        $phaseStart = clone $phaseEnd;
         SetNextDay($phaseStart);
     }
 }
 
 ob_start();
 
-$weeksBetweenLowestAndHighestDate = $lowestStartDate->diff($highestEndDate)->days / 7;
+$tempStartDate = clone $lowestStartDate;
+$tempEndDate = clone $highestEndDate;
+$mondayLowestStartDate = clone $tempStartDate->modify("Monday this week");
+$sundayHighestEndDate = clone $tempEndDate->modify("Sunday this week");
+unset($tempStartDate, $tempEndDate);
+
+$weeksBetweenLowestAndHighestDate = ceil($mondayLowestStartDate->diff($sundayHighestEndDate)->days / 7);
+$months = [];
+$currentDate = clone $mondayLowestStartDate;
+
+for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) {
+    $months[] = strtoupper(substr($currentDate->format("F"), 0, 3)) . " " . substr($currentDate->format("Y"), -2);
+    $currentDate->modify("Monday next week");
+}
 ?>
 
 <table>
+<tr>
+    <th>Nachname</th>
+    <th>Vorname</th>
+    <th>Zeitraum</th>
 
-<?php foreach ($planung as $azubi) : ?>
+    <?php for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) : ?>
+
+        <th><?= $months[$i]; ?></th>
+
+    <?php endfor; ?>
+
+</tr>
+
+<?php foreach ($planung as $plan) : ?>
+    <?php $currentDate = clone $mondayLowestStartDate; ?>
 
     <tr>
+        <td><?= $plan->Azubi->Nachname; ?></td>
+        <td><?= $plan->Azubi->Vorname; ?></td>
+        <td>
+            <?= date("m.Y", strtotime($plan->Azubi->Ausbildungsstart)) .
+                " - " .
+                date("m.Y", strtotime($plan->Azubi->Ausbildungsende)); ?>
+        </td>
 
-        <?php foreach ($azubi as $phase) : ?>
-            <?php for ($i = 0; $i < $phase["Wochen"]; $i++) : ?>
+        <?php foreach ($plan->Phasen as $phase) : ?>
+            <?php $phaseCurrentDate = $phase["StartDate"]; ?>
+            <?php for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) : ?>
+                <?php if ($currentDate > $phase["EndDate"]) : ?>
+                    <?php continue; ?>
+                <?php elseif ($phaseCurrentDate <= $currentDate) : ?>
 
-                <td style="background-color: <?= $phase["Farbe"]; ?>; width: 16px; height: 16px;"></td>
+                    <td style="background-color: <?= $phase["Farbe"]; ?>;"></td>
 
+                <?php else: ?>
+
+                    <td></td>
+
+                <?php endif; ?>
+                <?php $currentDate->modify("Monday next week"); ?>
             <?php endfor; ?>
         <?php endforeach; ?>
 
@@ -120,6 +164,20 @@ function GetEndDateOfPhase($startDate, $weeksOfPhase) {
     return $startDate->add($interval);
 }
 
+function DateInWeekOf($date, $dateWeek) {
+    return;
+}
+
 function SetNextDay($date) {
     return $date->add(new DateInterval("P1D"));
+}
+
+class Item {
+    public $Azubi;
+    public $Phasen;
+
+    function __construct($azubi) {
+        $this->Azubi = $azubi;
+        $this->Phasen = [];
+    }
 }
