@@ -19,6 +19,16 @@
                 <div>
                     <span>Wochen: </span><input type="number" name="wochen" />
                 </div>
+                <div>
+                    <label>
+                        <span>Präferieren: </span><input type="checkbox" name="praeferieren" />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span>Optional: </span><input type="checkbox" name="optional" />
+                    </label>
+                </div>
                 <input type="button" class="delete-phase" value="Phase löschen" />
             </div>
         </div>
@@ -31,9 +41,7 @@
     </form>
     <form id="EditStandardplanForm" method="post" style="display: none;">
         <input type="hidden" name="id_ausbildungsberuf" />
-        <div class="plan">
-
-        </div>
+        <div class="plan"></div>
         <div>
             <input type="submit" value="Änderungen speichern" />
         </div>

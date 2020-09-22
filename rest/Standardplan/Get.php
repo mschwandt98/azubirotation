@@ -4,8 +4,6 @@ use core\Helper;
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 include_once(BASE . "/core/Helper.php");
 
-global $pdo;
-
 $helper = new Helper();
 $standardplaene = $helper->GetStandardPlaene($_GET["id_ausbildungsberuf"] ?? null);
 

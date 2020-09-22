@@ -62,6 +62,7 @@ foreach ($azubis as $azubi) {
         foreach ($abteilungen as $abteilung) {
             if ($abteilung->ID == $phase->ID_Abteilung) {
                 $currentAbteilung = $abteilung;
+                break;
             }
         }
 
@@ -79,7 +80,7 @@ foreach ($azubis as $azubi) {
             "StartDate" => clone $phaseStart,
             "EndDate" => clone $phaseEnd,
             "Wochen" => $phase->Wochen,
-            "Abteilung" => $phase->Abteilung,
+            "ID_Abteilung" => $phase->ID_Abteilung,
             "Farbe" => $currentAbteilung->Farbe
         ];
 
@@ -87,8 +88,6 @@ foreach ($azubis as $azubi) {
         SetNextDay($phaseStart);
     }
 }
-
-ob_start();
 
 $tempStartDate = clone $lowestStartDate;
 $tempEndDate = clone $highestEndDate;
@@ -104,6 +103,8 @@ for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) {
     $months[] = strtoupper(substr($currentDate->format("F"), 0, 3)) . " " . substr($currentDate->format("Y"), -2);
     $currentDate->modify("Monday next week");
 }
+
+ob_start();
 ?>
 
 <table>

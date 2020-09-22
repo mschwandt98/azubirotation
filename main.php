@@ -12,7 +12,7 @@
 <div style="margin-top: 100px; text-align: center;">
     <button onclick="StartPlanning();">Start planning</button>
 </div>
-<div id="Plan"></div>
+<div id="Plan" style="overflow-x: scroll;"></div>
 
 <script>
     function StartPlanning() {

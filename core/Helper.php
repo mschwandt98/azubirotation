@@ -122,6 +122,7 @@ class Helper {
         $sql_where = "";
 
         if ($id !== null) {
+            $id = intval($id);
             $sql_where = " WHERE ab.ID = $id";
         }
 
@@ -142,7 +143,9 @@ class Helper {
             $needed_phase = new Phase(
                 $phase["ID_Abteilung"],
                 $phase["Abteilung"],
-                $phase["AnzahlWochen"]
+                $phase["AnzahlWochen"],
+                $phase["Praeferieren"],
+                $phase["Optional"]
             );
 
             if (array_key_exists($phase["Ausbildungsberuf"], $standardplaene)) {

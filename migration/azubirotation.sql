@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 17. Sep 2020 um 07:26
+-- Erstellungszeit: 22. Sep 2020 um 08:27
 -- Server-Version: 10.4.14-MariaDB
 -- PHP-Version: 7.4.10
 
@@ -99,7 +99,9 @@ CREATE TABLE `standardpläne` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `ID_Ausbildungsberuf` bigint(20) UNSIGNED DEFAULT NULL,
   `ID_Abteilung` bigint(20) UNSIGNED DEFAULT NULL,
-  `AnzahlWochen` int(11) NOT NULL
+  `AnzahlWochen` int(11) NOT NULL,
+  `Praeferieren` tinyint(1) NOT NULL,
+  `Optional` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
