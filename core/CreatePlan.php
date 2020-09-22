@@ -17,6 +17,12 @@ $planung = [];
 $lowestStartDate = new DateTime($azubis[0]->Ausbildungsstart);
 $highestEndDate = new DateTime($azubis[0]->Ausbildungsende);
 
+// Vorbereitung Counter wieviele Azubis wann in welchen Abteilungen sind
+$abteilungenAzubiCounter = [];
+foreach ($abteilungen as $abteilung) {
+    $abteilungenAzubiCounter[$abteilung->ID] = [];
+}
+
 foreach ($azubis as $azubi) {
 
     foreach ($ausbildungsberufe as $ausbildungsberuf) {
@@ -35,10 +41,34 @@ foreach ($azubis as $azubi) {
         return;
     }
 
+    $standardplan = $standardplaene[$beruf->Bezeichnung];
+
+    // Sortierung nach Präferierung und nach Optionalität der Phasen
+    $praeferien = [];
+    $praeferienAndOptional = [];
+    $phases = [];
+    $optional = [];
+
+    foreach ($standardplan->Phasen as $phase) {
+
+        if ($phase->Praeferieren && !$phase->Optional) {
+            $praeferien[] = $phase;
+        } elseif ($phase->Praeferieren && $phase->Optional) {
+            $praeferienAndOptional[] = $phase;
+        } elseif (!$phase->Praeferieren && $phase->Optional) {
+            $optional[] = $phase;
+        } else {
+            $phases[] = $phase;
+        }
+    }
+
+    $orderedStandardplan = clone $standardplan;
+    $orderedStandardplan->Phasen = array_merge($praeferien, $praeferienAndOptional, $phases, $optional);
+
+    // Startdatum und Enddatum jeder Phase setzen
     $startDatum = new DateTime($azubi->Ausbildungsstart);
     $endDatum = new DateTime($azubi->Ausbildungsende);
     $weeks = $startDatum->diff($endDatum)->days / 7;
-    $weeksLeft = $weeks;
     $phaseStart = clone $startDatum;
 
     if ($lowestStartDate > $startDatum) {
@@ -49,15 +79,31 @@ foreach ($azubis as $azubi) {
         $highestEndDate = $endDatum;
     }
 
-    $planung[$azubi->ID] = new Item($azubi);
-    $standardplan = $standardplaene[$beruf->Bezeichnung];
-    $completedPhases = [];
-
-    foreach ($standardplan->Phasen as $phase) {
+    foreach ($orderedStandardplan->Phasen as $phase) {
 
         if ($phaseStart == $endDatum) {
             break;
         }
+
+        $phaseEnd = clone GetEndDateOfPhase(clone $phaseStart, $phase->Wochen);
+
+        if ($phaseEnd > $endDatum) {
+            $phaseEnd = clone $endDatum;
+        }
+
+        $phase->StartDate = clone $phaseStart;
+        $phase->EndDate = clone $phaseEnd;
+
+        $phaseStart = clone $phaseEnd;
+        SetNextDay($phaseStart);
+    }
+
+    unset($phaseStart, $phaseEnd);
+
+    // Erstes Erstellen des Plans
+    $planung[$azubi->ID] = new Item($azubi);
+
+    foreach ($orderedStandardplan->Phasen as $key => $phase) {
 
         foreach ($abteilungen as $abteilung) {
             if ($abteilung->ID == $phase->ID_Abteilung) {
@@ -70,22 +116,15 @@ foreach ($azubis as $azubi) {
             return;
         }
 
-        $phaseEnd = clone GetEndDateOfPhase(clone $phaseStart, $phase->Wochen);
-
-        if ($phaseEnd > $endDatum) {
-            $phaseEnd = clone $endDatum;
-        }
-
         $planung[$azubi->ID]->Phasen[] = [
-            "StartDate" => clone $phaseStart,
-            "EndDate" => clone $phaseEnd,
-            "Wochen" => $phase->Wochen,
-            "ID_Abteilung" => $phase->ID_Abteilung,
-            "Farbe" => $currentAbteilung->Farbe
+            "StartDate"     => $phase->StartDate,
+            "EndDate"       => $phase->EndDate,
+            "Wochen"        => $phase->Wochen,
+            "Praeferieren"  => $phase->Praeferieren,
+            "Optional"      => $phase->Optional,
+            "ID_Abteilung"  => $phase->ID_Abteilung,
+            "Farbe"         => $currentAbteilung->Farbe
         ];
-
-        $phaseStart = clone $phaseEnd;
-        SetNextDay($phaseStart);
     }
 }
 
@@ -163,10 +202,6 @@ exit(ob_get_clean());
 function GetEndDateOfPhase($startDate, $weeksOfPhase) {
     $interval = new DateInterval("P" . $weeksOfPhase . "W");
     return $startDate->add($interval);
-}
-
-function DateInWeekOf($date, $dateWeek) {
-    return;
 }
 
 function SetNextDay($date) {
