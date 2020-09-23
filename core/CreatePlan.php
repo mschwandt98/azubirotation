@@ -1,219 +1,107 @@
 <?php
+use Core\AbteilungsManager;
+use Core\AzubiManager;
 use Core\Helper;
 
 include_once(dirname(__DIR__) . "/config.php");
+include_once(__DIR__ . "/AbteilungsManager.php");
+include_once(__DIR__ . "/AzubiManager.php");
 include_once("Helper.php");
 include_models();
 
-$helper = new Helper();
-
+// Hole Daten ----------------------------------------------------------------------------------------------------------
+$helper             = new Helper();
 $abteilungen        = $helper->GetAbteilungen();
 $ansprechpartner    = $helper->GetAnsprechpartner();
 $ausbildungsberufe  = $helper->GetAusbildungsberufe();
 $azubis             = $helper->GetAzubis();
 $standardplaene     = $helper->GetStandardPlaene();
 
-$planung = [];
-$lowestStartDate = new DateTime($azubis[0]->Ausbildungsstart);
-$highestEndDate = new DateTime($azubis[0]->Ausbildungsende);
+// Vorbereitung der Manager --------------------------------------------------------------------------------------------
+$startDateOfPlan;
+$endDateOfPlan;
 
-// Vorbereitung Counter wieviele Azubis wann in welchen Abteilungen sind
-$abteilungenAzubiCounter = [];
-foreach ($abteilungen as $abteilung) {
-    $abteilungenAzubiCounter[$abteilung->ID] = [];
-}
-
+$azubiManager = [];
 foreach ($azubis as $azubi) {
 
-    foreach ($ausbildungsberufe as $ausbildungsberuf) {
+    if (empty($startDateOfPlan) || $azubi->Ausbildungsstart < $startDateOfPlan) {
+        $startDateOfPlan = $azubi->Ausbildungsstart;
+    }
 
-        if ($ausbildungsberuf->ID === $azubi->ID_Ausbildungsberuf ) {
-            $beruf = $ausbildungsberuf;
+    if (empty($endDateOfPlan) || $azubi->Ausbildungsende > $endDateOfPlan) {
+        $endDateOfPlan = $azubi->Ausbildungsende;
+    }
+
+    $standardplan;
+
+    foreach ($standardplaene as $plan) {
+        if ($azubi->ID_Ausbildungsberuf == $plan->ID_Ausbildungsberuf) {
+            $standardplan = $plan;
             break;
         }
     }
 
-    if (empty($beruf)) {
-        return;
-    }
+    if (empty($standardplan)) return;
 
-    if (!array_key_exists($beruf->Bezeichnung, $standardplaene)) {
-        return;
-    }
+    $azubiManager[$azubi->ID] = new AzubiManager($azubi, $standardplan);
+}
 
-    $standardplan = $standardplaene[$beruf->Bezeichnung];
+if (empty($startDateOfPlan) || empty($endDateOfPlan)) return;
 
-    // Sortierung nach Präferierung und nach Optionalität der Phasen
-    $praeferien = [];
-    $praeferienAndOptional = [];
-    $phases = [];
-    $optional = [];
+$abteilungsManager = [];
+foreach ($abteilungen as $abteilung) {
+    $abteilungsManager[$abteilung->ID] = new AbteilungsManager($abteilung, "$startDateOfPlan $endDateOfPlan");
+}
 
-    foreach ($standardplan->Phasen as $phase) {
+// Phase 1 - Präferenzierte Abteilungen --------------------------------------------------------------------------------
+foreach ($azubiManager as $manager) {
 
-        if ($phase->Praeferieren && !$phase->Optional) {
-            $praeferien[] = $phase;
-        } elseif ($phase->Praeferieren && $phase->Optional) {
-            $praeferienAndOptional[] = $phase;
-        } elseif (!$phase->Praeferieren && $phase->Optional) {
-            $optional[] = $phase;
-        } else {
-            $phases[] = $phase;
-        }
-    }
+    foreach ($manager->PraeferierteAbteilungen as $abteilung) {
 
-    $orderedStandardplan = clone $standardplan;
-    $orderedStandardplan->Phasen = array_merge($praeferien, $praeferienAndOptional, $phases, $optional);
+        if (array_key_exists($abteilung->ID_Abteilung, $abteilungsManager)) {
 
-    // Startdatum und Enddatum jeder Phase setzen
-    $startDatum = new DateTime($azubi->Ausbildungsstart);
-    $endDatum = new DateTime($azubi->Ausbildungsende);
-    $weeks = $startDatum->diff($endDatum)->days / 7;
-    $phaseStart = clone $startDatum;
+            $anfrage = $manager->CreateAnfrage($abteilung->ID_Abteilung, $abteilung->Wochen);
 
-    if ($lowestStartDate > $startDatum) {
-        $lowestStartDate = $startDatum;
-    }
-
-    if ($highestEndDate < $endDatum) {
-        $highestEndDate = $endDatum;
-    }
-
-    foreach ($orderedStandardplan->Phasen as $phase) {
-
-        if ($phaseStart == $endDatum) {
-            break;
-        }
-
-        $phaseEnd = clone GetEndDateOfPhase(clone $phaseStart, $phase->Wochen);
-
-        if ($phaseEnd > $endDatum) {
-            $phaseEnd = clone $endDatum;
-        }
-
-        $phase->StartDate = clone $phaseStart;
-        $phase->EndDate = clone $phaseEnd;
-
-        $phaseStart = clone $phaseEnd;
-        SetNextDay($phaseStart);
-    }
-
-    unset($phaseStart, $phaseEnd);
-
-    // Erstes Erstellen des Plans
-    $planung[$azubi->ID] = new Item($azubi);
-
-    foreach ($orderedStandardplan->Phasen as $key => $phase) {
-
-        foreach ($abteilungen as $abteilung) {
-            if ($abteilung->ID == $phase->ID_Abteilung) {
-                $currentAbteilung = $abteilung;
-                break;
+            if ($abteilungsManager[$abteilung->ID_Abteilung]->HandleAnfrage($anfrage)) {
+                $manager->AddToPlan($anfrage);
             }
         }
+    }
+}
 
-        if (empty($currentAbteilung)) {
-            return;
+// Phase 2 - Präferenzierte, aber optionale Abteilungen ----------------------------------------------------------------
+foreach ($azubiManager as $manager) {
+
+    if (empty($manager->Plan)) {
+
+        foreach ($manager->PraeferierteOptionaleAbteilungen as $abteilung) {
+
+            if (array_key_exists($abteilung->ID_Abteilung, $abteilungsManager)) {
+
+                $anfrage = $manager->CreateAnfrage($abteilung->ID_Abteilung, $abteilung->Wochen);
+
+                if ($abteilungsManager[$abteilung->ID_Abteilung]->HandleAnfrage($anfrage)) {
+                    $manager->AddToPlan($anfrage);
+                }
+            }
         }
-
-        $planung[$azubi->ID]->Phasen[] = [
-            "StartDate"     => $phase->StartDate,
-            "EndDate"       => $phase->EndDate,
-            "Wochen"        => $phase->Wochen,
-            "Praeferieren"  => $phase->Praeferieren,
-            "Optional"      => $phase->Optional,
-            "ID_Abteilung"  => $phase->ID_Abteilung,
-            "Farbe"         => $currentAbteilung->Farbe
-        ];
     }
 }
 
-$tempStartDate = clone $lowestStartDate;
-$tempEndDate = clone $highestEndDate;
-$mondayLowestStartDate = clone $tempStartDate->modify("Monday this week");
-$sundayHighestEndDate = clone $tempEndDate->modify("Sunday this week");
-unset($tempStartDate, $tempEndDate);
+// Phase 3 - Abteilungen -----------------------------------------------------------------------------------------------
+foreach ($azubiManager as $manager) {
 
-$weeksBetweenLowestAndHighestDate = ceil($mondayLowestStartDate->diff($sundayHighestEndDate)->days / 7);
-$months = [];
-$currentDate = clone $mondayLowestStartDate;
+    foreach ($manager->UnmarkedAbteilungen as $abteilung) {
 
-for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) {
-    $months[] = strtoupper(substr($currentDate->format("F"), 0, 3)) . " " . substr($currentDate->format("Y"), -2);
-    $currentDate->modify("Monday next week");
-}
+        if (array_key_exists($abteilung->ID_Abteilung, $abteilungsManager)) {
 
-ob_start();
-?>
+            $anfrage = $manager->CreateAnfrage($abteilung->ID_Abteilung, $abteilung->Wochen);
 
-<table>
-<tr>
-    <th>Nachname</th>
-    <th>Vorname</th>
-    <th>Zeitraum</th>
-
-    <?php for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) : ?>
-
-        <th><?= $months[$i]; ?></th>
-
-    <?php endfor; ?>
-
-</tr>
-
-<?php foreach ($planung as $plan) : ?>
-    <?php $currentDate = clone $mondayLowestStartDate; ?>
-
-    <tr>
-        <td><?= $plan->Azubi->Nachname; ?></td>
-        <td><?= $plan->Azubi->Vorname; ?></td>
-        <td>
-            <?= date("m.Y", strtotime($plan->Azubi->Ausbildungsstart)) .
-                " - " .
-                date("m.Y", strtotime($plan->Azubi->Ausbildungsende)); ?>
-        </td>
-
-        <?php foreach ($plan->Phasen as $phase) : ?>
-            <?php $phaseCurrentDate = $phase["StartDate"]; ?>
-            <?php for ($i = 0; $i < $weeksBetweenLowestAndHighestDate; $i++) : ?>
-                <?php if ($currentDate > $phase["EndDate"]) : ?>
-                    <?php continue; ?>
-                <?php elseif ($phaseCurrentDate <= $currentDate) : ?>
-
-                    <td style="background-color: <?= $phase["Farbe"]; ?>;"></td>
-
-                <?php else: ?>
-
-                    <td></td>
-
-                <?php endif; ?>
-                <?php $currentDate->modify("Monday next week"); ?>
-            <?php endfor; ?>
-        <?php endforeach; ?>
-
-    </tr>
-
-<?php endforeach; ?>
-
-</table>
-
-<?php
-exit(ob_get_clean());
-
-function GetEndDateOfPhase($startDate, $weeksOfPhase) {
-    $interval = new DateInterval("P" . $weeksOfPhase . "W");
-    return $startDate->add($interval);
-}
-
-function SetNextDay($date) {
-    return $date->add(new DateInterval("P1D"));
-}
-
-class Item {
-    public $Azubi;
-    public $Phasen;
-
-    function __construct($azubi) {
-        $this->Azubi = $azubi;
-        $this->Phasen = [];
+            if ($abteilungsManager[$abteilung->ID_Abteilung]->HandleAnfrage($anfrage)) {
+                $manager->AddToPlan($anfrage);
+            }
+        }
     }
 }
+
+$test = 0;
