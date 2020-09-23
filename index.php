@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php include("config.php"); ?>
+<?php include(__DIR__ . "/config.php"); ?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -11,9 +11,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    <header><?php include_once("header.php") ?></header>
-    <main><?php include_once("main.php") ?></main>
-    <footer><?php include_once("footer.php") ?></footer>
+    <header><?php include_once(__DIR__ . "/header.php") ?></header>
+    <main><?php include_once(__DIR__ . "/main.php") ?></main>
+    <footer><?php include_once(__DIR__ . "/footer.php") ?></footer>
     <script src="assets/js/abteilung.js"></script>
     <script src="assets/js/ausbildungsberuf.js"></script>
     <script src="assets/js/ansprechpartner.js"></script>
