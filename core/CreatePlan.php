@@ -105,3 +105,17 @@ foreach ($azubiManager as $manager) {
 }
 
 $test = 0;
+?>
+
+<?php foreach ($azubiManager as $manager) : ?>
+    <?php foreach ($manager->Plan as $phase) : ?>
+
+        <div>ID_Abteilung: <?= $phase["ID_Abteilung"]; ?></div>
+        <div>Zeitraum: <?= $phase["PeriodTime"]; ?></div>
+        <br>
+
+    <?php endforeach; ?>
+
+        <hr>
+
+<?php endforeach; ?>
