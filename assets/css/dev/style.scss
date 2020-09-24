@@ -131,3 +131,32 @@ input[type="submit"] {
         }
     }
 }
+
+#Legende {
+    border: 1px solid $rgba-selectline-blue;
+    border-radius: 8px;
+    box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
+    display: inline-block;
+    padding: 16px 24px;
+    position: relative;
+
+    .abteilung {
+        align-items: center;
+        display: flex;
+        margin: 4px 0;
+
+        &:first-of-type {
+            margin: 0 0 4px;
+        }
+
+        &:last-of-type {
+            margin: 4px 0 0;
+        }
+
+        .farbe {
+            margin-right: 8px;
+            height: 1em;
+            width: 32px;
+        }
+    }
+}

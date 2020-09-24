@@ -69,7 +69,10 @@ $weeksInTable = ceil(
                 <?php $currentDate = $tableFirstDate; ?>
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                    <td class="plan-phase" data-date="<?= $currentDate; ?>" data-azubi-id="<?= $azubi->ID; ?>"></td>
+                    <td class="plan-phase"
+                        data-date="<?= $currentDate; ?>"
+                        data-azubi-id="<?= $azubi->ID; ?>">
+                    </td>
 
                     <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
                 <?php endfor; ?>
@@ -79,4 +82,18 @@ $weeksInTable = ceil(
         <?php endforeach; ?>
 
     </table>
+</div>
+
+
+<div id="Legende">
+
+    <?php foreach ($Abteilungen as $abteilung) : ?>
+
+        <div class="abteilung">
+            <div class="farbe" style="background-color: <?= $abteilung->Farbe; ?>;"></div>
+            <div><?= $abteilung->Bezeichnung; ?></div>
+        </div>
+
+    <?php endforeach; ?>
+
 </div>
