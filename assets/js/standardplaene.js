@@ -8,6 +8,8 @@ jQuery(function($) {
         const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
         const ID_ABTEILUNG = "id_abteilung";
         const WOCHEN = "wochen";
+        const PRAEFERIEREN = "praeferieren";
+        const OPTIONAL = "optional";
 
         // TODO: besseren Weg finden
         var Abteilungen;
@@ -26,12 +28,28 @@ jQuery(function($) {
                 .append($("<span></span>").text("Wochen: "))
                 .append($(`<input type="number" name="${ WOCHEN }" />`));
 
+            var praeferieren = $("<div></div>").append(
+                $("<label></label>")
+                    .append($("<span></span>").text("Präferieren: "))
+                    .append($(`<input type="checkbox" name="${ PRAEFERIEREN }" />`))
+            );
+
+            var optional = $("<div></div>").append(
+                $("<label></label>")
+                    .append($("<span></span>").text("Optional: "))
+                    .append($(`<input type="checkbox" name="${ OPTIONAL }" />`))
+            );
+
             var deletePhaseButton = $('<input type="button" />')
                 .addClass("delete-phase")
                 .val("Phase löschen");
 
             container.append(
-                item.append(abteilungLabel).append(wochenDiv).append(deletePhaseButton)
+                item.append(abteilungLabel)
+                    .append(wochenDiv)
+                    .append(praeferieren)
+                    .append(optional)
+                    .append(deletePhaseButton)
             );
         }
 
@@ -60,7 +78,6 @@ jQuery(function($) {
             });
 
             $.get(APISTANDARDPLAN + "Get", function(data) {
-
                 data = JSON.parse(data);
 
                 var standardplaene = $("#Standardplaene");
@@ -148,10 +165,14 @@ jQuery(function($) {
                 let phase = phaseDivs.eq(index);
                 let abteilungenSelect = phase.find(`select[name="${ ID_ABTEILUNG }"]`);
                 let wochenInput = phase.find(`input[name="${ WOCHEN }"]`);
+                let praeferierenCheckbox = phase.find(`input[name="${ PRAEFERIEREN }"]`);
+                let optionalCheckbox = phase.find(`input[name="${ OPTIONAL }"]`);
 
                 phasen.push({
                     id_abteilung: abteilungenSelect.val(),
-                    wochen: wochenInput.val()
+                    wochen: wochenInput.val(),
+                    praeferieren: praeferierenCheckbox.val(),
+                    optional: optionalCheckbox.val()
                 });
             });
 
@@ -167,8 +188,10 @@ jQuery(function($) {
                     ausbildungsberufeSelect.find("option").remove();
                     phaseDivs.not(":first").remove();
 
-                    phaseDivs.eq(0).find('input[type="number"]').val("");
                     phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find("option").remove();
+                    phaseDivs.eq(0).find(`input[name="${ WOCHEN }"]`).val("");
+                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).val("");
+                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).val("");
 
                     ShowStandardPlaene();
                 },
@@ -214,10 +237,14 @@ jQuery(function($) {
                 let phase = phaseDivs.eq(index);
                 let abteilungenSelect = phase.find(`select[name="${ ID_ABTEILUNG }"]`);
                 let wochenInput = phase.find(`input[name="${ WOCHEN }"]`);
+                let praeferierenCheckbox = phase.find(`input[name="${ PRAEFERIEREN }"]`).eq(0);
+                let optionalCheckbox = phase.find(`input[name="${ OPTIONAL }"]`).eq(0);
 
                 phasen.push({
                     id_abteilung: abteilungenSelect.val(),
-                    wochen: wochenInput.val()
+                    wochen: wochenInput.val(),
+                    praeferieren: praeferierenCheckbox.prop("checked"),
+                    optional: optionalCheckbox.prop("checked")
                 });
             });
 
@@ -231,8 +258,9 @@ jQuery(function($) {
                 success: function(response) {
 
                     phaseDivs.not(":first").remove();
-                    phaseDivs.eq(0).find(`input[name="${ WOCHEN }"]`).val("");
                     phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find("option").remove();
+                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).prop("checked", false);
+                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).prop("checked", false);
 
                     HideViews();
                     ShowStandardPlaene();

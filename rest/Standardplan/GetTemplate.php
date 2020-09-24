@@ -1,50 +1,13 @@
 <?php
-use Models\Standardplan;
-use Models\Phase;
+use core\Helper;
 
 if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildungsberuf"])) {
 
-    define("BASE", dirname(dirname(__DIR__)));
-    include_once(BASE . "/config.php");
-    include_once(BASE . "/models/Phase.php");
-    include_once(BASE . "/models/Standardplan.php");
+    include_once(dirname(dirname(__DIR__)) . "/config.php");
+    include_once(BASE . "/core/Helper.php");
 
-    global $pdo;
-
-    $sql_where = " WHERE ab.ID = " . intval($_GET["id_ausbildungsberuf"]);
-
-    $statement = $pdo->prepare(
-        "SELECT sp.*, ab.Bezeichnung AS Ausbildungsberuf, a.Bezeichnung AS Abteilung
-        FROM standardpläne sp
-        JOIN ausbildungsberufe ab ON sp.ID_Ausbildungsberuf = ab.ID
-        JOIN abteilungen a ON sp.ID_Abteilung = a.ID
-        $sql_where
-        ORDER BY ab.Bezeichnung ASC;"
-    );
-
-    $statement->execute();
-    $standardplan_phasen = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($standardplan_phasen as $phase) {
-
-        $phase = (object) $phase;
-
-        $needed_phase = new Phase(
-            $phase->ID_Abteilung,
-            $phase->Abteilung,
-            $phase->AnzahlWochen
-        );
-
-        if (!empty($standardplan)) {
-            $standardplan->Phasen[] = $needed_phase;
-        } else {
-            $standardplan = new Standardplan(
-                $phase->ID_Ausbildungsberuf,
-                $phase->Ausbildungsberuf,
-                [ $needed_phase ]
-            );
-        }
-    }
+    $helper = new Helper();
+    $standardplan = array_values($helper->GetStandardPlaene($_GET["id_ausbildungsberuf"]))[0];
 
     $statement = $pdo->prepare("SELECT * FROM " . T_ABTEILUNGEN . " ORDER BY Bezeichnung ASC;");
     $statement->execute();

@@ -26,6 +26,18 @@
                     <span>Wochen: </span>
                     <input type="number" name="wochen" value="<?= $phase->Wochen ?>" />
                 </div>
+                <div>
+                    <label>
+                        <span>Präferieren: </span>
+                        <input type="checkbox" name="praeferieren" <?= ($phase->Praeferieren) ? "checked" : ""; ?> />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span>Optional: </span>
+                        <input type="checkbox" name="optional" <?= ($phase->Optional) ? "checked" : ""; ?> />
+                    </label>
+                </div>
                 <input type="button" class="delete-phase" value="Phase löschen" />
             </div>
 

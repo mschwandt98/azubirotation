@@ -7,9 +7,9 @@ class Standardplan {
     public $Ausbildungsberuf;
     public $Phasen;
 
-    function __construct($ID_Ausbildungsberuf, $Ausbildungsberuf, $Phasen) {
-        $this->ID_Ausbildungsberuf = intval($ID_Ausbildungsberuf);
-        $this->Ausbildungsberuf = $Ausbildungsberuf;
-        $this->Phasen = $Phasen;
+    function __construct($id_ausbildungsberuf, $ausbildungsberuf, $phasen) {
+        $this->ID_Ausbildungsberuf = intval($id_ausbildungsberuf);
+        $this->Ausbildungsberuf = $ausbildungsberuf;
+        $this->Phasen = $phasen;
     }
 }

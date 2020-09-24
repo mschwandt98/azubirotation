@@ -1,4 +1,5 @@
 <div class="data-item">
+    <div class="minimize-data-item"></div>
     <div class="title">Ausbildungsberufe</div>
     <div>
         <input type="button" id="ShowAusbildungsberufeButton" value="Anzeigen" />

@@ -1,9 +1,5 @@
 <?php
-define("BASE", dirname(dirname(__DIR__)));
-include_once(BASE . "/config.php");
-include_once(BASE . "/models/Ansprechpartner.php");
-
-use Models\Ansprechpartner;
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
 global $pdo;
 

@@ -10,7 +10,13 @@ use Models\Auszubildender;
 use Models\Phase;
 use Models\Standardplan;
 
-include_once("../" . "config.php");
+if (!defined("BASE")) {
+    include_once(BASE . "/config.php");
+}
+else {
+    include_once(dirname(__DIR__) . "/config.php");
+}
+
 include_models();
 
 class Helper {
@@ -116,6 +122,7 @@ class Helper {
         $sql_where = "";
 
         if ($id !== null) {
+            $id = intval($id);
             $sql_where = " WHERE ab.ID = $id";
         }
 
@@ -136,7 +143,9 @@ class Helper {
             $needed_phase = new Phase(
                 $phase["ID_Abteilung"],
                 $phase["Abteilung"],
-                $phase["AnzahlWochen"]
+                $phase["AnzahlWochen"],
+                $phase["Praeferieren"],
+                $phase["Optional"]
             );
 
             if (array_key_exists($phase["Ausbildungsberuf"], $standardplaene)) {

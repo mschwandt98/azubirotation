@@ -1,4 +1,5 @@
 <div class="data-item">
+    <div class="minimize-data-item"></div>
     <div class="title">Ansprechpartner</div>
     <div>
         <input type="button" id="ShowAnsprechpartnerButton" value="Anzeigen" />
