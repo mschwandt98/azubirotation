@@ -9,6 +9,7 @@ use Models\Ausbildungsberuf;
 use Models\Auszubildender;
 use Models\Phase;
 use Models\Standardplan;
+use Models\Plan;
 
 if (!defined("BASE")) {
     include_once(BASE . "/config.php");
@@ -160,6 +161,28 @@ class Helper {
         }
 
         return $standardplaene;
+    }
+
+    public function GetPlaene() {
+
+        $statement = $this->db->prepare(
+            "SELECT * FROM " . T_PLAENE .
+            " ORDER BY ID_Auszubildender ASC, Startdatum ASC;"
+        );
+        $statement->execute();
+        $plaene = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($plaene as $key => $plan) {
+            $plaene[$key] = new Plan(
+                $plan["ID_Auszubildender"],
+                $plan["ID_Ansprechpartner"],
+                $plan["ID_Abteilung"],
+                $plan["Startdatum"],
+                $plan["Enddatum"]
+            );
+        }
+
+        return $plaene;
     }
 
     private function CreateWhereId($id) {

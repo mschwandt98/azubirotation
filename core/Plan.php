@@ -11,11 +11,14 @@ $Ansprechpartner = $helper->GetAnsprechpartner();
 $Ausbildungsberufe = $helper->GetAusbildungsberufe();
 $Azubis = $helper->GetAzubis();
 $Standardplaene = $helper->GetStandardPlaene();
+$Plaene = $helper->GetPlaene();
 
 $tableFirstDate;
 $tableLastDate;
 
 foreach ($Azubis as $azubi) {
+
+    $azubi->plan = [];
 
     if (empty($tableFirstDate) || $azubi->Ausbildungsstart < $tableFirstDate) {
         $tableFirstDate = $azubi->Ausbildungsstart;
@@ -23,6 +26,13 @@ foreach ($Azubis as $azubi) {
 
     if (empty($tableLastDate) || $azubi->Ausbildungsende > $tableLastDate) {
         $tableLastDate = $azubi->Ausbildungsende;
+    }
+
+    foreach ($Plaene as $plan) {
+
+        if ($plan->ID_Azubi === $azubi->ID) {
+            $azubi->plan[] = $plan;
+        }
     }
 }
 
@@ -59,7 +69,7 @@ $weeksInTable = ceil(
 
         <?php foreach ($Azubis as $azubi) : ?>
 
-            <tr>
+            <tr class="azubi" data-id="<?= $azubi->ID; ?>">
                 <td class="azubi-info"><?= $azubi->Nachname; ?></td>
                 <td class="azubi-info"><?= $azubi->Vorname; ?></td>
                 <td class="azubi-info azubi-ausbildungszeit">
@@ -69,10 +79,20 @@ $weeksInTable = ceil(
                 <?php $currentDate = $tableFirstDate; ?>
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                    <td class="plan-phase"
-                        data-date="<?= $currentDate; ?>"
-                        data-azubi-id="<?= $azubi->ID; ?>">
-                    </td>
+                    <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
+
+                        <td class="plan-phase"
+                            style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
+                            data-date="<?= $currentDate; ?>"
+                            data-id-abteilung="<?= $plan->ID_Abteilung;?>"
+                            data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
+                        ></td>
+
+                    <?php else: ?>
+
+                        <td class="plan-phase" data-date="<?= $currentDate; ?>"></td>
+
+                    <?php endif; ?>
 
                     <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
                 <?php endfor; ?>
@@ -82,6 +102,8 @@ $weeksInTable = ceil(
         <?php endforeach; ?>
 
     </table>
+
+    <input type="button" id="SavePlan" value="Planung speichern" />
 </div>
 
 
@@ -97,3 +119,26 @@ $weeksInTable = ceil(
     <?php endforeach; ?>
 
 </div>
+
+<?php
+function AzubiHasPlan($azubi, $startDate) {
+
+    foreach ($azubi->plan as $phase) {
+        if ($phase->Startdatum === $startDate) {
+            return $phase;
+        }
+    }
+
+    return false;
+}
+
+function GetAbteilungsFarbe($id_abteilung) {
+
+    global $Abteilungen;
+
+    foreach ($Abteilungen as $abteilung) {
+        if ($id_abteilung === $abteilung->ID) {
+            return $abteilung->Farbe;
+        }
+    }
+}
