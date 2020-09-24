@@ -123,13 +123,18 @@ input[type="submit"] {
 
         td {
             position: relative;
-
-            &.azubi-ausbildungszeit {
-                white-space: nowrap;
-            }
+            white-space: nowrap;
 
             &.azubi-info {
                 padding: 4px 8px;
+            }
+
+            .ansprechpartner-name {
+                font-size: 12px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 99999;
             }
 
             .set-abteilung-popup,
@@ -142,7 +147,7 @@ input[type="submit"] {
                 position: absolute;
                 top: 0;
                 left: 60px;
-                z-index: 99999;
+                z-index: 999999;
 
                 ul {
                     list-style-type: none;

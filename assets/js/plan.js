@@ -49,7 +49,10 @@ jQuery(function($) {
             var container = el.closest(".plan-phase");
 
             container.attr("data-id-abteilung", el.data("id"))
-                .attr("style", "background-color: " + GetAbteilungsFarbe(el.data("id")));
+                .attr(
+                    "style",
+                    "background-color: " + GetAbteilungsFarbe(el.data("id")) + "; border-color: " + GetAbteilungsFarbe(el.data("id"))
+                );
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup");
             var ansprechpartnerList = $("<ul></ul>");

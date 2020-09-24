@@ -82,11 +82,19 @@ $weeksInTable = ceil(
                     <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
 
                         <td class="plan-phase"
-                            style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
+                            style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
                             data-date="<?= $currentDate; ?>"
                             data-id-abteilung="<?= $plan->ID_Abteilung;?>"
                             data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
-                        ></td>
+                        >
+
+                            <?php if (IsFirstPhaseInAbteilung($azubi, $plan)) : ?>
+
+                                <span class="ansprechpartner-name"><?= GetAnsprechpartnerName($plan->ID_Ansprechpartner); ?></span>
+
+                            <?php endif; ?>
+
+                        </td>
 
                     <?php else: ?>
 
@@ -139,6 +147,36 @@ function GetAbteilungsFarbe($id_abteilung) {
     foreach ($Abteilungen as $abteilung) {
         if ($id_abteilung === $abteilung->ID) {
             return $abteilung->Farbe;
+        }
+    }
+}
+
+function GetAnsprechpartnerName($id_ansprechpartner) {
+
+    global $Ansprechpartner;
+
+    foreach ($Ansprechpartner as $ansprechpartner) {
+        if ($id_ansprechpartner === $ansprechpartner->ID) {
+            return $ansprechpartner->Name;
+        }
+    }
+
+}
+
+function IsFirstPhaseInAbteilung($azubi, $plan) {
+
+    for ($i = 0; $i < count($azubi->plan); $i++) {
+
+        if ($azubi->plan[$i]->ID === $plan->ID) {
+
+            if (array_key_exists($i - 1, $azubi->plan)) {
+
+                if ($azubi->plan[$i]->ID_Abteilung === $plan->ID_Abteilung) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -174,6 +174,7 @@ class Helper {
 
         foreach ($plaene as $key => $plan) {
             $plaene[$key] = new Plan(
+                $plan["ID"],
                 $plan["ID_Auszubildender"],
                 $plan["ID_Ansprechpartner"],
                 $plan["ID_Abteilung"],
