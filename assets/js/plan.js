@@ -6,6 +6,8 @@ jQuery(function($) {
         var Abteilungen;
         var Ansprechpartner;
 
+        var tdItems = [];
+
         $.get(API + "Abteilung/Get", function(data) {
             Abteilungen = JSON.parse(data);
         });
@@ -16,9 +18,10 @@ jQuery(function($) {
 
         $(document).on("click", function(e){
 
-            if(!$(e.target).closest("#Plan .plan-phase").length){
+            if(!$(e.target).closest("#Plan table").length) {
                 $("#Plan .set-abteilung-popup").remove();
                 $("#Plan .set-ansprechpartner-popup").remove();
+                RemoveSelectedStatus();
             }
         });
 
@@ -49,6 +52,41 @@ jQuery(function($) {
 
             popup.append(abteilungenList);
             el.append(popup);
+        });
+
+        $('#Plan .plan-phase').on('mousedown', function() {
+            RemoveSelectedStatus();
+        });
+
+        $("#Plan .plan-phase").mousemove(function(e) {
+
+            var currentTd = $(e.target);
+
+            if (tdItems.length < 1) {
+                tdItems.push(currentTd);
+            } else {
+
+                var lastTd = tdItems[tdItems.length - 1];
+
+                if (lastTd.closest("tr").data("id") == currentTd.closest("tr").data("id")) {
+
+                    var exists = false;
+
+                    tdItems.forEach(function(item) {
+                        if ($(item).data("date") === currentTd.data("date")) {
+                            exists = true;
+                        }
+                    });
+
+                    if (!exists) {
+                        tdItems.push(currentTd);
+                    }
+                }
+            }
+        });
+
+        $('#Plan .plan-phase').on('mouseup', function() {
+            SetSelectedStatus();
         });
 
         $("#Plan").on("click", ".set-abteilung-popup li", function() {
@@ -91,6 +129,7 @@ jQuery(function($) {
 
             var el = $(this);
             el.closest(".plan-phase").attr("data-id-ansprechpartner", el.data("id"));
+            RemoveSelectedStatus();
             $(this).closest(".set-ansprechpartner-popup").remove();
         });
 
@@ -154,6 +193,23 @@ jQuery(function($) {
             });
 
             return farbe;
+        }
+
+        function RemoveSelectedStatus() {
+            tdItems.forEach(item => {
+                $(item).removeClass("selected");
+            });
+
+            tdItems.length = 0;
+        }
+
+        function SetSelectedStatus() {
+
+            if (tdItems.length > 1) {
+                tdItems.forEach(item => {
+                    $(item).addClass("selected");
+                });
+            }
         }
     });
 });

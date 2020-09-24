@@ -129,6 +129,10 @@ input[type="submit"] {
                 padding: 4px 8px;
             }
 
+            &.selected {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+
             .ansprechpartner-name {
                 font-size: 12px;
                 position: absolute;
