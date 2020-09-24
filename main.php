@@ -5,3 +5,5 @@
     <div><?php include_once("templates/Azubis.php"); ?></div>
     <div><?php include_once("templates/Standardplaene.php"); ?></div>
 </div>
+
+<?php include_once("core/Plan.php"); ?>

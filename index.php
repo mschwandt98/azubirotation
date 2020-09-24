@@ -19,6 +19,7 @@
     <script src="assets/js/ansprechpartner.js"></script>
     <script src="assets/js/azubi.js"></script>
     <script src="assets/js/standardplaene.js"></script>
+    <script src="assets/js/plan.js"></script>
     <script src="assets/js/general.js"></script>
 </body>
 </html>

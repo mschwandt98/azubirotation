@@ -101,3 +101,33 @@ input[type="submit"] {
         margin-bottom: 8px;
     }
 }
+
+#Plan {
+    overflow-x: scroll;
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    table {
+        border-collapse: collapse;
+
+        th {
+            padding: 4px 8px;
+
+            &.month {
+                width: 48px;
+            }
+        }
+
+        td {
+            &.azubi-ausbildungszeit {
+                white-space: nowrap;
+            }
+
+            &.azubi-info {
+                padding: 4px 8px;
+            }
+        }
+    }
+}
