@@ -14,6 +14,14 @@ jQuery(function($) {
             Ansprechpartner = JSON.parse(data);
         });
 
+        $(document).on("click", function(e){
+
+            if(!$(e.target).closest("#Plan .plan-phase").length){
+                $("#Plan .set-abteilung-popup").remove();
+                $("#Plan .set-ansprechpartner-popup").remove();
+            }
+        });
+
         $("#Plan").on("click", ".plan-phase", function(e) {
 
             if ($(e.target).is("li")) {

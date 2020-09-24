@@ -72,7 +72,7 @@ $weeksInTable = ceil(
             <tr class="azubi" data-id="<?= $azubi->ID; ?>">
                 <td class="azubi-info"><?= $azubi->Nachname; ?></td>
                 <td class="azubi-info"><?= $azubi->Vorname; ?></td>
-                <td class="azubi-info azubi-ausbildungszeit">
+                <td class="azubi-info">
                     <?= date("d.m.Y", strtotime($azubi->Ausbildungsstart)) . " - " . date("d.m.Y", strtotime($azubi->Ausbildungsende)); ?>
                 </td>
 
