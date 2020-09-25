@@ -167,11 +167,14 @@ function IsFirstPhaseInAbteilung($azubi, $plan) {
 
     for ($i = 0; $i < count($azubi->plan); $i++) {
 
-        if ($azubi->plan[$i]->ID === $plan->ID) {
+        $currentPlan = $azubi->plan[$i];
+
+        if ($currentPlan->ID === $plan->ID) {
 
             if (array_key_exists($i - 1, $azubi->plan)) {
 
-                if ($azubi->plan[$i]->ID_Abteilung === $plan->ID_Abteilung) {
+                $diff = (strtotime($currentPlan->Startdatum) - strtotime($azubi->plan[$i - 1]->Enddatum));
+                if ($diff / (60 * 60 * 24) <= 1 && $currentPlan->ID_Abteilung === $plan->ID_Abteilung) {
                     return false;
                 }
             }

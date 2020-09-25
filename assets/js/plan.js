@@ -71,11 +71,9 @@ jQuery(function($) {
             clicking = true;
         });
 
-        // TODO: Auswahl der einzelnen Felder verbessern und fixen
         $("#Plan .plan-phase").mousemove(function(e) {
 
             if (!clicking) return;
-
             var currentTd = $(e.target);
 
             if (tdItems.length < 1) {
@@ -83,9 +81,7 @@ jQuery(function($) {
                 tdItems.push(currentTd);
             } else {
 
-                var lastTd = tdItems[tdItems.length - 1];
-
-                if (lastTd.closest("tr").data("id") == currentTd.closest("tr").data("id")) {
+                if ($(tdItems[0]).closest("tr").data("id") == currentTd.closest("tr").data("id")) {
 
                     var exists = false;
 
@@ -104,7 +100,6 @@ jQuery(function($) {
         });
 
         $('#Plan .plan-phase').on('mouseup', function(e) {
-
             if ($(e.target).parents(".plan-phase").length > 0) return;
 
             $(tdItems[tdItems.length - 1]).click();
