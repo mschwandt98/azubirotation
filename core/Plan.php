@@ -112,6 +112,7 @@ $weeksInTable = ceil(
     </table>
 
     <input type="button" id="SavePlan" value="Planung speichern" />
+    <input type="button" id="SendMail" value="Benachrichtigungen senden" />
 </div>
 
 

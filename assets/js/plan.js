@@ -199,7 +199,21 @@ jQuery(function($) {
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.responseText);
                 }
-            })
+            });
+        });
+
+        $("#SendMail").on("click", function() {
+
+            $.ajax({
+                type: "POST",
+                url: API + "Plan/SendMail",
+                success: function(response) {
+                    // nothing to do...
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
 
         function GetAbteilungsFarbe(id) {
