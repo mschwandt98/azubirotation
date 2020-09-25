@@ -10,5 +10,7 @@
         "watch-public-css": "sass --watch assets/css/dev/public-style.scss assets/css/public-style.css --style compressed"
     },
     "license": "ISC",
-    "dependencies": {}
+    "dependencies": {
+        "sass": "^1.26.11"
+    }
 }
