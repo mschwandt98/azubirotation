@@ -1,0 +1,161 @@
+@import "variables.scss";
+@import "html-elements.scss";
+@import "3rd-party.scss";
+
+body {
+    color: $selectline-text-blue;
+    font-size: 16px;
+    margin: 0;
+}
+
+header {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+    display: grid;
+    column-gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 16px;
+    padding: 16px 32px;
+
+    h1 {
+        color: $selectline-blue;
+        display: inline-block;
+        font-size: 32px;
+        margin: 0;
+    }
+
+    form {
+        align-self: center;
+        text-align: right;
+
+        label {
+            display: inline;
+        }
+    }
+}
+
+main {
+    margin: 16px 32px;
+}
+
+#Plan {
+    margin: 16px 0;
+
+    > div:last-of-type {
+        margin-top: 16px;
+    }
+
+    table, th, td {
+        border: 1px solid $gray;
+    }
+
+    table {
+        border-collapse: collapse;
+
+        th {
+            padding: 4px 8px;
+
+            &.month {
+                width: 48px;
+            }
+        }
+
+        td {
+            position: relative;
+            white-space: nowrap;
+
+            &.azubi-info {
+                padding: 4px 8px;
+            }
+
+            &.selected {
+                border-color: inherit !important;
+
+                &::after {
+                    background-color: rgba(0, 0, 0, 0.2);
+                    content: " ";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+            }
+
+            .ansprechpartner-name {
+                font-size: 12px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 99999;
+            }
+
+            .set-abteilung-popup,
+            .set-ansprechpartner-popup {
+                background-color: white !important;
+                border: 1px solid $gray;
+                border-radius: 8px;
+                box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.1);
+                max-height: 128px;
+                overflow-y: auto;
+                padding: 4px 8px;
+                position: absolute;
+                top: 0;
+                left: 60px;
+                z-index: 999999;
+
+                ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+
+                    hr {
+                        background-color: $gray;
+                        border-width: 0;
+                        height: 1px;
+                        margin: 2px 0;
+                    }
+
+                    li {
+                        white-space: nowrap;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+Footer {
+    background-color: rgba(white, 0.9);
+    border: 1px solid $rgba-selectline-blue;
+    border-top-right-radius: 8px;
+    box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
+    display: inline-block;
+    padding: 16px 24px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .abteilung {
+        align-items: center;
+        display: flex;
+        margin: 4px 0;
+
+        &:first-of-type {
+            margin: 0 0 4px;
+        }
+
+        &:last-of-type {
+            margin: 4px 0 0;
+        }
+
+        .farbe {
+            margin-right: 8px;
+            height: 1em;
+            width: 32px;
+        }
+    }
+}

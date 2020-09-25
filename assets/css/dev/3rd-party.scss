@@ -1,0 +1,36 @@
+/**
+ * @seen https://gist.github.com/tbmiller/6675197
+ * @seen https://gist.github.com/hellojosh/5270953
+ */
+
+.horizontal-scroll {
+    background:
+        linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
+        linear-gradient(-90deg, white 0%, rgba(255, 255, 255, 0)) 100% 0,
+        radial-gradient(
+            farthest-side at 0% 50%,
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0)
+        ),
+        radial-gradient(
+            farthest-side at 100% 50%,
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0)
+        ) 100% 0%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100px 137px, 100px 137px, 14px 137px, 14px 137px;
+    background-attachment: local, local, scroll, scroll;
+    overflow-x: auto;
+}
+
+.vertical-scroll {
+    background:
+        linear-gradient(white 30%, hsla(0, 0%, 100%, 0)),
+        linear-gradient(hsla(0, 0%, 100%, 0) 10px, white 70%) bottom,
+        radial-gradient(at top, rgba(0, 0, 0, 0.4), transparent 70%),
+        radial-gradient(at bottom, rgba(0, 0, 0, 0.4), transparent 70%) bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 20px, 100% 20px, 100% 10px, 100% 10px;
+    background-attachment: local, local, scroll, scroll;
+}
