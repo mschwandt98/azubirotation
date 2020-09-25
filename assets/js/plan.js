@@ -6,6 +6,7 @@ jQuery(function($) {
         var Abteilungen;
         var Ansprechpartner;
 
+        var clicking = false;
         var tdItems = [];
 
         $.get(API + "Abteilung/Get", function(data) {
@@ -16,25 +17,31 @@ jQuery(function($) {
             Ansprechpartner = JSON.parse(data);
         });
 
-        $(document).on("click", function(e){
-
+        $(document).on("click", function(e) {
             if(!$(e.target).closest("#Plan table").length) {
-                $("#Plan .set-abteilung-popup").remove();
-                $("#Plan .set-ansprechpartner-popup").remove();
-                RemoveSelectedStatus();
+
+                if ($(e.target).parents(".set-abteilung-popup").length === 0 &&
+                    $(e.target).parents(".set-ansprechpartner-popup").length === 0) {
+                    $("#Plan .set-abteilung-popup").remove();
+                    $("#Plan .set-ansprechpartner-popup").remove();
+                    RemoveSelectedStatus();
+                }
             }
         });
 
         $("#Plan").on("click", ".plan-phase", function(e) {
 
-            if ($(e.target).is("li")) {
-                return;
-            }
+            if ($(e.target).parents(".plan-phase").length > 0) return;
+            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
+            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
 
             $("#Plan .set-abteilung-popup").remove();
             $("#Plan .set-ansprechpartner-popup").remove();
 
             var el = $(this);
+            el.addClass("selected");
+            tdItems.push(el);
+
             var popup = $("<div></div>").addClass("set-abteilung-popup");
             var abteilungenList = $("<ul></ul>");
 
@@ -54,15 +61,25 @@ jQuery(function($) {
             el.append(popup);
         });
 
-        $('#Plan .plan-phase').on('mousedown', function() {
+        $('#Plan .plan-phase').on('mousedown', function(e) {
+
+            if ($(e.target).parents(".plan-phase").length > 0) return;
+            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
+            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
+
             RemoveSelectedStatus();
+            clicking = true;
         });
 
+        // TODO: Auswahl der einzelnen Felder verbessern und fixen
         $("#Plan .plan-phase").mousemove(function(e) {
+
+            if (!clicking) return;
 
             var currentTd = $(e.target);
 
             if (tdItems.length < 1) {
+                currentTd.addClass("selected");
                 tdItems.push(currentTd);
             } else {
 
@@ -79,26 +96,33 @@ jQuery(function($) {
                     });
 
                     if (!exists) {
+                        currentTd.addClass("selected");
                         tdItems.push(currentTd);
                     }
                 }
             }
         });
 
-        $('#Plan .plan-phase').on('mouseup', function() {
-            SetSelectedStatus();
+        $('#Plan .plan-phase').on('mouseup', function(e) {
+
+            if ($(e.target).parents(".plan-phase").length > 0) return;
+
+            $(tdItems[tdItems.length - 1]).click();
+            clicking = false;
         });
 
         $("#Plan").on("click", ".set-abteilung-popup li", function() {
 
             var el = $(this);
-            var container = el.closest(".plan-phase");
 
-            container.attr("data-id-abteilung", el.data("id"))
+            tdItems.forEach(item => {
+
+                $(item).attr("data-id-abteilung", el.data("id"))
                 .attr(
                     "style",
                     "background-color: " + GetAbteilungsFarbe(el.data("id")) + "; border-color: " + GetAbteilungsFarbe(el.data("id"))
                 );
+            });
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup");
             var ansprechpartnerList = $("<ul></ul>");
@@ -120,15 +144,17 @@ jQuery(function($) {
             ansprechpartnerList.find(":last-child").remove();
 
             popupAnsprechpartner.append(ansprechpartnerList);
-            container.append(popupAnsprechpartner);
+            el.closest(".plan-phase").append(popupAnsprechpartner);
 
-            $(this).closest(".set-abteilung-popup").remove();
+            $(".set-abteilung-popup").remove();
         });
 
         $("#Plan").on("click", ".set-ansprechpartner-popup li", function() {
 
-            var el = $(this);
-            el.closest(".plan-phase").attr("data-id-ansprechpartner", el.data("id"));
+            tdItems.forEach(item => {
+                $(item).attr("data-id-ansprechpartner", $(this).data("id"));
+            })
+
             RemoveSelectedStatus();
             $(this).closest(".set-ansprechpartner-popup").remove();
         });
@@ -199,17 +225,7 @@ jQuery(function($) {
             tdItems.forEach(item => {
                 $(item).removeClass("selected");
             });
-
             tdItems.length = 0;
-        }
-
-        function SetSelectedStatus() {
-
-            if (tdItems.length > 1) {
-                tdItems.forEach(item => {
-                    $(item).addClass("selected");
-                });
-            }
         }
     });
 });
