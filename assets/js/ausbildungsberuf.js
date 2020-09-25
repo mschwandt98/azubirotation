@@ -27,24 +27,26 @@ jQuery(function($) {
                 ausbildungsberufe.empty();
 
                 data.forEach(ausbildungsberuf => {
-                    var item = $("<div></div>").addClass("ausbildungsberuf-item");
-
+                    var item = $("<div></div>").addClass("item-child");
                     var outputDiv = $("<div></div>").text(ausbildungsberuf.Bezeichnung);
+                    var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-ausbildungsberuf")
+                        .addClass("edit-item-child")
+                        .addClass("secondary-button")
                         .data(ID, ausbildungsberuf.ID)
                         .data(BEZEICHNUNG, ausbildungsberuf.Bezeichnung)
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-ausbildungsberuf")
+                        .addClass("delete-item-child")
+                        .addClass("secondary-button")
                         .data(ID, ausbildungsberuf.ID)
                         .val("Löschen");
 
+                    buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
-                    item.append(editButton);
-                    item.append(deleteButton);
+                    item.append(buttonContainer);
                     ausbildungsberufe.append(item);
                 });
 
@@ -82,7 +84,7 @@ jQuery(function($) {
             })
         });
 
-        $("#Ausbildungsberufe").on("click", ".edit-ausbildungsberuf", function(e) {
+        $("#Ausbildungsberufe").on("click", ".edit-item-child", function(e) {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
@@ -122,10 +124,10 @@ jQuery(function($) {
             })
         });
 
-        $("#Ausbildungsberufe").on("click", ".delete-ausbildungsberuf", function(e) {
+        $("#Ausbildungsberufe").on("click", ".delete-item-child", function(e) {
 
             var id = $(this).data(ID);
-            var ausbildungsberuf = $(this).closest(".ausbildungsberuf-item");
+            var ausbildungsberuf = $(this).closest(".item-child");
 
             $.ajax({
                 type: "POST",

@@ -54,13 +54,13 @@ jQuery(function($) {
                 azubis.empty();
 
                 data.forEach(auszubildender => {
-                    var item = $("<div></div>").addClass("auszubildender-item");
-
-                    var outputDiv = $("<div></div>")
-                        .text(auszubildender.Nachname + ", " + auszubildender.Vorname);
+                    var item = $("<div></div>").addClass("item-child");
+                    var outputDiv = $("<div></div>").text(auszubildender.Nachname + ", " + auszubildender.Vorname);
+                    var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-auszubildender")
+                        .addClass("edit-item-child")
+                        .addClass("secondary-button")
                         .data(ID, auszubildender.ID)
                         .data(VORNAME, auszubildender.Vorname)
                         .data(NACHNAME, auszubildender.Nachname)
@@ -71,13 +71,14 @@ jQuery(function($) {
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-auszubildender")
+                        .addClass("delete-item-child")
+                        .addClass("secondary-button")
                         .data(ID, auszubildender.ID)
                         .val("Löschen");
 
+                    buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
-                    item.append(editButton);
-                    item.append(deleteButton);
+                    item.append(buttonContainer);
                     azubis.append(item);
                 });
 
@@ -154,7 +155,7 @@ jQuery(function($) {
             })
         });
 
-        $("#Azubis").on("click", ".edit-auszubildender", function(e) {
+        $("#Azubis").on("click", ".edit-item-child", function(e) {
 
             var id = $(this).data(ID);
             var vorname = $(this).data(VORNAME);
@@ -242,10 +243,10 @@ jQuery(function($) {
             })
         });
 
-        $("#Azubis").on("click", ".delete-auszubildender", function(e) {
+        $("#Azubis").on("click", ".delete-item-child", function(e) {
 
             var id = $(this).data(ID);
-            var auszubildender = $(this).closest(".auszubildender-item");
+            var auszubildender = $(this).closest(".item-child");
 
             $.ajax({
                 type: "POST",

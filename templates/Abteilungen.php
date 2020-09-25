@@ -8,15 +8,15 @@
     <div id="Abteilungen" style="display: none;"></div>
     <form id="AddAbteilungForm" method="post" style="display: none">
         <label>
-            <div>Bezeichnung</div>
+            <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" />
         </label>
         <label>
-            <div>Maximale Anzahl an Auszubildenden</div>
+            <span>Maximale Anzahl an Auszubildenden</span>
             <input type="number" name="maxazubis" />
         </label>
         <label>
-            <div>Farbe auswählen</div>
+            <span>Farbe auswählen</span>
             <input type="color" name="farbe" value="ffffff" />
         </label>
         <div>
@@ -26,15 +26,15 @@
     <form id="EditAbteilungForm" method="post" style="display: none;">
         <input type="hidden" name="id" />
         <label>
-            <div>Bezeichnung</div>
+            <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" />
         </label>
         <label>
-            <div>Maximale Anzahl an Auszubildenden</div>
+            <span>Maximale Anzahl an Auszubildenden</span>
             <input type="number" name="maxazubis" />
         </label>
         <label>
-            <div>Farbe auswählen</div>
+            <span>Farbe auswählen</span>
             <input type="color" name="farbe" value="ffffff" />
         </label>
         <div>

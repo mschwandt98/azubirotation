@@ -1,0 +1,90 @@
+form label {
+    color: $selectline-dark-blue;
+    display: blocK;
+    margin-right: 16px;
+
+    input[type="checkbox"] {
+        border: 1px solid $gray;
+        border-radius: 8px;
+        color: $selectline-text-blue;
+        outline: 0;
+    }
+
+    input[type="date"],
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="text"],
+    select {
+        border: 1px solid $gray;
+        border-radius: 8px;
+        color: $selectline-text-blue;
+        height: 24px;
+        max-width: 128px;
+        outline: 0;
+        padding: 0 8px;
+
+        &:active,
+        &:focus {
+            border-color: $selectline-blue;
+        }
+    }
+}
+
+input[type="button"],
+input[type="submit"] {
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+    color: white;
+    font-weight: 600;
+    margin-right: 16px;
+    outline: 0;
+    padding: 8px 16px;
+    text-transform: uppercase;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+}
+
+input[type="button"] {
+    background-color: $selectline-blue;
+    border-color: $selectline-blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $selectline-blue-hover;
+        border-color: $selectline-blue-hover;
+    }
+
+    &.secondary-button {
+        background-color: white;
+        border-color: $gray;
+        color: $gray;
+
+        &:active,
+        &:focus,
+        &:hover {
+            background-color: $gray;
+            color: white;
+        }
+    }
+}
+
+input[type="submit"] {
+    background-color: $selectline-dark-blue;
+    border-color: $selectline-dark-blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $selectline-blue;
+        border-color: $selectline-blue;
+    }
+}

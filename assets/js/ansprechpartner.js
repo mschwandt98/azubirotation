@@ -33,12 +33,13 @@ jQuery(function($) {
                 ansprechpartnerDiv.empty();
 
                 data.forEach(ansprechpartner => {
-                    var item = $("<div></div>").addClass("ansprechpartner-item");
-
+                    var item = $("<div></div>").addClass("item-child");
                     var outputDiv = $("<div></div>").text(ansprechpartner.Name);
+                    var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-ansprechpartner")
+                        .addClass("edit-item-child")
+                        .addClass("secondary-button")
                         .data(ID, ansprechpartner.ID)
                         .data(NAME, ansprechpartner.Name)
                         .data(EMAIL, ansprechpartner.Email)
@@ -46,13 +47,15 @@ jQuery(function($) {
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-ansprechpartner")
+                        .addClass("delete-item-child")
+                        .addClass("secondary-button")
                         .data(ID, ansprechpartner.ID)
                         .val("Löschen");
 
+                    buttonContainer.append(editButton).append(deleteButton);
+
                     item.append(outputDiv);
-                    item.append(editButton);
-                    item.append(deleteButton);
+                    item.append(buttonContainer);
                     ansprechpartnerDiv.append(item);
                 });
 
@@ -112,7 +115,7 @@ jQuery(function($) {
             })
         });
 
-        $("#Ansprechpartner").on("click", ".edit-ansprechpartner", function(e) {
+        $("#Ansprechpartner").on("click", ".edit-item-child", function(e) {
 
             var id = $(this).data(ID);
             var name = $(this).data(NAME);
@@ -175,10 +178,10 @@ jQuery(function($) {
             })
         });
 
-        $("#Ansprechpartner").on("click", ".delete-ansprechpartner", function(e) {
+        $("#Ansprechpartner").on("click", ".delete-item-child", function(e) {
 
             var id = $(this).data(ID);
-            var ansprechpartner = $(this).closest(".ansprechpartner-item");
+            var ansprechpartner = $(this).closest(".item-child");
 
             $.ajax({
                 type: "POST",

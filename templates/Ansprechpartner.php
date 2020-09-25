@@ -8,15 +8,15 @@
     <div id="Ansprechpartner" style="display: none;"></div>
     <form id="AddAnsprechpartnerForm" method="post" style="display: none;">
         <label>
-            <div>Name</div>
+            <span>Name</span>
             <input type="text" name="name" />
         </label>
         <label>
-            <div>Email</div>
+            <span>Email</span>
             <input type="email" name="email" />
         </label>
         <label>
-            <div>Abteilung auswählen</div>
+            <span>Abteilung auswählen</span>
             <select name="id_abteilung"></select>
         </label>
         <div>
@@ -26,15 +26,15 @@
     <form id="EditAnsprechpartner" method="post" style="display: none;">
         <input type="hidden" name="id" />
         <label>
-            <div>Name</div>
+            <span>Name</span>
             <input type="text" name="name" />
         </label>
         <label>
-            <div>Email</div>
+            <span>Email</span>
             <input type="email" name="email" />
         </label>
         <label>
-            <div>Abteilung auswählen</div>
+            <span>Abteilung auswählen</span>
             <select name="id_abteilung"></select>
         </label>
         <div>

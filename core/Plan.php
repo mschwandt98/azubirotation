@@ -1,6 +1,10 @@
 <?php
 use Core\Helper;
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 include_once(dirname(__DIR__) . "/config.php");
 include_once(BASE . "/core/Helper.php");
 
@@ -49,83 +53,78 @@ $weeksInTable = ceil(
 );
 ?>
 
-<div id="Plan">
-    <table>
-        <tr>
-            <th>Nachname</th>
-            <th>Vorname</th>
-            <th>Zeitraum</th>
-
-            <?php $currentDate = $tableFirstDate; ?>
-            <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
-
-                <th class="month"><?= date("M Y", strtotime($currentDate)); ?></th>
-
-                <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
-            <?php endfor; ?>
-            <?php unset($currentDate); ?>
-
-        </tr>
-
-        <?php foreach ($Azubis as $azubi) : ?>
-
-            <tr class="azubi" data-id="<?= $azubi->ID; ?>">
-                <td class="azubi-info"><?= $azubi->Nachname; ?></td>
-                <td class="azubi-info"><?= $azubi->Vorname; ?></td>
-                <td class="azubi-info">
-                    <?= date("d.m.Y", strtotime($azubi->Ausbildungsstart)) . " - " . date("d.m.Y", strtotime($azubi->Ausbildungsende)); ?>
-                </td>
+<div id="Plan" class="horizontal-scroll">
+    <div class="horizontal-scroll">
+        <table>
+            <tr>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th>Zeitraum</th>
 
                 <?php $currentDate = $tableFirstDate; ?>
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                    <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
-
-                        <td class="plan-phase"
-                            style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
-                            data-date="<?= $currentDate; ?>"
-                            data-id-abteilung="<?= $plan->ID_Abteilung;?>"
-                            data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
-                        >
-
-                            <?php if (IsFirstPhaseInAbteilung($azubi, $plan)) : ?>
-
-                                <span class="ansprechpartner-name"><?= GetAnsprechpartnerName($plan->ID_Ansprechpartner); ?></span>
-
-                            <?php endif; ?>
-
-                        </td>
-
-                    <?php else: ?>
-
-                        <td class="plan-phase" data-date="<?= $currentDate; ?>"></td>
-
-                    <?php endif; ?>
+                    <th class="month"><?= date("M Y", strtotime($currentDate)); ?></th>
 
                     <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
                 <?php endfor; ?>
+                <?php unset($currentDate); ?>
 
             </tr>
 
-        <?php endforeach; ?>
+            <?php foreach ($Azubis as $azubi) : ?>
 
-    </table>
+                <tr class="azubi" data-id="<?= $azubi->ID; ?>">
+                    <td class="azubi-info"><?= $azubi->Nachname; ?></td>
+                    <td class="azubi-info"><?= $azubi->Vorname; ?></td>
+                    <td class="azubi-info">
+                        <?= date("d.m.Y", strtotime($azubi->Ausbildungsstart)) . " - " . date("d.m.Y", strtotime($azubi->Ausbildungsende)); ?>
+                    </td>
 
-    <input type="button" id="SavePlan" value="Planung speichern" />
-    <input type="button" id="SendMail" value="Benachrichtigungen senden" />
-</div>
+                    <?php $currentDate = $tableFirstDate; ?>
+                    <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
+                        <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
 
-<div id="Legende">
+                            <td class="plan-phase"
+                                style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
+                                data-date="<?= $currentDate; ?>"
+                                data-id-abteilung="<?= $plan->ID_Abteilung;?>"
+                                data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
+                            >
 
-    <?php foreach ($Abteilungen as $abteilung) : ?>
+                                <?php if (IsFirstPhaseInAbteilung($azubi, $plan)) : ?>
 
-        <div class="abteilung">
-            <div class="farbe" style="background-color: <?= $abteilung->Farbe; ?>;"></div>
-            <div><?= $abteilung->Bezeichnung; ?></div>
+                                    <span class="ansprechpartner-name"><?= GetAnsprechpartnerName($plan->ID_Ansprechpartner); ?></span>
+
+                                <?php endif; ?>
+
+                            </td>
+
+                        <?php else: ?>
+
+                            <td class="plan-phase" data-date="<?= $currentDate; ?>"></td>
+
+                        <?php endif; ?>
+
+                        <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
+                    <?php endfor; ?>
+
+                </tr>
+
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+
+    <?php if (is_logged_in()) : ?>
+
+        <div class="plan-actions">
+            <input type="button" id="SavePlan" value="Planung speichern" />
+            <input type="button" id="SendMail" value="Benachrichtigungen senden" />
         </div>
 
-    <?php endforeach; ?>
+    <?php endif; ?>
 
 </div>
 

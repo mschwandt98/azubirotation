@@ -8,29 +8,29 @@
     <div id="Azubis" style="display: none;"></div>
     <form id="AddAzubiForm" method="post" style="display: none;">
         <label>
-            <div>Vorname</div>
+            <span>Vorname</span>
             <input type="text" name="vorname" />
         </label>
         <label>
-            <div>Nachname</div>
+            <span>Nachname</span>
             <input type="text" name="nachname" />
         </label>
         <label>
-            <div>Email</div>
+            <span>Email</span>
             <input type="email" name="email" />
         </label>
         <label>
-            <div>Ausbildungsberuf auswählen</div>
+            <span>Ausbildungsberuf auswählen</span>
             <select name="id_ausbildungsberuf"></select>
         </label>
         <label>
-            <div>Ausbildungsstart</div>
+            <span>Ausbildungsstart</span>
             <input type="date"
                     name="ausbildungsstart"
                     min="<?= date("Y-m-d"); ?>" />
         </label>
         <label>
-            <div>Ausbildungsende</div>
+            <span>Ausbildungsende</span>
             <input type="date"
                     name="ausbildungsende"
                     min="<?= date("Y-m-d"); ?>" />
@@ -42,27 +42,27 @@
     <form id="EditAzubiForm" method="post" style="display: none;">
         <input type="hidden" name="id" />
         <label>
-            <div>Vorname</div>
+            <span>Vorname</span>
             <input type="text" name="vorname" />
         </label>
         <label>
-            <div>Nachname</div>
+            <span>Nachname</span>
             <input type="text" name="nachname" />
         </label>
         <label>
-            <div>Email</div>
+            <span>Email</span>
             <input type="email" name="email" />
         </label>
         <label>
-            <div>Ausbildungsberuf auswählen</div>
+            <span>Ausbildungsberuf auswählen</span>
             <select name="id_ausbildungsberuf"></select>
         </label>
         <label>
-            <div>Ausbildungsstart</div>
+            <span>Ausbildungsstart</span>
             <input type="date" name="ausbildungsstart" />
         </label>
         <label>
-            <div>Ausbildungsende</div>
+            <span>Ausbildungsende</span>
             <input type="date" name="ausbildungsende" />
         </label>
         <div>

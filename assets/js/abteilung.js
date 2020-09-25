@@ -29,13 +29,13 @@ jQuery(function($) {
                 abteilungen.empty();
 
                 data.forEach(abteilung => {
-                    var item = $("<div></div>")
-                        .addClass("abteilung-item");
-
+                    var item = $("<div></div>").addClass("item-child");
                     var outputDiv = $("<div></div>").text(abteilung.Bezeichnung);
+                    var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-abteilung")
+                        .addClass("edit-item-child")
+                        .addClass("secondary-button")
                         .data(ID, abteilung.ID)
                         .data(BEZEICHNUNG, abteilung.Bezeichnung)
                         .data(MAXAZUBIS, abteilung.MaxAzubis)
@@ -43,13 +43,14 @@ jQuery(function($) {
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-abteilung")
+                        .addClass("delete-item-child")
+                        .addClass("secondary-button")
                         .data(ID, abteilung.ID)
                         .val("Löschen");
 
+                    buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
-                    item.append(editButton);
-                    item.append(deleteButton);
+                    item.append(buttonContainer);
                     abteilungen.append(item);
                 });
 
@@ -93,7 +94,7 @@ jQuery(function($) {
             })
         });
 
-        $("#Abteilungen").on("click", ".edit-abteilung", function(e) {
+        $("#Abteilungen").on("click", ".edit-item-child", function(e) {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
@@ -142,10 +143,10 @@ jQuery(function($) {
             })
         });
 
-        $("#Abteilungen").on("click", ".delete-abteilung", function(e) {
+        $("#Abteilungen").on("click", ".delete-item-child", function(e) {
 
             var id = $(this).data(ID);
-            var abteilung = $(this).closest(".abteilung-item");
+            var abteilung = $(this).closest(".item-child");
 
             $.ajax({
                 type: "POST",

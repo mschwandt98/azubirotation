@@ -84,23 +84,25 @@ jQuery(function($) {
                 standardplaene.empty();
 
                 $.each(data, function(index, standardplan) {
-                    var item = $("<div></div>").addClass("standardplan-item");
-
+                    var item = $("<div></div>").addClass("item-child");
                     var outputDiv = $("<div></div>").text(standardplan.Ausbildungsberuf);
+                    var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-standardplan")
+                        .addClass("edit-item-child")
+                        .addClass("secondary-button")
                         .data(ID_AUSBILDUNGSBERUF, standardplan.ID_Ausbildungsberuf)
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-standardplan")
+                        .addClass("delete-item-child")
+                        .addClass("secondary-button")
                         .data(ID_AUSBILDUNGSBERUF, standardplan.ID_Ausbildungsberuf)
                         .val("Löschen");
 
+                    buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
-                    item.append(editButton);
-                    item.append(deleteButton);
+                    item.append(buttonContainer);
                     standardplaene.append(item);
                 });
 
@@ -201,7 +203,7 @@ jQuery(function($) {
             })
         });
 
-        $("#Standardplaene").on("click", ".edit-standardplan", function(e) {
+        $("#Standardplaene").on("click", ".edit-item-child", function(e) {
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
 
@@ -271,10 +273,10 @@ jQuery(function($) {
             })
         });
 
-        $("#Standardplaene").on("click", ".delete-standardplan", function(e) {
+        $("#Standardplaene").on("click", ".delete-item-child", function(e) {
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
-            var standardplan = $(this).closest(".standardplan-item");
+            var standardplan = $(this).closest(".item-child");
 
             $.ajax({
                 type: "POST",

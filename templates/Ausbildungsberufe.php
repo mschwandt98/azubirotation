@@ -8,7 +8,7 @@
     <div id="Ausbildungsberufe" style="display: none;"></div>
     <form id="AddAusbildungsberufForm" method="post" style="display: none;">
         <label>
-            <div>Bezeichnung</div>
+            <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" />
         </label>
         <div>
@@ -18,7 +18,7 @@
     <form id="EditAusbildungsberufForm" method="post" style="display: none;">
         <input type="hidden" name="id" />
         <label>
-            <div>Bezeichnung</div>
+            <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" />
         </label>
         <div>

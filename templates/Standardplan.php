@@ -8,7 +8,7 @@
 
             <div class="phase">
                 <label>
-                    <div>Abteilung auswählen</div>
+                    <span>Abteilung auswählen</span>
                     <select name="id_abteilung">
 
                         <?php foreach ($viewBag["Abteilungen"] as $abteilung) : ?>
@@ -22,22 +22,18 @@
 
                     </select>
                 </label>
-                <div>
+                <label>
                     <span>Wochen: </span>
                     <input type="number" name="wochen" value="<?= $phase->Wochen ?>" />
-                </div>
-                <div>
-                    <label>
-                        <span>Präferieren: </span>
-                        <input type="checkbox" name="praeferieren" <?= ($phase->Praeferieren) ? "checked" : ""; ?> />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span>Optional: </span>
-                        <input type="checkbox" name="optional" <?= ($phase->Optional) ? "checked" : ""; ?> />
-                    </label>
-                </div>
+                </label>
+                <label>
+                    <span>Präferieren: </span>
+                    <input type="checkbox" name="praeferieren" <?= ($phase->Praeferieren) ? "checked" : ""; ?> />
+                </label>
+                <label>
+                    <span>Optional: </span>
+                    <input type="checkbox" name="optional" <?= ($phase->Optional) ? "checked" : ""; ?> />
+                </label>
                 <input type="button" class="delete-phase" value="Phase löschen" />
             </div>
 

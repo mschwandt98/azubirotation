@@ -8,28 +8,24 @@
     <div id="Standardplaene" style="display: none;"></div>
     <form id="AddStandardplanForm" method="post" style="display: none;">
         <label>
-            <div>Ausbildungsberuf auswählen</div>
+            <span>Ausbildungsberuf auswählen</span>
             <select name="id_ausbildungsberuf"></select>
         </label>
         <div class="plan-phasen">
             <div class="phase">
                 <label>
-                    <div>Abteilung auswählen</div>
+                    <span>Abteilung auswählen</span>
                     <select name="id_abteilung"></select>
                 </label>
-                <div>
+                <label>
                     <span>Wochen: </span><input type="number" name="wochen" />
-                </div>
-                <div>
-                    <label>
-                        <span>Präferieren: </span><input type="checkbox" name="praeferieren" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span>Optional: </span><input type="checkbox" name="optional" />
-                    </label>
-                </div>
+                </label>
+                <label>
+                    <span>Präferieren: </span><input type="checkbox" name="praeferieren" />
+                </label>
+                <label>
+                    <span>Optional: </span><input type="checkbox" name="optional" />
+                </label>
                 <input type="button" class="delete-phase" value="Phase löschen" />
             </div>
         </div>
