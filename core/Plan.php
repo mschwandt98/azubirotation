@@ -1,5 +1,5 @@
 <?php
-use Core\Helper;
+use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -8,9 +8,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 include_once(dirname(__DIR__) . "/config.php");
 include_once(HELPER . "/DateHelper.php");
-include_once(BASE . "/core/Helper.php");
+include_once(HELPER . "/DataHelper.php");
 
-$helper = new Helper();
+$helper = new DataHelper();
 
 $Abteilungen        = $helper->GetAbteilungen();
 $Ansprechpartner    = $helper->GetAnsprechpartner();
@@ -42,9 +42,7 @@ foreach ($Azubis as $azubi) {
     }
 }
 
-if (empty($tableFirstDate) || empty($tableLastDate)) {
-    return;
-}
+if (empty($tableFirstDate) || empty($tableLastDate)) return;
 
 if (strtolower(date("l", strtotime($tableFirstDate))) !== "monday") {
     $tableFirstDate = date("Y-m-d", strtotime($tableFirstDate . "last monday"));
@@ -67,12 +65,12 @@ $weeksInTable = ceil(
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
                     <th class="month"
-                        title="<?= DateHelper::FormatDate($currentDate); ?> - <?= date("d.m.Y", strtotime($currentDate . " next sunday")); ?>"
+                        title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>"
                     >
-                        <?= date("M Y", strtotime($currentDate)); ?>
+                        <?= DateHelper::FormatDate($currentDate, "M Y"); ?>
                     </th>
 
-                    <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
+                    <?php $currentDate = DateHelper::NextMonday($currentDate); ?>
                 <?php endfor; ?>
                 <?php unset($currentDate); ?>
 
@@ -113,7 +111,7 @@ $weeksInTable = ceil(
 
                         <?php endif; ?>
 
-                        <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
+                        <?php $currentDate = DateHelper::NextMonday($currentDate); ?>
                     <?php endfor; ?>
 
                 </tr>
@@ -172,7 +170,6 @@ function GetAnsprechpartnerName($id_ansprechpartner) {
             return $ansprechpartner->Name;
         }
     }
-
 }
 
 function IsFirstPhaseInAbteilung($azubi, $plan) {

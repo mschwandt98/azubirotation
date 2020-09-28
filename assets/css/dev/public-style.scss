@@ -40,8 +40,12 @@ main {
 #Plan {
     margin: 16px 0;
 
-    > div:last-of-type {
+    > div {
         margin-top: 16px;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
     }
 
     table, th, td {

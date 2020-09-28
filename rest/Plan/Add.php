@@ -1,4 +1,6 @@
 <?php
+use Core\Helper\DateHelper;
+
 if (array_key_exists("azubis", $_POST)) {
 
     $azubis = $_POST["azubis"];
@@ -6,6 +8,7 @@ if (array_key_exists("azubis", $_POST)) {
     if (!empty($azubis)) {
 
         include_once(dirname(dirname(__DIR__)) . "/config.php");
+        include_once(HELPER . "/DateHelper.php");
 
         global $pdo;
 
@@ -16,7 +19,7 @@ if (array_key_exists("azubis", $_POST)) {
 
             foreach ($azubi["phasen"] as $phase) {
 
-                $endDate = date("Y-m-d", strtotime($phase["date"] . " next sunday"));
+                $endDate = DateHelper::NextSunday($phase["date"]);
 
                 $phasen[] = [
                     "Startdatum" => $phase["date"],

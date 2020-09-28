@@ -1,12 +1,12 @@
 <?php
-use core\Helper;
+use core\Helper\DataHelper;
 
 if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildungsberuf"])) {
 
     include_once(dirname(dirname(__DIR__)) . "/config.php");
-    include_once(BASE . "/core/Helper.php");
+    include_once(HELPER . "/DataHelper.php");
 
-    $helper = new Helper();
+    $helper = new DataHelper();
     $standardplan = array_values($helper->GetStandardPlaene($_GET["id_ausbildungsberuf"]))[0];
 
     $statement = $pdo->prepare("SELECT * FROM " . T_ABTEILUNGEN . " ORDER BY Bezeichnung ASC;");

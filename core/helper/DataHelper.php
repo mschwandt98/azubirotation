@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Core\Helper;
 
 use PDO;
 
@@ -15,12 +15,12 @@ if (!defined("BASE")) {
     include_once(BASE . "/config.php");
 }
 else {
-    include_once(dirname(__DIR__) . "/config.php");
+    include_once(dirname(dirname(__DIR__)) . "/config.php");
 }
 
 include_models();
 
-class Helper {
+class DataHelper {
 
     private $db;
 

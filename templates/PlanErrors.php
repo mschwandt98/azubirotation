@@ -1,12 +1,14 @@
 <?php
-use Core\Helper;
+if (empty($errors)) return;
+
+use Core\Helper\DataHelper;
 use Core\PlanErrorCodes;
 
 include_once(dirname(__DIR__) . "/config.php");
-include_once(BASE . "/core/Helper.php");
+include_once(HELPER . "/DataHelper.php");
 include_once(BASE . "/core/PlanErrorCodes.php");
 
-$helper = new Helper();
+$helper = new DataHelper();
 ?>
 
 <?php if (array_key_exists(PlanErrorCodes::Ausbildungszeitraum, $errors)) : ?>

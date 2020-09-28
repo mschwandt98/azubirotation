@@ -1,10 +1,10 @@
 <?php
-use Core\Helper;
+use Core\Helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(BASE . "/core/Helper.php");
+include_once(HELPER . "/DataHelper.php");
 
-$helper = new Helper();
+$helper = new DataHelper();
 
 $ansprechpartner = $helper->GetAnsprechpartner();
 $azubis = $helper->GetAzubis();
