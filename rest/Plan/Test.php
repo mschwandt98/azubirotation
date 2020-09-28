@@ -52,8 +52,7 @@ foreach ($Azubis as $azubi) {
             if ($plan->ID_Azubi === $azubi->ID) {
                 if ($plan->Startdatum <= $azubi->Ausbildungsstart && $plan->Enddatum >= $azubi->Ausbildungsstart) {
                     if (!in_array($plan->ID_Abteilung, $praeferierteAbteilungen)) {
-                        $week = DateHelper::FormatDate($plan->Startdatum) . " - " . DateHelper::FormatDate($plan->Enddatum);
-                        $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID] = $week;
+                        $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID] = $plan->ID_Abteilung;
                     }
                 }
             }

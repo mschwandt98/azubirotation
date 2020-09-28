@@ -34,12 +34,12 @@ $helper = new DataHelper();
 
     <div>Folgende Auszubildenden sind laut Standardplan am Anfang ihrer Ausbildungen in den falschen Abteilungen:</div>
 
-    <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $week) : ?>
+    <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $id_abteilung) : ?>
 
         <div>
             <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
-            <?= $week; ?>
+            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+            (<?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>)
         </div>
 
     <?php endforeach; ?>

@@ -59,8 +59,7 @@ if (array_key_exists("azubis", $_POST)) {
         }
 
         http_response_code(200);
-        // TODO: Plan zurückgeben
-        exit();
+        exit(include_once(BASE . "/core/Plan.php"));
     }
 }
 
