@@ -17,34 +17,54 @@ $Plaene         = $helper ->GetPlaene();
 
 $errors = [];
 
+// Planung außerhalb des Ausbildungszeitraums &
+// Abteilung am Anfang der Ausbildung entspricht Standardplan
 foreach ($Azubis as $azubi) {
 
     foreach ($Plaene as $plan) {
-
         if ($plan->ID_Azubi === $azubi->ID) {
-
-            if ($plan->Enddatum < $azubi->Ausbildungsstart ) {
-
-                $errors[PlanErrorCodes::Ausbildungszeitraum][] = [
-                    "Azubi" => $azubi,
-                    "Plan"  => $plan
-                ];
+            if ($plan->Enddatum < $azubi->Ausbildungsstart || $plan->Startdatum > $azubi->Ausbildungsende) {
+                $key = DateHelper::FormatDate($plan->Startdatum) . " - " . DateHelper::FormatDate($plan->Enddatum);
+                $errors[PlanErrorCodes::Ausbildungszeitraum][$azubi->ID][$key] = $plan;
             }
+        }
+    }
 
-            if ($plan->Startdatum > $azubi->Ausbildungsende) {
+    $standardplan;
+    foreach ($Standardplaene as $plan) {
+        if ($azubi->ID_Ausbildungsberuf === $plan->ID_Ausbildungsberuf) {
+            $standardplan = $plan;
+            break;
+        }
+    }
 
-                $errors[PlanErrorCodes::Ausbildungszeitraum][] = [
-                    "Azubi" => $azubi,
-                    "Plan"  => $plan
-                ];
+    if (empty($standardplan)) continue;
+
+    $praeferierteAbteilungen = [];
+    foreach ($standardplan->Phasen as $phase) {
+        if ($phase->Praeferieren) {
+            $praeferierteAbteilungen[] = $phase->ID_Abteilung;
+        }
+    }
+
+    if (!empty($praeferierteAbteilungen)) {
+        foreach ($Plaene as $plan) {
+            if ($plan->ID_Azubi === $azubi->ID) {
+                if ($plan->Startdatum <= $azubi->Ausbildungsstart && $plan->Enddatum >= $azubi->Ausbildungsstart) {
+                    if (!in_array($plan->ID_Abteilung, $praeferierteAbteilungen)) {
+                        $week = DateHelper::FormatDate($plan->Startdatum) . " - " . DateHelper::FormatDate($plan->Enddatum);
+                        $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID] = $week;
+                    }
+                }
             }
         }
     }
 }
+
+// Maximale Anzahl an Azubis in Abteilung
 foreach ($Abteilungen as $abteilung) {
 
     $abteilungsHelper = [];
-
     foreach ($Plaene as $plan) {
 
         if ($plan->ID_Abteilung === $abteilung->ID) {

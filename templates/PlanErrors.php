@@ -15,17 +15,35 @@ $helper = new DataHelper();
 
     <div>Folgende Planungen liegen außerhalb des Ausbildungszeitraums des jeweiligen Auszubildenden:</div>
 
-    <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $error) : ?>
+    <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $id_azubi => $errorList) : ?>
 
-        <li>
-            <?= $helper->GetAzubis($error["Azubi"]->ID)->Nachname; ?>,
-            <?= $helper->GetAzubis($error["Azubi"]->ID)->Vorname; ?> -
-            Woche vom <?= $error["Plan"]->Startdatum; ?> bis zum <?= $error["Plan"]->Enddatum; ?>
-        </li>
+        <div>
+            <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
+            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+        </div>
+
+        <?php foreach ($errorList as $week => $plan) : ?>
+
+            <li>Woche: <?= $week; ?></li>
+
+        <?php endforeach; ?>
 
     <?php endforeach; ?>
 <?php endif; ?>
+<?php if (array_key_exists(PlanErrorCodes::PraeferierteAbteilungen, $errors)) : ?>
 
+    <div>Folgende Auszubildenden sind laut Standardplan am Anfang ihrer Ausbildungen in den falschen Abteilungen:</div>
+
+    <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $week) : ?>
+
+        <div>
+            <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
+            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
+            <?= $week; ?>
+        </div>
+
+    <?php endforeach; ?>
+<?php endif; ?>
 <?php if (array_key_exists(PlanErrorCodes::AbteilungenMaxAzubis, $errors)) : ?>
 
     <div>In folgenden Zeiträumen haben die jeweiligen Abteilungen mehr Auszubildende als erlaubt.</div>
