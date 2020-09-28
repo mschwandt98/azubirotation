@@ -23,7 +23,7 @@
 <body>
     <header><?php include_once(__DIR__ . "/header.php") ?></header>
     <main><?php include_once(__DIR__ . "/main.php") ?></main>
-    <footer><?php include_once(__DIR__ . "/footer.php") ?></footer>
+    <?php include_once(__DIR__ . "/footer.php") ?>
 
     <?php if (is_logged_in()) : ?>
 
