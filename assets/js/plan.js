@@ -55,7 +55,7 @@ jQuery(function($) {
                 );
             });
 
-            abteilungenList.append($("<li></li>").text("Leeren"));
+            abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
 
             popup.append(abteilungenList);
             el.append(popup);

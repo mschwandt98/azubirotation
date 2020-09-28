@@ -1,7 +1,7 @@
 <div class="data-item">
     <div class="minimize-data-item"></div>
     <div class="title">Abteilungen</div>
-    <div>
+    <div class="show-add-buttons">
         <input type="button" id="ShowAbteilungenButton" value="Anzeigen" />
         <input type="button" id="ShowAddAbteilungForm" value="Anlegen" />
     </div>

@@ -19,7 +19,7 @@ $Azubis             = $helper->GetAzubis();
 $Standardplaene     = $helper->GetStandardPlaene();
 $Plaene             = $helper->GetPlaene();
 
-// TODO
+// TODO: Vermutung: DB-Verbindung nicht schnell genug aufgebaut
 if (empty($Abteilungen)) {
     $Abteilungen = $helper->GetAbteilungen();
 }

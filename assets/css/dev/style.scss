@@ -18,33 +18,56 @@
         box-shadow: 0px 0px 16px 0px rgba($gray, 0.4);
     }
 
+    .expand-data-item,
     .minimize-data-item {
         align-items: center;
         background-color: $selectline-dark-blue;
         border-radius: 8px;
-        color: white;
         position: absolute;
         top: 16px;
         right: 24px;
         height: 24px;
         width: 24px;
 
-        &:before {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .expand-data-item {
+        &:before,
+        &:after {
             background:white;
             content: '';
-            margin: auto;
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            height: 2px;
-            width: 50%;
         }
 
-        &:hover {
-            cursor: pointer;
+        &:before {
+            margin: 6px auto;
+            width: 2px;
         }
+
+        &:after {
+            height: 2px;
+            margin: auto 6px;
+        }
+    }
+
+    .minimize-data-item:before {
+        background:white;
+        content: '';
+        margin: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 50%;
     }
 
     .title {

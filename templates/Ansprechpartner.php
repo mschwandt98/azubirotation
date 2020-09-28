@@ -1,7 +1,7 @@
 <div class="data-item">
     <div class="minimize-data-item"></div>
     <div class="title">Ansprechpartner</div>
-    <div>
+    <div class="show-add-buttons">
         <input type="button" id="ShowAnsprechpartnerButton" value="Anzeigen" />
         <input type="button" id="ShowAddAnsprechpartnerForm" value="Anlegen" />
     </div>

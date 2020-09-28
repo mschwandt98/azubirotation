@@ -1,7 +1,7 @@
 <div class="data-item">
     <div class="minimize-data-item"></div>
     <div class="title">Auszubildende</div>
-    <div>
+    <div class="show-add-buttons">
         <input type="button" id="ShowAzubisButton" value="Anzeigen" />
         <input type="button" id="ShowAddAzubiForm" value="Anlegen" />
     </div>
