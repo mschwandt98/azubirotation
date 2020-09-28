@@ -1,21 +1,23 @@
 <?php
 use Core\Helper;
+use Core\Helper\DateHelper;
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
 include_once(dirname(__DIR__) . "/config.php");
+include_once(HELPER . "/DateHelper.php");
 include_once(BASE . "/core/Helper.php");
 
 $helper = new Helper();
 
-$Abteilungen = $helper->GetAbteilungen();
-$Ansprechpartner = $helper->GetAnsprechpartner();
-$Ausbildungsberufe = $helper->GetAusbildungsberufe();
-$Azubis = $helper->GetAzubis();
-$Standardplaene = $helper->GetStandardPlaene();
-$Plaene = $helper->GetPlaene();
+$Abteilungen        = $helper->GetAbteilungen();
+$Ansprechpartner    = $helper->GetAnsprechpartner();
+$Ausbildungsberufe  = $helper->GetAusbildungsberufe();
+$Azubis             = $helper->GetAzubis();
+$Standardplaene     = $helper->GetStandardPlaene();
+$Plaene             = $helper->GetPlaene();
 
 $tableFirstDate;
 $tableLastDate;
@@ -64,7 +66,11 @@ $weeksInTable = ceil(
                 <?php $currentDate = $tableFirstDate; ?>
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                    <th class="month"><?= date("M Y", strtotime($currentDate)); ?></th>
+                    <th class="month"
+                        title="<?= DateHelper::FormatDate($currentDate); ?> - <?= date("d.m.Y", strtotime($currentDate . " next sunday")); ?>"
+                    >
+                        <?= date("M Y", strtotime($currentDate)); ?>
+                    </th>
 
                     <?php $currentDate = date("Y-m-d", strtotime($currentDate . " next monday")); ?>
                 <?php endfor; ?>
@@ -78,7 +84,7 @@ $weeksInTable = ceil(
                     <td class="azubi-info"><?= $azubi->Nachname; ?></td>
                     <td class="azubi-info"><?= $azubi->Vorname; ?></td>
                     <td class="azubi-info">
-                        <?= date("d.m.Y", strtotime($azubi->Ausbildungsstart)) . " - " . date("d.m.Y", strtotime($azubi->Ausbildungsende)); ?>
+                        <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . " - " . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
                     </td>
 
                     <?php $currentDate = $tableFirstDate; ?>
@@ -128,6 +134,7 @@ $weeksInTable = ceil(
                 <input type="button" id="SendMail" value="Benachrichtigungen senden" />
             </div>
         </div>
+        <div id="PlanErrors"></div>
 
     <?php endif; ?>
 

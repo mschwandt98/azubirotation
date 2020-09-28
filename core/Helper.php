@@ -48,6 +48,10 @@ class Helper {
             );
         }
 
+        if (!empty($id)) {
+            return $abteilungen[0];
+        }
+
         return $abteilungen;
     }
 
@@ -113,6 +117,10 @@ class Helper {
                 $azubi["Ausbildungsende"],
                 $azubi["ID"]
             );
+        }
+
+        if (!empty($id)) {
+            return $azubis[0];
         }
 
         return $azubis;

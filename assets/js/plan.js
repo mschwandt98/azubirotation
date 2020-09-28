@@ -216,6 +216,22 @@ jQuery(function($) {
             });
         });
 
+        $("#TestPlan").on("click", function() {
+
+            $.ajax({
+                type: "POST",
+                url: API + "Plan/Test",
+                success: function(response) {
+                    if (response != true) {
+                        $("#PlanErrors").html(response);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
         function GetAbteilungsFarbe(id) {
 
             var farbe;

@@ -13,6 +13,7 @@ define("T_STANDARDPLAENE", "standardpläne");
 
 // Pfade
 define("BASE", __DIR__);
+define("HELPER", BASE . "/core/helper/");
 define("MODELS", BASE . "/models/");
 
 function include_models() {
