@@ -9,4 +9,4 @@
     </div>
 
 <?php endif; ?>
-<?php include_once("core/Plan.php"); ?>
+<div id="Plan"><?php include_once("core/Plan.php"); ?></div>

@@ -206,7 +206,7 @@ jQuery(function($) {
                     azubis: azubis
                 },
                 success: function(response) {
-                    // nothing to do...
+                    $("#Plan").html(response);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.responseText);

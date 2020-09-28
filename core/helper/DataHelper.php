@@ -36,9 +36,9 @@ class DataHelper {
             $this->CreateWhereId($id) .
             "ORDER BY Bezeichnung ASC;"
         );
-        $statement->execute();
+        $test1 = $statement->execute();
         $abteilungen = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+        $test2 = $this->db->errorInfo();
         foreach ($abteilungen as $key => $abteilung) {
             $abteilungen[$key] = new Abteilung(
                 $abteilung["Bezeichnung"],
