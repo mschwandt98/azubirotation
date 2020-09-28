@@ -91,8 +91,8 @@ $weeksInTable = ceil(
                         <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
 
                             <td class="plan-phase
-                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark": ""; ?>
-                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark": ""; ?>"
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
                                 style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
                                 data-date="<?= $currentDate; ?>"
                                 data-id-abteilung="<?= $plan->ID_Abteilung;?>"

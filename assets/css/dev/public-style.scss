@@ -71,8 +71,12 @@ main {
                 padding: 4px 8px;
             }
 
-            &.mark {
+            &.mark-start {
                 border-left: 4px solid black !important;
+            }
+
+            &.mark-ende {
+                border-right: 4px solid black !important;
             }
 
             &.selected {
