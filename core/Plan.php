@@ -120,8 +120,13 @@ $weeksInTable = ceil(
     <?php if (is_logged_in()) : ?>
 
         <div class="plan-actions">
-            <input type="button" id="SavePlan" value="Planung speichern" />
-            <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+            <div>
+                <input type="button" id="SavePlan" value="Planung speichern" />
+                <input type="button" id="TestPlan" value="Auf Fehler testen" />
+            </div>
+            <div>
+                <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+            </div>
         </div>
 
     <?php endif; ?>
