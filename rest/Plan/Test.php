@@ -23,7 +23,16 @@ foreach ($Azubis as $azubi) {
 
         if ($plan->ID_Azubi === $azubi->ID) {
 
-            if ($plan->Startdatum < $azubi->Ausbildungsstart || $plan->Enddatum > $azubi->Ausbildungsende) {
+            if ($plan->Enddatum < $azubi->Ausbildungsstart ) {
+
+                $errors[PlanErrorCodes::Ausbildungszeitraum][] = [
+                    "Azubi" => $azubi,
+                    "Plan"  => $plan
+                ];
+            }
+
+            if ($plan->Startdatum > $azubi->Ausbildungsende) {
+
                 $errors[PlanErrorCodes::Ausbildungszeitraum][] = [
                     "Azubi" => $azubi,
                     "Plan"  => $plan
@@ -32,9 +41,9 @@ foreach ($Azubis as $azubi) {
         }
     }
 }
-
-$abteilungsHelper = [];
 foreach ($Abteilungen as $abteilung) {
+
+    $abteilungsHelper = [];
 
     foreach ($Plaene as $plan) {
 
@@ -47,10 +56,9 @@ foreach ($Abteilungen as $abteilung) {
                 continue;
             }
 
-            $timePeriodToCheck;
-
             foreach ($abteilungsHelper as $timePeriod => $maxAzubis) {
 
+                $timePeriodToCheck = null;
                 $dates = DateHelper::GetDatesFromString($timePeriod);
 
                 if ($plan->Startdatum === $dates["StartDatum"] && $plan->Enddatum === $dates["EndDatum"]) {

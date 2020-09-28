@@ -71,6 +71,10 @@ main {
                 padding: 4px 8px;
             }
 
+            &.mark {
+                border-left: 4px solid black !important;
+            }
+
             &.selected {
                 border-color: inherit !important;
 
@@ -148,7 +152,7 @@ Footer {
     bottom: 0;
     right: 0;
 
-    .abteilung {
+    .legende {
         align-items: center;
         display: flex;
         margin: 4px 0;
@@ -161,10 +165,17 @@ Footer {
             margin: 4px 0 0;
         }
 
-        .farbe {
+        .symbol {
             margin-right: 8px;
             height: 1em;
             width: 32px;
+
+            &.marker > div {
+                background-color: black;
+                margin: 0 auto;
+                height: 100%;
+                width: 4px;
+            }
         }
     }
 }

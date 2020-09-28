@@ -55,7 +55,7 @@ jQuery(function($) {
                 );
             });
 
-            abteilungenList.find(":last-child").remove();
+            abteilungenList.append($("<li></li>").text("Leeren"));
 
             popup.append(abteilungenList);
             el.append(popup);
@@ -109,6 +109,18 @@ jQuery(function($) {
         $("#Plan").on("click", ".set-abteilung-popup li", function() {
 
             var el = $(this);
+
+            if (!el.data("id")) {
+
+                tdItems.forEach(item => {
+                    $(item).removeAttr("style")
+                        .removeAttr("data-id-abteilung")
+                        .removeAttr("data-id-ansprechpartner")
+                        .removeClass("selected");
+                });
+                $(".set-abteilung-popup").remove();
+                return;
+            }
 
             tdItems.forEach(item => {
 

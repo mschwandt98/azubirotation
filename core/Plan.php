@@ -90,7 +90,9 @@ $weeksInTable = ceil(
 
                         <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
 
-                            <td class="plan-phase"
+                            <td class="plan-phase
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark": ""; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark": ""; ?>"
                                 style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
                                 data-date="<?= $currentDate; ?>"
                                 data-id-abteilung="<?= $plan->ID_Abteilung;?>"
@@ -107,7 +109,10 @@ $weeksInTable = ceil(
 
                         <?php else: ?>
 
-                            <td class="plan-phase" data-date="<?= $currentDate; ?>"></td>
+                            <td class="plan-phase
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark": ""; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark": ""; ?>"
+                                data-date="<?= $currentDate; ?>"></td>
 
                         <?php endif; ?>
 
@@ -170,6 +175,18 @@ function GetAnsprechpartnerName($id_ansprechpartner) {
             return $ansprechpartner->Name;
         }
     }
+}
+
+function IsAusbildungsstart($ausbildungsstart, $date) {
+    if ($ausbildungsstart === $date) return true;
+    if (DateHelper::NextMonday($date) > $ausbildungsstart && $date < $ausbildungsstart) return true;
+    return false;
+}
+
+function IsAusbildungsende($ausbildungsende, $date) {
+    if ($ausbildungsende === $date) return true;
+    if (DateHelper::NextMonday($date) > $ausbildungsende && $date < $ausbildungsende) return true;
+    return false;
 }
 
 function IsFirstPhaseInAbteilung($azubi, $plan) {
