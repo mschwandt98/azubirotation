@@ -166,3 +166,24 @@
         }
     }
 }
+
+@media screen and (max-width: $md-max) and (min-width: $md-min) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: $sm-max) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-actions {
+        display: block;
+
+        input[type="button"] {
+            display: block;
+            margin-bottom: 16px;
+        }
+    }
+}

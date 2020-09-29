@@ -12,7 +12,7 @@ header {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
     margin-bottom: 16px;
     padding: 16px 32px;
 
@@ -106,6 +106,7 @@ Footer {
     position: fixed;
     bottom: 0;
     right: 0;
+    z-index: 9999999999;
 
     .legende {
         align-items: center;
@@ -132,5 +133,15 @@ Footer {
                 width: 4px;
             }
         }
+    }
+}
+
+@media screen and (max-width: $md-max) {
+    // TODO: Header anpassen
+}
+
+@media screen and (max-width: $sm-max) {
+    footer {
+        font-size: 12px;
     }
 }
