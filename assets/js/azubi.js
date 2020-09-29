@@ -145,7 +145,7 @@ jQuery(function($) {
                     vornameInput.val("");
                     nachnameInput.val("");
                     emailInput.val("");
-                    ausbildungsberufSelect.find("option").remove();
+                    ausbildungsberufSelect.empty();
 
                     HideViews();
                     ShowAzubis();
@@ -171,6 +171,7 @@ jQuery(function($) {
 
                 var form = $("#EditAzubiForm");
                 var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
+                ausbildungsberufSelect.empty();
 
                 ausbildungsberufe.forEach(ausbildungsberuf => {
                     var item = $(`<option>${ ausbildungsberuf.Bezeichnung }</option>`)
@@ -187,6 +188,8 @@ jQuery(function($) {
                 form.find(`input[name="${ AUSBILDUNGSSTART }"]`).val(ausbildungsstart);
                 form.find(`input[name="${ AUSBILDUNGSENDE }"]`).val(ausbildungsende);
                 form.find(`input[name="${ AUSBILDUNGSENDE }"]`).attr("min", ausbildungsstart);
+
+                HideViews();
                 form.show();
             });
         });
@@ -232,7 +235,7 @@ jQuery(function($) {
                     vornameInput.val("");
                     nachnameInput.val("");
                     emailInput.val("");
-                    ausbildungsberufSelect.find("option").remove();
+                    ausbildungsberufSelect.empty();
                     ausbildungsstartInput.val("");
                     ausbildungsendeInput.val("");
 

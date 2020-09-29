@@ -1,19 +1,23 @@
 <?php
+use Models\Ansprechpartner;
+
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(MODELS . "Ansprechpartner.php");
 
 if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists("id", $_POST) && array_key_exists("name", $_POST) && array_key_exists("email", $_POST) && array_key_exists("id_abteilung", $_POST)) {
 
-        $id = intval($_POST["id"]);
-        $name = $_POST["name"];
-        $email = $_POST["email"];
-        $id_abteilung = intval($_POST["id_abteilung"]);
+        $id             = sanitize_string($_POST["id"]);
+        $name           = sanitize_string($_POST["name"]);
+        $email          = sanitize_string($_POST["email"]);
+        $id_abteilung   = sanitize_string($_POST["id_abteilung"]);
 
         if (!empty($id) && !empty($name) && !empty($email) && !empty($id_abteilung)) {
 
             global $pdo;
+            $ansprechpartner = new Ansprechpartner($name, $email, $id_abteilung, $id);
 
             $statement = $pdo->prepare(
                 "UPDATE " . T_ANSPRECHPARTNER . "
@@ -22,10 +26,10 @@ if (is_logged_in() && is_token_valid()) {
             );
 
             if ($statement->execute([
-                ":id"           => $id,
-                ":name"         => $name,
-                ":email"        => $email,
-                ":id_abteilung" => $id_abteilung])) {
+                ":id"           => $ansprechpartner->ID,
+                ":name"         => $ansprechpartner->Name,
+                ":email"        => $ansprechpartner->Email,
+                ":id_abteilung" => $ansprechpartner->ID_Abteilung ])) {
 
                 http_response_code(200);
                 exit;

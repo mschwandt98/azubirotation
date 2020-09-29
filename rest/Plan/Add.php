@@ -1,8 +1,10 @@
 <?php
 use Core\Helper\DateHelper;
+use Models\Plan;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(MODELS . "Plan.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -18,19 +20,21 @@ if (is_logged_in() && is_token_valid()) {
 
             foreach ($azubis as $azubi) {
 
-                $id_azubi = intval($azubi["id"]);
+                $id_azubi = sanitize_string($azubi["id"]);
                 $phasen = [];
 
                 foreach ($azubi["phasen"] as $phase) {
 
-                    $endDate = DateHelper::NextSunday($phase["date"]);
+                    $startDate = sanitize_string($phase["date"]);
+                    $endDate = DateHelper::NextSunday($startDate);
 
-                    $phasen[] = [
-                        "Startdatum" => $phase["date"],
-                        "Enddatum" => $endDate,
-                        "ID_Abteilung" => intval($phase["id_abteilung"]),
-                        "ID_Ansprechpartner" => (empty($phase["id_ansprechpartner"])) ? NULL : intval($phase["id_ansprechpartner"])
-                    ];
+                    $phasen[] = new Plan(
+                        $id_azubi,
+                        sanitize_string($phase["id_ansprechpartner"]),
+                        (empty($phase["id_abteilung"])) ? NULL : sanitize_string($phase["id_abteilung"]),
+                        $startDate,
+                        $endDate
+                    );
                 }
 
                 $statement = $pdo->prepare("DELETE FROM " . T_PLAENE . " WHERE ID_Auszubildender = $id_azubi");
@@ -47,10 +51,10 @@ if (is_logged_in() && is_token_valid()) {
                     $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
                         VALUES (
                             $id_azubi, " .
-                            ($phase["ID_Ansprechpartner"] ?? ":null" ) . ", " .
-                            $phase["ID_Abteilung"] . ", '" .
-                            $phase["Startdatum"] . "', '" .
-                            $phase["Enddatum"] ."'
+                            ($phase->ID_Ansprechpartner ?? ":null") . ", " .
+                            $phase->ID_Abteilung . ", '" .
+                            $phase->Startdatum . "', '" .
+                            $phase->Enddatum ."'
                         );";
                 }
 

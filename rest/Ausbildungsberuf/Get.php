@@ -6,7 +6,7 @@ global $pdo;
 $sql_where = "";
 
 if (array_key_exists("id", $_GET) && !empty($_GET["id"])) {
-    $sql_where = " WHERE ID = " . intval($_GET["id"]);
+    $sql_where = " WHERE ID = " . intval(sanitize_string($_GET["id"]));
 }
 
 $statement = $pdo->prepare("SELECT * FROM " . T_AUSBILDUNGSBERUFE . $sql_where . " ORDER BY Bezeichnung ASC;");

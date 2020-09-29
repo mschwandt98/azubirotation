@@ -36,9 +36,9 @@ class DataHelper {
             $this->CreateWhereId($id) .
             "ORDER BY Bezeichnung ASC;"
         );
-        $test1 = $statement->execute();
+        $statement->execute();
         $abteilungen = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $test2 = $this->db->errorInfo();
+
         foreach ($abteilungen as $key => $abteilung) {
             $abteilungen[$key] = new Abteilung(
                 $abteilung["Bezeichnung"],
@@ -182,12 +182,12 @@ class DataHelper {
 
         foreach ($plaene as $key => $plan) {
             $plaene[$key] = new Plan(
-                $plan["ID"],
                 $plan["ID_Auszubildender"],
                 $plan["ID_Ansprechpartner"],
                 $plan["ID_Abteilung"],
                 $plan["Startdatum"],
-                $plan["Enddatum"]
+                $plan["Enddatum"],
+                $plan["ID"]
             );
         }
 

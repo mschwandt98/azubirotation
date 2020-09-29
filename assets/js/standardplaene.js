@@ -112,6 +112,9 @@ jQuery(function($) {
         });
 
         function AddSelectOption(selectItem, optionData) {
+
+            selectItem.empty();
+
             optionData.forEach(data => {
                 selectItem.append(
                     $(`<option>${ data.Bezeichnung }</option>`).val(data.ID)

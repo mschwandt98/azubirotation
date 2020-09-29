@@ -10,7 +10,7 @@ class Plan {
     public $Startdatum;
     public $Enddatum;
 
-    public function __construct($id, $id_azubi, $id_ansprechpartner, $id_abteilung, $startdatum, $enddatum) {
+    public function __construct($id_azubi, $id_ansprechpartner, $id_abteilung, $startdatum, $enddatum, $id = 0) {
         $this->ID = intval($id);
         $this->ID_Azubi = intval($id_azubi);
         $this->ID_Ansprechpartner = (empty($id_ansprechpartner)) ? NULL : intval($id_ansprechpartner);

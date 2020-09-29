@@ -29,6 +29,11 @@ function is_logged_in() {
 
 function is_token_valid() {
     if (!array_key_exists("csrfToken", $_POST)) return false;
-    if ($_POST["csrfToken"] === $_SESSION["csrf_token"]) return true;
+    if (sanitize_string($_POST["csrfToken"]) === $_SESSION["csrf_token"]) return true;
     return false;
+}
+
+function sanitize_string($data) {
+    $data = strip_tags($data);
+    return htmlspecialchars($data);
 }

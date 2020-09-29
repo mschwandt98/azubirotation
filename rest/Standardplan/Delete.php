@@ -6,7 +6,7 @@ if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists("id_ausbildungsberuf", $_POST)) {
 
-        $id = intval($_POST["id_ausbildungsberuf"]);
+        $id = intval(sanitize_string($_POST["id_ausbildungsberuf"]));
 
         if ($id !== 0 && !empty($id)) {
 

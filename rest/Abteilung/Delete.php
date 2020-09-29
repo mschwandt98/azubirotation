@@ -6,7 +6,7 @@ if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists("id", $_POST)) {
 
-        $id = intval($_POST["id"]);
+        $id = intval(sanitize_string($_POST["id"]));
 
         if ($id !== 0 && !empty($id)) {
 

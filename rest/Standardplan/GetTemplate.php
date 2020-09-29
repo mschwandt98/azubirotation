@@ -7,7 +7,9 @@ if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildun
     include_once(HELPER . "/DataHelper.php");
 
     $helper = new DataHelper();
-    $standardplan = array_values($helper->GetStandardPlaene($_GET["id_ausbildungsberuf"]))[0];
+    $standardplan = array_values($helper->GetStandardPlaene(
+        sanitize_string($_GET["id_ausbildungsberuf"])
+    ))[0];
 
     $statement = $pdo->prepare("SELECT * FROM " . T_ABTEILUNGEN . " ORDER BY Bezeichnung ASC;");
     $statement->execute();
