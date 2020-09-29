@@ -113,7 +113,7 @@ $weeksInTable = ceil(
 
                         <td class="plan-phase
                             <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
-                            <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark": ""; ?>"
+                            <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
                             data-date="<?= $currentDate; ?>"></td>
 
                     <?php endif; ?>

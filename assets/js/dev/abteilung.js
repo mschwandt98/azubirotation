@@ -16,6 +16,12 @@ jQuery(function($) {
             $("#EditAbteilungForm").hide();
         }
 
+        function RefreshFooter() {
+            $.get(API + "Refresh/Footer", function(data) {
+                $("#Footer").html(data);
+            });
+        }
+
         function ShowAbteilungen() {
             $("#ShowAbteilungenButton").click();
         }
@@ -87,6 +93,7 @@ jQuery(function($) {
                     maxAzubisInput.val("");
                     farbeInput.val("#ffffff");
 
+                    RefreshFooter();
                     ShowAbteilungen();
                 }
             })
@@ -134,6 +141,7 @@ jQuery(function($) {
                     maxAzubisInput.val("");
                     farbeInput.val("");
 
+                    RefreshFooter();
                     ShowAbteilungen();
                 }
             })
@@ -152,6 +160,7 @@ jQuery(function($) {
                     id: id
                 },
                 success: function() {
+                    RefreshFooter();
                     abteilung.remove();
                 }
             })

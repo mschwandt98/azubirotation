@@ -40,6 +40,12 @@ jQuery(function($) {
             $("#EditAzubiForm").hide();
         }
 
+        function RefreshPlan() {
+            $.get(API + "Refresh/Plan", function(data) {
+                $("#Plan").html(data);
+            });
+        }
+
         function ShowAzubis() {
             HideViews();
             $("#ShowAzubisButton").click();
@@ -147,6 +153,7 @@ jQuery(function($) {
                     emailInput.val("");
                     ausbildungsberufSelect.empty();
 
+                    RefreshPlan();
                     HideViews();
                     ShowAzubis();
                 }
@@ -236,6 +243,7 @@ jQuery(function($) {
                     ausbildungsstartInput.val("");
                     ausbildungsendeInput.val("");
 
+                    RefreshPlan();
                     HideViews();
                     ShowAzubis();
                 }
@@ -255,6 +263,7 @@ jQuery(function($) {
                     id: id
                 },
                 success: function() {
+                    RefreshPlan();
                     auszubildender.remove();
                 }
             })

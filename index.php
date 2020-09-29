@@ -22,9 +22,9 @@
 
 </head>
 <body>
-    <header><?php include_once(__DIR__ . "/header.php") ?></header>
-    <main><?php include_once(__DIR__ . "/main.php") ?></main>
-    <footer><?php include_once(__DIR__ . "/footer.php") ?></footer>
+    <header id="Header"><?php include_once(__DIR__ . "/header.php") ?></header>
+    <main id="Main"><?php include_once(__DIR__ . "/main.php") ?></main>
+    <footer id="Footer"><?php include_once(__DIR__ . "/footer.php") ?></footer>
 
     <?php if (is_logged_in()) : ?>
 
