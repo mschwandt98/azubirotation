@@ -1,28 +1,32 @@
 <?php
-if (array_key_exists("bezeichnung", $_POST) && array_key_exists("maxAzubis", $_POST) && array_key_exists("farbe", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    $bezeichnung = $_POST["bezeichnung"];
-    $maxAzubis = intval($_POST["maxAzubis"]);
-    $farbe = $_POST["farbe"];
+if (is_logged_in()) {
 
-    if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
+    if (array_key_exists("bezeichnung", $_POST) && array_key_exists("maxAzubis", $_POST) && array_key_exists("farbe", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+        $bezeichnung = $_POST["bezeichnung"];
+        $maxAzubis = intval($_POST["maxAzubis"]);
+        $farbe = $_POST["farbe"];
 
-        global $pdo;
+        if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
 
-        $statement = $pdo->prepare(
-            "INSERT INTO " . T_ABTEILUNGEN . "(Bezeichnung, MaxAzubis, Farbe)
-            VALUES (:bezeichnung, :maxAzubis, :farbe);"
-        );
+            global $pdo;
 
-        if ($statement->execute([
-            ":bezeichnung"   => $bezeichnung,
-            ":maxAzubis"     => $maxAzubis,
-            ":farbe"         => $farbe])) {
+            $statement = $pdo->prepare(
+                "INSERT INTO " . T_ABTEILUNGEN . "(Bezeichnung, MaxAzubis, Farbe)
+                VALUES (:bezeichnung, :maxAzubis, :farbe);"
+            );
 
-            http_response_code(200);
-            exit;
+            if ($statement->execute([
+                ":bezeichnung"   => $bezeichnung,
+                ":maxAzubis"     => $maxAzubis,
+                ":farbe"         => $farbe])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
 }

@@ -1,21 +1,25 @@
 <?php
-if (array_key_exists("id", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    $id = intval($_POST["id"]);
+if (is_logged_in()) {
 
-    if ($id !== 0 && !empty($id)) {
+    if (array_key_exists("id", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+        $id = intval($_POST["id"]);
 
-        global $pdo;
+        if ($id !== 0 && !empty($id)) {
 
-        $statement = $pdo->prepare(
-            "DELETE FROM " . T_AUSBILDUNGSBERUFE . " WHERE ID = :id;"
-        );
+            global $pdo;
 
-        if ($statement->execute([":id" => $id])) {
-            http_response_code(200);
-            exit;
+            $statement = $pdo->prepare(
+                "DELETE FROM " . T_AUSBILDUNGSBERUFE . " WHERE ID = :id;"
+            );
+
+            if ($statement->execute([":id" => $id])) {
+                http_response_code(200);
+                exit;
+            }
         }
     }
 }

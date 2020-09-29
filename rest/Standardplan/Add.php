@@ -1,39 +1,43 @@
 <?php
-if (array_key_exists("id_ausbildungsberuf", $_POST) && array_key_exists("phasen", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    $id_ausbildungsberuf = intval($_POST["id_ausbildungsberuf"]);
-    $phasen = $_POST["phasen"];
+if (is_logged_in()) {
 
-    if (!empty($id_ausbildungsberuf) && !empty($phasen)) {
+    if (array_key_exists("id_ausbildungsberuf", $_POST) && array_key_exists("phasen", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+        $id_ausbildungsberuf = intval($_POST["id_ausbildungsberuf"]);
+        $phasen = $_POST["phasen"];
 
-        global $pdo;
+        if (!empty($id_ausbildungsberuf) && !empty($phasen)) {
 
-        foreach ($phasen as $phase) {
+            global $pdo;
 
-            $statement = $pdo->prepare(
-                "INSERT INTO " . T_STANDARDPLAENE . "(ID_Ausbildungsberuf, ID_Abteilung, AnzahlWochen, Praeferieren, Optional)
-                VALUES (:id_ausbildungsberuf, :id_abteilung, :wochen, :praeferieren, :optional);"
-            );
+            foreach ($phasen as $phase) {
 
-            $phase["praeferieren"] = filter_var($phase["praeferieren"], FILTER_VALIDATE_BOOLEAN);
-            $phase["optional"] = filter_var($phase["optional"], FILTER_VALIDATE_BOOLEAN);
+                $statement = $pdo->prepare(
+                    "INSERT INTO " . T_STANDARDPLAENE . "(ID_Ausbildungsberuf, ID_Abteilung, AnzahlWochen, Praeferieren, Optional)
+                    VALUES (:id_ausbildungsberuf, :id_abteilung, :wochen, :praeferieren, :optional);"
+                );
 
-            if (!$statement->execute([
-                ":id_ausbildungsberuf"  => $id_ausbildungsberuf,
-                ":id_abteilung"         => intval($phase["id_abteilung"]),
-                ":wochen"               => intval($phase["wochen"]),
-                ":praeferieren"         => $phase["praeferieren"],
-                ":optional"             => $phase["optional"] ])) {
+                $phase["praeferieren"] = filter_var($phase["praeferieren"], FILTER_VALIDATE_BOOLEAN);
+                $phase["optional"] = filter_var($phase["optional"], FILTER_VALIDATE_BOOLEAN);
 
-                http_response_code(400);
-                exit;
+                if (!$statement->execute([
+                    ":id_ausbildungsberuf"  => $id_ausbildungsberuf,
+                    ":id_abteilung"         => intval($phase["id_abteilung"]),
+                    ":wochen"               => intval($phase["wochen"]),
+                    ":praeferieren"         => $phase["praeferieren"],
+                    ":optional"             => $phase["optional"] ])) {
+
+                    http_response_code(400);
+                    exit;
+                }
             }
-        }
 
-        http_response_code(200);
-        exit;
+            http_response_code(200);
+            exit;
+        }
     }
 }
 

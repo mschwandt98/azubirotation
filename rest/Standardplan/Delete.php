@@ -1,21 +1,25 @@
 <?php
-if (array_key_exists("id_ausbildungsberuf", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    $id = intval($_POST["id_ausbildungsberuf"]);
+if (is_logged_in() ) {
 
-    if ($id !== 0 && !empty($id)) {
+    if (array_key_exists("id_ausbildungsberuf", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+        $id = intval($_POST["id_ausbildungsberuf"]);
 
-        global $pdo;
+        if ($id !== 0 && !empty($id)) {
 
-        $statement = $pdo->prepare(
-            "DELETE FROM " . T_STANDARDPLAENE . " WHERE ID_Ausbildungsberuf = :id;"
-        );
+            global $pdo;
 
-        if ($statement->execute([":id" => $id])) {
-            http_response_code(200);
-            exit;
+            $statement = $pdo->prepare(
+                "DELETE FROM " . T_STANDARDPLAENE . " WHERE ID_Ausbildungsberuf = :id;"
+            );
+
+            if ($statement->execute([":id" => $id])) {
+                http_response_code(200);
+                exit;
+            }
         }
     }
 }

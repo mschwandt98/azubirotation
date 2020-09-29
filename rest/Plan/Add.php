@@ -1,65 +1,70 @@
 <?php
 use Core\Helper\DateHelper;
 
-if (array_key_exists("azubis", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    $azubis = $_POST["azubis"];
+if (is_logged_in()) {
 
-    if (!empty($azubis)) {
+    if (array_key_exists("azubis", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
-        include_once(HELPER . "/DateHelper.php");
+        $azubis = $_POST["azubis"];
 
-        global $pdo;
+        if (!empty($azubis)) {
 
-        foreach ($azubis as $azubi) {
+            include_once(HELPER . "/DateHelper.php");
 
-            $id_azubi = intval($azubi["id"]);
-            $phasen = [];
+            global $pdo;
 
-            foreach ($azubi["phasen"] as $phase) {
+            foreach ($azubis as $azubi) {
 
-                $endDate = DateHelper::NextSunday($phase["date"]);
+                $id_azubi = intval($azubi["id"]);
+                $phasen = [];
 
-                $phasen[] = [
-                    "Startdatum" => $phase["date"],
-                    "Enddatum" => $endDate,
-                    "ID_Abteilung" => intval($phase["id_abteilung"]),
-                    "ID_Ansprechpartner" => (empty($phase["id_ansprechpartner"])) ? NULL : intval($phase["id_ansprechpartner"])
-                ];
+                foreach ($azubi["phasen"] as $phase) {
+
+                    $endDate = DateHelper::NextSunday($phase["date"]);
+
+                    $phasen[] = [
+                        "Startdatum" => $phase["date"],
+                        "Enddatum" => $endDate,
+                        "ID_Abteilung" => intval($phase["id_abteilung"]),
+                        "ID_Ansprechpartner" => (empty($phase["id_ansprechpartner"])) ? NULL : intval($phase["id_ansprechpartner"])
+                    ];
+                }
+
+                $statement = $pdo->prepare("DELETE FROM " . T_PLAENE . " WHERE ID_Auszubildender = $id_azubi");
+
+                if (!$statement->execute()) {
+                    http_response_code(400);
+                    exit;
+                }
+
+                $sql = "";
+
+                foreach ($phasen as $phase) {
+
+                    $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
+                        VALUES (
+                            $id_azubi, " .
+                            ($phase["ID_Ansprechpartner"] ?? ":null" ) . ", " .
+                            $phase["ID_Abteilung"] . ", '" .
+                            $phase["Startdatum"] . "', '" .
+                            $phase["Enddatum"] ."'
+                        );";
+                }
+
+                $statement = $pdo->prepare($sql);
+
+                if (!$statement->execute([ ":null" => NULL ])) {
+                    http_response_code(400);
+                    exit;
+                }
             }
 
-            $statement = $pdo->prepare("DELETE FROM " . T_PLAENE . " WHERE ID_Auszubildender = $id_azubi");
-
-            if (!$statement->execute()) {
-                http_response_code(400);
-                exit;
-            }
-
-            $sql = "";
-
-            foreach ($phasen as $phase) {
-
-                $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
-                    VALUES (
-                        $id_azubi, " .
-                        ($phase["ID_Ansprechpartner"] ?? ":null" ) . ", " .
-                        $phase["ID_Abteilung"] . ", '" .
-                        $phase["Startdatum"] . "', '" .
-                        $phase["Enddatum"] ."'
-                    );";
-            }
-
-            $statement = $pdo->prepare($sql);
-
-            if (!$statement->execute([ ":null" => NULL ])) {
-                http_response_code(400);
-                exit;
-            }
+            http_response_code(200);
+            exit(include_once(BASE . "/core/Plan.php"));
         }
-
-        http_response_code(200);
-        exit(include_once(BASE . "/core/Plan.php"));
     }
 }
 

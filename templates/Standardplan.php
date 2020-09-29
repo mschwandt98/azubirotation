@@ -1,4 +1,4 @@
-<?php $viewBag = (isset($viewBag)) ? $viewBag : []; ?>
+<?php if (empty($viewBag)) return; ?>
 
 <div>
     <div><?= $viewBag["Standardplan"]->Ausbildungsberuf ?></div>

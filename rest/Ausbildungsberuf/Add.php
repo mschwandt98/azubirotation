@@ -1,25 +1,26 @@
 <?php
-if (array_key_exists("bezeichnung", $_POST)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-    /**
-     * @var string Bezeichnung
-     */
-    $bezeichnung = $_POST["bezeichnung"];
+if (is_logged_in()) {
 
-    if (!empty($bezeichnung)) {
+    if (array_key_exists("bezeichnung", $_POST)) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+        $bezeichnung = $_POST["bezeichnung"];
 
-        global $pdo;
+        if (!empty($bezeichnung)) {
 
-        $statement = $pdo->prepare(
-            "INSERT INTO " . T_AUSBILDUNGSBERUFE . "(Bezeichnung)
-            VALUES (:bezeichnung);"
-        );
+            global $pdo;
 
-        if ($statement->execute([ ":bezeichnung"   => $bezeichnung ])) {
-            http_response_code(200);
-            exit;
+            $statement = $pdo->prepare(
+                "INSERT INTO " . T_AUSBILDUNGSBERUFE . "(Bezeichnung)
+                VALUES (:bezeichnung);"
+            );
+
+            if ($statement->execute([ ":bezeichnung"   => $bezeichnung ])) {
+                http_response_code(200);
+                exit;
+            }
         }
     }
 }

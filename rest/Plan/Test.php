@@ -2,9 +2,15 @@
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 use Core\PlanErrorCodes;
-use Models\Plan;
 
+session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
+
+if (!is_logged_in()) {
+    http_response_code(400);
+    exit;
+}
+
 include_once(HELPER . "/DataHelper.php");
 include_once(HELPER . "/DateHelper.php");
 include_once(BASE . "/core/PlanErrorCodes.php");
