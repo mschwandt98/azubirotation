@@ -2,6 +2,7 @@
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 use Core\PlanErrorCodes;
+use Models\Plan;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 include_once(HELPER . "/DataHelper.php");
@@ -17,16 +18,20 @@ $Plaene         = $helper ->GetPlaene();
 
 $errors = [];
 
+// Azubi ist in länger in Abteilungen als im Plan vorgesehen &
 // Planung außerhalb des Ausbildungszeitraums &
 // Abteilung am Anfang der Ausbildung entspricht Standardplan
 foreach ($Azubis as $azubi) {
 
+    $abteilungenCounter = [];
     foreach ($Plaene as $plan) {
         if ($plan->ID_Azubi === $azubi->ID) {
             if ($plan->Enddatum < $azubi->Ausbildungsstart || $plan->Startdatum > $azubi->Ausbildungsende) {
                 $key = DateHelper::FormatDate($plan->Startdatum) . " - " . DateHelper::FormatDate($plan->Enddatum);
                 $errors[PlanErrorCodes::Ausbildungszeitraum][$azubi->ID][$key] = $plan;
             }
+
+            $abteilungenCounter[$plan->ID_Abteilung] = ($abteilungenCounter[$plan->ID_Abteilung] ?? 0) + 1;
         }
     }
 
@@ -55,6 +60,14 @@ foreach ($Azubis as $azubi) {
                         $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID] = $plan->ID_Abteilung;
                     }
                 }
+            }
+        }
+    }
+
+    foreach ($standardplan->Phasen as $phase) {
+        if (array_key_exists($phase->ID_Abteilung, $abteilungenCounter)) {
+            if ($abteilungenCounter[$phase->ID_Abteilung] > $phase->Wochen) {
+                $errors[PlanErrorCodes::WochenInAbteilungen][$azubi->ID] = $phase->ID_Abteilung;
             }
         }
     }

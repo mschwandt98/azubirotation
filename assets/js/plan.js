@@ -116,9 +116,9 @@ jQuery(function($) {
                     $(item).removeAttr("style")
                         .removeAttr("data-id-abteilung")
                         .removeAttr("data-id-ansprechpartner")
-                        .removeClass("selected");
+                        .removeClass("selected")
+                        .empty();
                 });
-                $(".set-abteilung-popup").remove();
                 return;
             }
 
@@ -159,7 +159,7 @@ jQuery(function($) {
         $("#Plan").on("click", ".set-ansprechpartner-popup li", function() {
 
             tdItems.forEach(item => {
-                $(item).attr("data-id-ansprechpartner", $(this).data("id"));
+                $(item).attr("data-id-ansprechpartner", $(this).data("id")).empty();
             })
 
             RemoveSelectedStatus();

@@ -11,52 +11,93 @@ include_once(BASE . "/core/PlanErrorCodes.php");
 $helper = new DataHelper();
 ?>
 
-<?php if (array_key_exists(PlanErrorCodes::Ausbildungszeitraum, $errors)) : ?>
+<div>
 
-    <div>Folgende Planungen liegen außerhalb des Ausbildungszeitraums des jeweiligen Auszubildenden:</div>
+    <?php if (array_key_exists(PlanErrorCodes::Ausbildungszeitraum, $errors)) : ?>
 
-    <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $id_azubi => $errorList) : ?>
+        <div class="error-container">
+            <div class="description">
+                Planungen außerhalb des Ausbildungszeitraums des jeweiligen Auszubildenden
+            </div>
 
-        <div>
-            <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+            <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $id_azubi => $errorList) : ?>
+
+                <div>
+                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
+                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+                </div>
+
+                <?php foreach ($errorList as $week => $plan) : ?>
+
+                    <li>Woche: <?= $week; ?></li>
+
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+
         </div>
 
-        <?php foreach ($errorList as $week => $plan) : ?>
+    <?php endif; ?>
+    <?php if (array_key_exists(PlanErrorCodes::PraeferierteAbteilungen, $errors)) : ?>
 
-            <li>Woche: <?= $week; ?></li>
+        <div class="error-container">
+            <div class="description">
+                Auszubildende in nicht präferierten Abteilungen am Anfang ihrer jeweiligen Ausbildung
+            </div>
 
-        <?php endforeach; ?>
+            <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $id_abteilung) : ?>
 
-    <?php endforeach; ?>
-<?php endif; ?>
-<?php if (array_key_exists(PlanErrorCodes::PraeferierteAbteilungen, $errors)) : ?>
+                <div>
+                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
+                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+                    (<?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>)
+                </div>
 
-    <div>Folgende Auszubildenden sind laut Standardplan am Anfang ihrer Ausbildungen in den falschen Abteilungen:</div>
+            <?php endforeach; ?>
 
-    <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $id_abteilung) : ?>
-
-        <div>
-            <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-            <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
-            (<?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>)
         </div>
 
-    <?php endforeach; ?>
-<?php endif; ?>
-<?php if (array_key_exists(PlanErrorCodes::AbteilungenMaxAzubis, $errors)) : ?>
+    <?php endif; ?>
+    <?php if (array_key_exists(PlanErrorCodes::AbteilungenMaxAzubis, $errors)) : ?>
 
-    <div>In folgenden Zeiträumen haben die jeweiligen Abteilungen mehr Auszubildende als erlaubt.</div>
+        <div class="error-container">
+            <div class="description">
+                Zeiträume, in denen Abteilungen mehr Auszubildene als vorgesehen zugeordnet sind
+            </div>
 
-    <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
+            <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
 
-        <div><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
-        <div>Maximale Anzahl an Auszubildenden: <?= $helper->GetAbteilungen($id_abteilung)->MaxAzubis; ?></div>
+                <div><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
+                <div>Maximale Anzahl an Auszubildenden: <?= $helper->GetAbteilungen($id_abteilung)->MaxAzubis; ?></div>
 
-        <?php foreach ($errorList as $week => $anzahlAzubis) : ?>
+                <?php foreach ($errorList as $week => $anzahlAzubis) : ?>
 
-            <li>Woche: <?= $week; ?>, Anzahl an Auszubildenden: <?= $anzahlAzubis; ?></li>
+                    <li>Woche: <?= $week; ?>, Anzahl an Auszubildenden: <?= $anzahlAzubis; ?></li>
 
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-<?php endif; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+    <?php if (array_key_exists(PlanErrorCodes::WochenInAbteilungen, $errors)) : ?>
+
+        <div class="error-container">
+            <div class="description">
+                Auszubildene, die länger in Abteilungen sind als vorgeschrieben
+            </div>
+
+            <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $id_abteilung) : ?>
+
+                <div>
+                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
+                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
+                    <?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</div>

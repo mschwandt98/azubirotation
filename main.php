@@ -9,4 +9,20 @@
     </div>
 
 <?php endif; ?>
+
 <div id="Plan"><?php include_once("core/Plan.php"); ?></div>
+
+<?php if (is_logged_in()) : ?>
+
+<div class="plan-actions">
+    <div>
+        <input type="button" id="SavePlan" value="Planung speichern" />
+        <input type="button" id="TestPlan" value="Auf Fehler testen" />
+    </div>
+    <div>
+        <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+    </div>
+</div>
+<div id="PlanErrors"></div>
+
+<?php endif; ?>
