@@ -1,5 +1,6 @@
 /node_modules
 /assets/css/*.css
 /assets/css/*.map
+/assets/js/*.js
 /.vscode
 /.git

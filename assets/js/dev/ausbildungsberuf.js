@@ -18,7 +18,7 @@ jQuery(function($) {
             $("#ShowAusbildungsberufeButton").click();
         }
 
-        $("#ShowAusbildungsberufeButton").on("click", function(e) {
+        $("#ShowAusbildungsberufeButton").on("click", function() {
 
             $.get(APIAUSBILDUNGSBERUF + "Get", function(data) {
                 data = JSON.parse(data);
@@ -55,7 +55,7 @@ jQuery(function($) {
             });
         });
 
-        $("#ShowAddAusbildungsberufForm").on("click", function(e) {
+        $("#ShowAddAusbildungsberufForm").on("click", function() {
             HideViews();
             $("#AddAusbildungsberufForm").show();
         });
@@ -73,19 +73,16 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     bezeichnung: bezeichnungInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     bezeichnungInput.val("");
 
                     HideViews();
                     ShowAusbildungsberufe();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Ausbildungsberufe").on("click", ".edit-item-child", function(e) {
+        $("#Ausbildungsberufe").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
@@ -113,20 +110,17 @@ jQuery(function($) {
                     id: idInput.val(),
                     bezeichnung: bezeichnungInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     idInput.val("");
                     bezeichnungInput.val("");
 
                     HideViews();
                     ShowAusbildungsberufe();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Ausbildungsberufe").on("click", ".delete-item-child", function(e) {
+        $("#Ausbildungsberufe").on("click", ".delete-item-child", function() {
 
             var id = $(this).data(ID);
             var ausbildungsberuf = $(this).closest(".item-child");
@@ -138,11 +132,8 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     id: id
                 },
-                success: function(response) {
+                success: function() {
                     ausbildungsberuf.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });

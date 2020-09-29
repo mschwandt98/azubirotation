@@ -208,9 +208,6 @@ jQuery(function($) {
                 },
                 success: function(response) {
                     $("#Plan").html(response);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             });
         });
@@ -220,13 +217,7 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: API + "Plan/SendMail",
-                data: { csrfToken: $("#CsrfToken").val() },
-                success: function(response) {
-                    // nothing to do...
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
-                }
+                data: { csrfToken: $("#CsrfToken").val() }
             });
         });
 
@@ -240,9 +231,6 @@ jQuery(function($) {
                     if (response != true) {
                         $("#PlanErrors").html(response);
                     }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             });
         });

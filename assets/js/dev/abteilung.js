@@ -20,7 +20,7 @@ jQuery(function($) {
             $("#ShowAbteilungenButton").click();
         }
 
-        $("#ShowAbteilungenButton").on("click", function(e) {
+        $("#ShowAbteilungenButton").on("click", function() {
 
             $.get(APIABTEILUNG + "Get", function(data) {
                 data = JSON.parse(data);
@@ -59,7 +59,7 @@ jQuery(function($) {
             });
         });
 
-        $("#ShowAddAbteilungForm").on("click", function(e) {
+        $("#ShowAddAbteilungForm").on("click", function() {
             HideViews();
             $("#AddAbteilungForm").show();
         });
@@ -82,20 +82,17 @@ jQuery(function($) {
                     maxAzubis: maxAzubisInput.val(),
                     farbe: farbeInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     bezeichnungInput.val("");
                     maxAzubisInput.val("");
                     farbeInput.val("#ffffff");
 
                     ShowAbteilungen();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Abteilungen").on("click", ".edit-item-child", function(e) {
+        $("#Abteilungen").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
@@ -131,21 +128,18 @@ jQuery(function($) {
                     maxAzubis: maxAzubisInput.val(),
                     farbe: farbeInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     idInput.val("");
                     bezeichnungInput.val("");
                     maxAzubisInput.val("");
                     farbeInput.val("");
 
                     ShowAbteilungen();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Abteilungen").on("click", ".delete-item-child", function(e) {
+        $("#Abteilungen").on("click", ".delete-item-child", function() {
 
             var id = $(this).data(ID);
             var abteilung = $(this).closest(".item-child");
@@ -157,11 +151,8 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     id: id
                 },
-                success: function(response) {
+                success: function() {
                     abteilung.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });

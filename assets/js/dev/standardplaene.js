@@ -71,7 +71,7 @@ jQuery(function($) {
             $("#ShowStandardplaeneButton").click();
         }
 
-        $("#ShowStandardplaeneButton").on("click", function(e) {
+        $("#ShowStandardplaeneButton").on("click", function() {
 
             GetAbteilungen().then(abteilungen => {
                 Abteilungen = JSON.parse(abteilungen);
@@ -122,7 +122,7 @@ jQuery(function($) {
             });
         }
 
-        $("#ShowAddStandardplanForm").on("click", function(e) {
+        $("#ShowAddStandardplanForm").on("click", function() {
 
             var form = $("#AddStandardplanForm");
 
@@ -149,11 +149,11 @@ jQuery(function($) {
             })
         });
 
-        $("#AddStandardplanForm").on("click", "input.delete-phase", function(e) {
+        $("#AddStandardplanForm").on("click", "input.delete-phase", function() {
             $(this).closest(".phase").remove();
         });
 
-        $("#AddStandardplanForm").on("click", "input.add-phase", function(e) {
+        $("#AddStandardplanForm").on("click", "input.add-phase", function() {
             AddPhaseHtml($("#AddStandardplanForm .plan-phasen").eq(0));
         });
 
@@ -189,7 +189,7 @@ jQuery(function($) {
                     id_ausbildungsberuf: ausbildungsberufeSelect.val(),
                     phasen: phasen
                 },
-                success: function(response) {
+                success: function() {
 
                     ausbildungsberufeSelect.find("option").remove();
                     phaseDivs.not(":first").remove();
@@ -200,14 +200,11 @@ jQuery(function($) {
                     phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).val("");
 
                     ShowStandardPlaene();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Standardplaene").on("click", ".edit-item-child", function(e) {
+        $("#Standardplaene").on("click", ".edit-item-child", function() {
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
 
@@ -222,11 +219,11 @@ jQuery(function($) {
             });
         });
 
-        $("#EditStandardplanForm").on("click", "input.delete-phase", function(e) {
+        $("#EditStandardplanForm").on("click", "input.delete-phase", function() {
             $(this).closest(".phase").remove();
         });
 
-        $("#EditStandardplanForm").on("click", "input.add-phase", function(e) {
+        $("#EditStandardplanForm").on("click", "input.add-phase", function() {
             AddPhaseHtml($("#EditStandardplanForm .plan-phasen").eq(0));
         });
 
@@ -262,7 +259,7 @@ jQuery(function($) {
                     id_ausbildungsberuf: idAusbildungsberufInput.val(),
                     phasen: phasen
                 },
-                success: function(response) {
+                success: function() {
 
                     phaseDivs.not(":first").remove();
                     phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find("option").remove();
@@ -271,14 +268,11 @@ jQuery(function($) {
 
                     HideViews();
                     ShowStandardPlaene();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Standardplaene").on("click", ".delete-item-child", function(e) {
+        $("#Standardplaene").on("click", ".delete-item-child", function() {
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
             var standardplan = $(this).closest(".item-child");
@@ -290,11 +284,8 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     id_ausbildungsberuf: id_ausbildungsberuf
                 },
-                success: function(response) {
+                success: function() {
                     standardplan.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });

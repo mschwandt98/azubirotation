@@ -24,7 +24,7 @@ jQuery(function($) {
             $("#ShowAnsprechpartnerButton").click();
         }
 
-        $("#ShowAnsprechpartnerButton").on("click", function(e) {
+        $("#ShowAnsprechpartnerButton").on("click", function() {
 
             $.get(APIANSPRECHPARTNER + "Get", function(data) {
                 data = JSON.parse(data);
@@ -64,7 +64,7 @@ jQuery(function($) {
             });
         });
 
-        $("#ShowAddAnsprechpartnerForm").on("click", function(e) {
+        $("#ShowAddAnsprechpartnerForm").on("click", function() {
 
             var form = $("#AddAnsprechpartnerForm");
             var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`);
@@ -102,21 +102,18 @@ jQuery(function($) {
                     email: emailInput.val(),
                     id_abteilung: abteilungSelect.val()
                 },
-                success: function(response) {
+                success: function() {
                     nameInput.val("");
                     emailInput.val("");
                     abteilungSelect.find("option").remove();
 
                     HideViews();
                     ShowAnsprechpartner();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Ansprechpartner").on("click", ".edit-item-child", function(e) {
+        $("#Ansprechpartner").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
             var name = $(this).data(NAME);
@@ -165,7 +162,7 @@ jQuery(function($) {
                     email: emailInput.val(),
                     id_abteilung: abteilungSelect.val()
                 },
-                success: function(response) {
+                success: function() {
                     idInput.val("");
                     nameInput.val("");
                     emailInput.val("");
@@ -173,14 +170,11 @@ jQuery(function($) {
 
                     HideViews();
                     $("#ShowAnsprechpartnerButton").click();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Ansprechpartner").on("click", ".delete-item-child", function(e) {
+        $("#Ansprechpartner").on("click", ".delete-item-child", function() {
 
             var id = $(this).data(ID);
             var ansprechpartner = $(this).closest(".item-child");
@@ -192,11 +186,8 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     id: id
                 },
-                success: function(response) {
+                success: function() {
                     ansprechpartner.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });

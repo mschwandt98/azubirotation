@@ -45,7 +45,7 @@ jQuery(function($) {
             $("#ShowAzubisButton").click();
         }
 
-        $("#ShowAzubisButton").on("click", function(e) {
+        $("#ShowAzubisButton").on("click", function() {
 
             $.get(APIAZUBI + "Get", function(data) {
                 data = JSON.parse(data);
@@ -87,7 +87,7 @@ jQuery(function($) {
             });
         });
 
-        $("#ShowAddAzubiForm").on("click", function(e) {
+        $("#ShowAddAzubiForm").on("click", function() {
 
             var ausbildungsberufSelect = $("#AddAzubiForm").find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
 
@@ -141,7 +141,7 @@ jQuery(function($) {
                     ausbildungsstart: ausbildungsstartInput.val(),
                     ausbildungsende: ausbildungsendeInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     vornameInput.val("");
                     nachnameInput.val("");
                     emailInput.val("");
@@ -149,14 +149,11 @@ jQuery(function($) {
 
                     HideViews();
                     ShowAzubis();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Azubis").on("click", ".edit-item-child", function(e) {
+        $("#Azubis").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
             var vorname = $(this).data(VORNAME);
@@ -230,7 +227,7 @@ jQuery(function($) {
                     ausbildungsstart: ausbildungsstartInput.val(),
                     ausbildungsende: ausbildungsendeInput.val()
                 },
-                success: function(response) {
+                success: function() {
                     idInput.val("");
                     vornameInput.val("");
                     nachnameInput.val("");
@@ -241,14 +238,11 @@ jQuery(function($) {
 
                     HideViews();
                     ShowAzubis();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
 
-        $("#Azubis").on("click", ".delete-item-child", function(e) {
+        $("#Azubis").on("click", ".delete-item-child", function() {
 
             var id = $(this).data(ID);
             var auszubildender = $(this).closest(".item-child");
@@ -260,11 +254,8 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     id: id
                 },
-                success: function(response) {
+                success: function() {
                     auszubildender.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
                 }
             })
         });
