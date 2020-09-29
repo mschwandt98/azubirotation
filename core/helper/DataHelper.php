@@ -13,8 +13,7 @@ use Models\Plan;
 
 if (!defined("BASE")) {
     include_once(BASE . "/config.php");
-}
-else {
+} else {
     include_once(dirname(dirname(__DIR__)) . "/config.php");
 }
 
@@ -48,11 +47,7 @@ class DataHelper {
             );
         }
 
-        if (!empty($id)) {
-            return $abteilungen[0];
-        }
-
-        return $abteilungen;
+        return (empty($id)) ? $abteilungen : $abteilungen[0];
     }
 
     public function GetAnsprechpartner($id = null) {
@@ -74,14 +69,13 @@ class DataHelper {
             );
         }
 
-        return $ansprechpartner;
+        return (empty($id) ? $ansprechpartner : $ansprechpartner[0]);
     }
 
-    public function GetAusbildungsberufe($id = null) {
+    public function GetAusbildungsberufe() {
 
         $statement = $this->db->prepare(
             "SELECT * FROM " . T_AUSBILDUNGSBERUFE .
-            $this->CreateWhereId($id) .
             "ORDER BY Bezeichnung ASC;"
         );
         $statement->execute();
@@ -119,20 +113,16 @@ class DataHelper {
             );
         }
 
-        if (!empty($id)) {
-            return $azubis[0];
-        }
-
-        return $azubis;
+        return (empty($id)) ? $azubis : $azubis[0];
     }
 
-    public function GetStandardPlaene($id = null) {
+    public function GetStandardPlaene($id_ausbildungsberuf = null) {
 
         $sql_where = "";
 
-        if ($id !== null) {
-            $id = intval($id);
-            $sql_where = " WHERE ab.ID = $id";
+        if ($id_ausbildungsberuf !== null) {
+            $id_ausbildungsberuf = intval($id_ausbildungsberuf);
+            $sql_where = " WHERE ab.ID = $id_ausbildungsberuf";
         }
 
         $statement = $this->db->prepare(
@@ -195,10 +185,6 @@ class DataHelper {
     }
 
     private function CreateWhereId($id) {
-        if ($id !== null) {
-            return " WHERE ID = $id ";
-        }
-
-        return " ";
+        return (empty($id)) ? " " : " WHERE ID = $id ";
     }
 }

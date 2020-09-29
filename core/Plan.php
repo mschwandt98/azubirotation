@@ -2,9 +2,7 @@
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 include_once(dirname(__DIR__) . "/config.php");
 include_once(HELPER . "/DateHelper.php");
@@ -14,7 +12,6 @@ $helper = new DataHelper();
 
 $Abteilungen        = $helper->GetAbteilungen();
 $Ansprechpartner    = $helper->GetAnsprechpartner();
-$Ausbildungsberufe  = $helper->GetAusbildungsberufe();
 $Azubis             = $helper->GetAzubis();
 $Standardplaene     = $helper->GetStandardPlaene();
 $Plaene             = $helper->GetPlaene();
@@ -93,11 +90,12 @@ $weeksInTable = ceil(
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
                     <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
+                        <?php $abteilung = $helper->GetAbteilungen($plan->ID_Abteilung); ?>
 
                         <td class="plan-phase
                             <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
                             <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
-                            style="background-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>; border-color: <?= GetAbteilungsFarbe($plan->ID_Abteilung); ?>;"
+                            style="background-color: <?= $abteilung->Farbe; ?>; border-color: <?= $abteilung->Farbe; ?>;"
                             data-date="<?= $currentDate; ?>"
                             data-id-abteilung="<?= $plan->ID_Abteilung;?>"
                             data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
@@ -105,7 +103,7 @@ $weeksInTable = ceil(
 
                             <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate)) : ?>
 
-                                <span class="ansprechpartner-name"><?= GetAnsprechpartnerName($plan->ID_Ansprechpartner); ?></span>
+                                <span class="ansprechpartner-name"><?= $helper->GetAnsprechpartner($plan->ID_Ansprechpartner)->Name; ?></span>
 
                             <?php endif; ?>
 
@@ -115,7 +113,7 @@ $weeksInTable = ceil(
 
                         <td class="plan-phase
                             <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
-                            <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
+                            <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark": ""; ?>"
                             data-date="<?= $currentDate; ?>"></td>
 
                     <?php endif; ?>
@@ -140,28 +138,6 @@ function AzubiHasPlan($azubi, $startDate) {
     }
 
     return false;
-}
-
-function GetAbteilungsFarbe($id_abteilung) {
-
-    global $Abteilungen;
-
-    foreach ($Abteilungen as $abteilung) {
-        if ($id_abteilung === $abteilung->ID) {
-            return $abteilung->Farbe;
-        }
-    }
-}
-
-function GetAnsprechpartnerName($id_ansprechpartner) {
-
-    global $Ansprechpartner;
-
-    foreach ($Ansprechpartner as $ansprechpartner) {
-        if ($id_ansprechpartner === $ansprechpartner->ID) {
-            return $ansprechpartner->Name;
-        }
-    }
 }
 
 function IsAusbildungsstart($ausbildungsstart, $date) {
