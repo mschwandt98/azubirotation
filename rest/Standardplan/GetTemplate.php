@@ -20,9 +20,9 @@ if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildun
         "Abteilungen"   => $abteilungen
     ];
 
-    ob_start();
+    ob_start("minifier");
     include_once(BASE . "/templates/Standardplan.php");
-    exit(ob_get_clean());
+    exit(ob_end_flush());
 }
 
 http_response_code(400);

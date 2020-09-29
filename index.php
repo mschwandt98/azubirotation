@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php include(__DIR__ . "/config.php"); ?>
+<?php ob_start("minifier"); ?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -39,3 +40,5 @@
 
 </body>
 </html>
+
+<?php ob_end_flush(); ?>

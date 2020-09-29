@@ -33,6 +33,17 @@ function is_token_valid() {
     return false;
 }
 
+function minifier($code) {
+    $search = [
+        "/\>[^\S ]+/s",     // Remove whitespaces after tags
+        "/[^\S ]+\</s",     // Remove whitespaces before tags
+        "/(\s)+/s",         // Remove multiple whitespace sequences
+        "/<!--(.|\s)*?-->/" // Removes comments
+    ];
+    $replace = array(">", "<", "\\1");
+    return preg_replace($search, $replace, $code);
+}
+
 function sanitize_string($data) {
     $data = strip_tags($data);
     return htmlspecialchars($data);

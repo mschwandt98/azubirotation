@@ -196,4 +196,11 @@ foreach ($Abteilungen as $abteilung) {
     }
 }
 
-exit ((empty($errors)) ? true : include_once(BASE . "/templates/PlanErrors.php"));
+if (empty($errors)) {
+    exit(true);
+}
+
+ob_start("minifier");
+include_once(BASE . "/templates/PlanErrors.php");
+ob_end_flush();
+exit();
