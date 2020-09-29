@@ -133,6 +133,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIAZUBI + "Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
                     email: emailInput.val(),
@@ -217,6 +218,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIAZUBI + "Edit",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id: idInput.val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
@@ -251,7 +253,10 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: APIAZUBI + "Delete",
-                data: { id: id },
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id: id
+                },
                 success: function(response) {
                     auszubildender.remove();
                 },

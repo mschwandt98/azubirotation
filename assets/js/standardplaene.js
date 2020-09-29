@@ -182,6 +182,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APISTANDARDPLAN + "Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id_ausbildungsberuf: ausbildungsberufeSelect.val(),
                     phasen: phasen
                 },
@@ -254,6 +255,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APISTANDARDPLAN + "Edit",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id_ausbildungsberuf: idAusbildungsberufInput.val(),
                     phasen: phasen
                 },
@@ -281,7 +283,10 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: APISTANDARDPLAN + "Delete",
-                data: { id_ausbildungsberuf: id_ausbildungsberuf },
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id_ausbildungsberuf: id_ausbildungsberuf
+                },
                 success: function(response) {
                     standardplan.remove();
                 },

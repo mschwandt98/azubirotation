@@ -77,6 +77,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIABTEILUNG + "Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     bezeichnung: bezeichnungInput.val(),
                     maxAzubis: maxAzubisInput.val(),
                     farbe: farbeInput.val()
@@ -124,6 +125,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIABTEILUNG + "Edit",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id: idInput.val(),
                     bezeichnung: bezeichnungInput.val(),
                     maxAzubis: maxAzubisInput.val(),
@@ -151,7 +153,10 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: APIABTEILUNG + "Delete",
-                data: { id: id },
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id: id
+                },
                 success: function(response) {
                     abteilung.remove();
                 },

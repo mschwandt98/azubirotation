@@ -97,6 +97,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIANSPRECHPARTNER + "Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     name: nameInput.val(),
                     email: emailInput.val(),
                     id_abteilung: abteilungSelect.val()
@@ -158,6 +159,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIANSPRECHPARTNER + "Edit",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id: idInput.val(),
                     name: nameInput.val(),
                     email: emailInput.val(),
@@ -186,7 +188,10 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: APIANSPRECHPARTNER + "Delete",
-                data: { id: id },
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id: id
+                },
                 success: function(response) {
                     ansprechpartner.remove();
                 },

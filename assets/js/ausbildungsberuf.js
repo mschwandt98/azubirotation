@@ -70,6 +70,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIAUSBILDUNGSBERUF + "Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     bezeichnung: bezeichnungInput.val()
                 },
                 success: function(response) {
@@ -108,6 +109,7 @@ jQuery(function($) {
                 type: "POST",
                 url: APIAUSBILDUNGSBERUF + "Edit",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     id: idInput.val(),
                     bezeichnung: bezeichnungInput.val()
                 },
@@ -132,7 +134,10 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: APIAUSBILDUNGSBERUF + "Delete",
-                data: { id: id },
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id: id
+                },
                 success: function(response) {
                     ausbildungsberuf.remove();
                 },

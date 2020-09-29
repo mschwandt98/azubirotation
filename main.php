@@ -1,5 +1,6 @@
 <?php if (is_logged_in()) : ?>
 
+    <input type="hidden" id="CsrfToken" value="<?= $_SESSION["csrf_token"]; ?>" />
     <div class="grid">
         <div><?php include_once("templates/Abteilungen.php"); ?></div>
         <div><?php include_once("templates/Ausbildungsberufe.php"); ?></div>

@@ -26,3 +26,9 @@ function is_logged_in() {
     if (array_key_exists("user_id", $_SESSION) && !empty($_SESSION["user_id"])) return true;
     return false;
 }
+
+function is_token_valid() {
+    if (!array_key_exists("csrfToken", $_POST)) return false;
+    if ($_POST["csrfToken"] === $_SESSION["csrf_token"]) return true;
+    return false;
+}

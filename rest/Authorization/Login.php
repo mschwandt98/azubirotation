@@ -6,8 +6,6 @@ if (!is_logged_in()) {
 
     if (array_key_exists("username", $_POST) && array_key_exists("password", $_POST)) {
 
-        session_start();
-
         $username = $_POST["username"];
         $password = $_POST["password"];
 
@@ -21,6 +19,7 @@ if (!is_logged_in()) {
 
             if ($username === $account["Username"] && $password === $account["Password"]) {
                 $_SESSION["user_id"] = $account["ID"];
+                $_SESSION["csrf_token"] = uniqid("", true);
                 http_response_code(200);
                 exit;
             }

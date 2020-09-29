@@ -203,6 +203,7 @@ jQuery(function($) {
                 type: "POST",
                 url: API + "Plan/Add",
                 data: {
+                    csrfToken: $("#CsrfToken").val(),
                     azubis: azubis
                 },
                 success: function(response) {
@@ -219,6 +220,7 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: API + "Plan/SendMail",
+                data: { csrfToken: $("#CsrfToken").val() },
                 success: function(response) {
                     // nothing to do...
                 },
@@ -233,6 +235,7 @@ jQuery(function($) {
             $.ajax({
                 type: "POST",
                 url: API + "Plan/Test",
+                data: { csrfToken: $("#CsrfToken").val() },
                 success: function(response) {
                     if (response != true) {
                         $("#PlanErrors").html(response);

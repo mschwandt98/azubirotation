@@ -6,7 +6,7 @@ use Core\PlanErrorCodes;
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-if (!is_logged_in()) {
+if (!is_logged_in() || !is_token_valid()) {
     http_response_code(400);
     exit;
 }

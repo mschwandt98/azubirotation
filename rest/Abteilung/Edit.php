@@ -2,7 +2,7 @@
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 
-if (is_logged_in()) {
+if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists("id", $_POST) && array_key_exists("bezeichnung", $_POST) && array_key_exists("maxAzubis", $_POST) && array_key_exists("farbe", $_POST)) {
 
