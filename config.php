@@ -1,6 +1,10 @@
 <?php
 // globales Datenbankobjekt
-$pdo = new PDO("mysql:dbname=azubirotation;host=localhost", "root", "");
+try {
+    $pdo = new PDO("mysql:dbname=azubirotation;host=localhost", "root", "");
+} catch (Exception $e) {
+    exit($e->getMessage());
+}
 
 // Datenbank-Tabellen
 define("T_ABTEILUNGEN", "abteilungen");

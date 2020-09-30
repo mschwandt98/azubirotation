@@ -28,10 +28,14 @@ if (is_logged_in() && is_token_valid()) {
                     $startDate = sanitize_string($phase["date"]);
                     $endDate = DateHelper::NextSunday($startDate);
 
+                    if (empty($phase["id_abteilung"])) {
+                        continue;
+                    }
+
                     $phasen[] = new Plan(
                         $id_azubi,
                         (empty($phase["id_ansprechpartner"])) ? NULL : sanitize_string($phase["id_ansprechpartner"]),
-                        (empty($phase["id_abteilung"])) ? NULL : sanitize_string($phase["id_abteilung"]),
+                        sanitize_string($phase["id_abteilung"]),
                         $startDate,
                         $endDate
                     );
@@ -58,11 +62,13 @@ if (is_logged_in() && is_token_valid()) {
                         );";
                 }
 
-                $statement = $pdo->prepare($sql);
+                if (!empty($sql)) {
+                    $statement = $pdo->prepare($sql);
 
-                if (!$statement->execute([ ":null" => NULL ])) {
-                    http_response_code(400);
-                    exit;
+                    if (!$statement->execute([ ":null" => NULL ])) {
+                        http_response_code(400);
+                        exit;
+                    }
                 }
             }
 

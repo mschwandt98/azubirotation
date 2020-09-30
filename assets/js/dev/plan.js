@@ -114,6 +114,7 @@ jQuery(function($) {
                     $(item).removeAttr("style")
                         .removeAttr("data-id-abteilung")
                         .removeAttr("data-id-ansprechpartner")
+                        .addClass("deleted-abteilung")
                         .removeClass("selected")
                         .empty();
                 });
@@ -126,7 +127,8 @@ jQuery(function($) {
                 .attr(
                     "style",
                     "background-color: " + GetAbteilungsFarbe(el.data("id")) + "; border-color: " + GetAbteilungsFarbe(el.data("id"))
-                );
+                )
+                .removeClass("deleted-abteilung");
             });
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup").addClass("vertical-scroll");
@@ -187,6 +189,12 @@ jQuery(function($) {
                             date: phase.data("date"),
                             id_abteilung: id_abteilung,
                             id_ansprechpartner: phase.data("id-ansprechpartner")
+                        });
+                    } else if (phase.hasClass("deleted-abteilung")) {
+                        phases.push({
+                            date: phase.data("date"),
+                            id_abteilung: null,
+                            id_ansprechpartner: null
                         });
                     }
                 })

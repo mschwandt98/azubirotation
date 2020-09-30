@@ -98,10 +98,10 @@ $weeksInTable = ceil(
                             style="background-color: <?= $abteilung->Farbe; ?>; border-color: <?= $abteilung->Farbe; ?>;"
                             data-date="<?= $currentDate; ?>"
                             data-id-abteilung="<?= $plan->ID_Abteilung;?>"
-                            data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner; ?>"
+                            data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ""; ?>"
                         >
 
-                            <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate)) : ?>
+                            <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate) && !empty($plan->ID_Ansprechpartner)) : ?>
 
                                 <span class="ansprechpartner-name"><?= $helper->GetAnsprechpartner($plan->ID_Ansprechpartner)->Name; ?></span>
 
