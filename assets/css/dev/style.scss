@@ -90,14 +90,6 @@
 }
 
 #Plan {
-    .ansprechpartner-name {
-        font-size: 12px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 99999;
-    }
-
     .set-abteilung-popup,
     .set-ansprechpartner-popup {
         background-color: white !important;
@@ -183,6 +175,18 @@
         input[type="button"] {
             display: block;
             margin-bottom: 16px;
+        }
+    }
+}
+
+
+@media screen and (max-width: $xs-max) {
+    .show-add-buttons {
+        display: grid;
+        grid-gap: 8px;
+
+        input[type="button"] {
+            margin-right: 0;
         }
     }
 }
