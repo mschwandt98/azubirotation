@@ -20,6 +20,7 @@ jQuery(function($) {
 
         $("#ShowAusbildungsberufeButton").on("click", function() {
 
+            $("#LoadingSpinner").show();
             $.get(APIAUSBILDUNGSBERUF + "Get", function(data) {
                 data = JSON.parse(data);
 
@@ -52,6 +53,7 @@ jQuery(function($) {
 
                 HideViews();
                 ausbildungsberufe.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -63,6 +65,8 @@ jQuery(function($) {
         $("#AddAusbildungsberufForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`).eq(0);
 
@@ -78,6 +82,7 @@ jQuery(function($) {
 
                     HideViews();
                     ShowAusbildungsberufe();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
@@ -98,6 +103,8 @@ jQuery(function($) {
         $("#EditAusbildungsberufForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`);
@@ -116,11 +123,14 @@ jQuery(function($) {
 
                     HideViews();
                     ShowAusbildungsberufe();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Ausbildungsberufe").on("click", ".delete-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id = $(this).data(ID);
             var ausbildungsberuf = $(this).closest(".item-child");
@@ -134,6 +144,7 @@ jQuery(function($) {
                 },
                 success: function() {
                     ausbildungsberuf.remove();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });

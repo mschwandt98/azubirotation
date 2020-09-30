@@ -73,6 +73,8 @@ jQuery(function($) {
 
         $("#ShowStandardplaeneButton").on("click", function() {
 
+            $("#LoadingSpinner").show();
+
             GetAbteilungen().then(abteilungen => {
                 Abteilungen = JSON.parse(abteilungen);
             });
@@ -108,6 +110,7 @@ jQuery(function($) {
 
                 HideViews();
                 standardplaene.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -124,6 +127,7 @@ jQuery(function($) {
 
         $("#ShowAddStandardplanForm").on("click", function() {
 
+            $("#LoadingSpinner").hide();
             var form = $("#AddStandardplanForm");
 
             GetAusbildungsberufe().then(ausbildungsberufe => {
@@ -145,6 +149,7 @@ jQuery(function($) {
 
                     HideViews();
                     form.show();
+                    $("#LoadingSpinner").hide();
                 });
             })
         });
@@ -160,6 +165,8 @@ jQuery(function($) {
         $("#AddStandardplanForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var ausbildungsberufeSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"`);
             var phaseDivs = form.find(".phase");
@@ -200,14 +207,16 @@ jQuery(function($) {
                     phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).val("");
 
                     ShowStandardPlaene();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Standardplaene").on("click", ".edit-item-child", function() {
 
-            var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
+            $("#LoadingSpinner").show();
 
+            var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
             var form = $("#EditStandardplanForm");
             form.find(`input[name="${ ID_AUSBILDUNGSBERUF }"`).val(id_ausbildungsberuf);
 
@@ -216,6 +225,7 @@ jQuery(function($) {
 
                 HideViews();
                 form.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -230,6 +240,8 @@ jQuery(function($) {
         $("#EditStandardplanForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var idAusbildungsberufInput = form.find(`input[name="${ ID_AUSBILDUNGSBERUF }"`);
             var phaseDivs = form.find(".phase");
@@ -268,11 +280,14 @@ jQuery(function($) {
 
                     HideViews();
                     ShowStandardPlaene();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Standardplaene").on("click", ".delete-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
             var standardplan = $(this).closest(".item-child");
@@ -286,6 +301,7 @@ jQuery(function($) {
                 },
                 success: function() {
                     standardplan.remove();
+                    $("#LoadingSpinner").show();
                 }
             })
         });

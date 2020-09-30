@@ -167,6 +167,8 @@ jQuery(function($) {
 
         $("#SavePlan").on("click", function() {
 
+            $("#LoadingSpinner").show();
+
             var azubiRows = $("#Plan tr.azubi");
             var azubis = [];
 
@@ -207,20 +209,29 @@ jQuery(function($) {
                 },
                 success: function(response) {
                     $("#Plan").html(response);
+                    $("#LoadingSpinner").hide();
                 }
             });
         });
 
         $("#SendMail").on("click", function() {
 
+            $("#LoadingSpinner").show();
+
             $.ajax({
                 type: "POST",
                 url: API + "Plan/SendMail",
-                data: { csrfToken: $("#CsrfToken").val() }
+                data: { csrfToken: $("#CsrfToken").val() },
+                success: function(response) {
+                    // TODO
+                    $("#LoadingSpinner").hide();
+                }
             });
         });
 
         $("#TestPlan").on("click", function() {
+
+            $("#LoadingSpinner").show();
 
             $.ajax({
                 type: "POST",
@@ -230,6 +241,7 @@ jQuery(function($) {
                     if (response != true) {
                         $("#PlanErrors").html(response);
                     }
+                    $("#LoadingSpinner").hide();
                 }
             });
         });

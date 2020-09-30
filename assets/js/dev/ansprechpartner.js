@@ -26,6 +26,7 @@ jQuery(function($) {
 
         $("#ShowAnsprechpartnerButton").on("click", function() {
 
+            $("#LoadingSpinner").show();
             $.get(APIANSPRECHPARTNER + "Get", function(data) {
                 data = JSON.parse(data);
 
@@ -61,10 +62,13 @@ jQuery(function($) {
 
                 HideViews();
                 ansprechpartnerDiv.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
         $("#ShowAddAnsprechpartnerForm").on("click", function() {
+
+            $("#LoadingSpinner").show();
 
             var form = $("#AddAnsprechpartnerForm");
             var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`);
@@ -82,12 +86,15 @@ jQuery(function($) {
 
                 HideViews();
                 form.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
         $("#AddAnsprechpartnerForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var nameInput = form.find(`input[name="${ NAME }"]`).eq(0);
             var emailInput = form.find(`input[name="${ EMAIL }"]`).eq(0);
@@ -109,11 +116,14 @@ jQuery(function($) {
 
                     HideViews();
                     ShowAnsprechpartner();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Ansprechpartner").on("click", ".edit-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id = $(this).data(ID);
             var name = $(this).data(NAME);
@@ -140,12 +150,15 @@ jQuery(function($) {
 
                 HideViews();
                 form.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
         $("#EditAnsprechpartner").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
             var nameInput = form.find(`input[name="${ NAME }"]`);
@@ -176,6 +189,8 @@ jQuery(function($) {
 
         $("#Ansprechpartner").on("click", ".delete-item-child", function() {
 
+            $("#LoadingSpinner").show();
+
             var id = $(this).data(ID);
             var ansprechpartner = $(this).closest(".item-child");
 
@@ -188,6 +203,7 @@ jQuery(function($) {
                 },
                 success: function() {
                     ansprechpartner.remove();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });

@@ -69,7 +69,8 @@ if (is_logged_in() && is_token_valid()) {
             http_response_code(200);
             ob_start("minifier");
             include_once(BASE . "/core/Plan.php");
-            exit(ob_end_flush());
+            ob_end_flush();
+            exit;
         }
     }
 }

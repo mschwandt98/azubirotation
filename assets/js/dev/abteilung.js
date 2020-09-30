@@ -28,6 +28,7 @@ jQuery(function($) {
 
         $("#ShowAbteilungenButton").on("click", function() {
 
+            $("#LoadingSpinner").show();
             $.get(APIABTEILUNG + "Get", function(data) {
                 data = JSON.parse(data);
 
@@ -62,6 +63,7 @@ jQuery(function($) {
 
                 HideViews();
                 abteilungen.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -73,6 +75,7 @@ jQuery(function($) {
         $("#AddAbteilungForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
 
             var form = $(this);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`).eq(0);
@@ -95,6 +98,7 @@ jQuery(function($) {
 
                     RefreshFooter();
                     ShowAbteilungen();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
@@ -119,6 +123,8 @@ jQuery(function($) {
         $("#EditAbteilungForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`);
@@ -143,11 +149,14 @@ jQuery(function($) {
 
                     RefreshFooter();
                     ShowAbteilungen();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Abteilungen").on("click", ".delete-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id = $(this).data(ID);
             var abteilung = $(this).closest(".item-child");
@@ -162,6 +171,7 @@ jQuery(function($) {
                 success: function() {
                     RefreshFooter();
                     abteilung.remove();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });

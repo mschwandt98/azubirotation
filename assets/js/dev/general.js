@@ -1,13 +1,15 @@
 jQuery(function($) {
     $(document).ready(function() {
 
+        var animationDuration = 400;
+
         $(".data-item").on("click", ".minimize-data-item", function() {
             var el = $(this);
             var container = el.closest(".data-item");
-            container.find("form").hide();
+            container.find("form").hide(animationDuration);
             container.find(".title").css({ marginBottom: 0 });
             var upperDivs = container.find("> div");
-            upperDivs.slice(upperDivs.length - 2, upperDivs.length).hide();
+            upperDivs.slice(upperDivs.length - 2, upperDivs.length).hide(animationDuration);
             el.removeClass("minimize-data-item");
             el.addClass("expand-data-item");
         });
@@ -16,9 +18,22 @@ jQuery(function($) {
             var el = $(this);
             var container = el.closest(".data-item");
             container.find(".title").removeAttr("style");
-            container.find("> div.show-add-buttons").show();
+            container.find("> div.show-add-buttons").show(animationDuration);
             el.removeClass("expand-data-item");
             el.addClass("minimize-data-item");
+        });
+
+        $("#Footer").on("click", ".toggle-legende", function() {
+
+            var list = $("#Footer .legenden-list");
+
+            if (list.hasClass("visible")) {
+                $("#Footer").animate({ bottom: "-" + list.outerHeight() + "px" });
+                list.removeClass("visible");
+            } else {
+                $("#Footer").animate({ bottom: 0 });
+                list.addClass("visible");
+            }
         });
     });
 });

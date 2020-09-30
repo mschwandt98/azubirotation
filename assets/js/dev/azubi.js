@@ -53,6 +53,7 @@ jQuery(function($) {
 
         $("#ShowAzubisButton").on("click", function() {
 
+            $("#LoadingSpinner").show();
             $.get(APIAZUBI + "Get", function(data) {
                 data = JSON.parse(data);
 
@@ -90,11 +91,13 @@ jQuery(function($) {
 
                 HideViews();
                 azubis.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
         $("#ShowAddAzubiForm").on("click", function() {
 
+            $("#LoadingSpinner").show();
             var ausbildungsberufSelect = $("#AddAzubiForm").find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
 
             GetAusbildungsberufe().then(ausbildungsberufe => {
@@ -110,6 +113,7 @@ jQuery(function($) {
 
                 HideViews();
                 $("#AddAzubiForm").show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -127,6 +131,8 @@ jQuery(function($) {
         $("#AddAzubiForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var vornameInput = form.find(`input[name="${ VORNAME }"]`).eq(0);
             var nachnameInput = form.find(`input[name="${ NACHNAME }"]`).eq(0);
@@ -156,11 +162,14 @@ jQuery(function($) {
                     RefreshPlan();
                     HideViews();
                     ShowAzubis();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Azubis").on("click", ".edit-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id = $(this).data(ID);
             var vorname = $(this).data(VORNAME);
@@ -195,6 +204,7 @@ jQuery(function($) {
 
                 HideViews();
                 form.show();
+                $("#LoadingSpinner").hide();
             });
         });
 
@@ -212,6 +222,8 @@ jQuery(function($) {
         $("#EditAzubiForm").on("submit", function(e) {
 
             e.preventDefault();
+            $("#LoadingSpinner").show();
+
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
             var vornameInput = form.find(`input[name="${ VORNAME }"]`);
@@ -246,11 +258,14 @@ jQuery(function($) {
                     RefreshPlan();
                     HideViews();
                     ShowAzubis();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });
 
         $("#Azubis").on("click", ".delete-item-child", function() {
+
+            $("#LoadingSpinner").show();
 
             var id = $(this).data(ID);
             var auszubildender = $(this).closest(".item-child");
@@ -265,6 +280,7 @@ jQuery(function($) {
                 success: function() {
                     RefreshPlan();
                     auszubildender.remove();
+                    $("#LoadingSpinner").hide();
                 }
             })
         });

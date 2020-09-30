@@ -28,6 +28,13 @@
 
     <?php if (is_logged_in()) : ?>
 
+        <div id="LoadingSpinner" style="display: none;">
+            <div class="spinner">
+                <div class="bounce-1"></div>
+                <div class="bounce-2"></div>
+                <div class="bounce-3"></div>
+            </div>
+        </div>
         <div id="Popup"></div>
         <script src="assets/js/script.js"></script>
 
