@@ -28,6 +28,7 @@
 
     <?php if (is_logged_in()) : ?>
 
+        <div id="Popup"></div>
         <script src="assets/js/script.js"></script>
 
     <?php endif; ?>

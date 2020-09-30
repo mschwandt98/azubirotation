@@ -18,12 +18,12 @@ jQuery(function($) {
         });
 
         $(document).on("click", function(e) {
-            if(!$(e.target).closest("#Plan table").length) {
+            if(!$(e.target).closest("#Plan table").length && !$(e.target).closest("#Popup").length) {
 
                 if ($(e.target).parents(".set-abteilung-popup").length === 0 &&
                     $(e.target).parents(".set-ansprechpartner-popup").length === 0) {
-                    $("#Plan .set-abteilung-popup").remove();
-                    $("#Plan .set-ansprechpartner-popup").remove();
+                    $("#Popup .set-abteilung-popup").remove();
+                    $("#Popup .set-ansprechpartner-popup").remove();
                     RemoveSelectedStatus();
                 }
             }
@@ -35,14 +35,14 @@ jQuery(function($) {
             if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
             if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
 
-            $("#Plan .set-abteilung-popup").remove();
-            $("#Plan .set-ansprechpartner-popup").remove();
+            $("#Popup .set-abteilung-popup").remove();
+            $("#Popup .set-ansprechpartner-popup").remove();
 
             var el = $(this);
             el.addClass("selected");
             tdItems.push(el);
 
-            var popup = $("<div></div>").addClass("set-abteilung-popup");
+            var popup = $("<div></div>").addClass("set-abteilung-popup").addClass("vertical-scroll");
             var abteilungenList = $("<ul></ul>");
 
             Abteilungen.forEach(abteilung => {
@@ -58,14 +58,15 @@ jQuery(function($) {
             abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
 
             popup.append(abteilungenList);
-            el.append(popup);
+            var positionTd = el.position();
+            $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
         });
 
         $('#Plan .plan-phase').on('mousedown', function(e) {
 
             if ($(e.target).parents(".plan-phase").length > 0) return;
-            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
-            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
+            // if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
+            // if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
 
             RemoveSelectedStatus();
             clicking = true;
@@ -106,7 +107,7 @@ jQuery(function($) {
             clicking = false;
         });
 
-        $("#Plan").on("click", ".set-abteilung-popup li", function() {
+        $("#Popup").on("click", ".set-abteilung-popup li", function() {
 
             var el = $(this);
 
@@ -131,7 +132,7 @@ jQuery(function($) {
                 );
             });
 
-            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup");
+            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup").addClass("vertical-scroll");
             var ansprechpartnerList = $("<ul></ul>");
 
             Ansprechpartner.forEach(ansprechpartner => {
@@ -151,12 +152,12 @@ jQuery(function($) {
             ansprechpartnerList.find(":last-child").remove();
 
             popupAnsprechpartner.append(ansprechpartnerList);
-            el.closest(".plan-phase").append(popupAnsprechpartner);
+            $("#Popup").append(popupAnsprechpartner);
 
             $(".set-abteilung-popup").remove();
         });
 
-        $("#Plan").on("click", ".set-ansprechpartner-popup li", function() {
+        $("#Popup").on("click", ".set-ansprechpartner-popup li", function() {
 
             tdItems.forEach(item => {
                 $(item).attr("data-id-ansprechpartner", $(this).data("id")).empty();
