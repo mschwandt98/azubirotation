@@ -22,7 +22,8 @@ if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildun
 
     ob_start("minifier");
     include_once(BASE . "/templates/Standardplan.php");
-    exit(ob_end_flush());
+    ob_end_flush();
+    exit;
 }
 
 http_response_code(400);

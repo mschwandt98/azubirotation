@@ -17,6 +17,31 @@
         box-shadow: 0px 0px 16px 0px rgba($gray, 0.4);
     }
 
+    form {
+        input[type="button"] {
+            margin-bottom: 8px;
+        }
+
+        input[type="submit"] {
+            white-space: break-spaces;
+        }
+
+        label {
+            display: grid;
+            margin: 8px 0;
+            max-width: 256px;
+
+            input[type="date"],
+            input[type="email"],
+            input[type="number"],
+            input[type="text"],
+            select {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+
     .expand-data-item,
     .minimize-data-item {
         align-items: center;
@@ -79,6 +104,7 @@
         align-items: center;
         border-top: 1px solid $gray;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         margin-top: 16px;
         padding-top: 16px;
@@ -181,7 +207,7 @@
 
 
 @media screen and (max-width: $xs-max) {
-    .show-add-buttons {
+    .data-item .show-add-buttons {
         display: grid;
         grid-gap: 8px;
 

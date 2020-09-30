@@ -18,9 +18,11 @@ form label {
     select {
         border: 1px solid $gray;
         border-radius: 8px;
+        box-sizing: border-box;
         color: $selectline-text-blue;
         height: 24px;
         max-width: 128px;
+        width: 128px;
         outline: 0;
         padding: 0 8px;
 

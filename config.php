@@ -40,7 +40,7 @@ function minifier($code) {
         "/(\s)+/s",         // Remove multiple whitespace sequences
         "/<!--(.|\s)*?-->/" // Removes comments
     ];
-    $replace = array(">", "<", "\\1");
+    $replace = [ ">", "<", "\\1" ];
     return preg_replace($search, $replace, $code);
 }
 
