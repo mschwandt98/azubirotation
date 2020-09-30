@@ -26,14 +26,12 @@
         <label>
             <span>Ausbildungsstart</span>
             <input type="date"
-                    name="ausbildungsstart"
-                    min="<?= date("Y-m-d"); ?>" />
+                   name="ausbildungsstart" />
         </label>
         <label>
             <span>Ausbildungsende</span>
             <input type="date"
-                    name="ausbildungsende"
-                    min="<?= date("Y-m-d"); ?>" />
+                   name="ausbildungsende" />
         </label>
         <div>
             <input type="submit" value="Auszubildenden anlegen" />
