@@ -65,8 +65,6 @@ jQuery(function($) {
         $('#Plan .plan-phase').on('mousedown', function(e) {
 
             if ($(e.target).parents(".plan-phase").length > 0) return;
-            // if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
-            // if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
 
             RemoveSelectedStatus();
             clicking = true;

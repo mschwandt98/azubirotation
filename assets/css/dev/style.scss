@@ -117,6 +117,7 @@
 
 #Popup {
     position: absolute;
+    z-index: 999999;
 
     .set-abteilung-popup,
     .set-ansprechpartner-popup {
@@ -127,7 +128,6 @@
         max-height: 128px;
         overflow-y: auto;
         padding: 4px 8px;
-        z-index: 999999;
 
         ul {
             list-style-type: none;
