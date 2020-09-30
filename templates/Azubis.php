@@ -33,6 +33,12 @@
             <input type="date"
                    name="ausbildungsende" />
         </label>
+        <label>
+            <span>Musterplanung erstellen?</span>
+            <input type="checkbox"
+                   name="musterplanung_erstellen"
+                   checked />
+        </label>
         <div>
             <input type="submit" value="Auszubildenden anlegen" />
         </div>

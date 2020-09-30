@@ -127,7 +127,7 @@ jQuery(function($) {
 
         $("#ShowAddStandardplanForm").on("click", function() {
 
-            $("#LoadingSpinner").hide();
+            $("#LoadingSpinner").show();
             var form = $("#AddStandardplanForm");
 
             GetAusbildungsberufe().then(ausbildungsberufe => {

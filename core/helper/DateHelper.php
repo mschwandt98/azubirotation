@@ -34,6 +34,14 @@ class DateHelper {
         return false;
     }
 
+    public static function IsMonday($date) {
+        return strtolower(date("l", strtotime($date))) === "monday";
+    }
+
+    public static function LastMonday($date) {
+        return date("Y-m-d", strtotime($date . "last monday"));
+    }
+
     public static function NextMonday($date, $format = self::defaultFormat) {
         return date($format, strtotime($date . " next monday"));
     }
