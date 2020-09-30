@@ -83,6 +83,10 @@ jQuery(function($) {
 
                     var exists = false;
 
+                    if (currentTd.parents(".plan-phase").length > 0) {
+                        currentTd = currentTd.parents(".plan-phase");
+                    }
+
                     tdItems.forEach(function(item) {
                         if ($(item).data("date") === currentTd.data("date")) {
                             exists = true;
