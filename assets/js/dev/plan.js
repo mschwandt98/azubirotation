@@ -62,15 +62,14 @@ jQuery(function($) {
             $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
         });
 
-        $('#Plan .plan-phase').on('mousedown', function(e) {
-
+        $("#Plan").on("mousedown", ".plan-phase", function(e) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
 
             RemoveSelectedStatus();
             clicking = true;
         });
 
-        $("#Plan .plan-phase").mousemove(function(e) {
+        $("#Plan").on("mousemove", ".plan-phase", function(e) {
 
             if (!clicking) return;
             var currentTd = $(e.target);
@@ -98,7 +97,7 @@ jQuery(function($) {
             }
         });
 
-        $('#Plan .plan-phase').on('mouseup', function(e) {
+        $("#Plan").on("mouseup", ".plan-phase", function(e) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
 
             $(tdItems[tdItems.length - 1]).click();

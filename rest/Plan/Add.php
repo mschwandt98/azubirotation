@@ -30,7 +30,7 @@ if (is_logged_in() && is_token_valid()) {
 
                     $phasen[] = new Plan(
                         $id_azubi,
-                        sanitize_string($phase["id_ansprechpartner"]),
+                        (empty($phase["id_ansprechpartner"])) ? NULL : sanitize_string($phase["id_ansprechpartner"]),
                         (empty($phase["id_abteilung"])) ? NULL : sanitize_string($phase["id_abteilung"]),
                         $startDate,
                         $endDate
