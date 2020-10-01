@@ -12,11 +12,12 @@ if (is_logged_in() && is_token_valid()) {
 
             global $pdo;
 
-            $statement = $pdo->prepare(
-                "DELETE FROM " . T_ANSPRECHPARTNER . " WHERE ID = :id;"
-            );
+            ($pdo->prepare(
+                "UPDATE " . T_PLAENE . " SET ID_Ansprechpartner = :null WHERE ID_Ansprechpartner = :id;"
+            ))->execute([ ":null" => NULL, ":id" => $id ]);
 
-            if ($statement->execute([":id" => $id])) {
+            $statement = $pdo->prepare("DELETE FROM " . T_ANSPRECHPARTNER . " WHERE ID = :id;");
+            if ($statement->execute([ ":id" => $id ])) {
                 http_response_code(200);
                 exit;
             }

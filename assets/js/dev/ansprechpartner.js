@@ -189,23 +189,34 @@ jQuery(function($) {
 
         $("#Ansprechpartner").on("click", ".delete-item-child", function() {
 
-            $("#LoadingSpinner").show();
-
-            var id = $(this).data(ID);
             var ansprechpartner = $(this).closest(".item-child");
 
-            $.ajax({
-                type: "POST",
-                url: APIANSPRECHPARTNER + "Delete",
-                data: {
-                    csrfToken: $("#CsrfToken").val(),
-                    id: id
-                },
-                success: function() {
-                    ansprechpartner.remove();
-                    $("#LoadingSpinner").hide();
-                }
-            })
+            if (confirm("Soll der Ansprechpartner " + ansprechpartner.find("div").first().text() + " wirklich gelöscht werden?")) {
+
+                $("#LoadingSpinner").show();
+
+                var id = $(this).data(ID);
+
+                $.ajax({
+                    type: "POST",
+                    url: APIANSPRECHPARTNER + "Delete",
+                    data: {
+                        csrfToken: $("#CsrfToken").val(),
+                        id: id
+                    },
+                    success: function() {
+                        ansprechpartner.remove();
+                        $("#LoadingSpinner").hide();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        $("#LoadingSpinner").hide();
+                        var emb = $("#ErrorMessageBox");
+                        emb.find(".message").text("Es traten Fehler beim Löschen des Ansprechpartners auf.");
+                        emb.show();
+                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    }
+                });
+            }
         });
     })
 });

@@ -130,23 +130,34 @@ jQuery(function($) {
 
         $("#Ausbildungsberufe").on("click", ".delete-item-child", function() {
 
-            $("#LoadingSpinner").show();
-
-            var id = $(this).data(ID);
             var ausbildungsberuf = $(this).closest(".item-child");
 
-            $.ajax({
-                type: "POST",
-                url: APIAUSBILDUNGSBERUF + "Delete",
-                data: {
-                    csrfToken: $("#CsrfToken").val(),
-                    id: id
-                },
-                success: function() {
-                    ausbildungsberuf.remove();
-                    $("#LoadingSpinner").hide();
-                }
-            })
+            if (confirm("Soll der Ausbildungsberuf " + ausbildungsberuf.find("div").first().text() + " wirklich gelöscht werden?")) {
+
+                $("#LoadingSpinner").show();
+
+                var id = $(this).data(ID);
+
+                $.ajax({
+                    type: "POST",
+                    url: APIAUSBILDUNGSBERUF + "Delete",
+                    data: {
+                        csrfToken: $("#CsrfToken").val(),
+                        id: id
+                    },
+                    success: function() {
+                        ausbildungsberuf.remove();
+                        $("#LoadingSpinner").hide();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        $("#LoadingSpinner").hide();
+                        var emb = $("#ErrorMessageBox");
+                        emb.find(".message").text("Es traten Fehler beim Löschen des Ausbildungsberufes auf.");
+                        emb.show();
+                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    }
+                });
+            }
         });
     })
 });
