@@ -47,6 +47,7 @@ class DataHelper {
             );
         }
 
+        if (empty($abteilungen)) return [];
         return (empty($id)) ? $abteilungen : $abteilungen[0];
     }
 
@@ -69,7 +70,8 @@ class DataHelper {
             );
         }
 
-        return (empty($id) ? $ansprechpartner : $ansprechpartner[0]);
+        if (empty($ansprechpartner)) return [];
+        return (empty($id)) ? $ansprechpartner : $ansprechpartner[0];
     }
 
     public function GetAusbildungsberufe() {
@@ -113,6 +115,7 @@ class DataHelper {
             );
         }
 
+        if (empty($azubis)) return [];
         return (empty($id)) ? $azubis : $azubis[0];
     }
 
@@ -185,6 +188,6 @@ class DataHelper {
     }
 
     private function CreateWhereId($id) {
-        return (empty($id)) ? " " : " WHERE ID = $id ";
+        return (empty($id)) ? " " : " WHERE ID = " . intval($id) . " ";
     }
 }

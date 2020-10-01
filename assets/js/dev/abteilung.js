@@ -156,24 +156,34 @@ jQuery(function($) {
 
         $("#Abteilungen").on("click", ".delete-item-child", function() {
 
-            $("#LoadingSpinner").show();
-
-            var id = $(this).data(ID);
             var abteilung = $(this).closest(".item-child");
 
-            $.ajax({
-                type: "POST",
-                url: APIABTEILUNG + "Delete",
-                data: {
-                    csrfToken: $("#CsrfToken").val(),
-                    id: id
-                },
-                success: function() {
-                    RefreshFooter();
-                    abteilung.remove();
-                    $("#LoadingSpinner").hide();
-                }
-            })
+            if (confirm("Soll die Abteilung " + abteilung.find("div").first().text() + " wirklich gelöscht werden?")) {
+
+                $("#LoadingSpinner").show();
+                var id = $(this).data(ID);
+
+                $.ajax({
+                    type: "POST",
+                    url: APIABTEILUNG + "Delete",
+                    data: {
+                        csrfToken: $("#CsrfToken").val(),
+                        id: id
+                    },
+                    success: function() {
+                        RefreshFooter();
+                        abteilung.remove();
+                        $("#LoadingSpinner").hide();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        $("#LoadingSpinner").hide();
+                        var emb = $("#ErrorMessageBox");
+                        emb.find(".message").text("Es traten Fehler beim Löschen der Abteilung auf.");
+                        emb.show();
+                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    }
+                });
+            }
         });
     })
 });

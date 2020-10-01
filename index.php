@@ -36,6 +36,9 @@
             </div>
         </div>
         <div id="Popup"></div>
+        <div id="ErrorMessageBox" style="display: none;">
+            <div class="message"></div>
+        </div>
         <script src="assets/js/script.js"></script>
 
     <?php endif; ?>

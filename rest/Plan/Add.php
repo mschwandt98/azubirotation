@@ -1,10 +1,10 @@
 <?php
+use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 use Models\Plan;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(MODELS . "Plan.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -14,7 +14,9 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($azubis)) {
 
-            include_once(HELPER . "/DateHelper.php");
+            include_once(MODELS . "Plan.php");
+            include_once(HELPER . "DataHelper.php");
+            include_once(HELPER . "DateHelper.php");
 
             global $pdo;
 
@@ -32,9 +34,22 @@ if (is_logged_in() && is_token_valid()) {
                         continue;
                     }
 
+                    if (empty($phase["id_ansprechpartner"])) {
+                        $ansprechpartner_id = NULL;
+                    } else {
+                        $ansprechpartner_id = sanitize_string($phase["id_ansprechpartner"]);
+
+                        if ($ansprechpartner = (new DataHelper())->GetAnsprechpartner($ansprechpartner_id)) {
+
+                            if (!empty($ansprechpartner->ID_Abteilung) && $ansprechpartner->ID_Abteilung != $phase["id_abteilung"]) {
+                                $ansprechpartner_id = NULL;
+                            }
+                        }
+                    }
+
                     $phasen[] = new Plan(
                         $id_azubi,
-                        (empty($phase["id_ansprechpartner"])) ? NULL : sanitize_string($phase["id_ansprechpartner"]),
+                        $ansprechpartner_id,
                         sanitize_string($phase["id_abteilung"]),
                         $startDate,
                         $endDate
