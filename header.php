@@ -2,6 +2,13 @@
 
 <?php if (is_logged_in()) : ?>
 
+    <div>
+        <div id="LoadingSpinner" style="display: none;">
+            <div class="bounce-1"></div>
+            <div class="bounce-2"></div>
+            <div class="bounce-3"></div>
+        </div>
+    </div>
     <form id="Logout">
         <input type="submit" value="Logout" />
     </form>
@@ -28,6 +35,7 @@
 
 <?php else: ?>
 
+    <div><?php // ignore -> placeholder in grid ?></div>
     <form id="Login">
         <label>
             <span>Username: </span>

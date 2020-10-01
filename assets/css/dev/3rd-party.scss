@@ -1,8 +1,6 @@
 /**
  * @seen https://gist.github.com/tbmiller/6675197
- * @seen https://gist.github.com/hellojosh/5270953
  */
-
 .horizontal-scroll {
     background:
         linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
@@ -24,6 +22,9 @@
     overflow-x: auto;
 }
 
+/**
+ * @seen https://gist.github.com/hellojosh/5270953
+ */
 .vertical-scroll {
     background:
         linear-gradient(white 30%, hsla(0, 0%, 100%, 0)),
@@ -38,44 +39,29 @@
 /**
  * @seen https://tobiasahlin.com/spinkit/
  */
-
 #LoadingSpinner {
-    background-color: rgba(white, 0.8);
-    box-shadow: 0 0 8px 0 $selectline-blue;
-    position: absolute;
-    top: 25%;
-    right: 25%;
-    bottom: 25%;
-    left: 25%;
-    text-align: center;
-    z-index: 9999999999;
+    margin: auto;
+    width: 70px;
 
-    .spinner {
-        position: absolute;
-        top: calc(50% - 18px);
-        left: calc(50% - 35px);
-        width: 70px;
+    > div {
+        width: 18px;
+        height: 18px;
+        background-color: $selectline-blue;
 
-        > div {
-            width: 18px;
-            height: 18px;
-            background-color: $selectline-blue;
+        border-radius: 100%;
+        display: inline-block;
+        -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
 
-            border-radius: 100%;
-            display: inline-block;
-            -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-            animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-        }
+    .bounce-1 {
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
 
-        .bounce-1 {
-            -webkit-animation-delay: -0.32s;
-            animation-delay: -0.32s;
-        }
-
-        .bounce-2 {
-            -webkit-animation-delay: -0.16s;
-            animation-delay: -0.16s;
-        }
+    .bounce-2 {
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
     }
 }
 
@@ -91,12 +77,5 @@
     } 40% {
         -webkit-transform: scale(1.0);
         transform: scale(1.0);
-    }
-}
-
-@media screen and (max-width: $sm-max) {
-    #LoadingSpinner {
-        right: 10%;
-        left: 10%;
     }
 }

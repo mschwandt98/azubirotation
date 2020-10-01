@@ -27,14 +27,6 @@
     <footer id="Footer"><?php include_once(__DIR__ . "/footer.php") ?></footer>
 
     <?php if (is_logged_in()) : ?>
-
-        <div id="LoadingSpinner" style="display: none;">
-            <div class="spinner">
-                <div class="bounce-1"></div>
-                <div class="bounce-2"></div>
-                <div class="bounce-3"></div>
-            </div>
-        </div>
         <div id="Popup"></div>
         <div id="ErrorMessageBox" style="display: none;">
             <div class="message"></div>
