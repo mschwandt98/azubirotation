@@ -13,6 +13,7 @@ define("T_ANSPRECHPARTNER", "ansprechpartner");
 define("T_AUSBILDUNGSBERUFE", "ausbildungsberufe");
 define("T_AUSZUBILDENDE", "auszubildende");
 define("T_PLAENE", "pläne");
+define("T_SETTINGS", "settings");
 define("T_STANDARDPLAENE", "standardpläne");
 
 // Pfade

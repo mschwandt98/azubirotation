@@ -9,29 +9,29 @@
     <form id="AddAzubiForm" method="post" style="display: none;">
         <label>
             <span>Vorname</span>
-            <input type="text" name="vorname" />
+            <input type="text" name="vorname" required />
         </label>
         <label>
             <span>Nachname</span>
-            <input type="text" name="nachname" />
+            <input type="text" name="nachname" required />
         </label>
         <label>
             <span>Email</span>
-            <input type="email" name="email" />
+            <input type="email" name="email" required />
         </label>
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <label>
             <span>Ausbildungsstart</span>
             <input type="date"
-                   name="ausbildungsstart" />
+                   name="ausbildungsstart" required />
         </label>
         <label>
             <span>Ausbildungsende</span>
             <input type="date"
-                   name="ausbildungsende" />
+                   name="ausbildungsende" required />
         </label>
         <label>
             <span>Musterplanung erstellen?</span>
@@ -47,27 +47,27 @@
         <input type="hidden" name="id" />
         <label>
             <span>Vorname</span>
-            <input type="text" name="vorname" />
+            <input type="text" name="vorname" required />
         </label>
         <label>
             <span>Nachname</span>
-            <input type="text" name="nachname" />
+            <input type="text" name="nachname" required />
         </label>
         <label>
             <span>Email</span>
-            <input type="email" name="email" />
+            <input type="email" name="email" required />
         </label>
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <label>
             <span>Ausbildungsstart</span>
-            <input type="date" name="ausbildungsstart" />
+            <input type="date" name="ausbildungsstart" required />
         </label>
         <label>
             <span>Ausbildungsende</span>
-            <input type="date" name="ausbildungsende" />
+            <input type="date" name="ausbildungsende" required />
         </label>
         <div>
             <input type="submit" value="Änderungen speichern" />

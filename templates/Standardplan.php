@@ -8,7 +8,7 @@
         <div class="phase">
             <label>
                 <span>Abteilung auswählen</span>
-                <select name="id_abteilung">
+                <select name="id_abteilung" required>
 
                     <?php foreach ($viewBag["Abteilungen"] as $abteilung) : ?>
 
@@ -23,7 +23,7 @@
             </label>
             <label>
                 <span>Wochen</span>
-                <input type="number" name="wochen" value="<?= $phase->Wochen ?>" />
+                <input type="number" name="wochen" value="<?= $phase->Wochen ?>" required />
             </label>
             <label>
                 <span>Präferieren</span>

@@ -9,16 +9,16 @@
     <form id="AddStandardplanForm" method="post" style="display: none;">
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <div class="plan-phasen">
             <div class="phase">
                 <label>
                     <span>Abteilung auswählen</span>
-                    <select name="id_abteilung"></select>
+                    <select name="id_abteilung" required></select>
                 </label>
                 <label>
-                    <span>Wochen</span><input type="number" name="wochen" />
+                    <span>Wochen</span><input type="number" name="wochen" required />
                 </label>
                 <label>
                     <span>Präferieren</span><input type="checkbox" name="praeferieren" />

@@ -9,7 +9,7 @@
     <form id="AddAusbildungsberufForm" method="post" style="display: none;">
         <label>
             <span>Bezeichnung</span>
-            <input type="text" name="bezeichnung" />
+            <input type="text" name="bezeichnung" required />
         </label>
         <div>
             <input type="submit" value="Ausbildungsberuf anlegen" />
@@ -19,7 +19,7 @@
         <input type="hidden" name="id" />
         <label>
             <span>Bezeichnung</span>
-            <input type="text" name="bezeichnung" />
+            <input type="text" name="bezeichnung" required />
         </label>
         <div>
             <input type="submit" value="Änderungen speichern" />

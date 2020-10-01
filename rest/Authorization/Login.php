@@ -6,8 +6,8 @@ if (!is_logged_in()) {
 
     if (array_key_exists("username", $_POST) && array_key_exists("password", $_POST)) {
 
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+        $username = sanitize_string($_POST["username"]);
+        $password = sanitize_string($_POST["password"]);
 
         global $pdo;
 
@@ -17,7 +17,7 @@ if (!is_logged_in()) {
 
         if (!empty($account)) {
 
-            if ($username === $account["Username"] && $password === $account["Password"]) {
+            if (password_verify($password, $account["Password"])) {
                 $_SESSION["user_id"] = $account["ID"];
                 $_SESSION["csrf_token"] = uniqid("", true);
                 http_response_code(200);

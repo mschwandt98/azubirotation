@@ -39,11 +39,11 @@
     <form id="Login">
         <label>
             <span>Username: </span>
-            <input type="text" name="username" />
+            <input type="text" name="username" required />
         </label>
         <label>
             <span>Passwort: </span>
-            <input type="password" name="password" />
+            <input type="password" name="password" required />
         </label>
         <input type="submit" value="Login" />
     </form>

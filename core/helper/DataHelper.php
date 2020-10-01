@@ -187,6 +187,25 @@ class DataHelper {
         return $plaene;
     }
 
+    public function GetSetting($name) {
+
+        $statement = $this->db->prepare(
+            "SELECT * FROM " . T_SETTINGS .
+            " WHERE name = '$name';"
+        );
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function UpdateSetting($name, $value) {
+
+        return ($this->db->prepare(
+            "UPDATE " . T_SETTINGS .
+            " SET value = '$value'" .
+            " WHERE name = '$name';"
+        ))->execute();
+    }
+
     private function CreateWhereId($id) {
         return (empty($id)) ? " " : " WHERE ID = " . intval($id) . " ";
     }

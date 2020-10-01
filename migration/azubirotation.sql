@@ -20,11 +20,11 @@ CREATE TABLE `abteilungen` (
 CREATE TABLE `accounts` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Username` varchar(30) NOT NULL,
-  `Password` varchar(30) NOT NULL
+  `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `accounts` (`ID`, `Username`, `Password`) VALUES
-(1, 'sa', 'sl$001');
+(1, 'sa', '$2y$10$Z8T5tsr6NRWzPGda6krGqeQk/HRKa8MUvdycYFrkm09GlL4s2JWXW');
 
 CREATE TABLE `ansprechpartner` (
   `ID` bigint(20) UNSIGNED NOT NULL,
