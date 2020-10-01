@@ -21,6 +21,7 @@
         <input type="button" id="TestPlan" value="Auf Fehler testen" />
     </div>
     <div>
+        <span style="display: none; color: limegreen;">Die Benachrichtigungen wurden erfolgreich versendet.</span>
         <input type="button" id="SendMail" value="Benachrichtigungen senden" />
     </div>
 </div>

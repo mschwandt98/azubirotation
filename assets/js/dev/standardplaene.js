@@ -68,9 +68,9 @@ jQuery(function($) {
         }
 
         function HideViews() {
-            $("#Standardplaene").hide();
-            $("#AddStandardplanForm").hide();
-            $("#EditStandardplanForm").hide();
+            $("#Standardplaene").hide(TIME);
+            $("#AddStandardplanForm").hide(TIME);
+            $("#EditStandardplanForm").hide(TIME);
         }
 
         function ShowStandardPlaene() {
@@ -113,7 +113,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                standardplaene.show();
+                standardplaene.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -152,7 +152,7 @@ jQuery(function($) {
                     );
 
                     HideViews();
-                    form.show();
+                    form.show(TIME);
                     $("#LoadingSpinner").hide();
                 });
             })
@@ -231,7 +231,7 @@ jQuery(function($) {
                 form.find(".plan").empty().append(data);
 
                 HideViews();
-                form.show();
+                form.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -311,7 +311,7 @@ jQuery(function($) {
                 },
                 success: function() {
                     standardplan.remove();
-                    $("#LoadingSpinner").show();
+                    $("#LoadingSpinner").hide();
                 },
                 error: function() {
                     HandleError("Es traten Fehler beim Löschen des Standardplans auf.");

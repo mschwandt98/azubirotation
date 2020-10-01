@@ -15,9 +15,9 @@ jQuery(function($) {
         }
 
         function HideViews() {
-            $("#Ausbildungsberufe").hide();
-            $("#AddAusbildungsberufForm").hide();
-            $("#EditAusbildungsberufForm").hide();
+            $("#Ausbildungsberufe").hide(TIME);
+            $("#AddAusbildungsberufForm").hide(TIME);
+            $("#EditAusbildungsberufForm").hide(TIME);
         }
 
         function ShowAusbildungsberufe() {
@@ -56,14 +56,14 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                ausbildungsberufe.show();
+                ausbildungsberufe.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
 
         $("#ShowAddAusbildungsberufForm").on("click", function() {
             HideViews();
-            $("#AddAusbildungsberufForm").show();
+            $("#AddAusbildungsberufForm").show(TIME);
         });
 
         $("#AddAusbildungsberufForm").on("submit", function(e) {
@@ -104,7 +104,7 @@ jQuery(function($) {
             form.find(`input[name="${ BEZEICHNUNG }"]`).val(bezeichnung);
 
             HideViews();
-            form.show();
+            form.show(TIME);
         });
 
         $("#EditAusbildungsberufForm").on("submit", function(e) {
@@ -159,12 +159,8 @@ jQuery(function($) {
                         ausbildungsberuf.remove();
                         $("#LoadingSpinner").hide();
                     },
-                    error: function(jqXHR, textStatus, errorThrown ) {
-                        $("#LoadingSpinner").hide();
-                        var emb = $("#ErrorMessageBox");
-                        emb.find(".message").text("Es traten Fehler beim Löschen des Ausbildungsberufes auf.");
-                        emb.show();
-                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    error: function() {
+                        HandleError("Es traten Fehler beim Löschen des Ausbildungsberufes auf.");
                     }
                 });
             }

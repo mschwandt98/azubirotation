@@ -235,18 +235,21 @@ jQuery(function($) {
 
         $("#SendMail").on("click", function() {
 
+            var button = $(this);
             $("#LoadingSpinner").show();
 
             $.ajax({
                 type: "POST",
                 url: API + "Plan/SendMail",
                 data: { csrfToken: $("#CsrfToken").val() },
-                success: function(response) {
-                    // TODO
+                success: function() {
+                    var messageSpan = button.siblings("span");
+                    messageSpan.fadeIn();
+                    setTimeout(_ => { messageSpan.fadeOut(); }, 5000);
                     $("#LoadingSpinner").hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Versenden der Emails auf.");
+                    HandleError("Es traten Fehler beim Versenden der Benachrichtigungen auf.");
                 }
             });
         });
@@ -254,6 +257,7 @@ jQuery(function($) {
         $("#TestPlan").on("click", function() {
 
             $("#LoadingSpinner").show();
+            $("#PlanErrors").hide();
 
             $.ajax({
                 type: "POST",
@@ -261,7 +265,7 @@ jQuery(function($) {
                 data: { csrfToken: $("#CsrfToken").val() },
                 success: function(response) {
                     if (response != true) {
-                        $("#PlanErrors").html(response);
+                        $("#PlanErrors").html(response).fadeIn();
                     }
                     $("#LoadingSpinner").hide();
                 },

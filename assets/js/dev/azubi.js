@@ -42,9 +42,9 @@ jQuery(function($) {
         }
 
         function HideViews() {
-            $("#Azubis").hide();
-            $("#AddAzubiForm").hide();
-            $("#EditAzubiForm").hide();
+            $("#Azubis").hide(TIME);
+            $("#AddAzubiForm").hide(TIME);
+            $("#EditAzubiForm").hide(TIME);
         }
 
         function RefreshPlan() {
@@ -95,7 +95,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                azubis.show();
+                azubis.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -117,7 +117,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                $("#AddAzubiForm").show();
+                $("#AddAzubiForm").show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -214,7 +214,7 @@ jQuery(function($) {
                 form.find(`input[name="${ AUSBILDUNGSENDE }"]`).attr("min", ausbildungsstart);
 
                 HideViews();
-                form.show();
+                form.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });

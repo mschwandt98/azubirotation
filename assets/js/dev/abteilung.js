@@ -17,9 +17,9 @@ jQuery(function($) {
         }
 
         function HideViews() {
-            $("#Abteilungen").hide();
-            $("#AddAbteilungForm").hide();
-            $("#EditAbteilungForm").hide();
+            $("#Abteilungen").hide(TIME);
+            $("#AddAbteilungForm").hide(TIME);
+            $("#EditAbteilungForm").hide(TIME);
         }
 
         function RefreshFooter() {
@@ -66,14 +66,14 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                abteilungen.show();
+                abteilungen.show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
 
         $("#ShowAddAbteilungForm").on("click", function() {
             HideViews();
-            $("#AddAbteilungForm").show();
+            $("#AddAbteilungForm").show(TIME);
         });
 
         $("#AddAbteilungForm").on("submit", function(e) {
@@ -124,7 +124,7 @@ jQuery(function($) {
             form.find(`input[name="${ FARBE }"]`).val(farbe);
 
             HideViews();
-            form.show();
+            form.show(TIME);
         });
 
         $("#EditAbteilungForm").on("submit", function(e) {
