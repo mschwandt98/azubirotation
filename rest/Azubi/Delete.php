@@ -12,10 +12,13 @@ if (is_logged_in() && is_token_valid()) {
 
             global $pdo;
 
+            ($pdo->prepare(
+                "DELETE FROM " . T_PLAENE . " WHERE ID_Auszubildender = :id;"
+            ))->execute([ ":id" => $id ]);
+
             $statement = $pdo->prepare(
                 "DELETE FROM " . T_AUSZUBILDENDE . " WHERE ID = :id;"
             );
-
             if ($statement->execute([":id" => $id])) {
                 http_response_code(200);
                 exit;
