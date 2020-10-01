@@ -41,7 +41,7 @@ foreach ($Azubis as $azubi) {
         }
     }
 
-    $standardplan;
+    unset($standardplan);
     foreach ($Standardplaene as $plan) {
         if ($azubi->ID_Ausbildungsberuf === $plan->ID_Ausbildungsberuf) {
             $standardplan = $plan;

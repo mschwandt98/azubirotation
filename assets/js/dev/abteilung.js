@@ -142,6 +142,8 @@ jQuery(function($) {
                     farbe: farbeInput.val()
                 },
                 success: function() {
+                    HideViews();
+
                     idInput.val("");
                     bezeichnungInput.val("");
                     maxAzubisInput.val("");
@@ -171,6 +173,7 @@ jQuery(function($) {
                         id: id
                     },
                     success: function() {
+                        HideViews();
                         RefreshFooter();
                         abteilung.remove();
                         $("#LoadingSpinner").hide();
