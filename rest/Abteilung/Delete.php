@@ -33,6 +33,9 @@ if (is_logged_in() && is_token_valid()) {
             }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

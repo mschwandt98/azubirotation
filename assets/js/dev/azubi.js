@@ -32,6 +32,15 @@ jQuery(function($) {
             return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         function HideViews() {
             $("#Azubis").hide();
             $("#AddAzubiForm").hide();
@@ -162,6 +171,9 @@ jQuery(function($) {
                     HideViews();
                     ShowAzubis();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen des Auszubildenden auf.");
                 }
             })
         });
@@ -258,6 +270,9 @@ jQuery(function($) {
                     HideViews();
                     ShowAzubis();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Aktualisieren des Auszubildenden auf.");
                 }
             })
         });
@@ -284,12 +299,8 @@ jQuery(function($) {
                         auszubildender.remove();
                         $("#LoadingSpinner").hide();
                     },
-                    error: function(jqXHR, textStatus, errorThrown ) {
-                        $("#LoadingSpinner").hide();
-                        var emb = $("#ErrorMessageBox");
-                        emb.find(".message").text("Es traten Fehler beim Löschen des Auszubildenden auf.");
-                        emb.show();
-                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    error: function() {
+                        HandleError("Es traten Fehler beim Löschen des Auszubildenden auf.");
                     }
                 });
             }

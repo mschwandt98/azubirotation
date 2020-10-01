@@ -58,6 +58,15 @@ jQuery(function($) {
             return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         function HideViews() {
             $("#Standardplaene").hide();
             $("#AddStandardplanForm").hide();
@@ -203,6 +212,9 @@ jQuery(function($) {
 
                     ShowStandardPlaene();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen des Standardplans auf.");
                 }
             })
         });
@@ -276,6 +288,9 @@ jQuery(function($) {
                     HideViews();
                     ShowStandardPlaene();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Aktualisieren des Standardplans auf.");
                 }
             })
         });
@@ -297,6 +312,9 @@ jQuery(function($) {
                 success: function() {
                     standardplan.remove();
                     $("#LoadingSpinner").show();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Löschen des Standardplans auf.");
                 }
             })
         });

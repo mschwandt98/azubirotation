@@ -11,6 +11,15 @@ jQuery(function($) {
             return $.get(APIABTEILUNG + "Get");
         }
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         function HideViews() {
             $("#Ansprechpartner").hide();
             $("#AddAnsprechpartnerForm").hide();
@@ -112,6 +121,9 @@ jQuery(function($) {
                     HideViews();
                     ShowAnsprechpartner();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen des Ansprechpartners auf.");
                 }
             })
         });
@@ -178,8 +190,11 @@ jQuery(function($) {
 
                     HideViews();
                     $("#ShowAnsprechpartnerButton").click();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Aktualisieren des Ansprechpartners auf.");
                 }
-            })
+            });
         });
 
         $("#Ansprechpartner").on("click", ".delete-item-child", function() {
@@ -203,12 +218,8 @@ jQuery(function($) {
                         ansprechpartner.remove();
                         $("#LoadingSpinner").hide();
                     },
-                    error: function(jqXHR, textStatus, errorThrown ) {
-                        $("#LoadingSpinner").hide();
-                        var emb = $("#ErrorMessageBox");
-                        emb.find(".message").text("Es traten Fehler beim Löschen des Ansprechpartners auf.");
-                        emb.show();
-                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    error: function() {
+                        HandleError("Es traten Fehler beim Löschen des Ansprechpartners auf.");
                     }
                 });
             }

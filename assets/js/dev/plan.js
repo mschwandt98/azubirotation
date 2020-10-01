@@ -7,6 +7,15 @@ jQuery(function($) {
         var clicking = false;
         var tdItems = [];
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         $.get(APIABTEILUNG + "Get", function(data) {
             Abteilungen = JSON.parse(data);
         });
@@ -217,6 +226,9 @@ jQuery(function($) {
                 success: function(response) {
                     $("#Plan").html(response);
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen der Daten auf.");
                 }
             });
         });
@@ -232,6 +244,9 @@ jQuery(function($) {
                 success: function(response) {
                     // TODO
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Versenden der Emails auf.");
                 }
             });
         });
@@ -249,6 +264,9 @@ jQuery(function($) {
                         $("#PlanErrors").html(response);
                     }
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler bei der Authentifizierung auf.");
                 }
             });
         });

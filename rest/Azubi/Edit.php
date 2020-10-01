@@ -3,7 +3,6 @@ use Models\Auszubildender;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(MODELS . "Auszubildender.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -23,6 +22,7 @@ if (is_logged_in() && is_token_valid()) {
             !empty($email) && !empty($id_ausbildungsberuf) &&
             !empty($ausbildungsstart) && !empty($ausbildungsende)) {
 
+            include_once(MODELS . "Auszubildender.php");
             global $pdo;
             $azubi = new Auszubildender($vorname, $nachname, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id);
 
@@ -46,6 +46,9 @@ if (is_logged_in() && is_token_valid()) {
             }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

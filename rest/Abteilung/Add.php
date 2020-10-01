@@ -3,7 +3,6 @@ use Models\Abteilung;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(MODELS . "Abteilung.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -14,6 +13,8 @@ if (is_logged_in() && is_token_valid()) {
         $farbe          = sanitize_string($_POST["farbe"]);
 
         if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
+
+            include_once(MODELS . "Abteilung.php");
 
             global $pdo;
             $abteilung = new Abteilung($bezeichnung, $maxAzubis, $farbe);
@@ -33,6 +34,9 @@ if (is_logged_in() && is_token_valid()) {
             }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

@@ -4,8 +4,6 @@ use Core\Helper\DataHelper;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(MODELS . "Phase.php");
-include_once(HELPER . "DataHelper.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -19,6 +17,9 @@ if (is_logged_in() && is_token_valid()) {
             global $pdo;
 
             foreach ($phasen as $phase) {
+
+                include_once(MODELS . "Phase.php");
+                include_once(HELPER . "DataHelper.php");
 
                 $phase = new Phase(
                     sanitize_string($phase["id_abteilung"]),
@@ -49,6 +50,9 @@ if (is_logged_in() && is_token_valid()) {
             exit;
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

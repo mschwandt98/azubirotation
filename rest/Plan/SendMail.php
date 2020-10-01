@@ -7,7 +7,6 @@ include_once(dirname(dirname(__DIR__)) . "/config.php");
 if (is_logged_in() && is_token_valid()) {
 
     include_once(HELPER . "/DataHelper.php");
-
     $helper = new DataHelper();
 
     $ansprechpartner = $helper->GetAnsprechpartner();
@@ -39,9 +38,11 @@ if (is_logged_in() && is_token_valid()) {
 
     if (mail($empfaenger, $betreff, $nachricht, implode("\r\n", $header))) {
         http_response_code(200);
-        exit();
+    } else {
+        http_response_code(400);
     }
+    exit;
 }
 
-http_response_code(400);
-exit();
+http_response_code(401);
+exit;

@@ -7,7 +7,7 @@ session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 
 if (!is_logged_in() || !is_token_valid()) {
-    http_response_code(400);
+    http_response_code(401);
     exit;
 }
 
@@ -203,4 +203,4 @@ if (empty($errors)) {
 ob_start("minifier");
 include_once(BASE . "/templates/PlanErrors.php");
 ob_end_flush();
-exit();
+exit;

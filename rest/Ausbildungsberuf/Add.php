@@ -3,7 +3,6 @@ use Models\Ausbildungsberuf;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(MODELS . "Ausbildungsberuf.php");
 
 if (is_logged_in() && is_token_valid()) {
 
@@ -13,6 +12,7 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($bezeichnung)) {
 
+            include_once(MODELS . "Ausbildungsberuf.php");
             global $pdo;
             $ausbildungsberuf = new Ausbildungsberuf($bezeichnung);
 
@@ -27,6 +27,8 @@ if (is_logged_in() && is_token_valid()) {
             }
         }
     }
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

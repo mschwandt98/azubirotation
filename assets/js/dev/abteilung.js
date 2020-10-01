@@ -7,6 +7,15 @@ jQuery(function($) {
         const MAXAZUBIS = "maxazubis";
         const FARBE = "farbe";
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         function HideViews() {
             $("#Abteilungen").hide();
             $("#AddAbteilungForm").hide();
@@ -94,6 +103,9 @@ jQuery(function($) {
                     RefreshFooter();
                     ShowAbteilungen();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen der Abteilung auf.");
                 }
             })
         });
@@ -147,6 +159,9 @@ jQuery(function($) {
                     RefreshFooter();
                     ShowAbteilungen();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Aktualisieren der Abteilung auf.");
                 }
             })
         });
@@ -173,12 +188,8 @@ jQuery(function($) {
                         abteilung.remove();
                         $("#LoadingSpinner").hide();
                     },
-                    error: function(jqXHR, textStatus, errorThrown ) {
-                        $("#LoadingSpinner").hide();
-                        var emb = $("#ErrorMessageBox");
-                        emb.find(".message").text("Es traten Fehler beim Löschen der Abteilung auf.");
-                        emb.show();
-                        setTimeout(() => { emb.fadeOut().text(); }, 10000);
+                    error: function() {
+                        HandleError("Es traten Fehler beim Löschen der Abteilung auf.");
                     }
                 });
             }

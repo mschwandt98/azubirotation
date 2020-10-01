@@ -5,6 +5,15 @@ jQuery(function($) {
         const ID = "id";
         const BEZEICHNUNG = "bezeichnung";
 
+        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+
+            $("#LoadingSpinner").hide();
+            var emb = $("#ErrorMessageBox");
+            emb.find(".message").text(errorMessage);
+            emb.show();
+            setTimeout(() => { emb.fadeOut().text(); }, 10000);
+        }
+
         function HideViews() {
             $("#Ausbildungsberufe").hide();
             $("#AddAusbildungsberufForm").hide();
@@ -78,6 +87,9 @@ jQuery(function($) {
                     HideViews();
                     ShowAusbildungsberufe();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Anlegen des Ausbildungsberufes auf.");
                 }
             })
         });
@@ -119,6 +131,9 @@ jQuery(function($) {
                     HideViews();
                     ShowAusbildungsberufe();
                     $("#LoadingSpinner").hide();
+                },
+                error: function() {
+                    HandleError("Es traten Fehler beim Aktualisieren des Ausbildungsberufes auf.");
                 }
             })
         });
