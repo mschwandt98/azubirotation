@@ -57,6 +57,15 @@ CREATE TABLE `pläne` (
   `Enddatum` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `settings` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `settings` (`ID`, `name`, `value`) VALUES
+(1, 'allow-registration', 'true');
+
 CREATE TABLE `standardpläne` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `ID_Ausbildungsberuf` bigint(20) UNSIGNED DEFAULT NULL,
@@ -97,6 +106,11 @@ ALTER TABLE `pläne`
   ADD KEY `ID_Ansprechpartner` (`ID_Ansprechpartner`),
   ADD KEY `ID_Abteilung` (`ID_Abteilung`);
 
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `ID` (`ID`),
+  ADD UNIQUE KEY `name` (`name`);
+
 ALTER TABLE `standardpläne`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`),
@@ -121,6 +135,9 @@ ALTER TABLE `auszubildende`
 
 ALTER TABLE `pläne`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `settings`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `standardpläne`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
