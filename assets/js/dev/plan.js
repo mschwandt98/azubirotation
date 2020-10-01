@@ -1,6 +1,7 @@
 jQuery(function($) {
     $(document).ready(function() {
 
+        // TODO: Abteilungen und Ansprechpartner nicht beim Laden der Seite holen -> dann wenn sie gebraucht werden!
         var Abteilungen;
         var Ansprechpartner;
 
