@@ -36,8 +36,7 @@ jQuery(function($) {
                     var buttonContainer = $("<div></div>");
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child")
-                        .addClass("secondary-button")
+                        .addClass("edit-item-child secondary-button")
                         .data(ID, ansprechpartner.ID)
                         .data(NAME, ansprechpartner.Name)
                         .data(EMAIL, ansprechpartner.Email)
@@ -45,8 +44,7 @@ jQuery(function($) {
                         .val("Bearbeiten");
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child")
-                        .addClass("secondary-button")
+                        .addClass("delete-item-child secondary-button")
                         .data(ID, ansprechpartner.ID)
                         .val("Löschen");
 

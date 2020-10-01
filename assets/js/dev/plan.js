@@ -40,7 +40,7 @@ jQuery(function($) {
             el.addClass("selected");
             tdItems.push(el);
 
-            var popup = $("<div></div>").addClass("set-abteilung-popup").addClass("vertical-scroll");
+            var popup = $("<div></div>").addClass("set-abteilung-popup vertical-scroll");
             var abteilungenList = $("<ul></ul>");
 
             Abteilungen.forEach(abteilung => {
@@ -113,9 +113,7 @@ jQuery(function($) {
             if (!el.data("id")) {
 
                 tdItems.forEach(item => {
-                    $(item).removeAttr("style")
-                        .removeAttr("data-id-abteilung")
-                        .removeAttr("data-id-ansprechpartner")
+                    $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner")
                         .addClass("deleted-abteilung")
                         .removeClass("selected")
                         .empty();
@@ -133,7 +131,7 @@ jQuery(function($) {
                 .removeClass("deleted-abteilung");
             });
 
-            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup").addClass("vertical-scroll");
+            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
             var ansprechpartnerList = $("<ul></ul>");
 
             Ansprechpartner.forEach(ansprechpartner => {
