@@ -1,9 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-        const APIABTEILUNG = API + "Abteilung/";
-
         // Bezeichnungen für Abteilungsproperties
         const ID = "id";
         const BEZEICHNUNG = "bezeichnung";

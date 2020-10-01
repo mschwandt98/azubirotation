@@ -1,9 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-        const APIAUSBILDUNGSBERUF = API + "Ausbildungsberuf/";
-
         // Bezeichnungen für Ausbildungsberufsproperties
         const ID = "id";
         const BEZEICHNUNG = "bezeichnung";

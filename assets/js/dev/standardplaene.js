@@ -1,9 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-        const APISTANDARDPLAN = API + "Standardplan/";
-
         // Bezeichnungen für Standardplanproperties
         const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
         const ID_ABTEILUNG = "id_abteilung";
@@ -54,11 +51,11 @@ jQuery(function($) {
         }
 
         function GetAbteilungen() {
-            return $.get(API + "Abteilung/Get");
+            return $.get(APIABTEILUNG + "Get");
         }
 
         function GetAusbildungsberufe() {
-            return $.get(API + "Ausbildungsberuf/Get");
+            return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
         function HideViews() {

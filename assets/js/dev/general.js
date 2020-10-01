@@ -1,3 +1,10 @@
+const API = "rest/";
+const APIABTEILUNG = API + "Abteilung/";
+const APIANSPRECHPARTNER = API + "Ansprechpartner/";
+const APIAUSBILDUNGSBERUF = API + "Ausbildungsberuf/";
+const APIAZUBI = API + "Azubi/";
+const APISTANDARDPLAN = API + "Standardplan/";
+
 jQuery(function($) {
     $(document).ready(function() {
 

@@ -1,9 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-        const APIANSPRECHPARTNER = API + "Ansprechpartner/";
-
         // Bezeichnungen für Ansprechpartnerproperties
         const ID = "id";
         const NAME = "name";
@@ -11,7 +8,7 @@ jQuery(function($) {
         const ID_ABTEILUNG = "id_abteilung";
 
         function GetAbteilungen() {
-            return $.get(API + "Abteilung/Get");
+            return $.get(APIABTEILUNG + "Get");
         }
 
         function HideViews() {

@@ -1,9 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-        const APIAZUBI = API + "Azubi/";
-
         // Bezeichnungen für Azubiproperties
         const ID = "id";
         const VORNAME = "vorname";
@@ -32,7 +29,7 @@ jQuery(function($) {
         }
 
         function GetAusbildungsberufe() {
-            return $.get(API + "Ausbildungsberuf/Get");
+            return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
         function HideViews() {

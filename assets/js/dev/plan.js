@@ -1,19 +1,17 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        const API = "rest/";
-
         var Abteilungen;
         var Ansprechpartner;
 
         var clicking = false;
         var tdItems = [];
 
-        $.get(API + "Abteilung/Get", function(data) {
+        $.get(APIABTEILUNG + "Get", function(data) {
             Abteilungen = JSON.parse(data);
         });
 
-        $.get(API + "Ansprechpartner/Get", function(data) {
+        $.get(APIANSPRECHPARTNER + "Get", function(data) {
             Ansprechpartner = JSON.parse(data);
         });
 
