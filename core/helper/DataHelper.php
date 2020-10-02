@@ -74,10 +74,11 @@ class DataHelper {
         return (empty($id)) ? $ansprechpartner : $ansprechpartner[0];
     }
 
-    public function GetAusbildungsberufe() {
+    public function GetAusbildungsberufe($id = null) {
 
         $statement = $this->db->prepare(
             "SELECT * FROM " . T_AUSBILDUNGSBERUFE .
+            $this->CreateWhereId($id) .
             "ORDER BY Bezeichnung ASC;"
         );
         $statement->execute();
@@ -90,7 +91,8 @@ class DataHelper {
             );
         }
 
-        return $ausbildungsberufe;
+        if (empty($ausbildungsberufe)) return [];
+        return (empty($id)) ? $ausbildungsberufe : $ausbildungsberufe[0];
     }
 
     public function GetAzubis($id = null) {
