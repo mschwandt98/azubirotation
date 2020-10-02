@@ -19,13 +19,18 @@
                 $("#Logout").on("submit", function(e) {
 
                     e.preventDefault();
+                    $("#LoadingSpinner").show();
 
                     $.ajax({
                         type: "GET",
                         url: "rest/Authorization/Logout",
                         success: function() { location.reload() },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            console.log(xhr.responseText);
+                        error: function () {
+                            $("#LoadingSpinner").hide();
+                            var emb = $("#ErrorMessageBox");
+                            emb.find(".message").text("Ein unbekannter Fehler ist beim Logout aufgetreten.");
+                            emb.show();
+                            setTimeout(() => { emb.fadeOut().text(); }, 10000);
                         }
                     });
                 });
@@ -54,6 +59,7 @@
                 $("#Login").on("submit", function(e) {
 
                     e.preventDefault();
+                    $("#LoadingSpinner").show();
 
                     $.ajax({
                         type: "POST",
@@ -63,8 +69,12 @@
                             password: $('#Login input[name="password"]').val()
                         },
                         success: function() { location.reload() },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            console.log(xhr.responseText);
+                        error: function () {
+                            $("#LoadingSpinner").hide();
+                            var emb = $("#ErrorMessageBox");
+                            emb.find(".message").text("Die Anmeldedaten sind falsch.");
+                            emb.show();
+                            setTimeout(() => { emb.fadeOut().text(); }, 10000);
                         }
                     });
                 });

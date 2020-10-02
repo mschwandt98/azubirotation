@@ -25,12 +25,12 @@
     <header id="Header"><?php include_once(__DIR__ . "/header.php") ?></header>
     <main id="Main"><?php include_once(__DIR__ . "/main.php") ?></main>
     <footer id="Footer"><?php include_once(__DIR__ . "/footer.php") ?></footer>
+    <div id="ErrorMessageBox" style="display: none;">
+        <div class="message"></div>
+    </div>
 
     <?php if (is_logged_in()) : ?>
         <div id="Popup"></div>
-        <div id="ErrorMessageBox" style="display: none;">
-            <div class="message"></div>
-        </div>
         <script src="assets/js/script.js"></script>
 
     <?php endif; ?>

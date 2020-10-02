@@ -183,24 +183,6 @@
     }
 }
 
-#ErrorMessageBox {
-    max-width: 50%;
-    position: absolute;
-    top: 64px;
-    left: 50%;
-
-    > .message {
-        background-color: #ffc5c5;
-        border: 1px solid red;
-        border-radius: 8px;
-        box-shadow: 0 0 8px 0 red;
-        padding: 16px 24px;
-        position: relative;
-        left: -50%;
-        z-index: 9999;
-    }
-}
-
 @media screen and (max-width: $md-max) and (min-width: $md-min) {
     .grid {
         grid-template-columns: 1fr 1fr;

@@ -24,8 +24,13 @@ if (!is_logged_in()) {
                 exit;
             }
         }
+
+        http_response_code(401);
+        exit;
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
-exit;
+http_response_code(401);
