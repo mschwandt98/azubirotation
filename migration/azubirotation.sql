@@ -54,7 +54,8 @@ CREATE TABLE `pläne` (
   `ID_Ansprechpartner` bigint(20) UNSIGNED DEFAULT NULL,
   `ID_Abteilung` bigint(20) UNSIGNED DEFAULT NULL,
   `Startdatum` date NOT NULL,
-  `Enddatum` date NOT NULL
+  `Enddatum` date NOT NULL,
+  `Markierung` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `settings` (
