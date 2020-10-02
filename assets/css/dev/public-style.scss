@@ -42,14 +42,6 @@ main {
 #Plan {
     margin: 16px 0;
 
-    > div {
-        margin-top: 16px;
-
-        &:first-of-type {
-            margin-top: 0;
-        }
-    }
-
     table, th, td {
         border: 1px solid $gray;
     }
@@ -101,7 +93,7 @@ main {
                 top: 0;
                 left: 0;
                 user-select: none;
-                z-index: 99999;
+                z-index: 99;
             }
         }
     }
@@ -111,7 +103,7 @@ Footer {
     position: fixed;
     bottom: 0;
     right: 0;
-    z-index: 9999999999;
+    z-index: 999;
 
     .toggle-legende {
         background-color: $selectline-blue;
@@ -181,7 +173,7 @@ Footer {
         position: relative;
         left: -50%;
         text-align: center;
-        z-index: 9999;
+        z-index: 99999;
     }
 }
 

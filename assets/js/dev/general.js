@@ -9,6 +9,12 @@ const TIME = 400;
 jQuery(function($) {
     $(document).ready(function() {
 
+        $(document).click(function(e) {
+            if(!$(e.target).closest("#InfoButton").length) {
+                $("#InfoButton > div").hide(TIME);
+            }
+        });
+
         $(".data-item").on("click", ".minimize-data-item", function() {
             var el = $(this);
             var container = el.closest(".data-item");
@@ -41,6 +47,10 @@ jQuery(function($) {
                 $("#Footer").animate({ bottom: 0 });
                 list.addClass(classVisible);
             }
+        });
+
+        $("#InfoButton").on("click", function() {
+            $(this).find("> div").show(TIME);
         });
     });
 });

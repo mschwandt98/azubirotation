@@ -54,6 +54,7 @@
         width: 24px;
 
         &:hover {
+            background-color: $selectline-blue;
             cursor: pointer;
         }
     }
@@ -115,9 +116,56 @@
     }
 }
 
+#InfoButton {
+    background-color: $selectline-dark-blue;
+    border-radius: 16px;
+    color: white;
+    margin: 0 0 8px auto;
+    position: relative;
+    height: 24px;
+    width: 24px;
+
+    &:before {
+        content: "?";
+        display: block;
+        font-size: 20px;
+        position: absolute;
+        text-align: center;
+        top: calc(50% - 0.5em);
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: $selectline-blue;
+        cursor: pointer;
+    }
+
+    > div {
+        background-color: #bdbdcb;
+        border: 1px solid #4b556a;
+        border-radius: 8px;
+        color: #4b556a;
+        cursor: default;
+        min-width: 256px;
+        padding: 8px;
+        position: absolute;
+        top: 0;
+        right: 32px;
+        z-index: 9999;
+
+        > div {
+            margin-bottom: 8px;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
 #Popup {
     position: absolute;
-    z-index: 999999;
+    z-index: 9999;
 
     .set-abteilung-popup,
     .set-ansprechpartner-popup {
@@ -190,6 +238,10 @@
 }
 
 @media screen and (max-width: $sm-max) {
+    #InfoButton {
+        display: none;
+    }
+
     .grid {
         grid-template-columns: 1fr;
     }
