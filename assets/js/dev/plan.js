@@ -72,9 +72,14 @@ jQuery(function($) {
 
         $("#Plan").on("mousedown", ".plan-phase", function(e) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
-
             RemoveSelectedStatus();
-            clicking = true;
+
+            if (e.ctrlKey) {
+                $(this).attr("draggable", "true");
+            } else {
+                $(this).removeAttr("draggable");
+                clicking = true;
+            }
         });
 
         $("#Plan").on("mousemove", ".plan-phase", function(e) {
@@ -123,7 +128,7 @@ jQuery(function($) {
             if (!el.data("id")) {
 
                 tdItems.forEach(item => {
-                    $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner")
+                    $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
                         .addClass("deleted-abteilung")
                         .removeClass("selected")
                         .empty();
@@ -191,14 +196,16 @@ jQuery(function($) {
 
                 phaseDivs.each(index => {
 
-                    var phase = $(phaseDivs[index]);
-                    var id_abteilung = phase.data("id-abteilung");
+                    // .attr() anstatt .data(), da jQuery nicht direkt im Element sucht und bei gelöschten Phasen
+                    // dennoch eine ID für die Abteilung und für den Ansprechpartner zurückgibt
+                    let phase = $(phaseDivs[index]);
+                    let id_abteilung = phase.attr("data-id-abteilung");
 
                     if (id_abteilung) {
                         phases.push({
                             date: phase.data("date"),
                             id_abteilung: id_abteilung,
-                            id_ansprechpartner: phase.data("id-ansprechpartner")
+                            id_ansprechpartner: phase.attr("data-id-ansprechpartner")
                         });
                     } else if (phase.hasClass("deleted-abteilung")) {
                         phases.push({
@@ -207,7 +214,7 @@ jQuery(function($) {
                             id_ansprechpartner: null
                         });
                     }
-                })
+                });
 
                 if (phases.length > 0) {
                     azubis.push({
@@ -296,5 +303,115 @@ jQuery(function($) {
             });
             tdItems.length = 0;
         }
+
+        // Drag and Drop -----------------------------------------------------------------------------------------------
+        var draggedTds;
+        $("#Plan").on("dragstart", ".plan-phase", function(e) {
+
+            if (!e.ctrlKey) {
+                return;
+            }
+
+            draggedTds = [];
+            clicking = false;
+
+            var el = $(this);
+            var tempEl = el;
+            draggedTds.push(tempEl);
+
+            while (true) {
+                if (tempEl.prev() !== null && tempEl.prev().data("id-abteilung") === el.data("id-abteilung")) {
+                    tempEl = tempEl.prev();
+                    draggedTds.push(tempEl);
+                } else {
+                    break;
+                }
+            };
+
+            tempEl = el;
+            while (true) {
+                if (tempEl.next() !== null && tempEl.next().data("id-abteilung") === el.data("id-abteilung")) {
+                    tempEl = tempEl.next();
+                    draggedTds.push(tempEl);
+                } else {
+                    break;
+                }
+            };
+
+            if (draggedTds.length > 1) {
+                el.css({ minWidth: el.width() * draggedTds.length + "px" });
+            }
+
+            setTimeout((function(el) {
+                return function() {
+                    el.css({ minWidth: "" });
+                }
+            })(el), 1);
+
+            e.originalEvent.dataTransfer.effectAllowed = "move";
+            e.originalEvent.dataTransfer.setData("farbe", el.css("backgroundColor"));
+            e.originalEvent.dataTransfer.setData("id-abteilung", el.data("id-abteilung"));
+            e.originalEvent.dataTransfer.setData("id-ansprechpartner", el.data("id-ansprechpartner"));
+        });
+
+        $("#Plan").on("dragover", ".plan-phase", function(e) {
+
+            if(e.originalEvent.preventDefault) {
+                e.preventDefault();
+            }
+
+            e.originalEvent.dataTransfer.dropEffect = "move";
+            return false;
+        });
+
+        $("#Plan").on("dragenter", ".plan-phase", function() {
+            $(this).addClass("selected");
+        });
+
+        $("#Plan").on("dragleave", ".plan-phase", function() {
+            $(this).removeClass("selected");
+        });
+
+        $("#Plan").on("drop", ".plan-phase", function (e) {
+
+            if (e.originalEvent.stopPropagation) {
+                e.originalEvent.stopPropagation();
+            }
+
+            var target = $(this);
+
+            var farbe = e.originalEvent.dataTransfer.getData("farbe");
+            var id_abteilung = e.originalEvent.dataTransfer.getData("id-abteilung");
+            var id_ansprechpartner = e.originalEvent.dataTransfer.getData("id-ansprechpartner");
+
+            var tempTarget = target;
+
+            draggedTds.forEach(td => {
+                td.removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
+                    .addClass("deleted-abteilung")
+                    .removeClass("selected")
+                    .empty();
+            })
+
+            for (var i = 0; i < draggedTds.length; i++) {
+
+                tempTarget.removeClass("selected")
+                    .attr("data-id-abteilung", id_abteilung)
+                    .attr("data-id-ansprechpartner", id_ansprechpartner)
+                    .removeClass("deleted-abteilung")
+                    .css({
+                        backgroundColor: farbe,
+                        borderColor: farbe
+                    });
+
+                if (tempTarget.next() !== null) {
+                    tempTarget = tempTarget.next();
+                } else {
+                    break;
+                }
+            }
+
+            return false;
+        });
     });
 });
