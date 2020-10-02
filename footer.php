@@ -5,10 +5,16 @@
 <div class="toggle-legende">Legende</div>
 <div class="legenden-list visible">
     <div class="legende">
-        <div class="symbol marker">
+        <div class="symbol begin-end">
             <div></div>
         </div>
         <div>Ausbildungsanfang/-ende</div>
+    </div>
+    <div class="legende">
+        <div class="symbol marker">
+            <div></div>
+        </div>
+        <div>Markierung</div>
     </div>
 
     <?php foreach ($Abteilungen as $abteilung) : ?>

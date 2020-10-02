@@ -65,12 +65,26 @@ main {
                 padding: 4px 8px;
             }
 
-            &.mark-start {
-                border-left: 4px solid black !important;
+            &.mark-start:before {
+                border-top: 8px solid red;
+                border-right: 8px solid transparent;
+                content: " ";
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 0;
+                width: 0;
             }
 
-            &.mark-ende {
-                border-right: 4px solid black !important;
+            &.mark-ende:after {
+                border-top: 8px solid red;
+                border-left: 8px solid transparent;
+                content: " ";
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 0;
+                width: 0;
             }
 
             &.selected {
@@ -94,6 +108,15 @@ main {
                 left: 0;
                 user-select: none;
                 z-index: 99;
+            }
+
+            .plan-mark {
+                background-color: black;
+                position: absolute;
+                top: 0;
+                right: 45%;
+                bottom: 0;
+                left: 45%;
             }
         }
     }
@@ -143,8 +166,31 @@ Footer {
 
             .symbol {
                 margin-right: 8px;
+                position: relative;
                 height: 1em;
                 width: 32px;
+
+                &.begin-end > div {
+                    &:before,
+                    &:after {
+                        border-top: 8px solid red;
+                        content: " ";
+                        position: absolute;
+                        top: 0;
+                        height: 0;
+                        width: 0;
+                    }
+
+                    &:before {
+                        border-right: 8px solid transparent;
+                        left: 0;
+                    }
+
+                    &:after {
+                        border-left: 8px solid transparent;
+                        right: 0;
+                    }
+                }
 
                 &.marker > div {
                     background-color: black;

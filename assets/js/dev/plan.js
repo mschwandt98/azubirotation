@@ -29,12 +29,20 @@ jQuery(function($) {
             if(!$(e.target).closest("#Plan table").length && !$(e.target).closest("#Popup").length) {
 
                 if ($(e.target).parents(".set-abteilung-popup").length === 0 &&
-                    $(e.target).parents(".set-ansprechpartner-popup").length === 0) {
-                    $("#Popup .set-abteilung-popup").remove();
-                    $("#Popup .set-ansprechpartner-popup").remove();
+                    $(e.target).parents(".set-ansprechpartner-popup").length === 0 &&
+                    $(e.target).parents(".set-mark-popup").length === 0) {
+                    $("#Popup > div").remove();
                     RemoveSelectedStatus();
                 }
             }
+
+            if(!$(e.target).closest("#InfoButton").length) {
+                $("#InfoButton > div").hide(TIME);
+            }
+        });
+
+        $("#InfoButton").on("click", function() {
+            $(this).find("> div").show(TIME);
         });
 
         $("#Plan").on("click", ".plan-phase", function(e) {
@@ -42,30 +50,53 @@ jQuery(function($) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
             if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
             if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
+            if ($(e.target).parents(".set-mark-popup").length > 0) return;
 
-            $("#Popup .set-abteilung-popup").remove();
-            $("#Popup .set-ansprechpartner-popup").remove();
+            $("#Popup > div").remove();
 
             var el = $(this);
             el.addClass("selected");
             tdItems.push(el);
 
-            var popup = $("<div></div>").addClass("set-abteilung-popup vertical-scroll");
-            var abteilungenList = $("<ul></ul>");
+            var popup = $("<div></div>");
 
-            Abteilungen.forEach(abteilung => {
-                abteilungenList.append(
-                    $("<li></li>")
-                        .attr("data-id", abteilung.ID)
-                        .text(abteilung.Bezeichnung)
-                ).append(
-                    $("<hr>")
-                );
-            });
+            if ($("#SetMark").prop("checked")) {
 
-            abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
+                var wrapper = $("<div></div>").addClass("set-mark-popup")
+                    .append(
+                        $("<form></form>").append(
+                            $("<label></label>").append(
+                                    $("<div></div>").text("Bezeichnung der Markierung")
+                                ).append(
+                                    $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
+                                )
+                            ).append(
+                            "<br>"
+                            ).append(
+                                $('<input type="button" value="Markierung setzen" />')
+                            )
+                    );
 
-            popup.append(abteilungenList);
+                popup.append(wrapper);
+            } else {
+
+                popup.addClass("set-abteilung-popup vertical-scroll");
+                var abteilungenList = $("<ul></ul>");
+
+                Abteilungen.forEach(abteilung => {
+                    abteilungenList.append(
+                        $("<li></li>")
+                            .attr("data-id", abteilung.ID)
+                            .text(abteilung.Bezeichnung)
+                    ).append(
+                        $("<hr>")
+                    );
+                });
+
+                abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
+                popup.append(abteilungenList);
+            }
+
             var positionTd = el.position();
             $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
         });
@@ -76,7 +107,7 @@ jQuery(function($) {
 
             if (e.ctrlKey) {
                 $(this).attr("draggable", "true");
-            } else {
+            } else if (!$("#SetMark").prop("checked")) {
                 $(this).removeAttr("draggable");
                 clicking = true;
             }
@@ -119,6 +150,20 @@ jQuery(function($) {
 
             $(tdItems[tdItems.length - 1]).click();
             clicking = false;
+        });
+
+        $("#Popup").on("click", '.set-mark-popup input[type="button"]', function(e) {
+
+            e.preventDefault();
+            var markerBezeichnung = $("#Popup .set-mark-popup").find('input[type="text"]').val();
+            var td = $(tdItems[0]);
+
+            td.find(".plan-mark").remove();
+            td.append(
+                $("<div></div>").attr("title", markerBezeichnung).addClass("plan-mark")
+            );
+
+            $("#Popup").empty();
         });
 
         $("#Popup").on("click", ".set-abteilung-popup li", function() {
@@ -201,17 +246,24 @@ jQuery(function($) {
                     let phase = $(phaseDivs[index]);
                     let id_abteilung = phase.attr("data-id-abteilung");
 
+                    let markierung = phase.find(".plan-mark");
+                    if (markierung.length > 0) {
+                        var markierungBezeichnung = markierung.attr("title");
+                    }
+
                     if (id_abteilung) {
                         phases.push({
                             date: phase.data("date"),
                             id_abteilung: id_abteilung,
-                            id_ansprechpartner: phase.attr("data-id-ansprechpartner")
+                            id_ansprechpartner: phase.attr("data-id-ansprechpartner"),
+                            markierung: markierungBezeichnung ?? null
                         });
                     } else if (phase.hasClass("deleted-abteilung")) {
                         phases.push({
                             date: phase.data("date"),
                             id_abteilung: null,
-                            id_ansprechpartner: null
+                            id_ansprechpartner: null,
+                            markierung: markierungBezeichnung ?? null
                         });
                     }
                 });

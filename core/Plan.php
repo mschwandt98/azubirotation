@@ -113,6 +113,12 @@ $weeksInTable = ceil(
 
                                 <?php endif; ?>
 
+                                <?php if (!empty($plan->Markierung)) : ?>
+
+                                    <div class="plan-mark" title="<?= $plan->Markierung; ?>"></div>
+
+                                <?php endif; ?>
+
                             </td>
 
                         <?php else: ?>

@@ -52,7 +52,8 @@ if (is_logged_in() && is_token_valid()) {
                         $ansprechpartner_id,
                         sanitize_string($phase["id_abteilung"]),
                         $startDate,
-                        $endDate
+                        $endDate,
+                        (!empty($phase["markierung"])) ? sanitize_string($phase["markierung"]) : ""
                     );
                 }
 
@@ -67,13 +68,14 @@ if (is_logged_in() && is_token_valid()) {
 
                 foreach ($phasen as $phase) {
 
-                    $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
+                    $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum, Markierung)
                         VALUES (
                             $id_azubi, " .
                             ($phase->ID_Ansprechpartner ?? ":null") . ", " .
                             $phase->ID_Abteilung . ", '" .
                             $phase->Startdatum . "', '" .
-                            $phase->Enddatum ."'
+                            $phase->Enddatum . "', '" .
+                            $phase->Markierung ."'
                         );";
                 }
 

@@ -73,7 +73,8 @@ foreach ($abteilungen as $unterteilung) {
                 $ap,
                 $phase->ID_Abteilung,
                 $startDate,
-                $endDate
+                $endDate,
+                $phase->Markierung
             );
 
             $startDate = DateHelper::NextMonday($startDate);

@@ -182,6 +182,7 @@ class DataHelper {
                 $plan["ID_Abteilung"],
                 $plan["Startdatum"],
                 $plan["Enddatum"],
+                $plan["Markierung"],
                 $plan["ID"]
             );
         }
