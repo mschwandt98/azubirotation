@@ -25,8 +25,7 @@ jQuery(function($) {
             var container = el.closest(".data-item");
             container.find(".title").removeAttr("style");
             container.find("> div.show-add-buttons").show(TIME);
-            el.removeClass("expand-data-item");
-            el.addClass("minimize-data-item");
+            el.removeClass("expand-data-item").addClass("minimize-data-item");
         });
 
         $("#Footer").on("click", ".toggle-legende", function() {
