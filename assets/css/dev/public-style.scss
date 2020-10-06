@@ -252,6 +252,7 @@ Footer {
 @media screen and (max-width: $sm-max) {
     header {
         display: block;
+        padding: 16px;
 
         h1 {
             border-bottom: 1px solid $gray;
@@ -266,6 +267,10 @@ Footer {
             margin-right: 0;
             margin-bottom: 8px;
         }
+    }
+
+    main {
+        margin: 16px;
     }
 
     footer {
