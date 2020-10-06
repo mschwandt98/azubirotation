@@ -35,6 +35,21 @@
 
     <?php endif; ?>
 
+    <script>
+        $("#Footer").on("click", ".toggle-legende", function() {
+
+            var list = $("#Footer .legenden-list");
+            var classVisible = "visible";
+
+            if (list.hasClass(classVisible)) {
+                $("#Footer").animate({ bottom: "-" + list.outerHeight() + "px" });
+                list.removeClass(classVisible);
+            } else {
+                $("#Footer").animate({ bottom: 0 });
+                list.addClass(classVisible);
+            }
+        });
+    </script>
 </body>
 </html>
 
