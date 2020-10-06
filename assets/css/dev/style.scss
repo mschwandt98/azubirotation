@@ -120,6 +120,10 @@
     }
 }
 
+.settings-box label {
+    display: block;
+}
+
 #InfoButton {
     background-color: $selectline-dark-blue;
     border-radius: 16px;
