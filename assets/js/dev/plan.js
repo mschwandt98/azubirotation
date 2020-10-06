@@ -66,14 +66,14 @@ jQuery(function($) {
                     .append(
                         $("<form></form>").append(
                             $("<label></label>").append(
-                                    $("<div></div>").text("Bezeichnung der Markierung")
+                                    $("<div></div>").text("Terminbezeichnung")
                                 ).append(
                                     $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
                                 )
                             ).append(
                             "<br>"
                             ).append(
-                                $('<input type="button" value="Markierung setzen" />')
+                                $('<input type="button" value="Termin setzen" />')
                             )
                     );
 

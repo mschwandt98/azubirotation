@@ -11,7 +11,7 @@
     <div id="PlanSettings">
         <div class="settings-box">
             <label>
-                Markierung setzen <input id="SetMark" type="checkbox" />
+                Termin eintragen <input id="SetMark" type="checkbox" />
             </label>
         </div>
         <div id="InfoButton">
@@ -27,6 +27,11 @@
                 <div>
                     Wenn ein Zeitraum einer Planung verschoben werden soll, muss die STRG-Taste und die linke Maustaste
                     gedrückt gehalten werden. Der komplette Zeitraum kann nun nach belieben verschoben werden.
+                </div>
+                <div>
+                    Um Termine wie beispielsweise "Zeugnisse" einzutragen, den Haken im Kästchen hinter "Termin
+                    eintragen" setzen. Daraufhin auf das entsprechende Feld klicken, im aufkommenden Popup die
+                    Terminbezeichnung eintragen und diese bestätigen.
                 </div>
                 <div>
                     Zum Speichern der Planung den Button "Planung speichern" drücken.

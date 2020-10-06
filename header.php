@@ -1,4 +1,4 @@
-<h1>Tool für die Azubirotation</h1>
+<h1>Ausbildungsplaner</h1>
 
 <?php if (is_logged_in()) : ?>
 

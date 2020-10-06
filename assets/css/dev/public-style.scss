@@ -31,6 +31,7 @@ header {
         label {
             align-self: center;
             display: inline;
+            margin-right: 16px;
         }
     }
 }
@@ -131,12 +132,12 @@ Footer {
     .toggle-legende {
         background-color: $selectline-blue;
         border: solid $selectline-blue;
-        border-top-right-radius: 8px;
         border-top-left-radius: 8px;
         border-width: 1px 1px 0 1px;
         box-shadow: 0 0 8px 0px white;
         color: white;
         cursor: pointer;
+        margin-left: auto;
         padding: 4px 16px;
         width: fit-content;
 
@@ -148,6 +149,7 @@ Footer {
     .legenden-list {
         background-color: rgba(white, 0.9);
         border: 1px solid $rgba-selectline-blue;
+        border-top-left-radius: 8px;
         box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
         padding: 16px 24px;
 
