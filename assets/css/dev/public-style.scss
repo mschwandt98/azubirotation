@@ -63,7 +63,9 @@ main {
             white-space: nowrap;
 
             &.row-info {
+                overflow: hidden;
                 padding: 4px 8px;
+                text-overflow: ellipsis;
             }
 
             &.mark-start:before {
@@ -222,6 +224,37 @@ Footer {
         left: -50%;
         text-align: center;
         z-index: 99999;
+    }
+}
+
+@media screen and (min-width: $lg-min) {
+    #Plan table {
+        th, td {
+            &.sticky-col {
+                background-color: white;
+                box-shadow: 0 0 0px 0.5px $gray;
+                position: sticky;
+                z-index: 100;
+
+                &:first-of-type,
+                &:nth-of-type(2) {
+                    max-width: 100px;
+                    min-width: 100px;
+                }
+
+                &:first-of-type {
+                    left: 0;
+                }
+
+                &:nth-of-type(2) {
+                    left: 117px;
+                }
+
+                &:nth-of-type(3) {
+                    left: 234px;
+                }
+            }
+        }
     }
 }
 
