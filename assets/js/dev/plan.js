@@ -52,53 +52,57 @@ jQuery(function($) {
             if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
             if ($(e.target).parents(".set-mark-popup").length > 0) return;
 
-            $("#Popup > div").remove();
+            // 1 = Linksklick und Prüfung auf undefined, falls diese Funktion im Code per .click() ausgelöst wurde
+            if (e.which === 1 || typeof e.which === "undefined") {
 
-            var el = $(this);
-            el.addClass("selected");
-            tdItems.push(el);
+                $("#Popup > div").remove();
 
-            var popup = $("<div></div>");
+                var el = $(this);
+                el.addClass("selected");
+                tdItems.push(el);
 
-            if ($("#SetMark").prop("checked")) {
+                var popup = $("<div></div>");
 
-                var wrapper = $("<div></div>").addClass("set-mark-popup")
-                    .append(
-                        $("<form></form>").append(
-                            $("<label></label>").append(
-                                    $("<div></div>").text("Terminbezeichnung")
+                if ($("#SetMark").prop("checked")) {
+
+                    var wrapper = $("<div></div>").addClass("set-mark-popup")
+                        .append(
+                            $("<form></form>").append(
+                                $("<label></label>").append(
+                                        $("<div></div>").text("Terminbezeichnung")
+                                    ).append(
+                                        $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
+                                    )
                                 ).append(
-                                    $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
+                                "<br>"
+                                ).append(
+                                    $('<input type="button" value="Termin setzen" />')
                                 )
-                            ).append(
-                            "<br>"
-                            ).append(
-                                $('<input type="button" value="Termin setzen" />')
-                            )
-                    );
+                        );
 
-                popup.append(wrapper);
-            } else {
+                    popup.append(wrapper);
+                } else {
 
-                popup.addClass("set-abteilung-popup vertical-scroll");
-                var abteilungenList = $("<ul></ul>");
+                    popup.addClass("set-abteilung-popup vertical-scroll");
+                    var abteilungenList = $("<ul></ul>");
 
-                Abteilungen.forEach(abteilung => {
-                    abteilungenList.append(
-                        $("<li></li>")
-                            .attr("data-id", abteilung.ID)
-                            .text(abteilung.Bezeichnung)
-                    ).append(
-                        $("<hr>")
-                    );
-                });
+                    Abteilungen.forEach(abteilung => {
+                        abteilungenList.append(
+                            $("<li></li>")
+                                .attr("data-id", abteilung.ID)
+                                .text(abteilung.Bezeichnung)
+                        ).append(
+                            $("<hr>")
+                        );
+                    });
 
-                abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
-                popup.append(abteilungenList);
+                    abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
+                    popup.append(abteilungenList);
+                }
+
+                var positionTd = el.position();
+                $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
             }
-
-            var positionTd = el.position();
-            $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
         });
 
         $("#Plan").on("mousedown", ".plan-phase", function(e) {
@@ -152,6 +156,20 @@ jQuery(function($) {
             clicking = false;
         });
 
+        $("#Plan").on("contextmenu", ".plan-phase", function(e) {
+
+            e.preventDefault();
+            if ($(e.target).parents(".plan-phase").length > 0) return;
+            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
+            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
+            if ($(e.target).parents(".set-mark-popup").length > 0) return;
+
+            $("#Popup").empty();
+            var el = $(this);
+            var positionTd = el.position();
+            $("#Popup").append($("<div>TODO</div>")).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
+        });
+
         $("#Popup").on("click", '.set-mark-popup input[type="button"]', function(e) {
 
             e.preventDefault();
@@ -186,7 +204,9 @@ jQuery(function($) {
                 $(item).attr("data-id-abteilung", el.data("id"))
                 .attr(
                     "style",
-                    "background-color: " + GetAbteilungsFarbe(el.data("id")) + "; border-color: " + GetAbteilungsFarbe(el.data("id"))
+                    "background-color: " + GetAbteilungsFarbe(el.data("id")) +"; " +
+                    "border-left-color: " + GetAbteilungsFarbe(el.data("id")) + "; " +
+                    "border-right-color: " + GetAbteilungsFarbe(el.data("id")) + ";"
                 )
                 .removeClass("deleted-abteilung");
             });

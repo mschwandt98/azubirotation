@@ -65,7 +65,7 @@ $weeksInTable = ceil(
                 <?php $currentDate = $tableFirstDate; ?>
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                    <th class="month"
+                    <th class="month <?= (DateHelper::InRange(date("Y-m-d"), $currentDate, DateHelper::NextSunday($currentDate))) ? "current-week" : "" ?>"
                         title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>"
                     >
                         <?= DateHelper::FormatDate($currentDate, "M Y"); ?>
@@ -104,7 +104,7 @@ $weeksInTable = ceil(
                                 <td class="plan-phase
                                     <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
                                     <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
-                                    style="background-color: <?= $abteilung->Farbe; ?>; border-color: <?= $abteilung->Farbe; ?>;"
+                                    style="background-color: <?= $abteilung->Farbe; ?>; border-left-color: <?= $abteilung->Farbe; ?>; border-right-color: <?= $abteilung->Farbe; ?>;"
                                     data-date="<?= $currentDate; ?>"
                                     data-id-abteilung="<?= $plan->ID_Abteilung;?>"
                                     data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ""; ?>"
@@ -112,7 +112,9 @@ $weeksInTable = ceil(
 
                                     <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate) && !empty($plan->ID_Ansprechpartner)) : ?>
 
-                                        <span class="ansprechpartner-name"><?= $helper->GetAnsprechpartner($plan->ID_Ansprechpartner)->Name; ?></span>
+                                        <span class="ansprechpartner-name">
+                                            <?= $helper->GetAnsprechpartner($plan->ID_Ansprechpartner)->Name; ?>
+                                        </span>
 
                                     <?php endif; ?>
 
