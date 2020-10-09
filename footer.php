@@ -14,7 +14,7 @@
         <div class="symbol marker">
             <div></div>
         </div>
-        <div>Markierung</div>
+        <div>Termin</div>
     </div>
 
     <?php foreach ($Abteilungen as $abteilung) : ?>

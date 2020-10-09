@@ -6,8 +6,7 @@
     grid-gap: 16px;
 }
 
-.data-item,
-.settings-box {
+.data-item {
     border: 1px solid $rgba-selectline-blue;
     border-radius: 8px;
     box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
@@ -17,9 +16,6 @@
     &:hover {
         box-shadow: 0px 0px 16px 0px rgba($gray, 0.4);
     }
-}
-
-.data-item {
 
     form {
         input[type="button"] {
@@ -120,15 +116,11 @@
     }
 }
 
-.settings-box label {
-    display: block;
-}
-
 #InfoButton {
     background-color: $selectline-dark-blue;
     border-radius: 16px;
     color: white;
-    margin: auto 0 0 auto;
+    margin-left: auto;
     position: relative;
     height: 24px;
     width: 24px;
@@ -183,6 +175,7 @@
         padding: 8px 16px;
     }
 
+    .context-popup,
     .set-abteilung-popup,
     .set-ansprechpartner-popup {
         max-height: 128px;
@@ -214,13 +207,6 @@
 .plan-actions {
     display: flex;
     justify-content: space-between;
-}
-
-#PlanSettings {
-    display: grid;
-    grid-gap: 16px;
-    grid-template-columns: auto 1fr;
-    margin-top: 16px;
 }
 
 #PlanErrors > div {

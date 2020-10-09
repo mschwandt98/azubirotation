@@ -8,6 +8,15 @@ jQuery(function($) {
         var clicking = false;
         var tdItems = [];
 
+        function SetPopupContent(content, position = 0) {
+
+            $("#Popup").empty().append(content);
+
+            if (position !== 0) {
+                $("#Popup").css({ top: position.top, left: position.left + 64 });
+            }
+        }
+
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -30,6 +39,7 @@ jQuery(function($) {
 
                 if ($(e.target).parents(".set-abteilung-popup").length === 0 &&
                     $(e.target).parents(".set-ansprechpartner-popup").length === 0 &&
+                    $(e.target).parents(".context-popup").length === 0 &&
                     $(e.target).parents(".set-mark-popup").length === 0) {
                     $("#Popup > div").remove();
                     RemoveSelectedStatus();
@@ -50,6 +60,7 @@ jQuery(function($) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
             if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
             if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
+            if ($(e.target).parents(".context-popup").length > 0) return;
             if ($(e.target).parents(".set-mark-popup").length > 0) return;
 
             // 1 = Linksklick und Prüfung auf undefined, falls diese Funktion im Code per .click() ausgelöst wurde
@@ -61,47 +72,22 @@ jQuery(function($) {
                 el.addClass("selected");
                 tdItems.push(el);
 
-                var popup = $("<div></div>");
+                var popup = $("<div></div>").addClass("set-abteilung-popup vertical-scroll");
+                var abteilungenList = $("<ul></ul>");
 
-                if ($("#SetMark").prop("checked")) {
+                Abteilungen.forEach(abteilung => {
+                    abteilungenList.append(
+                        $("<li></li>")
+                            .attr("data-id", abteilung.ID)
+                            .text(abteilung.Bezeichnung)
+                    ).append(
+                        $("<hr>")
+                    );
+                });
 
-                    var wrapper = $("<div></div>").addClass("set-mark-popup")
-                        .append(
-                            $("<form></form>").append(
-                                $("<label></label>").append(
-                                        $("<div></div>").text("Terminbezeichnung")
-                                    ).append(
-                                        $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
-                                    )
-                                ).append(
-                                "<br>"
-                                ).append(
-                                    $('<input type="button" value="Termin setzen" />')
-                                )
-                        );
-
-                    popup.append(wrapper);
-                } else {
-
-                    popup.addClass("set-abteilung-popup vertical-scroll");
-                    var abteilungenList = $("<ul></ul>");
-
-                    Abteilungen.forEach(abteilung => {
-                        abteilungenList.append(
-                            $("<li></li>")
-                                .attr("data-id", abteilung.ID)
-                                .text(abteilung.Bezeichnung)
-                        ).append(
-                            $("<hr>")
-                        );
-                    });
-
-                    abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
-                    popup.append(abteilungenList);
-                }
-
-                var positionTd = el.position();
-                $("#Popup").append(popup).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
+                abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
+                popup.append(abteilungenList);
+                SetPopupContent(popup, el.position());
             }
         });
 
@@ -111,7 +97,7 @@ jQuery(function($) {
 
             if (e.ctrlKey) {
                 $(this).attr("draggable", "true");
-            } else if (!$("#SetMark").prop("checked")) {
+            } else {
                 $(this).removeAttr("draggable");
                 clicking = true;
             }
@@ -163,11 +149,60 @@ jQuery(function($) {
             if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
             if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
             if ($(e.target).parents(".set-mark-popup").length > 0) return;
+            if ($(e.target).parents(".context-popup").length > 0) return;
 
-            $("#Popup").empty();
             var el = $(this);
-            var positionTd = el.position();
-            $("#Popup").append($("<div>TODO</div>")).css({ top: positionTd.top, left: positionTd.left + el.width() + 16 });
+            el.addClass("selected");
+            tdItems.push(el);
+
+            var popup = $("<div></div>").addClass("context-popup");
+            var contextList = $("<ul></ul>");
+
+            if (el.find(".plan-mark").length > 0) {
+                contextList.append($("<li></li>").text("Termin umbenennen").data("update", "true"));
+                contextList.append($("<hr>"));
+                contextList.append($("<li></li>").text("Termin löschen").data("delete", "true"));
+            } else {
+                contextList.append($("<li></li>").text("Termin setzen").data("add", "true"));
+            }
+
+            popup.append(contextList);
+
+            SetPopupContent(popup, el.position());
+        });
+
+        $("#Popup").on("click", ".context-popup li", function() {
+
+            var el = $(this);
+            var text = "";
+
+            if (el.data("add")) {
+                text = "Terminbezeichnung";
+            } else if (el.data("update")) {
+                text = "Neue Terminbezeichnung";
+            } else if (el.data("delete")) {
+                $(tdItems[0]).empty();
+                $("#Popup").empty();
+                RemoveSelectedStatus();
+                return;
+            }
+
+            var wrapper = $("<div></div>").addClass("set-mark-popup")
+                .append(
+                    $("<form></form>").append(
+                        $("<label></label>").append(
+                                $("<div></div>").text(text)
+                            ).append(
+                                $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
+                            )
+                        ).append(
+                        "<br>"
+                        ).append(
+                            $('<input type="button" value="Termin setzen" />')
+                        )
+                );
+
+            SetPopupContent(wrapper);
         });
 
         $("#Popup").on("click", '.set-mark-popup input[type="button"]', function(e) {
@@ -182,6 +217,7 @@ jQuery(function($) {
             );
 
             $("#Popup").empty();
+            RemoveSelectedStatus();
         });
 
         $("#Popup").on("click", ".set-abteilung-popup li", function() {
@@ -229,11 +265,8 @@ jQuery(function($) {
             });
 
             ansprechpartnerList.find(":last-child").remove();
-
-            popupAnsprechpartner.append(ansprechpartnerList);
-            $("#Popup").append(popupAnsprechpartner);
-
-            $(".set-abteilung-popup").remove();
+            popupAnsprechpartner.append(ansprechpartnerList)
+            SetPopupContent(popupAnsprechpartner);
         });
 
         $("#Popup").on("click", ".set-ansprechpartner-popup li", function() {
