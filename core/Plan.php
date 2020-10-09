@@ -124,7 +124,7 @@ unset($currentDate);
 
                             <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
                                 <?php $abteilung = $helper->GetAbteilungen($plan->ID_Abteilung); ?>
-                                <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")][$abteilung->Farbe] = true; ?>
+                                <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")][$abteilung->ID] = $abteilung; ?>
 
                                 <td class="plan-phase
                                     <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
@@ -172,7 +172,7 @@ unset($currentDate);
                 <td colspan="<?= $weeksInTable + 3; ?>" class="empty-field"></td>
             </tr>
             <tr>
-                <td colspan="3" class="sticky-col empty-field"></td>
+                <td colspan="3" class="sticky-col empty-field" style="text-align: right;"></td>
 
                 <?php foreach ($abteilungenInWeek as $week) : ?>
 
@@ -180,9 +180,10 @@ unset($currentDate);
 
                         <?php if (!empty($week)) : ?>
                             <?php ksort($week); // Sortierung der Farben ?>
-                            <?php foreach ($week as $abteilungsFarbe => $true) : ?>
+                            <?php foreach ($week as $id_abteilung => $abteilung) : ?>
 
-                                <div style="width: 100%; background-color: <?= $abteilungsFarbe; ?>; height: 8px;"></div>
+                                <div style="width: 100%; background-color: <?= $abteilung->Farbe; ?>; height: 8px;"
+                                     title="<?= $abteilung->Bezeichnung; ?>"></div>
 
                             <?php endforeach; ?>
                         <?php endif; ?>
