@@ -49,14 +49,38 @@ if (!DateHelper::IsMonday($tableFirstDate)) {
     $tableFirstDate = DateHelper::LastMonday($tableFirstDate);
 }
 
-$weeksInTable = ceil(
-    (strtotime($tableLastDate) - strtotime($tableFirstDate)) / (60 * 60 * 24 * 7)
-);
+$weeksInTable = ceil((strtotime($tableLastDate) - strtotime($tableFirstDate)) / (60 * 60 * 24 * 7));
+
+$abteilungenInWeek = [];
+$weeksPerMonth = [];
+$currentDate = $tableFirstDate;
+for ($i = 0; $i < $weeksInTable; $i++) {
+
+    $month = DateHelper::FormatDate($currentDate, "M Y");
+    $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")] = [];
+
+    if (array_key_exists($month, $weeksPerMonth)) {
+        $weeksPerMonth[$month]++;
+    } else {
+        $weeksPerMonth[$month] = 1;
+    }
+
+    $currentDate = DateHelper::NextMonday($currentDate);
+}
+unset($currentDate);
 ?>
 
 <div class="horizontal-scroll">
     <table>
         <thead>
+            <tr>
+                <th class="sticky-col" colspan="3"></th>
+
+                <?php foreach ($weeksPerMonth as $month => $numberOfWeeks) : ?>
+                    <th colspan="<?= $numberOfWeeks; ?>"><?= $month; ?></th>
+                <?php endforeach; ?>
+
+            </tr>
             <tr>
                 <th class="sticky-col">Nachname</th>
                 <th class="sticky-col">Vorname</th>
@@ -68,7 +92,7 @@ $weeksInTable = ceil(
                     <th class="month <?= (DateHelper::InRange(date("Y-m-d"), $currentDate, DateHelper::NextSunday($currentDate))) ? "current-week" : "" ?>"
                         title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>"
                     >
-                        <?= DateHelper::FormatDate($currentDate, "M Y"); ?>
+                        <?= DateHelper::FormatDate($currentDate, "W"); ?>
                     </th>
 
                     <?php $currentDate = DateHelper::NextMonday($currentDate); ?>
@@ -100,6 +124,7 @@ $weeksInTable = ceil(
 
                             <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
                                 <?php $abteilung = $helper->GetAbteilungen($plan->ID_Abteilung); ?>
+                                <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")][$abteilung->Farbe] = true; ?>
 
                                 <td class="plan-phase
                                     <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
@@ -143,8 +168,34 @@ $weeksInTable = ceil(
                 <?php endforeach; ?>
             <?php endforeach; ?>
 
+            <tr>
+                <td colspan="<?= $weeksInTable + 3; ?>" class="empty-field"></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="sticky-col empty-field"></td>
+
+                <?php foreach ($abteilungenInWeek as $week) : ?>
+
+                    <td class="empty-field">
+
+                        <?php if (!empty($week)) : ?>
+                            <?php ksort($week); // Sortierung der Farben ?>
+                            <?php foreach ($week as $abteilungsFarbe => $true) : ?>
+
+                                <div style="width: 100%; background-color: <?= $abteilungsFarbe; ?>; height: 8px;"></div>
+
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                    </td>
+
+                <?php endforeach; ?>
+
+            </tr>
         </tbody>
     </table>
+
+
 </div>
 
 <?php

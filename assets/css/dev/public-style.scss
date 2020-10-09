@@ -4,6 +4,7 @@
 
 body {
     color: $selectline-text-blue;
+    font-family: "Calibri";
     font-size: 16px;
     margin: 0;
 }
@@ -49,6 +50,15 @@ main {
 
     table {
         border-collapse: collapse;
+
+        th, td {
+            &.empty-field {
+                border-color: transparent !important;
+                box-shadow: 0 0 0 0 transparent !important;
+                height: 16px;
+                vertical-align: top;
+            }
+        }
 
         th {
             padding: 4px 8px;
@@ -236,7 +246,7 @@ Footer {
         th, td {
             &.sticky-col {
                 background-color: white;
-                box-shadow: 0 0 0px 0.5px $gray;
+                box-shadow: 0 0 0 0.5px $gray;
                 position: sticky;
                 z-index: 100;
 
