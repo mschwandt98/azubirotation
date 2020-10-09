@@ -16,7 +16,9 @@ jQuery(function($) {
 
                 if (time >= firstDateTime && time <= secondDateTime) {
 
-                    let scrollLeft = (i) * $(timePeriods[i]).outerWidth();
+                    let j = i;
+
+                    let scrollLeft = ((j - 1 > 0) ? --j : j) * $(timePeriods[i]).outerWidth();
 
                     // Sticky-Columns disabled on mobile
                     if ($(window).width() <= 991) {
