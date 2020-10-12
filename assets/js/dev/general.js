@@ -1,3 +1,4 @@
+// Globale Konstanten, die in mehreren JS-Dateien gebraucht werden.
 const API = "rest/";
 const APIABTEILUNG = API + "Abteilung/";
 const APIANSPRECHPARTNER = API + "Ansprechpartner/";
@@ -9,34 +10,12 @@ const TIME = 400;
 jQuery(function($) {
     $(document).ready(function() {
 
-        var timePeriods = $("#Plan th.month");
-
-        if (timePeriods.length > 0) {
-
-            let time = new Date().getTime();
-            let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-
-            for (let i = 0; i < timePeriods.length; i++) {
-
-                let dates = timePeriods.eq(i).attr("title").split(" - ");
-                let firstDateTime = new Date(dates[0].replace(pattern,'$3-$2-$1')).getTime();
-                let secondDateTime = new Date(dates[1].replace(pattern,'$3-$2-$1')).getTime();
-
-                if (time >= firstDateTime && time <= secondDateTime) {
-
-                    let scrollLeft = (i) * $(timePeriods[i]).outerWidth();
-
-                    // Sticky-Columns disabled on mobile
-                    if ($(window).width() <= 991) {
-                        scrollLeft += 400;
-                    }
-
-                    $("#Plan .horizontal-scroll").scrollLeft(scrollLeft);
-                    break;
-                }
-            }
-        }
-
+        /**
+         * Minimiert die jeweilige Ansicht des Datentyps und zeigt einen Button
+         * zum Ausklappen der Ansicht des jeweiligen Datentyps.
+         * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
+         * Ausbildungsberufe, Azubis und Standardpläne.
+         */
         $(".data-item").on("click", ".minimize-data-item", function() {
             var el = $(this);
             var container = el.closest(".data-item");
@@ -48,6 +27,12 @@ jQuery(function($) {
             el.addClass("expand-data-item");
         });
 
+        /**
+         * Klappt die jeweilige Ansicht des Datentyps aus und zeigt einen Button
+         * zum Minimieren der Ansicht des jeweiligen Datentyps.
+         * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
+         * Ausbildungsberufe, Azubis und Standardpläne.
+         */
         $(".data-item").on("click", ".expand-data-item", function() {
             var el = $(this);
             var container = el.closest(".data-item");

@@ -1,6 +1,7 @@
 jQuery(function($) {
     $(document).ready(function() {
 
+        // Scrollt zum aktuellen Datum in der Planung
         var timePeriods = $("#Plan th.month");
 
         if (timePeriods.length > 0) {
@@ -20,7 +21,7 @@ jQuery(function($) {
 
                     let scrollLeft = ((j - 1 > 0) ? --j : j) * $(timePeriods[i]).outerWidth();
 
-                    // Sticky-Columns disabled on mobile
+                    // + 400, da Sticky-Columns on mobile disabled sind
                     if ($(window).width() <= 991) {
                         scrollLeft += 400;
                     }
@@ -31,6 +32,9 @@ jQuery(function($) {
             }
         }
 
+        /**
+         * Toggled die Sichtbarkeit der Legende.
+         */
         $("#Footer").on("click", ".toggle-legende", function() {
 
             var list = $("#Footer .legenden-list");

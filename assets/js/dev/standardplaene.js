@@ -11,6 +11,12 @@ jQuery(function($) {
         // TODO: besseren Weg finden
         var Abteilungen;
 
+        /**
+         * Erzeugt HTML zum Hinzufügen einer Phase im Standardplan.
+         *
+         * @param {HTMLElement} container Der Container, in dem die HTML
+         *                                eingefügt werden soll.
+         */
         function AddPhaseHtml(container) {
             var item = $('<div></div>').addClass("phase");
             var abteilungenSelect = $("<select></select>").attr("name", ID_ABTEILUNG);
@@ -50,14 +56,52 @@ jQuery(function($) {
             );
         }
 
+        /**
+         * Fügt option-Elemente zu einem select-Element hinzu.
+         *
+         * @param {HTMLSelectElement} selectItem Das select-Element, zu dem die
+         *                                       option-Elemente hinzugefügt
+         *                                       werden sollen.
+         * @param {array} optionData Die Daten für die einzelenen
+         *                           option-Elemente.
+         */
+        function AddSelectOption(selectItem, optionData) {
+
+            selectItem.empty();
+
+            optionData.forEach(data => {
+                selectItem.append(
+                    $(`<option>${ data.Bezeichnung }</option>`).val(data.ID)
+                );
+            });
+        }
+
+        /**
+         * Holt alle Abteilungen mittels einer AJAX-Anfrage des Typs GET.
+         *
+         * @return {string} Alle Abteilungen im JSON-Format.
+         */
         function GetAbteilungen() {
             return $.get(APIABTEILUNG + "Get");
         }
 
+        /**
+         * Holt alle Ausbildungsberufe mittels einer AJAX-Anfrage des Typs GET.
+         *
+         * @return {string} Alle Ausbildungsberufe im JSON-Format.
+         */
         function GetAusbildungsberufe() {
             return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
+        /**
+         * Handhabung der Anwendung bei Fehlern.
+         * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
+         * Sekunden an.
+         *
+         * @param {string} errorMessage Die Fehlernachricht, die angezeigt
+         *                              werden soll.
+         */
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -67,16 +111,28 @@ jQuery(function($) {
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
 
+        /**
+         * Versteckt die Ansichten zu den Standardplänen.
+         */
         function HideViews() {
             $("#Standardplaene").hide(TIME);
             $("#AddStandardplanForm").hide(TIME);
             $("#EditStandardplanForm").hide(TIME);
         }
 
+        /**
+         * Führt ein Click-Event auf dem Element mit der ID
+         * "ShowStandardplaeneButton" aus.
+         */
         function ShowStandardPlaene() {
             $("#ShowStandardplaeneButton").click();
         }
 
+        /**
+         * Holt alle Standardpläne mittels einer GET-Anfrage und zeigt diese an.
+         * Für jeden Standardplan wird ein Button zum Bearbeiten und Löschen des
+         * jeweiligen Standardplans erstellt.
+         */
         $("#ShowStandardplaeneButton").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -118,17 +174,11 @@ jQuery(function($) {
             });
         });
 
-        function AddSelectOption(selectItem, optionData) {
-
-            selectItem.empty();
-
-            optionData.forEach(data => {
-                selectItem.append(
-                    $(`<option>${ data.Bezeichnung }</option>`).val(data.ID)
-                );
-            });
-        }
-
+        /**
+         * Zeigt das Formular zum Hinzufügen eines Standardplans an. Da im
+         * Formular die Ausbildungsberufe und Abteilungen benötigt werden,
+         * werden AJAX-Anfragen des Typs GET gestellt, um diese zu holen.
+         */
         $("#ShowAddStandardplanForm").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -158,14 +208,29 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Die aktuelle Phase des jeweiligen Standardplans wird gelöscht.
+         */
         $("#AddStandardplanForm").on("click", "input.delete-phase", function() {
             $(this).closest(".phase").remove();
         });
 
+        /**
+         * Eine Phase wird zum aktuellen Standardplan hinzugefügt.
+         */
         $("#AddStandardplanForm").on("click", "input.add-phase", function() {
             AddPhaseHtml($("#AddStandardplanForm .plan-phasen").eq(0));
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Hinzufügen eines Standardplans. Bei erfolgreicher Speicherung des
+         * Standardplans wird das Formular versteckt und die Ansicht aller
+         * Standardpläne wird eingeblendet. Bei einem Fehler wird eine
+         * Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#AddStandardplanForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -219,6 +284,11 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Fügt die Daten des zu bearbeitenden Standardplans in die Felder des
+         * Formulars zum Bearbeiten einer Standardplans ein und blendet dieses
+         * ein.
+         */
         $("#Standardplaene").on("click", ".edit-item-child", function() {
 
             $("#LoadingSpinner").show();
@@ -236,14 +306,29 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Die aktuelle Phase des jeweiligen Standardplans wird gelöscht.
+         */
         $("#EditStandardplanForm").on("click", "input.delete-phase", function() {
             $(this).closest(".phase").remove();
         });
 
+        /**
+         * Eine Phase wird zum aktuellen Standardplan hinzugefügt.
+         */
         $("#EditStandardplanForm").on("click", "input.add-phase", function() {
             AddPhaseHtml($("#EditStandardplanForm .plan-phasen").eq(0));
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Bearbeiten eines Standardplans. Bei erfolgreicher Aktualisierung
+         * des Standardplans wird das Formular versteckt und die Ansicht aller
+         * Standardpläne wird eingeblendet. Bei einem Fehler wird eine
+         * Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#EditStandardplanForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -295,6 +380,12 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST zum Löschen des jeweiligen
+         * Standardplans. Nach erfolgreichem Löschen des Standardplans wird die
+         * Ansicht aller Standardpläne aktualisiert. Wenn Fehler beim Löschen
+         * des Standardplans auftreten, wird eine Fehlernachricht angezeigt.
+         */
         $("#Standardplaene").on("click", ".delete-item-child", function() {
 
             $("#LoadingSpinner").show();

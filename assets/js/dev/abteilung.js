@@ -7,6 +7,14 @@ jQuery(function($) {
         const MAXAZUBIS = "maxazubis";
         const FARBE = "farbe";
 
+        /**
+         * Handhabung der Anwendung bei Fehlern.
+         * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
+         * Sekunden an.
+         *
+         * @param {string} errorMessage Die Fehlernachricht, die angezeigt
+         *                              werden soll.
+         */
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -16,22 +24,37 @@ jQuery(function($) {
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
 
+        /**
+         * Versteckt die Ansichten zu den Abteilungen.
+         */
         function HideViews() {
             $("#Abteilungen").hide(TIME);
             $("#AddAbteilungForm").hide(TIME);
             $("#EditAbteilungForm").hide(TIME);
         }
 
+        /**
+         * Aktualisiert die Legende im Footer mittels einer GET-Anfrage.
+         */
         function RefreshFooter() {
             $.get(API + "Refresh/Footer", function(data) {
                 $("#Footer").html(data);
             });
         }
 
+        /**
+         * Führt ein Click-Event auf dem Element mit der ID
+         * "ShowAbteilungenButton" aus.
+         */
         function ShowAbteilungen() {
             $("#ShowAbteilungenButton").click();
         }
 
+        /**
+         * Holt alle Abteilungen mittels einer GET-Anfrage und zeigt diese an.
+         * Für jede Abteilung wird ein Button zum Bearbeiten und Löschen der
+         * jeweiligen Abteilung erstellt.
+         */
         $("#ShowAbteilungenButton").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -71,11 +94,23 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Zeigt das Formular zum Hinzufügen einer Abteilung an.
+         */
         $("#ShowAddAbteilungForm").on("click", function() {
             HideViews();
             $("#AddAbteilungForm").show(TIME);
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Hinzufügen einer Abteilung. Bei erfolgreicher Speicherung der
+         * Abteilung wird das Formular versteckt und die Ansicht aller
+         * Abteilungen wird eingeblendet. Bei einem Fehler wird eine
+         * Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#AddAbteilungForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -110,6 +145,10 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Fügt die Daten der zu bearbeitenden Abteilung in die Felder des
+         * Formulars zum Bearbeiten einer Abteilung ein und blendet dieses ein.
+         */
         $("#Abteilungen").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
@@ -127,6 +166,15 @@ jQuery(function($) {
             form.show(TIME);
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Bearbeiten einer Abteilung. Bei erfolgreicher Aktualisierung der
+         * Abteilung wird das Formular versteckt und die Ansicht aller
+         * Abteilungen wird eingeblendet. Bei einem Fehler wird eine
+         * Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#EditAbteilungForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -166,6 +214,13 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST zum Löschen der jeweiligen
+         * Abteilung. Nach erfolgreichem Löschen der Abteilung wird die
+         * Ansicht aller Abteilungen und die Legende aktualisiert. Wenn Fehler
+         * beim Löschen der Abteilung auftreten, wird eine Fehlernachricht
+         * angezeigt.
+         */
         $("#Abteilungen").on("click", ".delete-item-child", function() {
 
             var abteilung = $(this).closest(".item-child");

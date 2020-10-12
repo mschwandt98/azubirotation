@@ -7,10 +7,23 @@ jQuery(function($) {
         const EMAIL = "email";
         const ID_ABTEILUNG = "id_abteilung";
 
+        /**
+         * Holt alle Abteilungen mittels einer AJAX-Anfrage des Typs GET.
+         *
+         * @return {string} Alle Abteilungen im JSON-Format.
+         */
         function GetAbteilungen() {
             return $.get(APIABTEILUNG + "Get");
         }
 
+        /**
+         * Handhabung der Anwendung bei Fehlern.
+         * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
+         * Sekunden an.
+         *
+         * @param {string} errorMessage Die Fehlernachricht, die angezeigt
+         *                              werden soll.
+         */
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -20,16 +33,28 @@ jQuery(function($) {
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
 
+        /**
+         * Versteckt die Ansichten zu den Ansprechpartnern.
+         */
         function HideViews() {
             $("#Ansprechpartner").hide(TIME);
             $("#AddAnsprechpartnerForm").hide(TIME);
             $("#EditAnsprechpartner").hide(TIME);
         }
 
+        /**
+         * Führt ein Click-Event auf dem Element mit der ID
+         * "ShowAnsprechpartnerButton" aus.
+         */
         function ShowAnsprechpartner() {
             $("#ShowAnsprechpartnerButton").click();
         }
 
+        /**
+         * Holt alle Ansprechpartner mittels einer GET-Anfrage und zeigt diese
+         * an. Für jeden Ansprechpartner wird ein Button zum Bearbeiten und
+         * Löschen des jeweiligen Ansprechpartners erstellt.
+         */
         $("#ShowAnsprechpartnerButton").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -70,6 +95,11 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Zeigt das Formular zum Hinzufügen eines Ansprechpartners an. Da für
+         * dieses Formular alle Abteilungen benötigt werden, wird eine
+         * AJAX-Anfrage des Typs GET gestellt.
+         */
         $("#ShowAddAnsprechpartnerForm").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -94,6 +124,15 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Hinzufügen eines Ansprechpartners. Bei erfolgreicher Speicherung
+         * der Ansprechpartners wird das Formular versteckt und die Ansicht
+         * aller Ansprechpartner wird eingeblendet. Bei einem Fehler wird eine
+         * Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#AddAnsprechpartnerForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -128,6 +167,11 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Fügt die Daten des zu bearbeitenden Ansprechpartners in die Felder
+         * des Formulars zum Bearbeiten eines Ansprechpartners ein und blendet
+         * dieses ein.
+         */
         $("#Ansprechpartner").on("click", ".edit-item-child", function() {
 
             $("#LoadingSpinner").show();
@@ -161,6 +205,15 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Bearbeiten eines Ansprechpartners. Bei erfolgreicher
+         * Aktualisierung des Ansprechpartners wird das Formular versteckt un
+         * die Ansicht aller Ansprechpartner wird eingeblendet. Bei einem Fehler
+         * wird eine Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#EditAnsprechpartner").on("submit", function(e) {
 
             e.preventDefault();
@@ -197,6 +250,13 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST zum Löschen des jeweiligen
+         * Ansprechpartners. Nach erfolgreichem Löschen des Ansprechpartners
+         * wird die Ansicht aller Ansprechpartner aktualisiert. Wenn Fehler
+         * beim Löschen des Ansprechpartners auftreten, wird eine Fehlernachricht
+         * angezeigt.
+         */
         $("#Ansprechpartner").on("click", ".delete-item-child", function() {
 
             var ansprechpartner = $(this).closest(".item-child");

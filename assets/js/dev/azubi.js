@@ -28,10 +28,23 @@ jQuery(function($) {
             return a > b;
         }
 
+        /**
+         * Holt alle Ausbildungsberufe mittels einer AJAX-Anfrage des Typs GET.
+         *
+         * @return {string} Alle Ausbildungsberufe im JSON-Format.
+         */
         function GetAusbildungsberufe() {
             return $.get(APIAUSBILDUNGSBERUF + "Get");
         }
 
+        /**
+         * Handhabung der Anwendung bei Fehlern.
+         * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
+         * Sekunden an.
+         *
+         * @param {string} errorMessage Die Fehlernachricht, die angezeigt
+         *                              werden soll.
+         */
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -41,23 +54,38 @@ jQuery(function($) {
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
 
+        /**
+         * Versteckt die Ansichten zu den Azubis.
+         */
         function HideViews() {
             $("#Azubis").hide(TIME);
             $("#AddAzubiForm").hide(TIME);
             $("#EditAzubiForm").hide(TIME);
         }
 
+        /**
+         * Aktualisiert die Planung mittels einer AJAX-Anfrage des Typs GET.
+         */
         function RefreshPlan() {
             $.get(API + "Refresh/Plan", function(data) {
                 $("#Plan").html(data);
             });
         }
 
+        /**
+         * Führt ein Click-Event auf dem Element mit der ID "ShowAzubisButton"
+         * aus.
+         */
         function ShowAzubis() {
             HideViews();
             $("#ShowAzubisButton").click();
         }
 
+        /**
+         * Holt alle Azubis mittels einer GET-Anfrage und zeigt diese an. Für
+         * jeden Azubi wird ein Button zum Bearbeiten und Löschen des jeweiligen
+         * Azubis erstellt.
+         */
         $("#ShowAzubisButton").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -100,6 +128,11 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Zeigt das Formular zum Hinzufügen eines Azubis an. Da im Formular
+         * alle Ausbildungsberufe benötigt werden, wird eine AJAX-Anfrage des
+         * Typs GET gestellt, um diese zu holen.
+         */
         $("#ShowAddAzubiForm").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -122,6 +155,14 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Wenn in dem Formular zum Hinzufügen eines Azubis der Wert des
+         * Input-Felds für den Ausbildungsstart geändert wird, wird dieser Wert
+         * beim Input-Feld für das Ausbildungsende als minimales Datum per
+         * Attribut min gesetzt.
+         *
+         * @param {Event} e Das ausgelöste change-Event.
+         */
         $("#AddAzubiForm").on("change", `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
 
             var value = e.target.value;
@@ -133,6 +174,14 @@ jQuery(function($) {
             }
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Hinzufügen eines Azubis. Bei erfolgreicher Speicherung des Azubis
+         * wird das Formular versteckt und die Ansicht aller Azubis wird
+         * eingeblendet. Bei einem Fehler wird eine Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#AddAzubiForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -178,6 +227,10 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Fügt die Daten des zu bearbeitenden Azubis in die Felder des
+         * Formulars zum Bearbeiten eines Azubis ein und blendet dieses ein.
+         */
         $("#Azubis").on("click", ".edit-item-child", function() {
 
             $("#LoadingSpinner").show();
@@ -219,6 +272,14 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Wenn in dem Formular zum Bearbeiten eines Azubis der Wert des
+         * Input-Felds für den Ausbildungsstart geändert wird, wird dieser Wert
+         * beim Input-Feld für das Ausbildungsende als minimales Datum per
+         * Attribut min gesetzt.
+         *
+         * @param {Event} e Das ausgelöste change-Event.
+         */
         $("#EditAzubiForm").on("change", `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
 
             var value = e.target.value;
@@ -230,6 +291,15 @@ jQuery(function($) {
             }
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Bearbeiten eines Azubis. Bei erfolgreicher Aktualisierung des
+         * Azubis wird das Formular versteckt und die Ansicht aller
+         * Azubis wird eingeblendet. Bei einem Fehler wird eine Fehlernachricht
+         * ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#EditAzubiForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -277,6 +347,12 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST zum Löschen des jeweiligen
+         * Azubis. Nach erfolgreichem Löschen des Azubis wird die Ansicht aller
+         * Azubis aktualisiert. Wenn Fehler beim Löschen des Azubis auftreten,
+         * wird eine Fehlernachricht angezeigt.
+         */
         $("#Azubis").on("click", ".delete-item-child", function() {
 
             var auszubildender = $(this).closest(".item-child");

@@ -5,6 +5,14 @@ jQuery(function($) {
         const ID = "id";
         const BEZEICHNUNG = "bezeichnung";
 
+        /**
+         * Handhabung der Anwendung bei Fehlern.
+         * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
+         * Sekunden an.
+         *
+         * @param {string} errorMessage Die Fehlernachricht, die angezeigt
+         *                              werden soll.
+         */
         function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
 
             $("#LoadingSpinner").hide();
@@ -14,16 +22,28 @@ jQuery(function($) {
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
 
+        /**
+         * Versteckt die Ansichten zu den Ausbildungsberufen.
+         */
         function HideViews() {
             $("#Ausbildungsberufe").hide(TIME);
             $("#AddAusbildungsberufForm").hide(TIME);
             $("#EditAusbildungsberufForm").hide(TIME);
         }
 
+        /**
+         * Führt ein Click-Event auf dem Element mit der ID
+         * "ShowAusbildungsberufeButton" aus.
+         */
         function ShowAusbildungsberufe() {
             $("#ShowAusbildungsberufeButton").click();
         }
 
+        /**
+         * Holt alle Ausbildungsberufe mittels einer GET-Anfrage und zeigt diese
+         * an. Für jeden Ausbildungsberuf wird ein Button zum Bearbeiten und
+         * Löschen des jeweiligen Ausbildungsberufes erstellt.
+         */
         $("#ShowAusbildungsberufeButton").on("click", function() {
 
             $("#LoadingSpinner").show();
@@ -61,11 +81,23 @@ jQuery(function($) {
             });
         });
 
+        /**
+         * Zeigt das Formular zum Hinzufügen eines Ausbildungsberufes an.
+         */
         $("#ShowAddAusbildungsberufForm").on("click", function() {
             HideViews();
             $("#AddAusbildungsberufForm").show(TIME);
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Hinzufügen eines Ausbildungsberufes. Bei erfolgreicher
+         * Speicherung des Ausbildungsberufes wird das Formular versteckt und
+         * die Ansicht aller Ausbildungsberufe wird eingeblendet. Bei einem
+         * Fehler wird eine Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#AddAusbildungsberufForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -94,6 +126,11 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Fügt die Daten des zu bearbeitenden Ausbildungsberufes in die Felder
+         * des Formulars zum Bearbeiten eines Ausbildungsberuf ein und blendet
+         * dieses ein.
+         */
         $("#Ausbildungsberufe").on("click", ".edit-item-child", function() {
 
             var id = $(this).data(ID);
@@ -107,6 +144,15 @@ jQuery(function($) {
             form.show(TIME);
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST beim Submitten des Formulars
+         * zum Bearbeiten eines Ausbildungsberufes. Bei erfolgreicher
+         * Aktualisierung des Ausbildungsberufes wird das Formular versteckt und
+         * die Ansicht aller Ausbildungsberufe wird eingeblendet. Bei einem
+         * Fehler wird eine Fehlernachricht ausgegeben.
+         *
+         * @param {Event} e Das ausgelöste Submit-Event.
+         */
         $("#EditAusbildungsberufForm").on("submit", function(e) {
 
             e.preventDefault();
@@ -138,6 +184,13 @@ jQuery(function($) {
             })
         });
 
+        /**
+         * Stellt eine AJAX-Anfrage vom Typ POST zum Löschen des jeweiligen
+         * Ausbildungsberufes. Nach erfolgreichem Löschen des Ausbildungsberufes
+         * wird die Ansicht aller Ausbildungsberufe aktualisiert. Wenn Fehler
+         * beim Löschen des Ausbildungsberufes auftreten, wird eine
+         * Fehlernachricht angezeigt.
+         */
         $("#Ausbildungsberufe").on("click", ".delete-item-child", function() {
 
             var ausbildungsberuf = $(this).closest(".item-child");
