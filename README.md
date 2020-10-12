@@ -11,6 +11,23 @@ npm Installation: https://www.npmjs.com/get-npm
 composer Installation: https://getcomposer.org/download/
 
 
+== XAMPP ==
+Da bei der Entwicklung dieses Projekts die PHP-Entwicklungsumgebung XAMPP
+genutzt wurde, wird empfohlen XAMPP weiterhin zu nutzen, um eventuelle Fehler
+zu vermeiden. Zudem bringt XAMPP gleich einen MySQL-Server mit, welcher auch
+über phpMyAdmin ohne weiteren Installationsaufwand verwaltet werden kann.
+
+Das Projekt wurde unter PHP 7.4.10 entwickelt.
+
+=== Installation ===
+https://www.apachefriends.org/de/download.html
+
+=== Einrichtung ===
+Gewünschter Root Ordner: https://stackoverflow.com/questions/18902887/how-to-configuring-a-xampp-web-server-for-different-root-directory
+Setup local Mail: https://sebastianviereck.de/xampp-mails-verschicken-von-localhost-mit-sendmail/
+
+
+
 == PHING ==
 Mit Phing wird das Projekt in den /dist Ordner gebaut. In der build.xml ist
 definiert welche Dateien gebaut werden.

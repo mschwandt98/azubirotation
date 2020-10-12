@@ -27,23 +27,43 @@ define("BASE", __DIR__);
 define("HELPER", BASE . "/core/helper/");
 define("MODELS", BASE . "/models/");
 
+/**
+ * Bindet alle PHP-Dateien im Ordner models/ ein.
+ */
 function include_models() {
     foreach (glob(MODELS . "*.php") as $filename) {
         include_once $filename;
     }
 }
 
+/**
+ * Prüft, ob der Benutzer eingeloggt ist.
+ *
+ * @return bool Status, ob der Benutzer eingeloggt ist.
+ */
 function is_logged_in() {
     if (array_key_exists("user_id", $_SESSION) && !empty($_SESSION["user_id"])) return true;
     return false;
 }
 
+/**
+ * Prüft, ob ein CSRF-Token existiert und ob der CSRF-Token valide ist.
+ *
+ * @return bool Der Status, ob der CSRF-Token existiert bzw. valide ist.
+ */
 function is_token_valid() {
     if (!array_key_exists("csrfToken", $_POST)) return false;
     if (sanitize_string($_POST["csrfToken"]) === $_SESSION["csrf_token"]) return true;
     return false;
 }
 
+/**
+ * Minmiert den hereingegebenden Code.
+ *
+ * @param string $code Der Code, der minimiert werden soll.
+ *
+ * @return string Der minimierte Code.
+ */
 function minifier($code) {
     $search = [
         "/\>[^\S ]+/s",     // Remove whitespaces after tags
@@ -55,6 +75,13 @@ function minifier($code) {
     return preg_replace($search, $replace, $code);
 }
 
+/**
+ * Säubert einen String; Entfernt Tags und wandelt HTML-Special-Chars um.
+ *
+ * @param string $data Der zu säubernde String.
+ *
+ * @param string Der gesäuberte String.
+ */
 function sanitize_string($data) {
     $data = strip_tags($data);
     return htmlspecialchars($data);

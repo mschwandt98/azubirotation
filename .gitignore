@@ -8,7 +8,7 @@
 /assets/js/*.js/assets/css/*.css
 /assets/css/*.map
 /assets/js/*.js
-/dist
+/build
 /docs
 /node_modules
 /vendor
