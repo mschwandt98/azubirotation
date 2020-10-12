@@ -9,7 +9,7 @@
         "build": "npm run build-css && npm run build-js && php phing-latest.phar",
         "build-css": "sass assets/css/dev/style.scss assets/css/style.css --style compressed && sass assets/css/dev/public-style.scss assets/css/public-style.css --style compressed",
         "build-js": "terser assets/js/dev/*.js --output assets/js/script.js --compress --mangle --toplevel && terser assets/js/dev/public.js --output assets/js/public-script.js --compress --mangle --toplevel",
-        "phpdoc": "cd vendor/phpdocumentor/phpdocumentor/bin/ && phpdoc.bat -d ../../../.."
+        "phpdoc": "phpdoc.bat"
     },
     "license": "ISC",
     "dependencies": {

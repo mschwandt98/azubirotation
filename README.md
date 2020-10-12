@@ -45,6 +45,7 @@ für angemeldete Benutzer ausgeliefert. Der Grund für diese Unterscheidung ist
 einerseits, dass nicht angemeldete Benutzer weniger Daten transferiert bekommen
 und andererseits, dass die Anwendung sicherer ist.
 
+
 == PHPDOC ==
 PHPDOC wird verwendet, um eine strukturierte Übersicht über die Codedoku zu
 haben.
@@ -71,3 +72,5 @@ set PHPBIN=%PHP_PEAR_PHP_BIN%
 Mit
 $ npm run phpdoc
 wird phpdoc zur Erstellung einer PHP Dokumentation aus dem Code ausgeführt.
+
+Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
