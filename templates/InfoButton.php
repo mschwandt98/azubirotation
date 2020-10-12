@@ -1,3 +1,12 @@
+<?php
+/**
+ * InfoButton.php
+ *
+ * Die Template zum Info-Button, der eine Erklärung zum Umgang mit der Planung
+ * beinhaltet.
+ */
+?>
+
 <div id="InfoButton">
     <div style="display: none;">
         <div>

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Register.php
+ *
+ * Der API-Endpunkt zum Registrieren eines Benutzers.
+ */
+
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 

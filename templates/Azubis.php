@@ -1,3 +1,12 @@
+<?php
+/**
+ * Azubis.php
+ *
+ * Die Template für die Formulare zum Anzeigen, Anlegen, Bearbeiten und Löschen
+ * von Auszubildenden.
+ */
+?>
+
 <div class="data-item">
     <div class="minimize-data-item"></div>
     <div class="title">Auszubildende</div>

@@ -1,3 +1,21 @@
+<?php
+/**
+ * Standardplan.php
+ *
+ * Die Template für zum Bearbeiten eines Standardplans
+ *
+ * Für diese Template muss die Variable $viewBag gesetzt sein.
+ *
+ * Im Gegensatz zu den Formularen der anderen Datentypen (Abteilungen,
+ * Ausbildungsberufe, Ansprechpartner, Auszubildende) wird dieses Formular nicht
+ * per JavaScript erstellt. Der Hintergrund war der Zeitrahmen des Projekts. Es
+ * wäre aus Sicht der Menge an Übertragungsdaten besser diese Template per
+ * JavaScript erstellen zu lassen.
+ *
+ * TODO: Diese Template per JavaScript erstellen lassen.
+ */
+?>
+
 <?php if (empty($viewBag)) return; ?>
 
 <div><?= $viewBag["Standardplan"]->Ausbildungsberuf ?></div>
@@ -17,7 +35,7 @@
                             <?= $abteilung["Bezeichnung"]; ?>
                         </option>
 
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
 
                 </select>
             </label>

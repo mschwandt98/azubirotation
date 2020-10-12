@@ -1,4 +1,12 @@
 <?php
+/**
+ * PlanErrors.php
+ *
+ * Die Template für die Anzeige der Verstöße gegen Planungsrichtlinien.
+ *
+ * Für diese Template muss die Variable $errors gesetzt sein.
+ */
+
 if (empty($errors)) return;
 
 use Core\Helper\DataHelper;

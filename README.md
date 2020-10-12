@@ -3,7 +3,8 @@
 == Vorwort ==
 Bei Fragen zu Funktionalitäten und Aufbau ist die zum Projekt dazugehörige
 Facharbeit zu lesen. Code-spezifische Fragen sind den Kommentaren des Codes zu
-entnehmen.
+entnehmen. Sofern weitere Fragen offen sind, kann sich beim Autor des Projekts
+gemeldet werden.
 
 Zur Weiterentwicklung des Projekts werden npm und composer benötigt.
 npm Installation: https://www.npmjs.com/get-npm

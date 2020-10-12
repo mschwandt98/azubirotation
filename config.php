@@ -1,4 +1,10 @@
 <?php
+/**
+ * config.php
+ *
+ * Konfigurationsdatei, die am Anfang jeder PHP-Datei eingebunden werden sollte.
+ */
+
 // globales Datenbankobjekt
 try {
     $pdo = new PDO("mysql:dbname=azubirotation;host=localhost", "root", "");

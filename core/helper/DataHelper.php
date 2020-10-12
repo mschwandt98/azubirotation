@@ -1,4 +1,11 @@
 <?php
+/**
+ * DataHelper.php
+ *
+ * Enthält die Klasse DataHelper.php, über welche Daten aus der Datenbank
+ * einheitlich abgerufen werden können.
+ */
+
 namespace Core\Helper;
 
 use PDO;
@@ -7,6 +14,7 @@ use Models\Abteilung;
 use Models\Ansprechpartner;
 use Models\Ausbildungsberuf;
 use Models\Auszubildender;
+use Models\Einstellung;
 use Models\Phase;
 use Models\Standardplan;
 use Models\Plan;
@@ -19,15 +27,33 @@ if (!defined("BASE")) {
 
 include_models();
 
+/**
+ * Helper-Klasse für einen einheitlichen Abruf von Daten aus der Datenbank.
+ */
 class DataHelper {
 
+    /**
+     * @var PDO Das PDO Objekt zur hinterlegten Datenbank.
+     */
     private $db;
 
+    /**
+     * Setzen des Datenbank-Objekts.
+     */
     public function __construct() {
         global $pdo;
         $this->db = $pdo;
     }
 
+    /**
+     * Holt alle Abteilungen aus der Datenbank und erstellt aus jedem Datensatz
+     * ein "Abteilung"-Objekt.
+     *
+     * @param int $id Die ID der Abteilung, die geholt werden soll. Wenn nicht
+     *                gesetzt, werden alle Abteilungen geholt.
+     *
+     * @return Abteilung|Abteilung[] Die Abteilung bzw die Abteilungen.
+     */
     public function GetAbteilungen($id = null) {
 
         $statement = $this->db->prepare(
@@ -51,6 +77,15 @@ class DataHelper {
         return (empty($id)) ? $abteilungen : $abteilungen[0];
     }
 
+    /**
+     * Holt alle Ansprechpartner aus der Datenbank und erstellt aus jedem
+     * Datensatz ein "Ansprechpartner"-Objekt.
+     *
+     * @param int $id Die ID des Ansprechpartners, der geholt werden soll.
+     *                Wenn nicht gesetzt, werden alle Ansprechpartner geholt.
+     *
+     * @return Ansprechpartner|Ansprechpartner[] Der bzw die Ansprechpartner.
+     */
     public function GetAnsprechpartner($id = null) {
 
         $statement = $this->db->prepare(
@@ -74,6 +109,16 @@ class DataHelper {
         return (empty($id)) ? $ansprechpartner : $ansprechpartner[0];
     }
 
+    /**
+     * Holt alle Ausbildungsberufe aus der Datenbank und erstellt aus jedem
+     * Datensatz ein "Ausbildungsberuf"-Objekt.
+     *
+     * @param int $id Die ID des Ansprechpartners, der geholt werden soll.
+     *                Wenn nicht gesetzt, werden alle Ansprechpartner geholt.
+     *
+     * @return Ausbildungsberuf|Ausbildungsberuf[] Der Ausbildungsberuf bzw die
+     *                                             Ausbildungsberufe.
+     */
     public function GetAusbildungsberufe($id = null) {
 
         $statement = $this->db->prepare(
@@ -95,6 +140,15 @@ class DataHelper {
         return (empty($id)) ? $ausbildungsberufe : $ausbildungsberufe[0];
     }
 
+    /**
+     * Holt alle Azubis aus der Datenbank und erstellt aus jedem
+     * Datensatz ein "Auszubildender"-Objekt.
+     *
+     * @param int $id Die ID des Azubis, der geholt werden soll. Wenn nicht
+     *                gesetzt, werden alle Azubis geholt.
+     *
+     * @return Auszubildender|Auszubildender[] Der Azubi bzw die Azubis.
+     */
     public function GetAzubis($id = null) {
 
         $statement = $this->db->prepare(
@@ -121,6 +175,18 @@ class DataHelper {
         return (empty($id)) ? $azubis : $azubis[0];
     }
 
+    /**
+     * Holt alle Standardpläne aus der Datenbank und erstellt aus jedem
+     * Datensatz ein "Standardplan"-Objekt.
+     *
+     * @param int $id Die ID des Ausbildungsberufes, zu dem der Standardplan
+     *                geholt werden soll. Wenn nicht gesetzt, werden alle
+     *                Standardpläne geholt.
+     *
+     * @return Standardplan[] Die Standardpläne. Jeder Standardplan ist im Array
+     *                        unter dem Key mit der Bezeichnung des zugehörigen
+     *                        Ausbildungsberufes gelistet.
+     */
     public function GetStandardPlaene($id_ausbildungsberuf = null) {
 
         $sql_where = "";
@@ -166,6 +232,13 @@ class DataHelper {
         return $standardplaene;
     }
 
+    /**
+     * Holt alle Pläne aus der Datenbank und erstellt zu jedem Datensatz ein
+     * "Plan"-Objekt.
+     *
+     * @return Plan[] Die Pläne sortiert nach der ID der Azubis, zweitrangig
+     *                nach dem Startdatum der einzelnen Pläne.
+     */
     public function GetPlaene() {
 
         $statement = $this->db->prepare(
@@ -190,6 +263,13 @@ class DataHelper {
         return $plaene;
     }
 
+    /**
+     * Holt eine Einstellung aus der Datenbank.
+     *
+     * @param string $name Der Name der Einstellung.
+     *
+     * @return Einstellung Die angeforderte Einstellung.
+     */
     public function GetSetting($name) {
 
         $statement = $this->db->prepare(
@@ -197,9 +277,18 @@ class DataHelper {
             " WHERE name = '$name';"
         );
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return new Einstellung($result["name"], $result["value"]);
     }
 
+    /**
+     * Aktualisiert den Wert einer Einstellung.
+     *
+     * @param string $name Der Name der zu ändernden Einstellung.
+     * @param mixed $value Der Wert, der gesetzt werden soll.
+     *
+     * @return bool Der Status, ob die Ausführung erfolgreich war.
+     */
     public function UpdateSetting($name, $value) {
 
         return ($this->db->prepare(
@@ -209,6 +298,14 @@ class DataHelper {
         ))->execute();
     }
 
+    /**
+     * Erstellt einen SQL-WHERE Substring.
+     *
+     * @param int $id Die ID, nach der gesucht werden soll.
+     *
+     * @return string Wenn $id null ist, wird ein Leerzeichen zurückgegeben.
+     *                Ansonsten wird " WHERE ID = [$id] " zurückgegeben.
+     */
     private function CreateWhereId($id) {
         return (empty($id)) ? " " : " WHERE ID = " . intval($id) . " ";
     }

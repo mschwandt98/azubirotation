@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten einer Abteilung.
+ */
+
 use Models\Abteilung;
 
 session_start();

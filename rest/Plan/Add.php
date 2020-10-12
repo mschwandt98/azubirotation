@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Aktualisieren der Daten aus der Planung.
+ */
+
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 use Models\Plan;
@@ -53,7 +59,7 @@ if (is_logged_in() && is_token_valid()) {
                         sanitize_string($phase["id_abteilung"]),
                         $startDate,
                         $endDate,
-                        (!empty($phase["markierung"])) ? sanitize_string($phase["markierung"]) : ""
+                        (!empty($phase["termin"])) ? sanitize_string($phase["termin"]) : ""
                     );
                 }
 
@@ -75,7 +81,7 @@ if (is_logged_in() && is_token_valid()) {
                             $phase->ID_Abteilung . ", '" .
                             $phase->Startdatum . "', '" .
                             $phase->Enddatum . "', '" .
-                            $phase->Markierung ."'
+                            $phase->Termin ."'
                         );";
                 }
 

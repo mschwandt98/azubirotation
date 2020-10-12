@@ -1,4 +1,10 @@
 <?php
+/**
+ * Delete.php
+ *
+ * Der API-Endpunkt zum Löschen eines Azubis.
+ */
+
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 

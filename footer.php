@@ -1,6 +1,14 @@
-<?php use Core\Helper\DataHelper; ?>
-<?php include_once(__DIR__ . "/core/helper/DataHelper.php"); ?>
-<?php $Abteilungen = (new DataHelper())->GetAbteilungen(); ?>
+<?php
+/**
+ * footer.php
+ *
+ * Der Footer der Anwendung, in dem die Legende für die Planung dargestellt ist.
+ */
+
+use Core\Helper\DataHelper;
+include_once(__DIR__ . "/core/helper/DataHelper.php");
+$Abteilungen = (new DataHelper())->GetAbteilungen();
+?>
 
 <div class="toggle-legende">Legende</div>
 <div class="legenden-list visible">

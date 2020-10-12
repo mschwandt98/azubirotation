@@ -1,3 +1,13 @@
+<?php
+/**
+ * header.php
+ *
+ * Der Header der Anwendung. Der Header beihaltet den Titel der Anwendung und
+ * ein Login- bzw Logout-Formular. Welches Formular davon geladen wird hängt
+ * davon ab, ob der Benutzer eingeloggt ist.
+ */
+?>
+
 <h1>Ausbildungsplaner</h1>
 
 <?php if (is_logged_in()) : ?>

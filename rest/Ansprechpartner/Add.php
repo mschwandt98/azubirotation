@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen eines Ansprechpartners.
+ */
+
 use Models\Ansprechpartner;
 
 session_start();

@@ -4,7 +4,7 @@ use Core\Helper\DataHelper;
 session_start();
 include_once("config.php");
 include_once(HELPER . "DataHelper.php");
-$value = (new DataHelper())->GetSetting("allow-registration")["value"];
+$value = (new DataHelper())->GetSetting("allow-registration")->Value;
 $formStartseite = '<form action="' . explode("register.php", $_SERVER["PHP_SELF"])[0] . '">
     <input type="submit" value="Zur Startseite" />
 </form>';

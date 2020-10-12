@@ -1,4 +1,13 @@
 <?php
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Ausbildungsberufe, sortiert nach der
+ * Bezeichnung.
+ *
+ * TODO: SELECT-Anfrage gegen Helper ersetzen
+ */
+
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 
 global $pdo;

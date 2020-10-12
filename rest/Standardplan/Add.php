@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen eines Standardplans.
+ */
+
 use Models\Phase;
 use Core\Helper\DataHelper;
 

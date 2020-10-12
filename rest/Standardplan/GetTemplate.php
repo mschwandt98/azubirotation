@@ -1,4 +1,10 @@
 <?php
+/**
+ * GetTemplate.php
+ *
+ * Der API-Endpunkt zum Holen des Template-Formlars zu einem Standardplan.
+ */
+
 use core\Helper\DataHelper;
 
 if (array_key_exists("id_ausbildungsberuf", $_GET) && !empty($_GET["id_ausbildungsberuf"])) {

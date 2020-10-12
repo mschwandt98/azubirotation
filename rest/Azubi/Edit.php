@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Azubis.
+ */
+
 use Models\Auszubildender;
 
 session_start();

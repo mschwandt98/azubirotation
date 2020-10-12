@@ -1,4 +1,10 @@
 <?php
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Standardpläne.
+ */
+
 use core\Helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");

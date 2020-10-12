@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen eines Ausbildungsberufes.
+ */
+
 use Models\Ausbildungsberuf;
 
 session_start();

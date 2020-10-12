@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Ansprechpartners.
+ */
+
 use Models\Ansprechpartner;
 
 session_start();

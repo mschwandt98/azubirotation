@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen eines Azubis.
+ */
+
 use Models\Auszubildender;
 
 session_start();

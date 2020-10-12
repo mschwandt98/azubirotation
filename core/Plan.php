@@ -1,4 +1,18 @@
 <?php
+/**
+ * Plan.php
+ *
+ * Baut den Plan für das Frontend in einer Tabelle zusammen.
+ *
+ * Grober Aufbau des Plans:
+ *
+ * Header:      Infos über Azubis  | Zeitraum 1 | Zeitraum 2 | ... | Zeitraum n
+ * Body:        Infos über Azubi A | Plan 1     | Plan 2     | ... | Plan n
+ *              Infos über Azubi B | Plan 1     | Plan 2     | ... | Plan n
+ *              ...
+ *              Infos über Azubi C | Plan 1     | Plan 2     | ... | Plan n
+ */
+
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 
@@ -142,9 +156,9 @@ unset($currentDate);
 
                                     <?php endif; ?>
 
-                                    <?php if (!empty($plan->Markierung)) : ?>
+                                    <?php if (!empty($plan->Termin)) : ?>
 
-                                        <div class="plan-mark" title="<?= $plan->Markierung; ?>"></div>
+                                        <div class="plan-mark" title="<?= $plan->Termin; ?>"></div>
 
                                     <?php endif; ?>
 

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Musterplanung.php
+ *
+ * Erstellt eine einfache Musterplanung für einen Azubi nach dem Standardplan
+ * des Ausbildungsberufes des Azubis.
+ *
+ * Für das Skript muss die Variable $azubi_id gesetzt sein.
+ */
+
 use Core\Helper\DataHelper;
 use Core\Helper\DateHelper;
 use Models\Plan;
@@ -74,7 +83,7 @@ foreach ($abteilungen as $unterteilung) {
                 $phase->ID_Abteilung,
                 $startDate,
                 $endDate,
-                $phase->Markierung
+                "" // Termin
             );
 
             $startDate = DateHelper::NextMonday($startDate);

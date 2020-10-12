@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Standardplans.
+ */
+
 use Models\Phase;
 use Core\Helper\DataHelper;
 

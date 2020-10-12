@@ -1,4 +1,10 @@
 <?php
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen einer Abteilung.
+ */
+
 use Models\Abteilung;
 
 session_start();

@@ -1,6 +1,15 @@
-<?php session_start(); ?>
-<?php include(__DIR__ . "/config.php"); ?>
-<?php ob_start("minifier"); ?>
+<?php
+/**
+ * index.php
+ *
+ * Die Hauptseite der Anwendung, in der alle benötigten Komponenten, Skripte und
+ * Styles eingebunden werden.
+ */
+
+session_start();
+include(__DIR__ . "/config.php");
+ob_start("minifier");
+?>
 
 <!DOCTYPE html>
 <html lang="de">

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Login.php
+ *
+ * Der API-Endpunkt zum Anmelden.
+ */
+
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 

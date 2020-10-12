@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Ausbildungsberufes.
+ */
+
 use Models\Ausbildungsberuf;
 
 session_start();
