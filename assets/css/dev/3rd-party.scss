@@ -1,4 +1,17 @@
 /**
+ * 3rd-party.scss
+ *
+ * Drittanbieter-Styles, die an das Design der Anwendung angepasst wurden. Beim
+ * Hinzufügen weiterer Drittanbieter-Styles immer die Quelle im Kommentar mit
+ * @seen kennzeichnen.
+ *
+ * Index
+ * - Schatten für horizontales Scrollen
+ * - Schatten für vertikales Scrollen
+ * - Ladebalken
+ */
+
+/**
  * @seen https://gist.github.com/tbmiller/6675197
  */
 .horizontal-scroll {
