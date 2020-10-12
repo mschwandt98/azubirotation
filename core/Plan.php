@@ -90,8 +90,7 @@ unset($currentDate);
                 <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
                     <th class="month <?= (DateHelper::InRange(date("Y-m-d"), $currentDate, DateHelper::NextSunday($currentDate))) ? "current-week" : "" ?>"
-                        title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>"
-                    >
+                        title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>">
                         <?= DateHelper::FormatDate($currentDate, "W"); ?>
                     </th>
 
@@ -172,7 +171,7 @@ unset($currentDate);
                 <td colspan="<?= $weeksInTable + 3; ?>" class="empty-field"></td>
             </tr>
             <tr>
-                <td colspan="3" class="sticky-col empty-field" style="text-align: right;"></td>
+                <td colspan="3" class="sticky-col empty-field"></td>
 
                 <?php foreach ($abteilungenInWeek as $week) : ?>
 
@@ -182,7 +181,7 @@ unset($currentDate);
                             <?php ksort($week); // Sortierung der Farben ?>
                             <?php foreach ($week as $id_abteilung => $abteilung) : ?>
 
-                                <div style="width: 100%; background-color: <?= $abteilung->Farbe; ?>; height: 8px;"
+                                <div style="background-color: <?= $abteilung->Farbe; ?>; height: 8px;"
                                      title="<?= $abteilung->Bezeichnung; ?>"></div>
 
                             <?php endforeach; ?>

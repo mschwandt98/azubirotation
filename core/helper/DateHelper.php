@@ -30,7 +30,7 @@ class DateHelper {
     }
 
     public static function InRange($date, $startDate, $endDate) {
-        if ($date > $startDate && $date < $endDate ) return true;
+        if ($date >= $startDate && $date <= $endDate ) return true;
         return false;
     }
 
