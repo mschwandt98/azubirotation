@@ -114,13 +114,13 @@ if (!empty($abteilungen["Praeferierte"]) || !empty($abteilungen["PraeferierteOpt
         if ($alleWochenFrei) {
 
             $eingetragen = true;
-            $ansprechpartner = (GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung))->ID;
+            $ansprechpartner = GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
             foreach ($zeitraeume as $zeitraum) {
 
                 $plaene[] = new Plan(
                     $azubi->ID,
-                    $ansprechpartner,
+                    empty($ansprechpartner) ? null : $ansprechpartner->ID,
                     $abteilung->ID_Abteilung,
                     $zeitraum["Startdatum"],
                     $zeitraum["Enddatum"],
@@ -136,6 +136,7 @@ if (!empty($abteilungen["Praeferierte"]) || !empty($abteilungen["PraeferierteOpt
     if (!$eingetragen) {
 
         $randomAbteilung = $abteilungen["Praeferierte"][array_rand($abteilungen["Praeferierte"])];
+        $ansprechpartner = GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
         $startDate = (DateHelper::IsMonday($azubi->Ausbildungsstart))
             ? $azubi->Ausbildungsstart
@@ -149,7 +150,7 @@ if (!empty($abteilungen["Praeferierte"]) || !empty($abteilungen["PraeferierteOpt
 
             $plaene[] = new Plan(
                 $azubi->ID,
-                $ansprechpartner,
+                (empty($ansprechpartner)) ? null : $ansprechpartner->ID,
                 $randomAbteilung->ID_Abteilung,
                 $startDate,
                 $endDate,
