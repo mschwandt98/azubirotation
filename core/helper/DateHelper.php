@@ -4,6 +4,9 @@
  *
  * Enthält die statische Klasse DateHelper, welche Funktionen zum Umgang mit
  * Daten bereitstellt.
+ *
+ * TODO: Diesen Helper gegen eine Extension wie bspw Carbon ersetzen.
+ * https://github.com/briannesbitt/Carbon
  */
 
 namespace Core\Helper;

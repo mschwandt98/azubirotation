@@ -1,0 +1,356 @@
+<?php
+/**
+ * PlanungsHelper.php
+ *
+ * Enthält die Klasse PlanungsHelper.php, mit welcher eine automatische
+ * Planung vereinfacht wird.
+ */
+
+namespace Core\Helper;
+
+use Core\Helper\DataHelper;
+use Core\Helper\DateHelper;
+use Models\Plan;
+
+if (!defined("BASE")) {
+    include_once(BASE . "/config.php");
+} else {
+    include_once(dirname(dirname(__DIR__)) . "/config.php");
+}
+
+include_once(HELPER . "DataHelper.php");
+include_once(HELPER . "DateHelper.php");
+
+/**
+ * Helper-Klasse für die automatische Planung.
+ */
+class PlanungsHelper {
+
+    public $Azubi;
+    public $Helper;
+    public $Plaene = [];
+    public $AbteilungenLeft = [];
+
+    public function __construct($azubi) {
+        $this->Azubi = $azubi;
+        $this->Helper = new DataHelper();
+    }
+
+    public function PlanAbteilungen($abteilungen) {
+
+        $this->AbteilungenLeft = array_merge($this->AbteilungenLeft, $abteilungen);
+
+        // drei Mal versuchen einen Zeitraum in jeder Abteilung zu finden
+        for ($i = 0; $i < 3; $i++) {
+
+            shuffle($abteilungen);
+
+            foreach ($abteilungen as $abteilung) {
+
+                if (array_key_exists($abteilung->ID_Abteilung, $this->AbteilungenLeft)) {
+
+                    $lastPlanEndDate = end($this->Plaene)->Enddatum;
+                    $startDate = DateHelper::DayAfter($lastPlanEndDate);
+                    $zeitraeume = $this->CreateZeitraeume($startDate, $abteilung->Wochen);
+                    $alleWochenFrei = true;
+
+                    foreach ($zeitraeume as $zeitraum) {
+
+                        if (!$this->IsZeitraumInAbteilungFrei(
+                            DateHelper::BuildTimePeriodString($zeitraum["Startdatum"], $zeitraum["Enddatum"]),
+                            $abteilung->ID_Abteilung
+                        )) {
+                            $alleWochenFrei = false;
+                            $this->AbteilungenLeft[$abteilung->ID_Abteilung] = $abteilung;
+                            break;
+                        }
+                    }
+
+                    if ($alleWochenFrei) {
+
+                        foreach ($zeitraeume as $zeitraum) {
+                            $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"]);
+                        }
+
+                        unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
+                    }
+                }
+            }
+        }
+
+        $this->SortPlaene();
+    }
+
+    public function PlanLeftAbteilungen() {
+
+        shuffle($this->AbteilungenLeft);
+
+        foreach ($this->AbteilungenLeft as $abteilung) {
+
+            $lastPlanEndDate = end($this->Plaene)->Enddatum;
+            $startDate = DateHelper::DayAfter($lastPlanEndDate);
+            $zeitraeume = $this->CreateZeitraeume($startDate, $abteilung->Wochen);
+
+            if (!empty($zeitraeume)) {
+
+                foreach ($zeitraeume as $zeitraum) {
+                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"]);
+                }
+
+                unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
+            }
+        }
+
+        $this->SortPlaene();
+    }
+
+    public function PlanStartOfAusbildung($abteilungen) {
+
+        $eingetragen = false;
+        foreach ($abteilungen as $abteilung) {
+
+            $ausbildungsStart = (DateHelper::IsMonday($this->Azubi->Ausbildungsstart))
+                ? $this->Azubi->Ausbildungsstart
+                : DateHelper::LastMonday($this->Azubi->Ausbildungsstart);
+
+            $zeitraeume = $this->CreateZeitraeume($ausbildungsStart, $abteilung->Wochen);
+            $alleWochenFrei = true;
+
+            foreach ($zeitraeume as $zeitraum) {
+
+                if (!$this->IsZeitraumInAbteilungFrei(
+                    DateHelper::BuildTimePeriodString($zeitraum["Startdatum"], $zeitraum["Enddatum"]),
+                    $abteilung->ID_Abteilung
+                )) {
+                    $this->AbteilungenLeft[$abteilung->ID_Abteilung] = $abteilung;
+                    $alleWochenFrei = false;
+                    break;
+                }
+            }
+
+            if ($alleWochenFrei) {
+
+                $eingetragen = true;
+                $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+
+                foreach ($zeitraeume as $zeitraum) {
+
+                    $this->Plaene[] = new Plan(
+                        $this->Azubi->ID,
+                        empty($ansprechpartner) ? null : $ansprechpartner->ID,
+                        $abteilung->ID_Abteilung,
+                        $zeitraum["Startdatum"],
+                        $zeitraum["Enddatum"],
+                        ""
+                    );
+                }
+
+                break;
+            }
+        }
+
+        // Da keine Abteilung frei ist -> maximale Anzahl einer zufälligen präferierten Abteilung ignorieren
+        if (!$eingetragen) {
+
+            $randomAbteilung = $abteilungen[array_rand($abteilungen)];
+            unset($this->AbteilungenLeft[$randomAbteilung->ID_Abteilung]);
+
+            $startDate = (DateHelper::IsMonday($this->Azubi->Ausbildungsstart))
+                ? $this->Azubi->Ausbildungsstart
+                : DateHelper::LastMonday($this->Azubi->Ausbildungsstart);
+            $endDate = DateHelper::NextSunday($startDate);
+
+            for ($i = 0; $i <= $randomAbteilung->Wochen; $i++) {
+                $this->CreatePlanPhase($randomAbteilung, $startDate, $endDate);
+                $startDate = DateHelper::NextMonday($startDate);
+                $endDate = DateHelper::NextSunday($endDate);
+            }
+        }
+
+        $this->SortPlaene();
+    }
+
+    /**
+     * Erstellt die einzelnen Phasen vom Startdatum ausgehend für die nächsten
+     * einzelnen Wochen.
+     *
+     * @param string    $startDate      Das Startdatum der ersten Phase.
+     * @param int       $anzahlWochen   Die Anzahl der zu erstellenden Phasen.
+     *
+     * @return array Die einzelnen Zeiträume mit Start- und Enddatum.
+     *               Aufbau Array:
+     *               [0] => [
+     *                   "Startdatum" => "[STARTDATUM Y-m-d]",
+     *                   "Enddatum"   => "[ENDDATUM Y-m-d]"
+     *               ],
+     *               [1] => ...
+     */
+    private function CreateZeitraeume($startDate, $anzahlWochen) {
+
+        $endDate = DateHelper::NextSunday($startDate);
+
+        $zeitraeume = [];
+        for ($i = 0; $i <= $anzahlWochen; $i++) {
+
+            if ($startDate > $this->Azubi->Ausbildungsende) break;
+
+            $zeitraeume[] = [ "Startdatum" => $startDate, "Enddatum" => $endDate];
+            $startDate = DateHelper::NextMonday($startDate);
+            $endDate = DateHelper::NextSunday($endDate);
+        }
+
+        return $zeitraeume;
+    }
+
+    /**
+     *
+     */
+    private function CreatePlanPhase($abteilung, $startDate, $endDate) {
+
+        $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+
+        $this->Plaene[] = new Plan(
+            $this->Azubi->ID,
+            (empty($ansprechpartner)) ? null : $ansprechpartner->ID,
+            $abteilung->ID_Abteilung,
+            $startDate,
+            $endDate,
+            ""
+        );
+    }
+
+    /**
+     * Ermittelt einen zufälligen Ansprechpartner, der für die angeforderte
+     * Abteilung eingetragen ist.
+     *
+     * @param int $id_abteilung Die ID der Abteilung, für die der
+     *                          Ansprechpartner
+     *                          eingetragen sein soll.
+     *
+     * @return Ansprechpartner Ein zufällig ausgewählter Ansprechpartner, der
+     *                         für die angeforderte Abteilung eingetragen ist.
+     */
+    private function GetAnsprechpartnerFuerAbteilung($id_abteilung) {
+
+        $abteilungsAnsprechpartner = [];
+        foreach ($this->Helper->GetAnsprechpartner() as $ansprechpartner) {
+
+            if ($ansprechpartner->ID_Abteilung === $id_abteilung) {
+                $abteilungsAnsprechpartner[] = $ansprechpartner;
+            }
+        }
+
+        return (empty($abteilungsAnsprechpartner))
+            ? false
+            : $abteilungsAnsprechpartner[array_rand($abteilungsAnsprechpartner)];
+    }
+
+    /**
+     * Ermittelt die belegten Zeiträume in den einzelnen Abteilungen.
+     * Ein Zeitraum gilt als belegt, sobald ein Azubi für diesen Zeitraum
+     * geplant ist. Es heißt nicht, dass die maximale Anzahl an Azubis für die
+     * Abteilung innerhalb dieses Zeitraums bereits erreicht ist.
+     *
+     * @return array Die belegten Zeiträume.
+     *               Aufbau des Arrays:
+     *               (ID Abteilung 1) => [
+     *                   (Startdatum_1 Enddatum_2) => Anzahl an Azubis,
+     *                   ...
+     *                   (Startdatum_n Enddatum_n) => Anzahl an Azubis
+     *               ],
+     *               (ID Abteilung 2) => ...
+     */
+    private function GetBelegteZeitraeumeInAbteilungen() {
+
+        $abteilungsPlaene = [];
+        $belegteZeitraeume = []; // ... in Abteilungen
+        foreach ($this->Helper->GetAbteilungen() as $abteilung) {
+            $abteilungsPlaene[$abteilung->ID] = [];
+            $belegteZeitraeume[$abteilung->ID] = [];
+        }
+
+        foreach ($this->Helper->GetPlaene() as $plan) {
+            $abteilungsPlaene[$plan->ID_Abteilung][] = $plan;
+        }
+
+        // Belegte Zeiträume mit Anzahl an Azubis speichern
+        foreach ($abteilungsPlaene as $id_abteilung => $gespeichertePlaene) {
+
+            if (empty($gespeichertePlaene)) continue;
+
+            foreach ($gespeichertePlaene as $plan) {
+
+                $startDate = $plan->Startdatum;
+                $endDate = $plan->Enddatum;
+                $timePeriodString = DateHelper::BuildTimePeriodString($startDate, $endDate);
+
+                if (empty($belegteZeitraeume[$id_abteilung])) {
+                    $belegteZeitraeume[$id_abteilung][$timePeriodString] = 1;
+                    continue;
+                }
+
+                $eingetragen = false;
+                foreach ($belegteZeitraeume[$id_abteilung] as $zeitraum => $anzahlAzubis) {
+
+                    if ($timePeriodString === $zeitraum) {
+                        $belegteZeitraeume[$id_abteilung][$zeitraum]++;
+                        $eingetragen = true;
+                    }
+                }
+
+                if (!$eingetragen) {
+                    $belegteZeitraeume[$id_abteilung][$timePeriodString] = 1;
+                }
+            }
+        }
+
+        // Nach Datum sortieren
+        foreach ($belegteZeitraeume as $id_abteilung => $value) {
+            ksort($belegteZeitraeume[$id_abteilung]);
+        }
+
+        return $belegteZeitraeume;
+    }
+
+    /**
+     * Untersucht, ob für den gegebenen Zeitraum die Abteilung die maximale
+     * Anzahl an Azubis noch nicht erreicht hat, sprich ob sie noch weitere
+     * Azubis ausbilden kann.
+     *
+     * @param string    $timePeriod     Der Zeitraum im Format "Y-m-d Y-m-d"
+     *                                  (Startdatum[Leerzeichen]Enddatum).
+     * @param int       $id_abteilung   Die ID der Abteilung, für die der
+     *                                  Zeitraum überprüft werden soll.
+     *
+     * @return bool Der Status, ob die Abteilung noch weitere Azubis ausbilden
+     *              kann.
+     */
+    private function IsZeitraumInAbteilungFrei($timePeriod, $id_abteilung) {
+
+        $abteilung = $this->Helper->GetAbteilungen($id_abteilung);
+
+        $zeitraeumeAbteilung = $this->GetBelegteZeitraeumeInAbteilungen()[$id_abteilung];
+
+            if (array_key_exists($timePeriod, $zeitraeumeAbteilung)) {
+
+                if ($zeitraeumeAbteilung[$timePeriod] >= $abteilung->MaxAzubis) {
+                    return false;
+                }
+            }
+
+        return true;
+    }
+
+    /**
+     * Sortiert die Pläne nach den Startdaten.
+     */
+    private function SortPlaene() {
+
+        /**
+         * @see https://stackoverflow.com/questions/4282413/sort-array-of-objects-by-object-fields
+         */
+        usort($this->Plaene, function ($a, $b) {
+            return strcmp($a->Startdatum, $b->Startdatum);
+        });
+    }
+}
