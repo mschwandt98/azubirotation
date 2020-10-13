@@ -169,10 +169,12 @@ jQuery(function($) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
             RemoveSelectedStatus();
 
-            if (e.ctrlKey) {
-                $(this).attr("draggable", "true");
+            var el = $(this);
+
+            if (e.ctrlKey && el.attr("data-id-abteilung")) {
+                el.attr("draggable", "true");
             } else {
-                $(this).removeAttr("draggable");
+                el.removeAttr("draggable");
                 clicking = true;
             }
         });
@@ -527,7 +529,7 @@ jQuery(function($) {
         });
 
         // Drag and Drop -----------------------------------------------------------------------------------------------
-        var draggedTds;
+        var draggedTds = [];
 
         /**
          * Untersucht die nebenstehenden Phasen nach den Abteilungen solange bis
@@ -543,7 +545,7 @@ jQuery(function($) {
 
             if (!e.ctrlKey) return;
 
-            draggedTds = [];
+            draggedTds.length = 0;
             clicking = false;
 
             var el = $(this);
@@ -551,7 +553,7 @@ jQuery(function($) {
             draggedTds.push(tempEl);
 
             while (true) {
-                if (tempEl.prev() !== null && tempEl.prev().data("id-abteilung") === el.data("id-abteilung")) {
+                if (tempEl.prev() !== null && tempEl.prev().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
                     tempEl = tempEl.prev();
                     draggedTds.push(tempEl);
                 } else {
@@ -561,7 +563,7 @@ jQuery(function($) {
 
             tempEl = el;
             while (true) {
-                if (tempEl.next() !== null && tempEl.next().data("id-abteilung") === el.data("id-abteilung")) {
+                if (tempEl.next() !== null && tempEl.next().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
                     tempEl = tempEl.next();
                     draggedTds.push(tempEl);
                 } else {
@@ -581,8 +583,8 @@ jQuery(function($) {
 
             e.originalEvent.dataTransfer.effectAllowed = "move";
             e.originalEvent.dataTransfer.setData("farbe", el.css("backgroundColor"));
-            e.originalEvent.dataTransfer.setData("id-abteilung", el.data("id-abteilung"));
-            e.originalEvent.dataTransfer.setData("id-ansprechpartner", el.data("id-ansprechpartner"));
+            e.originalEvent.dataTransfer.setData("id-abteilung", el.attr("data-id-abteilung"));
+            e.originalEvent.dataTransfer.setData("id-ansprechpartner", el.attr("data-id-ansprechpartner"));
         });
 
         /**
@@ -632,8 +634,6 @@ jQuery(function($) {
             var id_abteilung = e.originalEvent.dataTransfer.getData("id-abteilung");
             var id_ansprechpartner = e.originalEvent.dataTransfer.getData("id-ansprechpartner");
 
-            var tempTarget = target;
-
             draggedTds.forEach(td => {
                 td.removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
                     .addClass("deleted-abteilung")
@@ -641,6 +641,7 @@ jQuery(function($) {
                     .empty();
             })
 
+            var tempTarget = target;
             for (var i = 0; i < draggedTds.length; i++) {
 
                 tempTarget.removeClass("selected")
@@ -650,7 +651,8 @@ jQuery(function($) {
                     .css({
                         backgroundColor: farbe,
                         borderColor: farbe
-                    });
+                    })
+                    .empty();
 
                 if (tempTarget.next() !== null) {
                     tempTarget = tempTarget.next();
