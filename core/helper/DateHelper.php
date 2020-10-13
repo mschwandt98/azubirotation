@@ -66,6 +66,19 @@ class DateHelper {
     }
 
     /**
+     * Gibt das Datum in der gewünschten Anzahl an Wochen zurück.
+     *
+     * @param string    $date   Das Ausgangsdatum.
+     * @param int       $weeks  Die Anzahl der Wochen.
+     * @param string    $format Das Format des Rückgabedatums. Standard: Y-m-d
+     *
+     * @return string Das Datum in der gewünschten Anzahl an Wochen.
+     */
+    public static function GetDateInXWeeks($date, $weeks, $format = self::defaultFormat) {
+        return date($format, strtotime("+$weeks weeks", strtotime($date)));
+    }
+
+    /**
      * Holt zwei Daten aus einem String.
      *
      * @param string $dateString    Der String mit den Daten.

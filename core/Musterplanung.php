@@ -13,8 +13,12 @@ use Core\Helper\DateHelper;
 use Models\Plan;
 
 if (empty($azubi_id)) return;
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 include_once(dirname(__DIR__) . "/config.php");
+
+if (!is_logged_in()) return;
+
 include_once(HELPER . "DataHelper.php");
 include_once(HELPER . "DateHelper.php");
 include_once(MODELS . "Plan.php");
@@ -107,8 +111,4 @@ foreach ($phasen as $phase) {
 }
 
 $statement = $pdo->prepare($sql);
-if (!$statement->execute([ ":null" => NULL ])) {
-    $error = $pdo->errorInfo();
-}
-
-$test = 0;
+$statement->execute([ ":null" => NULL ]);

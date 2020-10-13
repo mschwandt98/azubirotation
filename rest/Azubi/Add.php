@@ -48,7 +48,7 @@ if (is_logged_in() && is_token_valid()) {
 
                 if (filter_var($musterplanungErstellen, FILTER_VALIDATE_BOOLEAN)) {
                     $azubi_id = $pdo->lastInsertId();
-                    include_once(BASE . "/core/Musterplanung.php");
+                    include_once(BASE . "/core/CreatePlan.php");
                 }
 
                 http_response_code(200);

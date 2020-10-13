@@ -229,6 +229,8 @@ class DataHelper {
             }
         }
 
+        // TODO: if (!empty($id_ausbildungsberuf)) return array_shift($standardplaene);
+        // + Stellen anpassen, an denen GetStandardplaene aufgerufen wird
         return $standardplaene;
     }
 

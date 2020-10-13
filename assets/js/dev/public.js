@@ -19,7 +19,7 @@ jQuery(function($) {
 
                     let j = i;
 
-                    let scrollLeft = ((j - 1 > 0) ? --j : j) * $(timePeriods[i]).outerWidth();
+                    let scrollLeft = ((j - 1 > 0) ? --j : j) * ($(timePeriods[i]).innerWidth() + 1); // 1 = Border-width
 
                     // + 400, da Sticky-Columns on mobile disabled sind
                     if ($(window).width() <= 991) {
