@@ -202,7 +202,7 @@ jQuery(function($) {
                     idInput.val("");
                     bezeichnungInput.val("");
                     maxAzubisInput.val("");
-                    farbeInput.val("");
+                    farbeInput.val("#ffffff");
 
                     RefreshFooter();
                     ShowAbteilungen();
