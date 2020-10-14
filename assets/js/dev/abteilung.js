@@ -37,9 +37,7 @@ jQuery(function($) {
          * Aktualisiert die Legende im Footer mittels einer GET-Anfrage.
          */
         function RefreshFooter() {
-            $.get(API + "Refresh/Footer", function(data) {
-                $("#Footer").html(data);
-            });
+            $("#Footer").load(API + "Refresh/Footer");
         }
 
         /**

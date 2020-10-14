@@ -67,9 +67,7 @@ jQuery(function($) {
          * Aktualisiert die Planung mittels einer AJAX-Anfrage des Typs GET.
          */
         function RefreshPlan() {
-            $.get(API + "Refresh/Plan", function(data) {
-                $("#Plan").html(data);
-            });
+            $("#Plan").load(API + "Refresh/Plan");
         }
 
         /**
