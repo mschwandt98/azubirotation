@@ -36,15 +36,18 @@ $optionaleAbteilungen               = [];
 foreach ($standardplan->Phasen as $phase) {
 
     if ($phase->Praeferieren && !$phase->Optional) {
-        $praeferierteAbteilungen[] = $phase;
+        $praeferierteAbteilungen[$phase->ID_Abteilung] = $phase;
     } elseif ($phase->Praeferieren && $phase->Optional) {
-        $praeferierteOptionaleAbteilungen[] = $phase;
+        $praeferierteOptionaleAbteilungen[$phase->ID_Abteilung] = $phase;
     } elseif (!$phase->Praeferieren && !$phase->Optional) {
-        $normaleAbteilungen[] = $phase;
+        $normaleAbteilungen[$phase->ID_Abteilung] = $phase;
     } elseif (!$phase->Praeferieren && $phase->Optional) {
-        $optionaleAbteilungen[] = $phase;
+        $optionaleAbteilungen[$phase->ID_Abteilung] = $phase;
     }
 }
+
+shuffle($praeferierteAbteilungen);
+shuffle($praeferierteOptionaleAbteilungen);
 
 $abteilungen = [
     "Praeferierte"          => $praeferierteAbteilungen,

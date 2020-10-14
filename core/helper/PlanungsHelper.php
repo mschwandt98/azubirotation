@@ -23,16 +23,44 @@ if (!defined("BASE")) {
  */
 class PlanungsHelper {
 
+    /**
+     * @var Azubi Der aktuelle Azubi.
+     */
     public $Azubi;
+
+    /**
+     * @var DataHelper Eine Instanz der DataHelper-Klasse zum Beschaffen von Daten.
+     */
     public $Helper;
+
+    /**
+     * @var Plan[] Die erstellten Pläne.
+     */
     public $Plaene = [];
+
+    /**
+     * @var array Eine Liste von Phasen des Standardplans, die noch nicht verplant sind.
+     */
     public $AbteilungenLeft = [];
 
+    /**
+     * Vorbereitungen
+     *
+     * @param Azubi $azubi Der Azubi, für den die Pläne erstellt werden sollen.
+     */
     public function __construct($azubi) {
         $this->Azubi = $azubi;
         $this->Helper = new DataHelper();
     }
 
+    /**
+     * Unternimmt drei Versuche die gegebenen Abteilungen zu verplanen. Wenn
+     * eine Abteilung innerhalb dieser drei Versuche nicht verplant werden
+     * konnte, wird die Abteilung in die Liste $this->AbteilungenLeft
+     * eingetragen.
+     *
+     * @param array $abteilungen Die zu verplanenden Abteilungen.
+     */
     public function PlanAbteilungen($abteilungen) {
 
         $this->AbteilungenLeft = array_merge($this->AbteilungenLeft, $abteilungen);
@@ -58,7 +86,6 @@ class PlanungsHelper {
                             $abteilung->ID_Abteilung
                         )) {
                             $alleWochenFrei = false;
-                            $this->AbteilungenLeft[$abteilung->ID_Abteilung] = $abteilung;
                             break;
                         }
                     }
@@ -78,6 +105,11 @@ class PlanungsHelper {
         $this->SortPlaene();
     }
 
+    /**
+     * Verplant die Abteilungen, die bisher nicht verplant werden konnten. Dabei
+     * wird keine Rücksicht darauf genommen, ob in einem Zeitraum eine Abteilung
+     * bereits die maximale Anzahl an Azubis ausbildet.
+     */
     public function PlanLeftAbteilungen() {
 
         shuffle($this->AbteilungenLeft);
@@ -101,6 +133,19 @@ class PlanungsHelper {
         $this->SortPlaene();
     }
 
+    /**
+     * Verplant den ersten Aufenthalt des Azubis in einer der gegebenen
+     * Abteilungen.
+     * Wenn anfangs kein Zeitraum gefunden werden konnte, wird
+     * ein Plan in einer zufälligen der gegebenden Abteilungen erstellt, ohne
+     * dabei zu prüfen, ob die Abteilung in diesem Zeitraum bereits die maximale
+     * Anzahle an Azubis ausbildet. Sobald
+     * Sobald ein Plan in einem Zeitraum erstellt wurde, werden alle weiteren
+     * gegebenen Abteilungen in die Liste $this->AbteilungenLeft aufgenommen.
+     *
+     * @param array $abteilungen Die Abteilungen, von denen eine verplant werden
+     *                           soll.
+     */
     public function PlanStartOfAusbildung($abteilungen) {
 
         $eingetragen = false;
@@ -200,7 +245,12 @@ class PlanungsHelper {
     }
 
     /**
+     * Erstellt eine neue Instanz des Models "Plan" und fügt diese den Plänen
+     * in $this->Plaene hinzu.
      *
+     * @param Phase     $abteilung  Die Abteilung, zu der der Plan erstellt werden soll.
+     * @param string    $startDate  Das Startdatum des Plans.
+     * @param string    $endDate    Das Enddatum des Plans.
      */
     private function CreatePlanPhase($abteilung, $startDate, $endDate) {
 
