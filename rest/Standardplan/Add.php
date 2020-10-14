@@ -24,9 +24,6 @@ if (is_logged_in() && is_token_valid()) {
 
             foreach ($phasen as $phase) {
 
-                include_once(MODELS . "Phase.php");
-                include_once(HELPER . "DataHelper.php");
-
                 $phase = new Phase(
                     sanitize_string($phase["id_abteilung"]),
                     (new DataHelper())->GetAbteilungen($phase["id_abteilung"])->Bezeichnung,

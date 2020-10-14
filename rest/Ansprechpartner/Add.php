@@ -20,7 +20,6 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($name) && !empty($email) && !empty($id_abteilung)) {
 
-            include_once(MODELS . "Ansprechpartner.php");
             global $pdo;
             $ansprechpartner = new Ansprechpartner($name, $email, $id_abteilung);
 

@@ -8,7 +8,6 @@
 use Core\Helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(HELPER . "DataHelper.php");
 
 $ansprechpartner = (new DataHelper())->GetAnsprechpartner();
 exit(json_encode($ansprechpartner));

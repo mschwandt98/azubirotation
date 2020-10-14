@@ -18,9 +18,6 @@ if (!defined("BASE")) {
     include_once(dirname(dirname(__DIR__)) . "/config.php");
 }
 
-include_once(HELPER . "DataHelper.php");
-include_once(HELPER . "DateHelper.php");
-
 /**
  * Helper-Klasse für die automatische Planung.
  */

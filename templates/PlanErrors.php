@@ -13,8 +13,6 @@ use Core\Helper\DataHelper;
 use Core\PlanErrorCodes;
 
 include_once(dirname(__DIR__) . "/config.php");
-include_once(HELPER . "/DataHelper.php");
-include_once(BASE . "/core/PlanErrorCodes.php");
 
 $helper = new DataHelper();
 ?>

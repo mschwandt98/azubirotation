@@ -20,8 +20,6 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
 
-            include_once(MODELS . "Abteilung.php");
-
             global $pdo;
             $abteilung = new Abteilung($bezeichnung, $maxAzubis, $farbe);
 

@@ -8,7 +8,6 @@
 use core\Helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(HELPER . "/DataHelper.php");
 
 $id_ausbildungsberuf = array_key_exists("id_ausbildungsberuf", $_GET)
     ? sanitize_string($_GET["id_ausbildungsberuf"])

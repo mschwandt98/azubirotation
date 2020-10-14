@@ -6,7 +6,6 @@ include_once(dirname(dirname(__DIR__)) . "/config.php");
 
 if (is_logged_in() && is_token_valid()) {
 
-    include_once(HELPER . "/DataHelper.php");
     $helper = new DataHelper();
 
     $ansprechpartner = $helper->GetAnsprechpartner();

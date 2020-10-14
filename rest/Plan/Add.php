@@ -20,10 +20,6 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($azubis)) {
 
-            include_once(MODELS . "Plan.php");
-            include_once(HELPER . "DataHelper.php");
-            include_once(HELPER . "DateHelper.php");
-
             global $pdo;
 
             foreach ($azubis as $azubi) {

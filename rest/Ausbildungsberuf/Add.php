@@ -18,7 +18,6 @@ if (is_logged_in() && is_token_valid()) {
 
         if (!empty($bezeichnung)) {
 
-            include_once(MODELS . "Ausbildungsberuf.php");
             global $pdo;
             $ausbildungsberuf = new Ausbildungsberuf($bezeichnung);
 

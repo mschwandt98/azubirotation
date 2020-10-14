@@ -19,8 +19,6 @@ use Core\Helper\DateHelper;
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 include_once(dirname(__DIR__) . "/config.php");
-include_once(HELPER . "/DataHelper.php");
-include_once(HELPER . "/DateHelper.php");
 
 $helper = new DataHelper();
 

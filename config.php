@@ -23,18 +23,18 @@ define("T_SETTINGS", "settings");
 define("T_STANDARDPLAENE", "standardpläne");
 
 // Pfade
-define("BASE", __DIR__);
-define("HELPER", BASE . "/core/helper/");
-define("MODELS", BASE . "/models/");
+define("BASE", __DIR__ . "/");
 
-/**
- * Bindet alle PHP-Dateien im Ordner models/ ein.
- */
-function include_models() {
-    foreach (glob(MODELS . "*.php") as $filename) {
-        include_once $filename;
+spl_autoload_register(function ($class) {
+
+    $fileName = $class . ".php";
+
+    if (file_exists(BASE . $fileName)) {
+        include_once(BASE . $fileName);
+    } else {
+        $test = 0;
     }
-}
+});
 
 /**
  * Prüft, ob der Benutzer eingeloggt ist.

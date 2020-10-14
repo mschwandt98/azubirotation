@@ -28,8 +28,6 @@ if (!defined("BASE")) {
     include_once(dirname(dirname(__DIR__)) . "/config.php");
 }
 
-include_models();
-
 /**
  * Helper-Klasse für einen einheitlichen Abruf von Daten aus der Datenbank.
  */

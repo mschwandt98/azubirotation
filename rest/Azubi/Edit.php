@@ -28,7 +28,6 @@ if (is_logged_in() && is_token_valid()) {
             !empty($email) && !empty($id_ausbildungsberuf) &&
             !empty($ausbildungsstart) && !empty($ausbildungsende)) {
 
-            include_once(MODELS . "Auszubildender.php");
             global $pdo;
             $azubi = new Auszubildender($vorname, $nachname, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id);
 

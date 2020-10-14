@@ -19,10 +19,6 @@ include_once(dirname(__DIR__) . "/config.php");
 
 if (!is_logged_in()) return;
 
-include_once(HELPER . "DataHelper.php");
-include_once(HELPER . "DateHelper.php");
-include_once(MODELS . "Plan.php");
-
 global $pdo;
 $helper = new DataHelper();
 

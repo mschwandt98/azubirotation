@@ -6,7 +6,7 @@
  */
 
 use Core\Helper\DataHelper;
-include_once(__DIR__ . "/core/helper/DataHelper.php");
+
 $Abteilungen = (new DataHelper())->GetAbteilungen();
 ?>
 

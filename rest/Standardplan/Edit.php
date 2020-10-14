@@ -19,9 +19,6 @@ if (is_logged_in() && is_token_valid()) {
         $phasen = $_POST["phasen"];
 
         if (!empty($id_ausbildungsberuf) && !empty($phasen)) {
-
-            include_once(MODELS . "Phase.php");
-            include_once(HELPER . "DataHelper.php");
             global $pdo;
 
             $statement = $pdo->prepare(

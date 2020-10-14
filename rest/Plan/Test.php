@@ -11,10 +11,6 @@ if (!is_logged_in() || !is_token_valid()) {
     exit;
 }
 
-include_once(HELPER . "/DataHelper.php");
-include_once(HELPER . "/DateHelper.php");
-include_once(BASE . "/core/PlanErrorCodes.php");
-
 $helper = new DataHelper();
 
 $Abteilungen    = $helper->GetAbteilungen();
