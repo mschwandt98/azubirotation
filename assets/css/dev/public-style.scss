@@ -25,12 +25,18 @@ body {
 
 header {
     align-items: center;
+    background-color: white;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
     grid-template-columns: auto auto 1fr;
     margin-bottom: 16px;
     padding: 16px 32px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
 
     h1 {
         color: $selectline-blue;
