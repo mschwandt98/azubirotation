@@ -3,15 +3,12 @@
  * Get.php
  *
  * Der API-Endpunkt zum Holen aller Ansprechpartner, sortiert nach dem Namen.
- *
- * TODO: SELECT-Anfrage gegen Helper ersetzen
  */
 
+use Core\Helper\DataHelper;
+
 include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(HELPER . "DataHelper.php");
 
-global $pdo;
-
-$statement = $pdo->prepare("SELECT * FROM " . T_ANSPRECHPARTNER . " ORDER BY `Name` ASC;");
-$statement->execute();
-$ansprechpartner = $statement->fetchAll(PDO::FETCH_ASSOC);
+$ansprechpartner = (new DataHelper())->GetAnsprechpartner();
 exit(json_encode($ansprechpartner));

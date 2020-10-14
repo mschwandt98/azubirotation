@@ -4,6 +4,9 @@
  *
  * Enthält die Klasse DataHelper.php, über welche Daten aus der Datenbank
  * einheitlich abgerufen werden können.
+ *
+ * TODO: Umbauen zur Database-Klasse oder Database-Klasse implementieren, über
+ * welche die Database-Zugriffe ausschließlich laufen.
  */
 
 namespace Core\Helper;

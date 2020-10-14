@@ -3,15 +3,12 @@
  * Get.php
  *
  * Der API-Endpunkt zum Holen aller Azubis, sortiert nach dem Nachnamen.
- *
- * TODO: SELECT-Anfrage gegen Helper ersetzen
  */
 
+use Core\Helper\DataHelper;
+
 include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(HELPER. "DataHelper.php");
 
-global $pdo;
-
-$statement = $pdo->prepare("SELECT * FROM " . T_AUSZUBILDENDE . " ORDER BY `Nachname` ASC;");
-$statement->execute();
-$auszubildende = $statement->fetchAll(PDO::FETCH_ASSOC);
+$auszubildende = (new DataHelper())->GetAzubis();
 exit(json_encode($auszubildende));
