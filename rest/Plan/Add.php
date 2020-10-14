@@ -25,66 +25,125 @@ if (is_logged_in() && is_token_valid()) {
             foreach ($azubis as $azubi) {
 
                 $id_azubi = sanitize_string($azubi["id"]);
-                $phasen = [];
+                $deletedPhasen = []; // beinhaltet die Startdaten
 
                 foreach ($azubi["phasen"] as $phase) {
 
                     $startDate = sanitize_string($phase["date"]);
-                    $endDate = DateHelper::NextSunday($startDate);
 
                     if (empty($phase["id_abteilung"])) {
-                        continue;
-                    }
-
-                    if (empty($phase["id_ansprechpartner"])) {
-                        $ansprechpartner_id = NULL;
+                        $deletedPhasen[] = $startDate;
                     } else {
-                        $ansprechpartner_id = sanitize_string($phase["id_ansprechpartner"]);
 
-                        if ($ansprechpartner = (new DataHelper())->GetAnsprechpartner($ansprechpartner_id)) {
+                        $id_abteilung = sanitize_string($phase["id_abteilung"]);
+                        $endDate = DateHelper::NextSunday($startDate);
 
-                            if (!empty($ansprechpartner->ID_Abteilung) && $ansprechpartner->ID_Abteilung != $phase["id_abteilung"]) {
-                                $ansprechpartner_id = NULL;
+                        if (empty($phase["id_ansprechpartner"])) {
+                            $ansprechpartner_id = NULL;
+                        } else {
+                            $ansprechpartner_id = sanitize_string($phase["id_ansprechpartner"]);
+
+                            // Überprüfung, ob Ansprechpartner für die Abteilung erlaubt ist
+                            if ($ansprechpartner = (new DataHelper())->GetAnsprechpartner($ansprechpartner_id)) {
+
+                                if (!empty($ansprechpartner->ID_Abteilung) && $ansprechpartner->ID_Abteilung != $id_abteilung) {
+                                    $ansprechpartner_id = NULL;
+                                }
+                            }
+                        }
+
+                        $plan = new Plan(
+                            $id_azubi,
+                            $ansprechpartner_id,
+                            $id_abteilung,
+                            $startDate,
+                            $endDate,
+                            (!empty($phase["termin"])) ? sanitize_string($phase["termin"]) : ""
+                        );
+
+                        $replacements = [
+                            ":id_azubi"     => $plan->ID_Azubi,
+                            ":startDate"    => $plan->Startdatum,
+                            ":endDate"      => $plan->Enddatum
+                        ];
+
+                        $statement = $pdo->prepare(
+                            "SELECT * FROM " . T_PLAENE . "
+                                WHERE ID_Auszubildender = :id_azubi AND
+                                Startdatum = :startDate AND
+                                Enddatum = :endDate;"
+                        );
+                        $statement->execute($replacements);
+
+                        if ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+                            $replacements = [
+                                ":id"                   => $result["ID"],
+                                ":id_ansprechpartner"   => $plan->ID_Ansprechpartner,
+                                ":id_abteilung"         => $plan->ID_Abteilung,
+                                ":markierung"           => $plan->Termin
+                            ];
+
+                            $statement = $pdo->prepare(
+                                "UPDATE " . T_PLAENE . "
+                                SET ID_Ansprechpartner = :id_ansprechpartner,
+                                    ID_Abteilung = :id_abteilung,
+                                    Markierung = :markierung
+                                WHERE ID = :id;"
+                            );
+
+                            if (!$statement->execute($replacements)) {
+                                http_response_code(400);
+                                exit;
+                            }
+                        } else {
+
+                            $replacements = [
+                                ":id_azubi"             => $plan->ID_Azubi,
+                                ":id_ansprechpartner"   => $plan->ID_Ansprechpartner,
+                                ":id_abteilung"         => $plan->ID_Abteilung,
+                                ":startDate"            => $plan->Startdatum,
+                                ":endDate"              => $plan->Enddatum,
+                                ":markierung"           => $plan->Termin
+                            ];
+
+                            $statement = $pdo->prepare(
+                                "INSERT " . T_PLAENE . "
+                                (
+                                    ID_Auszubildender,
+                                    ID_Ansprechpartner,
+                                    ID_Abteilung,
+                                    Startdatum,
+                                    Enddatum,
+                                    Markierung
+                                )
+                                VALUES (
+                                    :id_azubi,
+                                    :id_ansprechpartner,
+                                    :id_abteilung,
+                                    :startDate,
+                                    :endDate,
+                                    :markierung
+                                );"
+                            );
+
+                            if (!$statement->execute($replacements)) {
+                                http_response_code(400);
+                                exit;
                             }
                         }
                     }
+                }
 
-                    $phasen[] = new Plan(
-                        $id_azubi,
-                        $ansprechpartner_id,
-                        sanitize_string($phase["id_abteilung"]),
-                        $startDate,
-                        $endDate,
-                        (!empty($phase["termin"])) ? sanitize_string($phase["termin"]) : ""
+                if (!empty($deletedPhasen)) {
+
+                    $statement = $pdo->prepare(
+                        "DELETE FROM " . T_PLAENE . "
+                        WHERE ID_Auszubildender = $id_azubi AND ".
+                            "Startdatum IN ('" . implode("','", $deletedPhasen) . "');"
                     );
-                }
 
-                $statement = $pdo->prepare("DELETE FROM " . T_PLAENE . " WHERE ID_Auszubildender = $id_azubi");
-
-                if (!$statement->execute()) {
-                    http_response_code(400);
-                    exit;
-                }
-
-                $sql = "";
-
-                foreach ($phasen as $phase) {
-
-                    $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum, Markierung)
-                        VALUES (
-                            $id_azubi, " .
-                            ($phase->ID_Ansprechpartner ?? ":null") . ", " .
-                            $phase->ID_Abteilung . ", '" .
-                            $phase->Startdatum . "', '" .
-                            $phase->Enddatum . "', '" .
-                            $phase->Termin ."'
-                        );";
-                }
-
-                if (!empty($sql)) {
-                    $statement = $pdo->prepare($sql);
-
-                    if (!$statement->execute([ ":null" => NULL ])) {
+                    if (!$statement->execute()) {
                         http_response_code(400);
                         exit;
                     }

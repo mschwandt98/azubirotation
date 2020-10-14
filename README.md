@@ -25,6 +25,7 @@ https://www.apachefriends.org/de/download.html
 === Einrichtung ===
 Gewünschter Root Ordner: https://stackoverflow.com/questions/18902887/how-to-configuring-a-xampp-web-server-for-different-root-directory
 Setup local Mail: https://sebastianviereck.de/xampp-mails-verschicken-von-localhost-mit-sendmail/
+Weitere Serveranpassungen: https://stackoverflow.com/questions/9691057/php-apache-ajax-post-limit
 
 
 == PHING ==

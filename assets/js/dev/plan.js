@@ -317,6 +317,7 @@ jQuery(function($) {
             td.append(
                 $("<div></div>").attr("title", markerBezeichnung).addClass("plan-mark")
             );
+            td.addClass("changed");
 
             $("#Popup").empty();
             RemoveSelectedStatus();
@@ -339,7 +340,7 @@ jQuery(function($) {
 
                 tdItems.forEach(item => {
                     $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
-                        .addClass("deleted-abteilung")
+                        .addClass("changed")
                         .removeClass("selected")
                         .empty();
                 });
@@ -355,7 +356,7 @@ jQuery(function($) {
                     "border-left-color: " + GetAbteilungsFarbe(el.data("id")) + "; " +
                     "border-right-color: " + GetAbteilungsFarbe(el.data("id")) + ";"
                 )
-                .removeClass("deleted-abteilung");
+                .addClass("changed");
             });
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
@@ -387,7 +388,9 @@ jQuery(function($) {
         $("#Popup").on("click", ".set-ansprechpartner-popup li", function() {
 
             tdItems.forEach(item => {
-                $(item).attr("data-id-ansprechpartner", $(this).data("id")).empty();
+                $(item).attr("data-id-ansprechpartner", $(this).data("id"))
+                    .addClass("changed")
+                    .empty();
             })
 
             RemoveSelectedStatus();
@@ -413,7 +416,7 @@ jQuery(function($) {
             azubiRows.each(index => {
 
                 var row = $(azubiRows[index]);
-                var phaseDivs = row.find(".plan-phase");
+                var phaseDivs = row.find(".plan-phase.changed");
                 var phases = [];
 
                 phaseDivs.each(index => {
@@ -435,12 +438,9 @@ jQuery(function($) {
                             id_ansprechpartner: phase.attr("data-id-ansprechpartner"),
                             markierung: markierungBezeichnung ?? null
                         });
-                    } else if (phase.hasClass("deleted-abteilung")) {
+                    } else {
                         phases.push({
-                            date: phase.data("date"),
-                            id_abteilung: null,
-                            id_ansprechpartner: null,
-                            markierung: markierungBezeichnung ?? null
+                            date: phase.data("date")
                         });
                     }
                 });
@@ -636,7 +636,7 @@ jQuery(function($) {
 
             draggedTds.forEach(td => {
                 td.removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
-                    .addClass("deleted-abteilung")
+                    .addClass("changed")
                     .removeClass("selected")
                     .empty();
             })
@@ -647,7 +647,7 @@ jQuery(function($) {
                 tempTarget.removeClass("selected")
                     .attr("data-id-abteilung", id_abteilung)
                     .attr("data-id-ansprechpartner", id_ansprechpartner)
-                    .removeClass("deleted-abteilung")
+                    .addClass("changed")
                     .css({
                         backgroundColor: farbe,
                         borderColor: farbe
