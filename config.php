@@ -31,8 +31,6 @@ spl_autoload_register(function ($class) {
 
     if (file_exists(BASE . $fileName)) {
         include_once(BASE . $fileName);
-    } else {
-        $test = 0;
     }
 });
 
@@ -65,14 +63,27 @@ function is_token_valid() {
  * @return string Der minimierte Code.
  */
 function minifier($code) {
+
     $search = [
         "/\>[^\S ]+/s",     // Remove whitespaces after tags
         "/[^\S ]+\</s",     // Remove whitespaces before tags
         "/(\s)+/s",         // Remove multiple whitespace sequences
-        "/<!--(.|\s)*?-->/" // Removes comments
+        "/<!--(.|\s)*?-->/" // Remove comments
     ];
     $replace = [ ">", "<", "\\1" ];
-    return preg_replace($search, $replace, $code);
+    $minified_code = preg_replace($search, $replace, $code);
+
+    if (array_key_exists("HTTP_ACCEPT_ENCODING", $_SERVER) && !empty($_SERVER["HTTP_ACCEPT_ENCODING"])) {
+
+        $compressionMethods = explode(", ", $_SERVER["HTTP_ACCEPT_ENCODING"]);
+
+        if (in_array("gzip", $compressionMethods)) {
+            header("Content-Encoding: gzip");
+            return gzencode($minified_code);
+        }
+    }
+
+    return $minified_code;
 }
 
 /**
