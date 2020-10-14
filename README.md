@@ -27,7 +27,6 @@ Gewünschter Root Ordner: https://stackoverflow.com/questions/18902887/how-to-co
 Setup local Mail: https://sebastianviereck.de/xampp-mails-verschicken-von-localhost-mit-sendmail/
 
 
-
 == PHING ==
 Mit Phing wird das Projekt in den /dist Ordner gebaut. In der build.xml ist
 definiert welche Dateien gebaut werden.
