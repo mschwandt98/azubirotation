@@ -16,8 +16,11 @@ ob_start("minifier");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar" content="#009fda" />
+    <meta name="theme-color" content="#009fda">
+    <meta name="author" content="Marian Schwandt">
     <link rel="shortcut icon" href="favicon.ico" />
-    <title>Tool für die Azubirotation</title>
+    <title>SelectLine Ausbildungsplaner</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <?php if (is_logged_in()) : ?>
