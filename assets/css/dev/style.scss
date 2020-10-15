@@ -163,18 +163,18 @@
         color: #4b556a;
         cursor: default;
         min-width: 256px;
-        padding: 8px;
-        position: absolute;
-        top: 0;
-        right: 32px;
+        padding: 16px 32px;
+        position: fixed;
+        top: 10%;
+        right: 15%;
+        left: 15%;
         z-index: 9999;
 
         > div {
-            margin-bottom: 8px;
-
-            &:last-of-type {
-                margin-bottom: 0;
-            }
+            display: grid;
+            grid-gap: 32px;
+            grid-template-columns: 1fr 1fr 1fr;
+            text-align: justify;
         }
     }
 }

@@ -162,56 +162,6 @@ jQuery(function($) {
         });
 
         /**
-         * Blendet alle Azubipläne eines Ausbildungsberufes ein bzw aus.
-         *
-         * @param {HTMLTableRowElement} row     Die Reihe des
-         *                                      Ausbildungsberufes, zu dem die
-         *                                      Pläne ein- bzw ausgeblendet
-         *                                      werden sollen.
-         * @param {boolean}             hide    True = Reihen ausblenden
-         *                                      False = Reihen einblenden
-         */
-        function HideShowAzubiRow(row, hide) {
-
-            var row = $(row);
-            while (true) {
-
-                if (row.next().hasClass("azubi")) {
-
-                    row = row.next();
-
-                    if (hide) {
-                        row.css({ visibility: "collapse" });
-                    } else {
-                        row.css({ visibility: "visible" });
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        /**
-         * Azubipläne eines Ausbildungsberufes werden ausgeblenden.
-         */
-        $("#Plan").on("click", "tr .triangle-bottom", function() {
-
-            var el = $(this);
-            el.addClass("triangle-right").removeClass("triangle-bottom");
-            HideShowAzubiRow(el.closest("tr"), true);
-        });
-
-        /**
-         * Azubipläne eines Ausbildungsberufes werden eingeblenden.
-         */
-        $("#Plan").on("click", "tr .triangle-right", function() {
-
-            var el = $(this);
-            el.addClass("triangle-bottom").removeClass("triangle-right");
-            HideShowAzubiRow(el.closest("tr"), false);
-        });
-
-        /**
          * Bei Klick aufs Dokument werden alle ausgewählten Plan-Einheiten
          * (Phasen), die Informationen des Info-Buttons und das Popup versteckt,
          * sofern der Klick außerhalb der Planung ist.
@@ -229,7 +179,7 @@ jQuery(function($) {
             }
 
             if(!$(e.target).closest("#InfoButton").length) {
-                $("#InfoButton > div").hide(TIME);
+                $("#InfoButton > div").fadeOut();
             }
         });
 
@@ -237,7 +187,7 @@ jQuery(function($) {
          * Blendet die Informationen des Info-Buttons ein.
          */
         $("#InfoButton").on("click", function() {
-            $(this).find("> div").show(TIME);
+            $(this).find("> div").fadeIn();
         });
 
         /**
