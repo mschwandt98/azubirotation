@@ -6,34 +6,9 @@
  * @seen kennzeichnen.
  *
  * Index
- * - Schatten für horizontales Scrollen
  * - Schatten für vertikales Scrollen
  * - Ladebalken
  */
-
-/**
- * @seen https://gist.github.com/tbmiller/6675197
- */
-.horizontal-scroll {
-    background:
-        linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
-        linear-gradient(-90deg, white 0%, rgba(255, 255, 255, 0)) 100% 0,
-        radial-gradient(
-            farthest-side at 0% 50%,
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0)
-        ),
-        radial-gradient(
-            farthest-side at 100% 50%,
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0)
-        ) 100% 0%;
-    background-repeat: no-repeat;
-    background-color: white;
-    background-size: 100px 137px, 100px 137px, 14px 137px, 14px 137px;
-    background-attachment: local, local, scroll, scroll;
-    overflow-x: auto;
-}
 
 /**
  * @seen https://gist.github.com/hellojosh/5270953

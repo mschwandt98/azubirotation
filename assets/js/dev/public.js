@@ -26,7 +26,7 @@ jQuery(function($) {
                         scrollLeft += 400;
                     }
 
-                    $("#Plan .horizontal-scroll").scrollLeft(scrollLeft);
+                    $("#Plan").scrollLeft(scrollLeft);
                     break;
                 }
             }

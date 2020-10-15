@@ -63,6 +63,8 @@ main {
 
 #Plan {
     margin: 16px 0;
+    max-height: 50vh;
+    overflow: auto;
 
     table, th, td {
         border: 1px solid $gray;
@@ -70,6 +72,36 @@ main {
 
     table {
         border-collapse: collapse;
+
+        thead {
+            tr:first-of-type th {
+                top: 0;
+            }
+
+            tr:last-of-type th {
+                top: 47px;
+            }
+
+            th.top-left-sticky {
+                z-index: 150 !important;
+
+                &:first-of-type {
+                    left: 0;
+                }
+
+                &:nth-of-type(2) {
+                    left: 117px;
+                }
+
+                &:nth-of-type(3) {
+                    left: 234px;
+                }
+            }
+        }
+
+        tbody th {
+            text-align: left;
+        }
 
         th, td {
             &.empty-field {
@@ -80,14 +112,18 @@ main {
         }
 
         th {
+            background-color: white;
+            box-shadow: 0 0 0 0.5px $gray;
             padding: 4px 8px;
+            position: sticky;
+            z-index: 100;
 
             &.month {
                 width: 48px;
             }
 
             &.current-week {
-                background-color: rgba($gray, 0.4);
+                background-color: lighten($gray, 10%);
             }
         }
 
@@ -262,34 +298,29 @@ Footer {
 
 @media screen and (min-width: $lg-min) {
     #Plan table {
-        th, td {
-            &.sticky-col {
-                background-color: white;
-                box-shadow: 0 0 0 0.5px $gray;
-                position: sticky;
-                z-index: 100;
+        tbody th {
+            white-space: nowrap;
 
-                &.empty-field {
-                    box-shadow: 0 0 0 1px white !important;
-                }
+            &.empty-field {
+                box-shadow: 0 0 0 1px white !important;
+            }
 
-                &:first-of-type,
-                &:nth-of-type(2) {
-                    max-width: 100px;
-                    min-width: 100px;
-                }
+            &:first-of-type,
+            &:nth-of-type(2) {
+                max-width: 100px;
+                min-width: 100px;
+            }
 
-                &:first-of-type {
-                    left: 0;
-                }
+            &:first-of-type {
+                left: 0;
+            }
 
-                &:nth-of-type(2) {
-                    left: 117px;
-                }
+            &:nth-of-type(2) {
+                left: 117px;
+            }
 
-                &:nth-of-type(3) {
-                    left: 234px;
-                }
+            &:nth-of-type(3) {
+                left: 234px;
             }
         }
     }
