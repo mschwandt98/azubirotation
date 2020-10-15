@@ -9,7 +9,7 @@ jQuery(function($) {
         const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
         const AUSBILDUNGSSTART = "ausbildungsstart";
         const AUSBILDUNGSENDE = "ausbildungsende";
-        const MUSTERPLANUNG_ERSTELLEN = "musterplanung_erstellen";
+        const PLANUNG_ERSTELLEN = "planung_erstellen";
 
         /**
          * Vergleicht, ob der erste Parameter (dateA) größer als der zweite
@@ -192,7 +192,7 @@ jQuery(function($) {
             var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`).eq(0);
             var ausbildungsstartInput = form.find(`input[name="${ AUSBILDUNGSSTART }"]`).eq(0);
             var ausbildungsendeInput = form.find(`input[name="${ AUSBILDUNGSENDE }"]`).eq(0);
-            var musterplanung_erstellen = form.find(`input[name="${ MUSTERPLANUNG_ERSTELLEN }"]`).eq(0);
+            var planung_erstellen = form.find(`input[name="${ PLANUNG_ERSTELLEN }"]`).eq(0);
 
             $.ajax({
                 type: "POST",
@@ -205,14 +205,14 @@ jQuery(function($) {
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
                     ausbildungsende: ausbildungsendeInput.val(),
-                    musterplanung_erstellen: musterplanung_erstellen.prop("checked")
+                    planung_erstellen: planung_erstellen.prop("checked")
                 },
                 success: function() {
                     vornameInput.val("");
                     nachnameInput.val("");
                     emailInput.val("");
                     ausbildungsberufSelect.empty();
-                    musterplanung_erstellen.prop("checked", true)
+                    planung_erstellen.prop("checked", true)
 
                     RefreshPlan();
                     HideViews();

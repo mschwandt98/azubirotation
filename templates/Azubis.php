@@ -43,9 +43,9 @@
                    name="ausbildungsende" required />
         </label>
         <label>
-            <span>Musterplanung erstellen?</span>
+            <span>Planung erstellen?</span>
             <input type="checkbox"
-                   name="musterplanung_erstellen"
+                   name="planung_erstellen"
                    checked />
         </label>
         <div>

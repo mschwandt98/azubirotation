@@ -81,14 +81,14 @@ if (is_logged_in() && is_token_valid()) {
                                 ":id"                   => $result["ID"],
                                 ":id_ansprechpartner"   => $plan->ID_Ansprechpartner,
                                 ":id_abteilung"         => $plan->ID_Abteilung,
-                                ":markierung"           => $plan->Termin
+                                ":termin"               => $plan->Termin
                             ];
 
                             $statement = $pdo->prepare(
                                 "UPDATE " . T_PLAENE . "
                                 SET ID_Ansprechpartner = :id_ansprechpartner,
                                     ID_Abteilung = :id_abteilung,
-                                    Markierung = :markierung
+                                    Termin = :termin
                                 WHERE ID = :id;"
                             );
 
@@ -104,7 +104,7 @@ if (is_logged_in() && is_token_valid()) {
                                 ":id_abteilung"         => $plan->ID_Abteilung,
                                 ":startDate"            => $plan->Startdatum,
                                 ":endDate"              => $plan->Enddatum,
-                                ":markierung"           => $plan->Termin
+                                ":termin"               => $plan->Termin
                             ];
 
                             $statement = $pdo->prepare(
@@ -115,7 +115,7 @@ if (is_logged_in() && is_token_valid()) {
                                     ID_Abteilung,
                                     Startdatum,
                                     Enddatum,
-                                    Markierung
+                                    Termin
                                 )
                                 VALUES (
                                     :id_azubi,
@@ -123,7 +123,7 @@ if (is_logged_in() && is_token_valid()) {
                                     :id_abteilung,
                                     :startDate,
                                     :endDate,
-                                    :markierung
+                                    :termin
                                 );"
                             );
 
