@@ -24,6 +24,37 @@ jQuery(function($) {
             }
         }
 
+        function CreateAnsprechpartnerPopup(id, position = 0) {
+
+            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
+            var ansprechpartnerList = $("<ul></ul>");
+            var ansprechpartnerExist = false;
+
+            Ansprechpartner.forEach(ansprechpartner => {
+
+                if (ansprechpartner.ID_Abteilung == id) {
+
+                    ansprechpartnerExist = true;
+                    ansprechpartnerList.append(
+                        $("<li></li>")
+                            .attr("data-id", ansprechpartner.ID)
+                            .text(ansprechpartner.Name)
+                    ).append(
+                        $("<hr>")
+                    );
+                }
+            });
+
+            if (ansprechpartnerExist) {
+                ansprechpartnerList.find(":last-child").remove();
+                popupAnsprechpartner.append(ansprechpartnerList);
+                SetPopupContent(popupAnsprechpartner, position);
+            } else {
+                SetPopupContent("");
+                RemoveSelectedStatus();
+            }
+        }
+
         /**
          * Holt die Farbe einer Abteilung anhand dessen ID.
          *
@@ -43,6 +74,38 @@ jQuery(function($) {
             });
 
             return farbe;
+        }
+
+        /**
+         *
+         */
+        function GetFullPhase(currentTd) {
+
+            var tds = []
+            var el = $(currentTd);
+            var tempEl = el;
+            tds.push(tempEl);
+
+            while (true) {
+                if (tempEl.prev() !== null && tempEl.prev().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                    tempEl = tempEl.prev();
+                    tds.push(tempEl);
+                } else {
+                    break;
+                }
+            };
+
+            tempEl = el;
+            while (true) {
+                if (tempEl.next() !== null && tempEl.next().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                    tempEl = tempEl.next();
+                    tds.push(tempEl);
+                } else {
+                    break;
+                }
+            };
+
+            return tds;
         }
 
         /**
@@ -248,22 +311,34 @@ jQuery(function($) {
             if ($(e.target).parents(".context-popup").length > 0) return;
 
             var el = $(this);
+
+            if (!el.data("id-abteilung")) return;
+
             el.addClass("selected");
             tdItems.push(el);
 
             var popup = $("<div></div>").addClass("context-popup");
             var contextList = $("<ul></ul>");
 
-            if (el.find(".plan-mark").length > 0) {
-                contextList.append($("<li></li>").text("Termin umbenennen").data("update", "true"));
+            if (el.attr("data-id-ansprechpartner")) {
+                contextList.append($("<li></li>").text("Ansprechpartner ersetzen").data("update-ansprechpartner", "true"));
                 contextList.append($("<hr>"));
-                contextList.append($("<li></li>").text("Termin löschen").data("delete", "true"));
+                contextList.append($("<li></li>").text("Ansprechpartner löschen").data("delete-ansprechpartner", "true"));
             } else {
-                contextList.append($("<li></li>").text("Termin setzen").data("add", "true"));
+                contextList.append($("<li></li>").text("Ansprechpartner setzen").data("add-ansprechpartner", "true"));
+            }
+
+            contextList.append($("<hr>"));
+
+            if (el.find(".plan-mark").length > 0) {
+                contextList.append($("<li></li>").text("Termin umbenennen").data("update-termin", "true"));
+                contextList.append($("<hr>"));
+                contextList.append($("<li></li>").text("Termin löschen").data("delete-termin", "true"));
+            } else {
+                contextList.append($("<li></li>").text("Termin setzen").data("add-termin", "true"));
             }
 
             popup.append(contextList);
-
             SetPopupContent(popup, el.position());
         });
 
@@ -274,14 +349,34 @@ jQuery(function($) {
 
             var el = $(this);
             var text = "";
+            var td = $(tdItems[0]);
+            tdItems.length = 0;
+            tdItems = tdItems.concat(GetFullPhase(td));
 
-            if (el.data("add")) {
+            if (el.data("add-ansprechpartner")) {
+                CreateAnsprechpartnerPopup(td.data("id-abteilung"), td.position());
+                return;
+            } else if (el.data("update-ansprechpartner")) {
+                CreateAnsprechpartnerPopup(td.data("id-abteilung"), td.position());
+                return;
+            } else if (el.data("delete-ansprechpartner")) {
+
+                $(tdItems).each(index => {
+                    $(tdItems[index]).removeAttr("data-id-ansprechpartner")
+                        .addClass("changed")
+                        .empty();
+                });
+                SetPopupContent("");
+                RemoveSelectedStatus();
+                return;
+            } else if (el.data("add-termin")) {
                 text = "Terminbezeichnung";
-            } else if (el.data("update")) {
+            } else if (el.data("update-termin")) {
                 text = "Neue Terminbezeichnung";
-            } else if (el.data("delete")) {
-                $(tdItems[0]).empty();
-                $("#Popup").empty();
+            } else if (el.data("delete-termin")) {
+                td.empty();
+                td.addClass("changed");
+                SetPopupContent("");
                 RemoveSelectedStatus();
                 return;
             }
@@ -359,33 +454,7 @@ jQuery(function($) {
                 .addClass("changed");
             });
 
-            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
-            var ansprechpartnerList = $("<ul></ul>");
-            var ansprechpartnerExist = false;
-
-            Ansprechpartner.forEach(ansprechpartner => {
-
-                if (ansprechpartner.ID_Abteilung == el.data("id")) {
-
-                    ansprechpartnerExist = true;
-                    ansprechpartnerList.append(
-                        $("<li></li>")
-                            .attr("data-id", ansprechpartner.ID)
-                            .text(ansprechpartner.Name)
-                    ).append(
-                        $("<hr>")
-                    );
-                }
-            });
-
-            if (ansprechpartnerExist) {
-                ansprechpartnerList.find(":last-child").remove();
-                popupAnsprechpartner.append(ansprechpartnerList);
-                SetPopupContent(popupAnsprechpartner);
-            } else {
-                SetPopupContent("");
-                RemoveSelectedStatus();
-            }
+            CreateAnsprechpartnerPopup(el.data("id"));
         });
 
         /**
@@ -433,9 +502,9 @@ jQuery(function($) {
                     let phase = $(phaseDivs[index]);
                     let id_abteilung = phase.attr("data-id-abteilung");
 
-                    let markierung = phase.find(".plan-mark");
-                    if (markierung.length > 0) {
-                        var markierungBezeichnung = markierung.attr("title");
+                    let termin = phase.find(".plan-mark");
+                    if (termin.length > 0) {
+                        var terminBezeichnung = termin.attr("title");
                     }
 
                     if (id_abteilung) {
@@ -443,7 +512,7 @@ jQuery(function($) {
                             date: phase.data("date"),
                             id_abteilung: id_abteilung,
                             id_ansprechpartner: phase.attr("data-id-ansprechpartner"),
-                            markierung: markierungBezeichnung ?? null
+                            termin: terminBezeichnung ?? null
                         });
                     } else {
                         phases.push({
@@ -556,27 +625,7 @@ jQuery(function($) {
             clicking = false;
 
             var el = $(this);
-            var tempEl = el;
-            draggedTds.push(tempEl);
-
-            while (true) {
-                if (tempEl.prev() !== null && tempEl.prev().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
-                    tempEl = tempEl.prev();
-                    draggedTds.push(tempEl);
-                } else {
-                    break;
-                }
-            };
-
-            tempEl = el;
-            while (true) {
-                if (tempEl.next() !== null && tempEl.next().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
-                    tempEl = tempEl.next();
-                    draggedTds.push(tempEl);
-                } else {
-                    break;
-                }
-            };
+            draggedTds = draggedTds.concat(GetFullPhase(el));
 
             if (draggedTds.length > 1) {
                 el.css({ minWidth: el.width() * draggedTds.length + "px" });
