@@ -162,7 +162,14 @@ jQuery(function($) {
         });
 
         /**
+         * Blendet alle Azubipläne eines Ausbildungsberufes ein bzw aus.
          *
+         * @param {HTMLTableRowElement} row     Die Reihe des
+         *                                      Ausbildungsberufes, zu dem die
+         *                                      Pläne ein- bzw ausgeblendet
+         *                                      werden sollen.
+         * @param {boolean}             hide    True = Reihen ausblenden
+         *                                      False = Reihen einblenden
          */
         function HideShowAzubiRow(row, hide) {
 
@@ -185,7 +192,7 @@ jQuery(function($) {
         }
 
         /**
-         *
+         * Azubipläne eines Ausbildungsberufes werden ausgeblenden.
          */
         $("#Plan").on("click", "tr .triangle-bottom", function() {
 
@@ -195,7 +202,7 @@ jQuery(function($) {
         });
 
         /**
-         *
+         * Azubipläne eines Ausbildungsberufes werden eingeblenden.
          */
         $("#Plan").on("click", "tr .triangle-right", function() {
 
