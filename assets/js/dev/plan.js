@@ -361,11 +361,13 @@ jQuery(function($) {
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
             var ansprechpartnerList = $("<ul></ul>");
+            var ansprechpartnerExist = false;
 
             Ansprechpartner.forEach(ansprechpartner => {
 
                 if (ansprechpartner.ID_Abteilung == el.data("id")) {
 
+                    ansprechpartnerExist = true;
                     ansprechpartnerList.append(
                         $("<li></li>")
                             .attr("data-id", ansprechpartner.ID)
@@ -376,9 +378,13 @@ jQuery(function($) {
                 }
             });
 
-            ansprechpartnerList.find(":last-child").remove();
-            popupAnsprechpartner.append(ansprechpartnerList)
-            SetPopupContent(popupAnsprechpartner);
+            if (ansprechpartnerExist) {
+                ansprechpartnerList.find(":last-child").remove();
+                popupAnsprechpartner.append(ansprechpartnerList);
+                SetPopupContent(popupAnsprechpartner);
+            } else {
+                SetPopupContent("");
+            }
         });
 
         /**
