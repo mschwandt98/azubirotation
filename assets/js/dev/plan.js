@@ -24,6 +24,14 @@ jQuery(function($) {
             }
         }
 
+        /**
+         * Erstellt ein Popup mit allen Ansprechpartnern für eine Abteilung.
+         *
+         * @param {number} id   Die ID der Abteilung, zu denen die Ansprechpartner
+         *                      ermittelt werden sollen.
+         * @param {*} position  Die Position, die das Popup erhalten soll.
+         *                      Optional -> muss Position nicht verändern.
+         */
         function CreateAnsprechpartnerPopup(id, position = 0) {
 
             var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
@@ -77,7 +85,11 @@ jQuery(function($) {
         }
 
         /**
+         * Holt die komplette Phase in einer Abteilung.
          *
+         * @param {HTMLTableCellElement} currentTd  Die einzelne Phase, zu der
+         *                                          die komplette Phase
+         *                                          ermittelt werden soll.
          */
         function GetFullPhase(currentTd) {
 
@@ -147,6 +159,49 @@ jQuery(function($) {
          */
         $.get(APIANSPRECHPARTNER + "Get", function(data) {
             Ansprechpartner = JSON.parse(data);
+        });
+
+        /**
+         *
+         */
+        function HideShowAzubiRow(row, hide) {
+
+            var row = $(row);
+            while (true) {
+
+                if (row.next().hasClass("azubi")) {
+
+                    row = row.next();
+
+                    if (hide) {
+                        row.css({ visibility: "collapse" });
+                    } else {
+                        row.css({ visibility: "visible" });
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        /**
+         *
+         */
+        $("#Plan").on("click", "tr .triangle-bottom", function() {
+
+            var el = $(this);
+            el.addClass("triangle-right").removeClass("triangle-bottom");
+            HideShowAzubiRow(el.closest("tr"), true);
+        });
+
+        /**
+         *
+         */
+        $("#Plan").on("click", "tr .triangle-right", function() {
+
+            var el = $(this);
+            el.addClass("triangle-bottom").removeClass("triangle-right");
+            HideShowAzubiRow(el.closest("tr"), false);
         });
 
         /**
