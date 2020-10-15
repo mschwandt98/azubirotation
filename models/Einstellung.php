@@ -5,7 +5,7 @@
  * Enthält die Model-Klasse Einstellung.
  */
 
-namespace Models;
+namespace models;
 
 /**
  * Model-Klasse für die Vereinheitlichung der Daten.

@@ -5,7 +5,7 @@
  * Enthält die Model-Klasse Ausbildungsberuf.
  */
 
-namespace Models;
+namespace models;
 
 /**
  * Model-Klasse für die Vereinheitlichung der Daten.

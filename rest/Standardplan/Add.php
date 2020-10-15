@@ -5,8 +5,8 @@
  * Der API-Endpunkt zum Hinzufügen eines Standardplans.
  */
 
-use Models\Phase;
-use Core\Helper\DataHelper;
+use models\Phase;
+use core\helper\DataHelper;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

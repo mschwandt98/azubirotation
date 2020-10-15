@@ -5,9 +5,9 @@
  * Der API-Endpunkt zum Aktualisieren der Daten aus der Planung.
  */
 
-use Core\Helper\DataHelper;
-use Core\Helper\DateHelper;
-use Models\Plan;
+use core\helper\DataHelper;
+use core\helper\DateHelper;
+use models\Plan;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

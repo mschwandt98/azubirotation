@@ -9,7 +9,7 @@
  * https://github.com/briannesbitt/Carbon
  */
 
-namespace Core\Helper;
+namespace core\helper;
 
 /**
  * Helper-Klasse für einen einheitlichen Umgang mit Daten.

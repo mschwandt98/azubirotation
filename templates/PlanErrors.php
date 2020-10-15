@@ -9,8 +9,8 @@
 
 if (empty($errors)) return;
 
-use Core\Helper\DataHelper;
-use Core\PlanErrorCodes;
+use core\helper\DataHelper;
+use core\PlanErrorCodes;
 
 include_once(dirname(__DIR__) . "/config.php");
 

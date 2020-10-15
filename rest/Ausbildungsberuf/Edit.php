@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Bearbeiten eines Ausbildungsberufes.
  */
 
-use Models\Ausbildungsberuf;
+use models\Ausbildungsberuf;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

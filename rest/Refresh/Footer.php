@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Updaten des Footers bzw der Legende im Footer.
  */
 
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 

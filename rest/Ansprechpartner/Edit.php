@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Bearbeiten eines Ansprechpartners.
  */
 
-use Models\Ansprechpartner;
+use models\Ansprechpartner;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

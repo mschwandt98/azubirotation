@@ -27,7 +27,7 @@ define("BASE", __DIR__ . "/");
 
 spl_autoload_register(function ($class) {
 
-    $fileName = $class . ".php";
+    $fileName = str_replace("\\", "/", $class) . ".php";
 
     if (file_exists(BASE . $fileName)) {
         include_once(BASE . $fileName);

@@ -9,18 +9,18 @@
  * welche die Database-Zugriffe ausschließlich laufen.
  */
 
-namespace Core\Helper;
+namespace core\helper;
 
 use PDO;
 
-use Models\Abteilung;
-use Models\Ansprechpartner;
-use Models\Ausbildungsberuf;
-use Models\Auszubildender;
-use Models\Einstellung;
-use Models\Phase;
-use Models\Standardplan;
-use Models\Plan;
+use models\Abteilung;
+use models\Ansprechpartner;
+use models\Ausbildungsberuf;
+use models\Auszubildender;
+use models\Einstellung;
+use models\Phase;
+use models\Standardplan;
+use models\Plan;
 
 if (!defined("BASE")) {
     include_once(BASE . "/config.php");

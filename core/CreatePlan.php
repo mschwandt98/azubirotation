@@ -7,8 +7,8 @@
  * Für das Skript muss die Variable $azubi_id gesetzt sein.
  */
 
-use Core\Helper\DataHelper;
-use Core\Helper\PlanungsHelper;
+use core\helper\DataHelper;
+use core\helper\PlanungsHelper;
 
 if (empty($azubi_id)) return;
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();

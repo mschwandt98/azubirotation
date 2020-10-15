@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Bearbeiten einer Abteilung.
  */
 
-use Models\Abteilung;
+use models\Abteilung;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

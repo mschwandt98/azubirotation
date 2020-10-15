@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Hinzufügen eines Azubis.
  */
 
-use Models\Auszubildender;
+use models\Auszubildender;
 
 session_start();
 include_once(dirname(dirname(__DIR__)) . "/config.php");

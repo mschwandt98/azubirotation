@@ -5,7 +5,7 @@
  * Der Footer der Anwendung, in dem die Legende für die Planung dargestellt ist.
  */
 
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 $Abteilungen = (new DataHelper())->GetAbteilungen();
 ?>

@@ -1,5 +1,5 @@
 <?php
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 session_start();
 include_once("config.php");

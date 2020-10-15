@@ -13,8 +13,8 @@
  *              Infos über Azubi C | Plan 1     | Plan 2     | ... | Plan n
  */
 
-use Core\Helper\DataHelper;
-use Core\Helper\DateHelper;
+use core\helper\DataHelper;
+use core\helper\DateHelper;
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 

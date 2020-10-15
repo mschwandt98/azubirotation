@@ -6,7 +6,7 @@
  * Bezeichnung.
  */
 
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 

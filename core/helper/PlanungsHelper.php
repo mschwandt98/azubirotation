@@ -6,11 +6,11 @@
  * Planung vereinfacht wird.
  */
 
-namespace Core\Helper;
+namespace core\helper;
 
-use Core\Helper\DataHelper;
-use Core\Helper\DateHelper;
-use Models\Plan;
+use core\helper\DataHelper;
+use core\helper\DateHelper;
+use models\Plan;
 
 if (!defined("BASE")) {
     include_once(BASE . "/config.php");

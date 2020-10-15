@@ -5,7 +5,7 @@
  * Enthält die abstrakte Klasse PlanErrorCodes.
  */
 
-namespace Core;
+namespace core;
 
 /**
  * Dient als Enum für die Fehler-Codes der Planung.

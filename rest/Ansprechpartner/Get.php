@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Holen aller Ansprechpartner, sortiert nach dem Namen.
  */
 
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . "/config.php");
 
