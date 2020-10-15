@@ -92,8 +92,10 @@ class PlanungsHelper {
 
                     if ($alleWochenFrei) {
 
+                        $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+
                         foreach ($zeitraeume as $zeitraum) {
-                            $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"]);
+                            $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
                         }
 
                         unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -122,8 +124,10 @@ class PlanungsHelper {
 
             if (!empty($zeitraeume)) {
 
+                $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+
                 foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"]);
+                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
                 }
 
                 unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -176,15 +180,7 @@ class PlanungsHelper {
                 $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
                 foreach ($zeitraeume as $zeitraum) {
-
-                    $this->Plaene[] = new Plan(
-                        $this->Azubi->ID,
-                        empty($ansprechpartner) ? null : $ansprechpartner->ID,
-                        $abteilung->ID_Abteilung,
-                        $zeitraum["Startdatum"],
-                        $zeitraum["Enddatum"],
-                        ""
-                    );
+                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
                 }
 
                 break;
@@ -202,8 +198,10 @@ class PlanungsHelper {
                 : DateHelper::LastMonday($this->Azubi->Ausbildungsstart);
             $endDate = DateHelper::NextSunday($startDate);
 
+            $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($randomAbteilung->ID_Abteilung);
+
             for ($i = 0; $i <= $randomAbteilung->Wochen; $i++) {
-                $this->CreatePlanPhase($randomAbteilung, $startDate, $endDate);
+                $this->CreatePlanPhase($randomAbteilung, $startDate, $endDate, $ansprechpartner);
                 $startDate = DateHelper::NextMonday($startDate);
                 $endDate = DateHelper::NextSunday($endDate);
             }
@@ -248,13 +246,14 @@ class PlanungsHelper {
      * Erstellt eine neue Instanz des Models "Plan" und fügt diese den Plänen
      * in $this->Plaene hinzu.
      *
-     * @param Phase     $abteilung  Die Abteilung, zu der der Plan erstellt werden soll.
-     * @param string    $startDate  Das Startdatum des Plans.
-     * @param string    $endDate    Das Enddatum des Plans.
+     * @param Phase             $abteilung          Die Abteilung, zu der der
+     *                                              Plan erstellt werden soll.
+     * @param string            $startDate          Das Startdatum des Plans.
+     * @param string            $endDate            Das Enddatum des Plans.
+     * @param Ansprechpartner   $ansprechpartner    Der Ansprechpartner für den
+     *                                              zu erstellenden Plan.
      */
-    private function CreatePlanPhase($abteilung, $startDate, $endDate) {
-
-        $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+    private function CreatePlanPhase($abteilung, $startDate, $endDate, $ansprechpartner) {
 
         $this->Plaene[] = new Plan(
             $this->Azubi->ID,
