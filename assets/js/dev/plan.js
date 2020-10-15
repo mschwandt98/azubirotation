@@ -384,6 +384,7 @@ jQuery(function($) {
                 SetPopupContent(popupAnsprechpartner);
             } else {
                 SetPopupContent("");
+                RemoveSelectedStatus();
             }
         });
 
@@ -399,8 +400,8 @@ jQuery(function($) {
                     .empty();
             })
 
+            SetPopupContent("");
             RemoveSelectedStatus();
-            $(this).closest(".set-ansprechpartner-popup").remove();
         });
 
         /**
