@@ -95,5 +95,6 @@ function minifier($code) {
  */
 function sanitize_string($data) {
     $data = strip_tags($data);
-    return htmlspecialchars($data);
+    $data = htmlspecialchars($data, ENT_HTML5);
+    return str_replace("&amp;", "&", $data);
 }
