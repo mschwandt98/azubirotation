@@ -63,7 +63,7 @@ class PlanungsHelper {
      */
     public function PlanAbteilungen($abteilungen) {
 
-        $this->AbteilungenLeft = array_merge($this->AbteilungenLeft, $abteilungen);
+        $this->AbteilungenLeft = $this->AbteilungenLeft + $abteilungen;
 
         // drei Mal versuchen einen Zeitraum in jeder Abteilung zu finden
         for ($i = 0; $i < 3; $i++) {
