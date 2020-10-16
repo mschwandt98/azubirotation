@@ -483,7 +483,17 @@ jQuery(function($) {
                 $(item).attr("data-id-ansprechpartner", idAnsprechpartner)
                     .addClass("changed")
                     .empty();
-            })
+            });
+
+            Ansprechpartner.some(ansprechpartner => {
+
+                if (ansprechpartner.ID == idAnsprechpartner) {
+                    $(tdItems[0]).append(
+                        $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                    );
+                    return;
+                }
+            });
 
             SetPopupContent("");
             RemoveSelectedStatus();
@@ -710,7 +720,7 @@ jQuery(function($) {
                     .addClass("changed")
                     .removeClass("selected")
                     .empty();
-            })
+            });
 
             var tempTarget = target;
             for (var i = 0; i < draggedTds.length; i++) {
@@ -731,6 +741,16 @@ jQuery(function($) {
                     break;
                 }
             }
+
+            Ansprechpartner.some(ansprechpartner => {
+
+                if (ansprechpartner.ID == id_ansprechpartner) {
+                    $(target).append(
+                        $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                    );
+                    return;
+                }
+            });
 
             return false;
         });
