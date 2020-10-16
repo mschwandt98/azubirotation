@@ -17,10 +17,20 @@ jQuery(function($) {
          */
         function SetPopupContent(content, position = 0) {
 
-            $("#Popup").empty().append(content);
+            var popup = $("#Popup");
+            popup.empty().append(content);
 
             if (position !== 0) {
-                $("#Popup").css({ top: position.top, left: position.left + 64 });
+
+                let screenWidth = $("body").width();
+                let popupWidth = popup.width();
+                let spacing = 64;
+
+                if (position.left + popupWidth + spacing > screenWidth) {
+                    popup.css({ top: position.top, left: position.left - popupWidth - (spacing / 2)});
+                } else {
+                    popup.css({ top: position.top, left: position.left + spacing });
+                }
             }
         }
 

@@ -138,7 +138,7 @@ main {
                 text-overflow: ellipsis;
             }
 
-            &.mark-start:before {
+            &.mark-start:after {
                 border-top: 8px solid red;
                 border-right: 8px solid transparent;
                 content: " ";
@@ -163,7 +163,7 @@ main {
             &.selected {
                 border-color: inherit !important;
 
-                &::after {
+                &::before {
                     background-color: rgba(0, 0, 0, 0.2);
                     content: " ";
                     position: absolute;
