@@ -13,6 +13,7 @@
 
 @import "variables.scss";
 @import "html-elements.scss";
+@import "icons.scss";
 @import "3rd-party.scss";
 
 body {
@@ -101,34 +102,6 @@ main {
 
         tbody th {
             text-align: left;
-
-            .triangle-bottom,
-            .triangle-right {
-                border-style: solid;
-                cursor: pointer;
-                display: inline-block;
-                margin-right: 8px;
-                height: 0;
-                width: 0;
-            }
-
-            .triangle-bottom {
-                border-color: $selectline-blue transparent transparent transparent;
-                border-width: 8px 6px 0 6px;
-
-                &:hover {
-                    border-color: $selectline-dark-blue transparent transparent transparent;
-                }
-            }
-
-            .triangle-right {
-                border-color: transparent transparent transparent $selectline-blue;
-                border-width: 6px 0 6px 8px;
-
-                &:hover {
-                    border-color: transparent transparent transparent $selectline-dark-blue;
-                }
-            }
         }
 
         th, td {
@@ -231,11 +204,10 @@ Footer {
     z-index: 999;
 
     .toggle-legende {
-        background-color: $selectline-blue;
-        border: solid $selectline-blue;
+        background-color: $selectline-dark-blue;
+        border: solid $selectline-dark-blue;
         border-top-left-radius: 8px;
         border-width: 1px 1px 0 1px;
-        box-shadow: 0 0 8px 0px white;
         color: white;
         cursor: pointer;
         margin-left: auto;
@@ -243,7 +215,8 @@ Footer {
         width: fit-content;
 
         &:hover {
-            background-color: $selectline-blue-hover;
+            background-color: $selectline-blue;
+            border-color: $selectline-blue;
         }
     }
 

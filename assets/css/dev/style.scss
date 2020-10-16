@@ -58,59 +58,6 @@
         }
     }
 
-    .expand-data-item,
-    .minimize-data-item {
-        align-items: center;
-        background-color: $selectline-dark-blue;
-        border-radius: 8px;
-        position: absolute;
-        top: 16px;
-        right: 24px;
-        height: 24px;
-        width: 24px;
-
-        &:hover {
-            background-color: $selectline-blue;
-            cursor: pointer;
-        }
-    }
-
-    .expand-data-item {
-        &:before,
-        &:after {
-            background:white;
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-
-        &:before {
-            margin: 6px auto;
-            width: 2px;
-        }
-
-        &:after {
-            height: 2px;
-            margin: auto 6px;
-        }
-    }
-
-    .minimize-data-item:before {
-        background:white;
-        content: '';
-        margin: auto;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        width: 50%;
-    }
-
     .title {
         color: $selectline-blue;
         font-size: 24px;
@@ -157,10 +104,10 @@
     }
 
     > div {
-        background-color: #bdbdcb;
-        border: 1px solid #4b556a;
+        background-color: $gray;
+        border: 1px solid $selectline-text-blue;
         border-radius: 8px;
-        color: #4b556a;
+        color: $selectline-text-blue;
         cursor: default;
         min-width: 256px;
         padding: 16px 32px;

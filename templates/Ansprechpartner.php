@@ -8,7 +8,7 @@
 ?>
 
 <div class="data-item">
-    <div class="minimize-data-item"></div>
+    <div class="icon-minus"></div>
     <div class="title">Ansprechpartner</div>
     <div class="show-add-buttons">
         <input type="button" id="ShowAnsprechpartnerButton" value="Anzeigen" />

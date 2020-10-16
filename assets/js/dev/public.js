@@ -65,20 +65,20 @@ jQuery(function($) {
         /**
          * Azubipläne eines Ausbildungsberufes werden ausgeblenden.
          */
-        $("#Plan").on("click", "tr .triangle-bottom", function() {
+        $("#Plan").on("click", "tr .icon-triangle-b", function() {
 
             var el = $(this);
-            el.addClass("triangle-right").removeClass("triangle-bottom");
+            el.addClass("icon-triangle-r").removeClass("icon-triangle-b");
             HideShowAzubiRow(el.closest("tr"), true);
         });
 
         /**
          * Azubipläne eines Ausbildungsberufes werden eingeblenden.
          */
-        $("#Plan").on("click", "tr .triangle-right", function() {
+        $("#Plan").on("click", "tr .icon-triangle-r", function() {
 
             var el = $(this);
-            el.addClass("triangle-bottom").removeClass("triangle-right");
+            el.addClass("icon-triangle-b").removeClass("icon-triangle-r");
             HideShowAzubiRow(el.closest("tr"), false);
         });
 
