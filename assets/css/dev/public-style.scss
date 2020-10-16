@@ -82,22 +82,6 @@ main {
             tr:last-of-type th {
                 top: 47px;
             }
-
-            th.top-left-sticky {
-                z-index: 150 !important;
-
-                &:first-of-type {
-                    left: 0;
-                }
-
-                &:nth-of-type(2) {
-                    left: 117px;
-                }
-
-                &:nth-of-type(3) {
-                    left: 234px;
-                }
-            }
         }
 
         tbody th {
@@ -305,6 +289,22 @@ Footer {
 
         &:nth-of-type(3) {
             left: 234px;
+        }
+
+        th.top-left-sticky {
+            z-index: 150 !important;
+
+            &:first-of-type {
+                left: 0;
+            }
+
+            &:nth-of-type(2) {
+                left: 117px;
+            }
+
+            &:nth-of-type(3) {
+                left: 234px;
+            }
         }
     }
 }
