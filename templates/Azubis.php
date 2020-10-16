@@ -78,6 +78,11 @@
             <span>Ausbildungsende</span>
             <input type="date" name="ausbildungsende" required />
         </label>
+        <label>
+            <span>Planung aktualisieren?</span>
+            <input type="checkbox"
+                   name="planung_erstellen" />
+        </label>
         <div>
             <input type="submit" value="Änderungen speichern" />
         </div>

@@ -23,7 +23,7 @@ if (is_logged_in() && is_token_valid()) {
         $id_ausbildungsberuf    = sanitize_string($_POST["id_ausbildungsberuf"]);
         $ausbildungsstart       = sanitize_string($_POST["ausbildungsstart"]);
         $ausbildungsende        = sanitize_string($_POST["ausbildungsende"]);
-        $planungErstellen = sanitize_string($_POST["planung_erstellen"]);
+        $planungErstellen       = sanitize_string($_POST["planung_erstellen"]);
 
         if (!empty($vorname) && !empty($nachname) &&
             !empty($email) && !empty($id_ausbildungsberuf) &

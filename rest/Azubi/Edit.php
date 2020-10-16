@@ -14,7 +14,8 @@ if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists("id", $_POST) && array_key_exists("vorname", $_POST) && array_key_exists("nachname", $_POST) &&
         array_key_exists("email", $_POST) && array_key_exists("id_ausbildungsberuf", $_POST) &&
-        array_key_exists("ausbildungsstart", $_POST) && array_key_exists("ausbildungsende", $_POST)) {
+        array_key_exists("ausbildungsstart", $_POST) && array_key_exists("ausbildungsende", $_POST) &&
+        array_key_exists("planung_erstellen", $_POST)) {
 
         $id                     = sanitize_string($_POST["id"]);
         $vorname                = sanitize_string($_POST["vorname"]);
@@ -23,6 +24,7 @@ if (is_logged_in() && is_token_valid()) {
         $id_ausbildungsberuf    = sanitize_string($_POST["id_ausbildungsberuf"]);
         $ausbildungsstart       = sanitize_string($_POST["ausbildungsstart"]);
         $ausbildungsende        = sanitize_string($_POST["ausbildungsende"]);
+        $planungErstellen       = sanitize_string($_POST["planung_erstellen"]);
 
         if (!empty($id) && !empty($vorname) && !empty($nachname) &&
             !empty($email) && !empty($id_ausbildungsberuf) &&
@@ -45,6 +47,22 @@ if (is_logged_in() && is_token_valid()) {
                 ":id_ausbildungsberuf"  => $azubi->ID_Ausbildungsberuf,
                 "ausbildungsstart"      => $azubi->Ausbildungsstart,
                 "ausbildungsende"       => $azubi->Ausbildungsende ])) {
+
+                if (filter_var($planungErstellen, FILTER_VALIDATE_BOOLEAN)) {
+
+                    $statement = $pdo->prepare(
+                        "DELETE FROM " . T_PLAENE . "
+                        WHERE ID_Auszubildender = :id"
+                    );
+
+                    if (!$statement->execute([ ":id" => $azubi->ID ])) {
+                        http_response_code(400);
+                        exit;
+                    }
+
+                    $azubi_id = $azubi->ID;
+                    include_once(BASE . "/core/CreatePlan.php");
+                }
 
                 http_response_code(200);
                 exit;

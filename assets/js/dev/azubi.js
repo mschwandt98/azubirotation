@@ -311,6 +311,7 @@ jQuery(function($) {
             var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
             var ausbildungsstartInput = form.find(`input[name="${ AUSBILDUNGSSTART }"]`);
             var ausbildungsendeInput = form.find(`input[name="${ AUSBILDUNGSENDE }"]`);
+            var planung_erstellen = form.find(`input[name="${ PLANUNG_ERSTELLEN }"]`);
 
             $.ajax({
                 type: "POST",
@@ -323,7 +324,8 @@ jQuery(function($) {
                     email: emailInput.val(),
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
-                    ausbildungsende: ausbildungsendeInput.val()
+                    ausbildungsende: ausbildungsendeInput.val(),
+                    planung_erstellen: planung_erstellen.prop("checked")
                 },
                 success: function() {
                     idInput.val("");
