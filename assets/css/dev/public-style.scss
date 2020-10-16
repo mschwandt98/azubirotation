@@ -104,14 +104,6 @@ main {
             text-align: left;
         }
 
-        th, td {
-            &.empty-field {
-                border-color: white !important;
-                padding-top: 16px;
-                vertical-align: top;
-            }
-        }
-
         th {
             background-color: white;
             box-shadow: 0 0 0 0.5px $gray;
@@ -131,12 +123,6 @@ main {
         td {
             position: relative;
             white-space: nowrap;
-
-            &.row-info {
-                overflow: hidden;
-                padding: 4px 8px;
-                text-overflow: ellipsis;
-            }
 
             &.mark-start:after {
                 border-top: 8px solid red;
@@ -287,7 +273,7 @@ Footer {
     left: 50%;
 
     > .message {
-        background-color: #ffc5c5;
+        background-color: lighten(red, 40%);
         border: 1px solid red;
         border-radius: 8px;
         box-shadow: 0 0 8px 0 red;
@@ -300,31 +286,25 @@ Footer {
 }
 
 @media screen and (min-width: $lg-min) {
-    #Plan table {
-        tbody th {
-            white-space: nowrap;
+    #Plan table tbody th {
+        white-space: nowrap;
 
-            &.empty-field {
-                box-shadow: 0 0 0 1px white !important;
-            }
+        &:first-of-type,
+        &:nth-of-type(2) {
+            max-width: 100px;
+            min-width: 100px;
+        }
 
-            &:first-of-type,
-            &:nth-of-type(2) {
-                max-width: 100px;
-                min-width: 100px;
-            }
+        &:first-of-type {
+            left: 0;
+        }
 
-            &:first-of-type {
-                left: 0;
-            }
+        &:nth-of-type(2) {
+            left: 117px;
+        }
 
-            &:nth-of-type(2) {
-                left: 117px;
-            }
-
-            &:nth-of-type(3) {
-                left: 234px;
-            }
+        &:nth-of-type(3) {
+            left: 234px;
         }
     }
 }

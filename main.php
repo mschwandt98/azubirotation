@@ -33,7 +33,7 @@
 
 <?php if (is_logged_in()) : ?>
 
-<div class="plan-actions">
+<div id="PlanActions">
     <div>
         <input type="button" id="SavePlan" value="Planung speichern" />
         <input type="button" id="TestPlan" value="Auf Fehler testen" />

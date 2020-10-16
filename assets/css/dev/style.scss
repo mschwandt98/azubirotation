@@ -43,7 +43,6 @@
         }
 
         label {
-            display: grid;
             margin: 8px 0;
             max-width: 256px;
 
@@ -109,7 +108,9 @@
         border-radius: 8px;
         color: $selectline-text-blue;
         cursor: default;
+        max-height: 70vh;
         min-width: 256px;
+        overflow-y: auto;
         padding: 16px 32px;
         position: fixed;
         top: 10%;
@@ -138,36 +139,36 @@
         padding: 8px 16px;
     }
 
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        hr {
+            background-color: $gray;
+            border-width: 0;
+            height: 1px;
+            margin: 2px 0;
+        }
+
+        li {
+            white-space: nowrap;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
     .context-popup,
     .set-abteilung-popup,
     .set-ansprechpartner-popup {
         max-height: 128px;
         overflow-y: auto;
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-
-            hr {
-                background-color: $gray;
-                border-width: 0;
-                height: 1px;
-                margin: 2px 0;
-            }
-
-            li {
-                white-space: nowrap;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-        }
     }
 }
 
-.plan-actions {
+#PlanActions {
     display: flex;
     justify-content: space-between;
 }
@@ -199,6 +200,7 @@
 }
 
 @media screen and (max-width: $md-max) and (min-width: $md-min) {
+    #InfoButton > div > div,
     .grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -213,7 +215,7 @@
         grid-template-columns: 1fr;
     }
 
-    .plan-actions {
+    #PlanActions {
         display: block;
 
         input[type="button"] {
@@ -222,7 +224,6 @@
         }
     }
 }
-
 
 @media screen and (max-width: $xs-max) {
     .data-item .show-add-buttons {

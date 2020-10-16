@@ -116,7 +116,7 @@ unset($currentDate);
         <?php foreach ($azubisByAusbildungsberufe as $id_ausbildungsberuf => $azubis) : ?>
 
             <tr>
-                <th colspan="3" class="row-info">
+                <th colspan="3">
                     <div class="icon-triangle-b"></div>
                     <b><?= ($helper->GetAusbildungsberufe($id_ausbildungsberuf))->Bezeichnung; ?></b>
                 </th>
@@ -126,9 +126,9 @@ unset($currentDate);
             <?php foreach ($azubis as $azubi) : ?>
 
                 <tr class="azubi" data-id="<?= $azubi->ID; ?>">
-                    <th class="row-info"><?= $azubi->Nachname; ?></th>
-                    <th class="row-info"><?= $azubi->Vorname; ?></th>
-                    <th class="row-info">
+                    <th><?= $azubi->Nachname; ?></th>
+                    <th><?= $azubi->Vorname; ?></th>
+                    <th>
                         <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . " - " . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
                     </th>
 
