@@ -86,6 +86,7 @@ main {
 
         tbody th {
             text-align: left;
+            white-space: nowrap;
         }
 
         th {
@@ -270,41 +271,41 @@ Footer {
 }
 
 @media screen and (min-width: $lg-min) {
-    th.top-left-sticky {
-        z-index: 150 !important;
+    #Plan table {
+        th.top-left-sticky {
+            z-index: 150 !important;
 
-        &:first-of-type {
-            left: 0;
+            &:first-of-type {
+                left: 0;
+            }
+
+            &:nth-of-type(2) {
+                left: 117px;
+            }
+
+            &:nth-of-type(3) {
+                left: 234px;
+            }
         }
 
-        &:nth-of-type(2) {
-            left: 117px;
-        }
+        tbody th {
+            &:first-of-type,
+            &:nth-of-type(2) {
+                max-width: 100px;
+                min-width: 100px;
+            }
 
-        &:nth-of-type(3) {
-            left: 234px;
-        }
-    }
+            &:first-of-type {
+                left: 0;
+            }
 
-    #Plan table tbody th {
-        white-space: nowrap;
+            &:nth-of-type(2) {
+                left: 117px;
+            }
 
-        &:first-of-type,
-        &:nth-of-type(2) {
-            max-width: 100px;
-            min-width: 100px;
-        }
-
-        &:first-of-type {
-            left: 0;
-        }
-
-        &:nth-of-type(2) {
-            left: 117px;
-        }
-
-        &:nth-of-type(3) {
-            left: 234px;
+            &:nth-of-type(3) {
+                left: 234px;
+            }
         }
     }
 }
