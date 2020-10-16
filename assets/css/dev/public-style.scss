@@ -66,6 +66,7 @@ main {
     margin: 16px 0;
     max-height: 50vh;
     overflow: auto;
+    padding-bottom: 24px;
 
     table, th, td {
         border: 1px solid $gray;
@@ -367,4 +368,24 @@ Footer {
     header h1 {
         text-align: center;
     }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: lighten($gray, 10%);
+    border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $selectline-blue;
+    border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $selectline-blue-hover;
 }

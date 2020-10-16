@@ -243,6 +243,7 @@ jQuery(function($) {
          * @param {Event} e Das ausgelöste mousedown-Event.
          */
         $("#Plan").on("mousedown", ".plan-phase", function(e) {
+
             if ($(e.target).parents(".plan-phase").length > 0) return;
             RemoveSelectedStatus();
 
@@ -264,6 +265,7 @@ jQuery(function($) {
          */
         $("#Plan").on("mousemove", ".plan-phase", function(e) {
 
+            if (e.which !== 1) return;
             if (!clicking) return;
             var currentTd = $(e.target);
 
@@ -303,7 +305,10 @@ jQuery(function($) {
          */
         $("#Plan").on("mouseup", ".plan-phase", function(e) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
-            $(tdItems[tdItems.length - 1]).click();
+
+            if (e.which === 1) {
+                $(tdItems[tdItems.length - 1]).click();
+            }
             clicking = false;
         });
 
