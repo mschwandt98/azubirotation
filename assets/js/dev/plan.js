@@ -179,11 +179,11 @@ jQuery(function($) {
         $(document).on("click", function(e) {
             if(!$(e.target).closest("#Plan table").length && !$(e.target).closest("#Popup").length) {
 
-                if ($(e.target).parents(".set-abteilung-popup").length === 0 &&
-                    $(e.target).parents(".set-ansprechpartner-popup").length === 0 &&
-                    $(e.target).parents(".context-popup").length === 0 &&
-                    $(e.target).parents(".set-mark-popup").length === 0) {
-                    $("#Popup > div").remove();
+                if (!$(e.target).parents(".set-abteilung-popup").length &&
+                    !$(e.target).parents(".set-ansprechpartner-popup").length &&
+                    !$(e.target).parents(".context-popup").length &&
+                    !$(e.target).parents(".set-mark-popup").length) {
+                    $("#Popup").empty();
                     RemoveSelectedStatus();
                 }
             }
@@ -208,16 +208,8 @@ jQuery(function($) {
          */
         $("#Plan").on("click", ".plan-phase", function(e) {
 
-            if ($(e.target).parents(".plan-phase").length > 0) return;
-            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
-            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
-            if ($(e.target).parents(".context-popup").length > 0) return;
-            if ($(e.target).parents(".set-mark-popup").length > 0) return;
-
             // 1 = Linksklick und Prüfung auf undefined, falls diese Funktion im Code per .click() ausgelöst wurde
             if (e.which === 1 || typeof e.which === "undefined") {
-
-                $("#Popup > div").remove();
 
                 var el = $(this);
                 el.addClass("selected");
@@ -282,8 +274,9 @@ jQuery(function($) {
 
                 if ($(tdItems[0]).closest("tr").data("id") == currentTd.closest("tr").data("id")) {
 
-                    var exists = false;
+                    let exists = false;
 
+                    // Falls ein Child-Element ausgewählt wurde
                     if (currentTd.parents(".plan-phase").length > 0) {
                         currentTd = currentTd.parents(".plan-phase");
                     }
@@ -310,7 +303,6 @@ jQuery(function($) {
          */
         $("#Plan").on("mouseup", ".plan-phase", function(e) {
             if ($(e.target).parents(".plan-phase").length > 0) return;
-
             $(tdItems[tdItems.length - 1]).click();
             clicking = false;
         });
@@ -370,44 +362,43 @@ jQuery(function($) {
         $("#Popup").on("click", ".context-popup li", function() {
 
             var el = $(this);
-            var text = "";
             var td = $(tdItems[0]);
-            tdItems.length = 0;
-            tdItems = tdItems.concat(GetFullPhase(td));
 
-            if (el.data("add-ansprechpartner")) {
+            if (el.data("add-ansprechpartner") || el.data("update-ansprechpartner") || el.data("delete-ansprechpartner")) {
+
+                tdItems.length = 0;
+                tdItems = tdItems.concat(GetFullPhase(td));
+
+                if (el.data("delete-ansprechpartner")) {
+
+                    $(tdItems).each(index => {
+                        $(tdItems[index]).removeAttr("data-id-ansprechpartner")
+                            .addClass("changed")
+                            .empty();
+                    });
+                    SetPopupContent("");
+                    RemoveSelectedStatus();
+                    return;
+                }
+
                 CreateAnsprechpartnerPopup(td.data("id-abteilung"), td.position());
                 return;
-            } else if (el.data("update-ansprechpartner")) {
-                CreateAnsprechpartnerPopup(td.data("id-abteilung"), td.position());
-                return;
-            } else if (el.data("delete-ansprechpartner")) {
+            }
 
-                $(tdItems).each(index => {
-                    $(tdItems[index]).removeAttr("data-id-ansprechpartner")
-                        .addClass("changed")
-                        .empty();
-                });
-                SetPopupContent("");
-                RemoveSelectedStatus();
-                return;
-            } else if (el.data("add-termin")) {
-                text = "Terminbezeichnung";
-            } else if (el.data("update-termin")) {
-                text = "Neue Terminbezeichnung";
-            } else if (el.data("delete-termin")) {
-                td.empty();
-                td.addClass("changed");
+            if (el.data("delete-termin")) {
+                td.empty().addClass("changed");
                 SetPopupContent("");
                 RemoveSelectedStatus();
                 return;
             }
 
-            var wrapper = $("<div></div>").addClass("set-mark-popup")
+            if (el.data("add-termin") || el.data("update-termin")) {
+
+                var wrapper = $("<div></div>").addClass("set-mark-popup")
                 .append(
                     $("<form></form>").append(
                         $("<label></label>").append(
-                                $("<div></div>").text(text)
+                                $("<div></div>").text((el.data("update-termin") ? "Neue ": "") + "Terminbezeichnung")
                             ).append(
                                 $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
                             )
@@ -418,7 +409,8 @@ jQuery(function($) {
                         )
                 );
 
-            SetPopupContent(wrapper);
+                SetPopupContent(wrapper);
+            }
         });
 
         /**
@@ -430,11 +422,11 @@ jQuery(function($) {
             var markerBezeichnung = $("#Popup .set-mark-popup").find('input[type="text"]').val();
             var td = $(tdItems[0]);
 
-            td.find(".plan-mark").remove();
-            td.append(
-                $("<div></div>").attr("title", markerBezeichnung).addClass("plan-mark")
-            );
-            td.addClass("changed");
+            td.empty()
+                .addClass("changed")
+                .append(
+                    $("<div></div>").attr("title", markerBezeichnung).addClass("plan-mark")
+                );
 
             $("#Popup").empty();
             RemoveSelectedStatus();
@@ -451,9 +443,9 @@ jQuery(function($) {
          */
         $("#Popup").on("click", ".set-abteilung-popup li", function() {
 
-            var el = $(this);
+            var idAbteilung = $(this).data("id");
 
-            if (!el.data("id")) {
+            if (!idAbteilung) {
 
                 tdItems.forEach(item => {
                     $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
@@ -466,17 +458,17 @@ jQuery(function($) {
 
             tdItems.forEach(item => {
 
-                $(item).attr("data-id-abteilung", el.data("id"))
+                $(item).attr("data-id-abteilung", idAbteilung)
                 .attr(
                     "style",
-                    "background-color: " + GetAbteilungsFarbe(el.data("id")) +"; " +
-                    "border-left-color: " + GetAbteilungsFarbe(el.data("id")) + "; " +
-                    "border-right-color: " + GetAbteilungsFarbe(el.data("id")) + ";"
+                    "background-color: " + GetAbteilungsFarbe(idAbteilung) +"; " +
+                    "border-left-color: " + GetAbteilungsFarbe(idAbteilung) + "; " +
+                    "border-right-color: " + GetAbteilungsFarbe(idAbteilung) + ";"
                 )
                 .addClass("changed");
             });
 
-            CreateAnsprechpartnerPopup(el.data("id"));
+            CreateAnsprechpartnerPopup(idAbteilung);
         });
 
         /**
@@ -485,8 +477,10 @@ jQuery(function($) {
          */
         $("#Popup").on("click", ".set-ansprechpartner-popup li", function() {
 
+            var idAnsprechpartner = $(this).data("id");
+
             tdItems.forEach(item => {
-                $(item).attr("data-id-ansprechpartner", $(this).data("id"))
+                $(item).attr("data-id-ansprechpartner", idAnsprechpartner)
                     .addClass("changed")
                     .empty();
             })
@@ -707,7 +701,6 @@ jQuery(function($) {
             }
 
             var target = $(this);
-
             var farbe = e.originalEvent.dataTransfer.getData("farbe");
             var id_abteilung = e.originalEvent.dataTransfer.getData("id-abteilung");
             var id_ansprechpartner = e.originalEvent.dataTransfer.getData("id-ansprechpartner");
