@@ -11,6 +11,21 @@
  * - input[type="submit"]
  */
 
+input,
+input[type="button"]
+input[type="checkbox"],
+input[type="date"],
+input[type="email"],
+input[type="number"],
+input[type="password"]
+input[type="submit"],
+input[type="text"],
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 form label {
     color: $selectline-dark-blue;
     display: block;
