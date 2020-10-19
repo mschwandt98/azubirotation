@@ -115,9 +115,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Standardplänen.
          */
         function HideViews() {
-            $("#Standardplaene").hide(TIME);
-            $("#AddStandardplanForm").hide(TIME);
-            $("#EditStandardplanForm").hide(TIME);
+            $("#Standardplaene").stop().hide(TIME);
+            $("#AddStandardplanForm").stop().hide(TIME);
+            $("#EditStandardplanForm").stop().hide(TIME);
         }
 
         /**
@@ -169,7 +169,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                standardplaene.show(TIME);
+                standardplaene.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -202,7 +202,7 @@ jQuery(function($) {
                     );
 
                     HideViews();
-                    form.show(TIME);
+                    form.stop().show(TIME);
                     $("#LoadingSpinner").hide();
                 });
             })
@@ -301,7 +301,7 @@ jQuery(function($) {
                 form.find(".plan").empty().append(data);
 
                 HideViews();
-                form.show(TIME);
+                form.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });

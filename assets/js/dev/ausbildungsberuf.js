@@ -26,9 +26,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Ausbildungsberufen.
          */
         function HideViews() {
-            $("#Ausbildungsberufe").hide(TIME);
-            $("#AddAusbildungsberufForm").hide(TIME);
-            $("#EditAusbildungsberufForm").hide(TIME);
+            $("#Ausbildungsberufe").stop().hide(TIME);
+            $("#AddAusbildungsberufForm").stop().hide(TIME);
+            $("#EditAusbildungsberufForm").stop().hide(TIME);
         }
 
         /**
@@ -76,7 +76,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                ausbildungsberufe.show(TIME);
+                ausbildungsberufe.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -86,7 +86,7 @@ jQuery(function($) {
          */
         $("#ShowAddAusbildungsberufForm").on("click", function() {
             HideViews();
-            $("#AddAusbildungsberufForm").show(TIME);
+            $("#AddAusbildungsberufForm").stop().show(TIME);
         });
 
         /**
@@ -141,7 +141,7 @@ jQuery(function($) {
             form.find(`input[name="${ BEZEICHNUNG }"]`).val(bezeichnung);
 
             HideViews();
-            form.show(TIME);
+            form.stop().show(TIME);
         });
 
         /**

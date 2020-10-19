@@ -28,9 +28,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Abteilungen.
          */
         function HideViews() {
-            $("#Abteilungen").hide(TIME);
-            $("#AddAbteilungForm").hide(TIME);
-            $("#EditAbteilungForm").hide(TIME);
+            $("#Abteilungen").stop().hide(TIME);
+            $("#AddAbteilungForm").stop().hide(TIME);
+            $("#EditAbteilungForm").stop().hide(TIME);
         }
 
         /**
@@ -87,7 +87,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                abteilungen.show(TIME);
+                abteilungen.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -97,7 +97,7 @@ jQuery(function($) {
          */
         $("#ShowAddAbteilungForm").on("click", function() {
             HideViews();
-            $("#AddAbteilungForm").show(TIME);
+            $("#AddAbteilungForm").stop().show(TIME);
         });
 
         /**
@@ -161,7 +161,7 @@ jQuery(function($) {
             form.find(`input[name="${ FARBE }"]`).val(farbe);
 
             HideViews();
-            form.show(TIME);
+            form.stop().show(TIME);
         });
 
         /**

@@ -58,9 +58,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Azubis.
          */
         function HideViews() {
-            $("#Azubis").hide(TIME);
-            $("#AddAzubiForm").hide(TIME);
-            $("#EditAzubiForm").hide(TIME);
+            $("#Azubis").stop().hide(TIME);
+            $("#AddAzubiForm").stop().hide(TIME);
+            $("#EditAzubiForm").stop().hide(TIME);
         }
 
         /**
@@ -121,7 +121,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                azubis.show(TIME);
+                azubis.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -148,7 +148,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                $("#AddAzubiForm").show(TIME);
+                $("#AddAzubiForm").stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -265,7 +265,7 @@ jQuery(function($) {
                 form.find(`input[name="${ AUSBILDUNGSENDE }"]`).attr("min", ausbildungsstart);
 
                 HideViews();
-                form.show(TIME);
+                form.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });

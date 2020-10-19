@@ -37,9 +37,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Ansprechpartnern.
          */
         function HideViews() {
-            $("#Ansprechpartner").hide(TIME);
-            $("#AddAnsprechpartnerForm").hide(TIME);
-            $("#EditAnsprechpartner").hide(TIME);
+            $("#Ansprechpartner").stop().hide(TIME);
+            $("#AddAnsprechpartnerForm").stop().hide(TIME);
+            $("#EditAnsprechpartner").stop().hide(TIME);
         }
 
         /**
@@ -90,7 +90,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                ansprechpartnerDiv.show(TIME);
+                ansprechpartnerDiv.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -119,7 +119,7 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                form.show(TIME);
+                form.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
@@ -200,7 +200,7 @@ jQuery(function($) {
                 abteilungSelect.val(id_abteilung);
 
                 HideViews();
-                form.show(TIME);
+                form.stop().show(TIME);
                 $("#LoadingSpinner").hide();
             });
         });
