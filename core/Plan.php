@@ -126,7 +126,7 @@ unset($currentDate);
 
             <?php foreach ($azubis as $azubi) : ?>
 
-                <tr class="azubi <?= ($azubi->Ausbildungsende < date("Y-m-d")) ? "old" : ""; ?>"
+                <tr class="azubi <?= ($azubi->Ausbildungsende < DateHelper::Today()) ? "old" : ""; ?>"
                     data-id="<?= $azubi->ID; ?>">
                     <th><?= $azubi->Nachname; ?></th>
                     <th><?= $azubi->Vorname; ?></th>

@@ -157,4 +157,16 @@ class DateHelper {
     public static function NextSunday($date, $format = self::defaultFormat) {
         return date($format, strtotime($date . " next sunday"));
     }
+
+    /**
+     * Liefert das Datum des aktuellen Tages.
+     *
+     * @param string $format Das Format, in dem das Datum des aktuellen Tages
+     *                       zurückgegeben werden soll.
+     *
+     * @return string Das heutige Datum.
+     */
+    public static function Today($format = self::defaultFormat) {
+        return date($format);
+    }
 }
