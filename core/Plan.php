@@ -126,7 +126,8 @@ unset($currentDate);
 
             <?php foreach ($azubis as $azubi) : ?>
 
-                <tr class="azubi" data-id="<?= $azubi->ID; ?>">
+                <tr class="azubi <?= ($azubi->Ausbildungsende < date("Y-m-d")) ? "old" : ""; ?>"
+                    data-id="<?= $azubi->ID; ?>">
                     <th><?= $azubi->Nachname; ?></th>
                     <th><?= $azubi->Vorname; ?></th>
                     <th>
