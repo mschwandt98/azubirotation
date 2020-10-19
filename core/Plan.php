@@ -116,7 +116,7 @@ unset($currentDate);
         <?php foreach ($azubisByAusbildungsberufe as $id_ausbildungsberuf => $azubis) : ?>
 
             <tr>
-                <th colspan="3">
+                <th class="ausbildungsberuf" colspan="3">
                     <div class="icon-triangle-b"></div>
                     <b><?= ($helper->GetAusbildungsberufe($id_ausbildungsberuf))->Bezeichnung; ?></b>
                 </th>

@@ -63,23 +63,20 @@ jQuery(function($) {
         }
 
         /**
-         * Azubipläne eines Ausbildungsberufes werden ausgeblenden.
+         * Azubipläne eines Ausbildungsberufes werden ein- bzw ausgeblendet.
          */
-        $("#Plan").on("click", "tr .icon-triangle-b", function() {
+        $("#Plan").on("click", "tr .ausbildungsberuf", function() {
 
             var el = $(this);
-            el.addClass("icon-triangle-r").removeClass("icon-triangle-b");
-            HideShowAzubiRow(el.closest("tr"), true);
-        });
+            icon = el.find("div").first();
 
-        /**
-         * Azubipläne eines Ausbildungsberufes werden eingeblenden.
-         */
-        $("#Plan").on("click", "tr .icon-triangle-r", function() {
+            if (icon.hasClass("icon-triangle-b")) {
+                HideShowAzubiRow(el.closest("tr"), true);
+            } else {
+                HideShowAzubiRow(el.closest("tr"));
+            }
 
-            var el = $(this);
-            el.addClass("icon-triangle-b").removeClass("icon-triangle-r");
-            HideShowAzubiRow(el.closest("tr"), false);
+            icon.toggleClass("icon-triangle-b icon-triangle-r");
         });
 
         /**

@@ -106,6 +106,18 @@ main {
             }
         }
 
+        tr .ausbildungsberuf:hover {
+            cursor: pointer;
+
+            .icon-triangle-b {
+                border-color: $selectline-dark-blue transparent transparent transparent;
+            }
+
+            .icon-triangle-r {
+                border-color: transparent transparent transparent $selectline-dark-blue;
+            }
+        }
+
         td {
             position: relative;
             white-space: nowrap;
