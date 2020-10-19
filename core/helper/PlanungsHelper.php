@@ -68,7 +68,7 @@ class PlanungsHelper {
         // drei Mal versuchen einen Zeitraum in jeder Abteilung zu finden
         for ($i = 0; $i < 3; $i++) {
 
-            shuffle($abteilungen);
+            $abteilungen = $this->ShuffleAbteilungen($abteilungen);
 
             foreach ($abteilungen as $abteilung) {
 
@@ -114,7 +114,7 @@ class PlanungsHelper {
      */
     public function PlanLeftAbteilungen() {
 
-        shuffle($this->AbteilungenLeft);
+        $this->AbteilungenLeft = $this->ShuffleAbteilungen($this->AbteilungenLeft);
 
         foreach ($this->AbteilungenLeft as $abteilung) {
 
@@ -152,6 +152,9 @@ class PlanungsHelper {
      */
     public function PlanStartOfAusbildung($abteilungen) {
 
+        $this->AbteilungenLeft = $abteilungen;
+        $abteilungen = $this->ShuffleAbteilungen($abteilungen);
+
         $eingetragen = false;
         foreach ($abteilungen as $abteilung) {
 
@@ -168,7 +171,6 @@ class PlanungsHelper {
                     DateHelper::BuildTimePeriodString($zeitraum["Startdatum"], $zeitraum["Enddatum"]),
                     $abteilung->ID_Abteilung
                 )) {
-                    $this->AbteilungenLeft[$abteilung->ID_Abteilung] = $abteilung;
                     $alleWochenFrei = false;
                     break;
                 }
@@ -178,6 +180,7 @@ class PlanungsHelper {
 
                 $eingetragen = true;
                 $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
+                unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
 
                 foreach ($zeitraeume as $zeitraum) {
                     $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
@@ -230,7 +233,7 @@ class PlanungsHelper {
         $endDate = DateHelper::NextSunday($startDate);
 
         $zeitraeume = [];
-        for ($i = 0; $i <= $anzahlWochen; $i++) {
+        for ($i = 0; $i < $anzahlWochen; $i++) {
 
             if ($startDate > $this->Azubi->Ausbildungsende) break;
 
@@ -385,6 +388,26 @@ class PlanungsHelper {
             }
 
         return true;
+    }
+
+    /**
+     * Mischt die Abteilungen anhand der Keys (Keys = IDs der Abteilungen).
+     *
+     * @param array $abteilungen Die zu mischenden Abteilungen.
+     *
+     * @return array Die gemischten Abteilungen.
+     */
+    private function ShuffleAbteilungen($abteilungen) {
+
+        $keys = array_keys($abteilungen);
+        shuffle($keys);
+        $shuffledAbteilungen = [];
+
+        foreach($keys as $id_abteilung) {
+            $shuffledAbteilungen[$id_abteilung] = $abteilungen[$id_abteilung];
+        }
+
+        return $shuffledAbteilungen;
     }
 
     /**

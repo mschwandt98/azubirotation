@@ -587,23 +587,26 @@ jQuery(function($) {
          */
         $("#SendMail").on("click", function() {
 
-            var button = $(this);
-            $("#LoadingSpinner").show();
+            if (confirm("Mit Bestätigung dieser Meldung, werden Benachrichtigungs-Emails an alle Ansprechpartner und Auszubildende gesendet.")) {
 
-            $.ajax({
-                type: "POST",
-                url: API + "Plan/SendMail",
-                data: { csrfToken: $("#CsrfToken").val() },
-                success: function() {
-                    var messageSpan = button.siblings("span");
-                    messageSpan.fadeIn();
-                    setTimeout(_ => { messageSpan.fadeOut(); }, 5000);
-                    $("#LoadingSpinner").hide();
-                },
-                error: function() {
-                    HandleError("Es traten Fehler beim Versenden der Benachrichtigungen auf.");
-                }
-            });
+                var button = $(this);
+                $("#LoadingSpinner").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: API + "Plan/SendMail",
+                    data: { csrfToken: $("#CsrfToken").val() },
+                    success: function() {
+                        var messageSpan = button.siblings("span");
+                        messageSpan.fadeIn();
+                        setTimeout(_ => { messageSpan.fadeOut(); }, 5000);
+                        $("#LoadingSpinner").hide();
+                    },
+                    error: function() {
+                        HandleError("Es traten Fehler beim Versenden der Benachrichtigungen auf.");
+                    }
+                });
+            }
         });
 
         /**

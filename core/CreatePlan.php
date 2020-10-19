@@ -46,9 +46,6 @@ foreach ($standardplan->Phasen as $phase) {
     }
 }
 
-shuffle($praeferierteAbteilungen);
-shuffle($praeferierteOptionaleAbteilungen);
-
 $abteilungen = [
     "Praeferierte"          => $praeferierteAbteilungen,
     "PraeferierteOptionale" => $praeferierteOptionaleAbteilungen,
@@ -58,7 +55,7 @@ $abteilungen = [
 
 if (!empty($abteilungen["Praeferierte"]) || !empty($abteilungen["PraeferierteOptionale"])) {
 
-    $mergedAbteilungen = array_merge($abteilungen["Praeferierte"], $abteilungen["PraeferierteOptionale"]);
+    $mergedAbteilungen = $abteilungen["Praeferierte"] + $abteilungen["PraeferierteOptionale"];
     $planungsHelper->PlanStartOfAusbildung($mergedAbteilungen);
 }
 
