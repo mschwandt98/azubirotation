@@ -50,12 +50,20 @@ $helper = new DataHelper();
                 Auszubildende in nicht präferierten Abteilungen am Anfang ihrer jeweiligen Ausbildung
             </div>
 
-            <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $id_abteilung) : ?>
+            <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $abteilungen) : ?>
 
                 <div>
+
                     <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
-                    (<?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>)
+                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
+
+                    <?php $abteilungenMissing = [] ?>
+                    <?php foreach ($abteilungen as $id_abteilung) : ?>
+                        <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                    <?php endforeach; ?>
+
+                    <?= implode(", ", $abteilungenMissing); ?>
+
                 </div>
 
             <?php endforeach; ?>
@@ -92,12 +100,20 @@ $helper = new DataHelper();
                 Auszubildene, die länger in Abteilungen sind als vorgeschrieben
             </div>
 
-            <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $id_abteilung) : ?>
+            <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $abteilungen) : ?>
 
                 <div>
+
                     <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
                     <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
-                    <?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+
+                    <?php $abteilungenWithErrors = []; ?>
+                    <?php foreach ($abteilungen as $id_abteilung) : ?>
+                        <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                    <?php endforeach; ?>
+
+                    <?= implode(", ", $abteilungenWithErrors); ?>
+
                 </div>
 
             <?php endforeach; ?>

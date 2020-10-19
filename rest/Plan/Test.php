@@ -59,17 +59,29 @@ foreach ($Azubis as $azubi) {
             if ($plan->ID_Azubi === $azubi->ID) {
                 if ($plan->Startdatum <= $azubi->Ausbildungsstart && $plan->Enddatum >= $azubi->Ausbildungsstart) {
                     if (!in_array($plan->ID_Abteilung, $praeferierteAbteilungen)) {
-                        $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID] = $plan->ID_Abteilung;
+                        $errors[PlanErrorCodes::PraeferierteAbteilungen][$azubi->ID][] = $plan->ID_Abteilung;
                     }
                 }
             }
         }
     }
 
+    // Falls eine Abteilung mehrmals im Standardplan ist, müssen die Wochen für diese Abteilung addiert werden
+    $wochenEinerAbteilungGesamt = [];
     foreach ($standardplan->Phasen as $phase) {
         if (array_key_exists($phase->ID_Abteilung, $abteilungenCounter)) {
-            if ($abteilungenCounter[$phase->ID_Abteilung] > $phase->Wochen) {
-                $errors[PlanErrorCodes::WochenInAbteilungen][$azubi->ID] = $phase->ID_Abteilung;
+            if (array_key_exists($phase->ID_Abteilung, $wochenEinerAbteilungGesamt)) {
+                $wochenEinerAbteilungGesamt[$phase->ID_Abteilung] += $phase->Wochen;
+            } else {
+                $wochenEinerAbteilungGesamt[$phase->ID_Abteilung] = $phase->Wochen;
+            }
+        }
+    }
+
+    foreach ($wochenEinerAbteilungGesamt as $id_abteilung => $wochen) {
+        if (array_key_exists($id_abteilung, $abteilungenCounter)) {
+            if ($abteilungenCounter[$id_abteilung] > $wochen) {
+                $errors[PlanErrorCodes::WochenInAbteilungen][$azubi->ID][] = $id_abteilung;
             }
         }
     }
