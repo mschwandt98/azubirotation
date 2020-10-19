@@ -140,10 +140,10 @@ class PlanungsHelper {
     /**
      * Verplant den ersten Aufenthalt des Azubis in einer der gegebenen
      * Abteilungen.
-     * Wenn anfangs kein Zeitraum gefunden werden konnte, wird
-     * ein Plan in einer zufälligen der gegebenden Abteilungen erstellt, ohne
-     * dabei zu prüfen, ob die Abteilung in diesem Zeitraum bereits die maximale
-     * Anzahle an Azubis ausbildet. Sobald
+     * Wenn anfangs kein Zeitraum gefunden werden konnte, wird ein Plan in einer
+     * zufälligen der gegebenden Abteilungen erstellt, ohne dabei zu prüfen, ob
+     * die Abteilung in diesem Zeitraum bereits die maximale Anzahle an Azubis
+     * ausbildet.
      * Sobald ein Plan in einem Zeitraum erstellt wurde, werden alle weiteren
      * gegebenen Abteilungen in die Liste $this->AbteilungenLeft aufgenommen.
      *
