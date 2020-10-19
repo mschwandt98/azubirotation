@@ -61,6 +61,7 @@ if (!DateHelper::IsMonday($tableFirstDate)) {
     $tableFirstDate = DateHelper::LastMonday($tableFirstDate);
 }
 
+$tableLastDate = DateHelper::NextSunday($tableLastDate);
 $weeksInTable = ceil((strtotime($tableLastDate) - strtotime($tableFirstDate)) / (60 * 60 * 24 * 7));
 
 $abteilungenInWeek = [];
