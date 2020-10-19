@@ -16,7 +16,7 @@ if (is_logged_in() && is_token_valid()) {
     foreach ($azubis as $person) $emails[] = $person->Email;
 
     $empfaenger = implode(", ", $emails);
-    $betreff = "Änderungen an der Azubirotation";
+    $betreff = "=?utf-8?b?" . base64_encode("Änderungen an der Azubirotation") . "?=";
     $url = $_SERVER["HTTP_REFERER"];
     $nachricht = "
     <html>
@@ -32,8 +32,8 @@ if (is_logged_in() && is_token_valid()) {
     </html>
     ";
 
-    $header[] = 'MIME-Version: 1.0';
-    $header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $header[] = "MIME-Version: 1.0";
+    $header[] = "Content-type: text/html; charset=utf-8";
 
     if (mail($empfaenger, $betreff, $nachricht, implode("\r\n", $header))) {
         http_response_code(200);
