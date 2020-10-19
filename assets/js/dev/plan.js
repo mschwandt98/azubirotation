@@ -627,6 +627,9 @@ jQuery(function($) {
                 success: function(response) {
                     if (response != true) {
                         $("#PlanErrors").html(response).fadeIn();
+                        $("html, body").animate({
+                            scrollTop: $("#PlanErrors").offset().top
+                        }, TIME)
                     }
                     $("#LoadingSpinner").hide();
                 },
