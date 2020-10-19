@@ -10,6 +10,26 @@ const TIME = 400;
 jQuery(function($) {
     $(document).ready(function() {
 
+        $(document).on("keydown", function(e) {
+
+            // 16 = shift
+            if (e.shiftKey && e.which !== 16) {
+
+                switch (e.which) {
+                    // +
+                    case 107:
+                    case 187:
+                        $(".data-item .icon-plus").click();
+                        break;
+                    // -
+                    case 109:
+                    case 189:
+                        $(".data-item .icon-minus").click();
+                        break;
+                }
+            }
+        });
+
         /**
          * Minimiert die jeweilige Ansicht des Datentyps und zeigt einen Button
          * zum Ausklappen der Ansicht des jeweiligen Datentyps.
