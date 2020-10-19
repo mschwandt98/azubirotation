@@ -183,7 +183,7 @@ jQuery(function($) {
                     !$(e.target).parents(".set-ansprechpartner-popup").length &&
                     !$(e.target).parents(".context-popup").length &&
                     !$(e.target).parents(".set-mark-popup").length) {
-                    $("#Popup").empty();
+                    SetPopupContent("");
                     RemoveSelectedStatus();
                 }
             }
@@ -245,6 +245,7 @@ jQuery(function($) {
         $("#Plan").on("mousedown", ".plan-phase", function(e) {
 
             if ($(e.target).parents(".plan-phase").length > 0) return;
+            SetPopupContent("");
             RemoveSelectedStatus();
 
             var el = $(this);
