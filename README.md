@@ -30,7 +30,7 @@ Bei der Datei handelt es sich um eine Installations-Exe.
 * Weitere Serveranpassungen: https://stackoverflow.com/questions/9691057/php-apache-ajax-post-limit
 
 
-## PHING ==
+## PHING
 Mit Phing wird das Projekt in den /dist Ordner gebaut. In der build.xml ist
 definiert welche Dateien gebaut werden.
 
