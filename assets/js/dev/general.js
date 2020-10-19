@@ -10,6 +10,10 @@ const TIME = 400;
 jQuery(function($) {
     $(document).ready(function() {
 
+        /**
+         * Mit den Tastenkombinationen SHIFT+ und SHIFT- lassen sich die Boxen
+         * der Daten aus- bzw einklappen.
+         */
         $(document).on("keydown", function(e) {
 
             // 16 = shift
