@@ -10,6 +10,7 @@
 if (empty($errors)) return;
 
 use core\helper\DataHelper;
+use core\helper\DateHelper;
 use core\PlanErrorCodes;
 
 include_once(dirname(__DIR__) . "/config.php");
@@ -33,9 +34,13 @@ $helper = new DataHelper();
                     <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
                 </div>
 
-                <?php foreach ($errorList as $week => $plan) : ?>
+                <?php foreach ($errorList as $zeitraum) : ?>
+                    <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
-                    <li>Woche: <?= $week; ?></li>
+                    <li>
+                        <?= DateHelper::FormatDate($dates["StartDatum"]); ?> -
+                        <?= DateHelper::FormatDate($dates["EndDatum"]); ?>
+                    </li>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
@@ -80,12 +85,17 @@ $helper = new DataHelper();
 
             <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
 
-                <div><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
+                <div>Abteilung <?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
                 <div>Maximale Anzahl an Auszubildenden: <?= $helper->GetAbteilungen($id_abteilung)->MaxAzubis; ?></div>
 
-                <?php foreach ($errorList as $week => $anzahlAzubis) : ?>
+                <?php foreach ($errorList as $zeitraum => $anzahlAzubis) : ?>
+                    <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
-                    <li>Woche: <?= $week; ?>, Anzahl an Auszubildenden: <?= $anzahlAzubis; ?></li>
+                    <li>
+                        <?= DateHelper::FormatDate($dates["StartDatum"]); ?> -
+                        <?= DateHelper::FormatDate($dates["EndDatum"]); ?>,
+                        Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
+                    </li>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
