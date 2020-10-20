@@ -77,8 +77,8 @@ $sql = '';
 foreach ($planungsHelper->Plaene as $plan) {
 
     $sql .= 'INSERT INTO ' . T_PLAENE . '(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
-        VALUES (
-            $plan->ID_Azubi, ' .
+        VALUES (' .
+            $plan->ID_Azubi . ', ' .
             ($plan->ID_Ansprechpartner ?? ':null') . ', ' .
             $plan->ID_Abteilung . ", '" .
             $plan->Startdatum . "', '" .

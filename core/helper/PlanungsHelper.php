@@ -44,6 +44,11 @@ class PlanungsHelper {
     public $AbteilungenLeft = [];
 
     /**
+     * @var array Eine Liste von belegten in den einzelnen Abteilungen.
+     */
+    private $BelegteZeitraeumeInAbteilungen = [];
+
+    /**
      * Vorbereitungen
      *
      * @param Azubi $azubi Der Azubi, für den die Pläne erstellt werden sollen.
@@ -95,7 +100,7 @@ class PlanungsHelper {
                         $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
                         foreach ($zeitraeume as $zeitraum) {
-                            $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
+                            $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                         }
 
                         unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -127,7 +132,7 @@ class PlanungsHelper {
                 $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
                 foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
+                    $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                 }
 
                 unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -183,7 +188,7 @@ class PlanungsHelper {
                 unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
 
                 foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
+                    $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                 }
 
                 break;
@@ -193,7 +198,7 @@ class PlanungsHelper {
         // Da keine Abteilung frei ist -> maximale Anzahl einer zufälligen präferierten Abteilung ignorieren
         if (!$eingetragen) {
 
-            $randomAbteilung = $abteilungen[mt_rand(0, count($abteilungen) - 1)];
+            $randomAbteilung = $abteilungen[array_rand($abteilungen)];
             unset($this->AbteilungenLeft[$randomAbteilung->ID_Abteilung]);
 
             $startDate = (DateHelper::IsMonday($this->Azubi->Ausbildungsstart))
@@ -204,7 +209,7 @@ class PlanungsHelper {
             $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($randomAbteilung->ID_Abteilung);
 
             for ($i = 0; $i <= $randomAbteilung->Wochen; $i++) {
-                $this->CreatePlanPhase($randomAbteilung, $startDate, $endDate, $ansprechpartner);
+                $this->CreatePlanPhase($randomAbteilung->ID_Abteilung, $startDate, $endDate, $ansprechpartner);
                 $startDate = DateHelper::NextMonday($startDate);
                 $endDate = DateHelper::NextSunday($endDate);
             }
@@ -249,21 +254,23 @@ class PlanungsHelper {
      * Erstellt eine neue Instanz des Models "Plan" und fügt diese den Plänen
      * in $this->Plaene hinzu.
      *
-     * @param Phase             $abteilung          Die Abteilung, zu der der
-     *                                              Plan erstellt werden soll.
+     * @param Phase             $id_abteilung       Die ID der Abteilung, zu der
+     *                                              der Plan erstellt werden
+     *                                              soll.
      * @param string            $startDate          Das Startdatum des Plans.
      * @param string            $endDate            Das Enddatum des Plans.
      * @param Ansprechpartner   $ansprechpartner    Der Ansprechpartner für den
      *                                              zu erstellenden Plan.
      */
-    private function CreatePlanPhase($abteilung, $startDate, $endDate, $ansprechpartner) {
+    private function CreatePlanPhase($id_abteilung, $startDate, $endDate, $ansprechpartner) {
 
         $this->Plaene[] = new Plan(
             $this->Azubi->ID,
             (empty($ansprechpartner)) ? null : $ansprechpartner->ID,
-            $abteilung->ID_Abteilung,
+            $id_abteilung,
             $startDate,
-            $endDate
+            $endDate,
+            ''
         );
     }
 
@@ -294,69 +301,62 @@ class PlanungsHelper {
     }
 
     /**
-     * Ermittelt die belegten Zeiträume in den einzelnen Abteilungen.
+     * Ermittelt die belegten Zeiträume einer Abteilung.
      * Ein Zeitraum gilt als belegt, sobald ein Azubi für diesen Zeitraum
      * geplant ist. Es heißt nicht, dass die maximale Anzahl an Azubis für die
      * Abteilung innerhalb dieses Zeitraums bereits erreicht ist.
      *
+     * @param int $id_abteilung Die ID der Abteilung, zu der die belegten
+     *                          Zeiträume ermittelt werden sollen.
+     *
      * @return array Die belegten Zeiträume.
      *               Aufbau des Arrays:
-     *               (ID Abteilung 1) => [
+     *               [
      *                   (Startdatum_1 Enddatum_2) => Anzahl an Azubis,
      *                   ...
      *                   (Startdatum_n Enddatum_n) => Anzahl an Azubis
-     *               ],
-     *               (ID Abteilung 2) => ...
+     *               ]
      */
-    private function GetBelegteZeitraeumeInAbteilungen() {
+    private function GetBelegteZeitraeumeInAbteilungen($id_abteilung) {
 
         $abteilungsPlaene = [];
         $belegteZeitraeume = []; // ... in Abteilungen
-        foreach ($this->Helper->GetAbteilungen() as $abteilung) {
-            $abteilungsPlaene[$abteilung->ID] = [];
-            $belegteZeitraeume[$abteilung->ID] = [];
+
+        foreach ($this->Helper->GetPlaene() as $plan) { // TODO: Pläne nur einmal während kompletter Ausführung holen
+            if ($plan === $id_abteilung) {
+                $abteilungsPlaene[] = $plan;
+            }
         }
 
-        foreach ($this->Helper->GetPlaene() as $plan) {
-            $abteilungsPlaene[$plan->ID_Abteilung][] = $plan;
-        }
+        if (!empty($abteilungsPlaene)) {
 
-        // Belegte Zeiträume mit Anzahl an Azubis speichern
-        foreach ($abteilungsPlaene as $id_abteilung => $gespeichertePlaene) {
-
-            if (empty($gespeichertePlaene)) continue;
-
-            foreach ($gespeichertePlaene as $plan) {
+            foreach ($abteilungsPlaene as $plan) {
 
                 $startDate = $plan->Startdatum;
                 $endDate = $plan->Enddatum;
                 $timePeriodString = DateHelper::BuildTimePeriodString($startDate, $endDate);
 
-                if (empty($belegteZeitraeume[$id_abteilung])) {
-                    $belegteZeitraeume[$id_abteilung][$timePeriodString] = 1;
+                if (empty($belegteZeitraeume)) {
+                    $belegteZeitraeume[$timePeriodString] = 1;
                     continue;
                 }
 
                 $eingetragen = false;
-                foreach ($belegteZeitraeume[$id_abteilung] as $zeitraum => $anzahlAzubis) {
+                foreach ($belegteZeitraeume as $zeitraum => $anzahlAzubis) {
 
                     if ($timePeriodString === $zeitraum) {
-                        $belegteZeitraeume[$id_abteilung][$zeitraum]++;
+                        $belegteZeitraeume[$zeitraum]++;
                         $eingetragen = true;
                     }
                 }
 
                 if (!$eingetragen) {
-                    $belegteZeitraeume[$id_abteilung][$timePeriodString] = 1;
+                    $belegteZeitraeume[$timePeriodString] = 1;
                 }
             }
         }
 
-        // Nach Datum sortieren
-        foreach ($belegteZeitraeume as $id_abteilung => $value) {
-            ksort($belegteZeitraeume[$id_abteilung]);
-        }
-
+        ksort($belegteZeitraeume);
         return $belegteZeitraeume;
     }
 
@@ -377,14 +377,16 @@ class PlanungsHelper {
 
         $abteilung = $this->Helper->GetAbteilungen($id_abteilung);
 
-        $zeitraeumeAbteilung = $this->GetBelegteZeitraeumeInAbteilungen()[$id_abteilung];
+        if (!array_key_exists($id_abteilung, $this->BelegteZeitraeumeInAbteilungen)) {
+            $this->BelegteZeitraeumeInAbteilungen[$id_abteilung] = $this->GetBelegteZeitraeumeInAbteilungen($id_abteilung);
+        }
 
-            if (array_key_exists($timePeriod, $zeitraeumeAbteilung)) {
+        if (array_key_exists($timePeriod, $this->BelegteZeitraeumeInAbteilungen[$id_abteilung])) {
 
-                if ($zeitraeumeAbteilung[$timePeriod] >= $abteilung->MaxAzubis) {
-                    return false;
-                }
+            if ($this->BelegteZeitraeumeInAbteilungen[$id_abteilung][$timePeriod] >= $abteilung->MaxAzubis) {
+                return false;
             }
+        }
 
         return true;
     }
