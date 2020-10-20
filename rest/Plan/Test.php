@@ -4,7 +4,7 @@ use core\helper\DateHelper;
 use core\PlanErrorCodes;
 
 session_start();
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
 if (!is_logged_in() || !is_token_valid()) {
     http_response_code(401);
@@ -12,16 +12,12 @@ if (!is_logged_in() || !is_token_valid()) {
 }
 
 $helper = new DataHelper();
-
-$Abteilungen    = $helper->GetAbteilungen();
-$Azubis         = $helper->GetAzubis();
 $Standardplaene = $helper->GetStandardplaene();
-$Plaene         = $helper ->GetPlaene();
 
 // Pläne nach Azubis und Abteilungen sortieren
 $plaeneAbteilungen = [];
 $plaeneAzubis = [];
-foreach ($Plaene as $plan) {
+foreach ($helper->GetPlaene() as $plan) {
     $plaeneAzubis[$plan->ID_Azubi][] = $plan;
     $plaeneAbteilungen[$plan->ID_Abteilung][] = $plan;
 }
@@ -29,7 +25,7 @@ foreach ($Plaene as $plan) {
 // Azubi ist in länger in Abteilungen als im Plan vorgesehen &
 // Planung außerhalb des Ausbildungszeitraums &
 // Abteilung am Anfang der Ausbildung entspricht Standardplan
-foreach ($Azubis as $azubi) {
+foreach ($helper->GetAzubis() as $azubi) {
 
     $abteilungenCounter = [];
     foreach ($plaeneAzubis[$azubi->ID] as $plan) {
@@ -91,7 +87,7 @@ foreach ($Azubis as $azubi) {
 }
 
 // Maximale Anzahl an Azubis in Abteilung
-foreach ($Abteilungen as $abteilung) {
+foreach ($helper->GetAbteilungen() as $abteilung) {
 
     $abteilungsHelper = [];
     foreach ($plaeneAbteilungen[$abteilung->ID] as $plan) {
@@ -107,80 +103,80 @@ foreach ($Abteilungen as $abteilung) {
             $timePeriodToCheck = null;
             $dates = DateHelper::GetDatesFromString($timePeriod);
 
-            if ($plan->Startdatum === $dates["StartDatum"] && $plan->Enddatum === $dates["EndDatum"]) {
+            if ($plan->Startdatum === $dates['StartDatum'] && $plan->Enddatum === $dates['EndDatum']) {
 
                 $abteilungsHelper[$timePeriod]++;
                 $timePeriodToCheck = $timePeriod;
 
-            } elseif (DateHelper::InRange($plan->Startdatum, $dates["StartDatum"], $dates["EndDatum"]) &&
-                !DateHelper::InRange($plan->Enddatum, $dates["StartDatum"], $dates["EndDatum"])) {
+            } elseif (DateHelper::InRange($plan->Startdatum, $dates['StartDatum'], $dates['EndDatum']) &&
+                !DateHelper::InRange($plan->Enddatum, $dates['StartDatum'], $dates['EndDatum'])) {
 
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
-                    $dates["StartDatum"],
+                    $dates['StartDatum'],
                     DateHelper::DayBefore($plan->Startdatum)
                 )] = $maxAzubis;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
                     $plan->Startdatum,
-                    $dates["EndDatum"])
+                    $dates['EndDatum'])
                 ] = $maxAzubis + 1;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
-                    DateHelper::DayAfter($dates["EndDatum"]),
+                    DateHelper::DayAfter($dates['EndDatum']),
                     $plan->EndDatum)
                 ] = 1;
 
-                $timePeriodToCheck = DateHelper::BuildTimePeriodString($plan->Startdatum, $dates["EndDatum"]);
+                $timePeriodToCheck = DateHelper::BuildTimePeriodString($plan->Startdatum, $dates['EndDatum']);
                 unset($abteilungsHelper[$timePeriod]);
 
-            } elseif (DateHelper::InRange($plan->Startdatum, $dates["StartDatum"], $dates["EndDatum"]) &&
-                DateHelper::InRange($plan->Enddatum, $dates["StartDatum"], $dates["EndDatum"])) {
+            } elseif (DateHelper::InRange($plan->Startdatum, $dates['StartDatum'], $dates['EndDatum']) &&
+                DateHelper::InRange($plan->Enddatum, $dates['StartDatum'], $dates['EndDatum'])) {
 
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
-                    $dates["StartDatum"],
+                    $dates['StartDatum'],
                     DateHelper::DayBefore($plan->Startdatum))
                 ] = $maxAzubis;
                 $abteilungsHelper[$planTimePeriodString] = $maxAzubis + 1;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
                     DateHelper::DayAfter($plan->Enddatum),
-                    $dates["EndDatum"]
+                    $dates['EndDatum']
                 )] = $maxAzubis;
 
                 $timePeriodToCheck = DateHelper::BuildTimePeriodString($plan->Startdatum, $plan->Enddatum);
                 unset($abteilungsHelper[$timePeriod]);
 
-            } elseif (!DateHelper::InRange($plan->Startdatum, $dates["StartDatum"], $dates["EndDatum"]) &&
-                DateHelper::InRange($plan->Enddatum, $dates["StartDatum"], $dates["EndDatum"])) {
+            } elseif (!DateHelper::InRange($plan->Startdatum, $dates['StartDatum'], $dates['EndDatum']) &&
+                DateHelper::InRange($plan->Enddatum, $dates['StartDatum'], $dates['EndDatum'])) {
 
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
                     $plan->Startdatum,
-                    DateHelper::DayBefore($dates["StartDatum"])
+                    DateHelper::DayBefore($dates['StartDatum'])
                 )] = 1;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
-                    $dates["StartDatum"],
+                    $dates['StartDatum'],
                     $plan->Enddatum
                 )] = $maxAzubis + 1;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
                     DateHelper::DayAfter($plan->Enddatum),
-                    $dates["EndDatum"]
+                    $dates['EndDatum']
                 )] = $maxAzubis;
 
-                $timePeriodToCheck = DateHelper::BuildTimePeriodString($dates["StartDatum"], $plan->Enddatum);
+                $timePeriodToCheck = DateHelper::BuildTimePeriodString($dates['StartDatum'], $plan->Enddatum);
                 unset($abteilungsHelper[$timePeriod]);
 
-            } elseif ($plan->Startdatum === $dates["StartDatum"]) {
+            } elseif ($plan->Startdatum === $dates['StartDatum']) {
 
                 $abteilungsHelper[$timePeriod]++;
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
-                    DateHelper::DayAfter($date["EndDatum"]),
+                    DateHelper::DayAfter($date['EndDatum']),
                     $plan->Enddatum
                 )] = 1;
 
                 $timePeriodToCheck = $timePeriod;
 
-            } elseif ($plan->Enddatum === $dates["EndDatum"]) {
+            } elseif ($plan->Enddatum === $dates['EndDatum']) {
 
                 $abteilungsHelper[DateHelper::BuildTimePeriodString(
                     $plan->Startdatum,
-                    DateHelper::DayBefore($date["Startdatum"])
+                    DateHelper::DayBefore($date['Startdatum'])
                 )] = 1;
                 $abteilungsHelper[$timePeriod]++;
 
@@ -209,8 +205,8 @@ if (empty($errors)) {
 
 $errors = SumUpTimePeriods($errors);
 
-ob_start("minifier");
-include_once(BASE . "/templates/PlanErrors.php");
+ob_start('minifier');
+include_once(BASE . '/templates/PlanErrors.php');
 ob_end_flush();
 exit;
 
@@ -230,13 +226,13 @@ function SumUpTimePeriods($errors) {
         $summedUpErrors = [];
         foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $zeitraeume) {
 
-            $lastMonday = "";
+            $lastMonday = '';
             $lastAnzahlAzubis = 0;
             $zeitraumHolder = [];
             foreach ($zeitraeume as $zeitraum => $anzahlAzubis) {
 
                 $dates = DateHelper::GetDatesFromString($zeitraum);
-                $weekStart = $dates["StartDatum"];
+                $weekStart = $dates['StartDatum'];
 
                 if (!empty($lastMonday) &&
                     DateHelper::NextMonday($lastMonday) === $weekStart &&
@@ -246,7 +242,7 @@ function SumUpTimePeriods($errors) {
                     $expandableZeitraum = DateHelper::GetDatesFromString(key($zeitraumHolder));
                     array_pop($zeitraumHolder);
                     $zeitraumHolder[
-                        DateHelper::BuildTimePeriodString($expandableZeitraum["StartDatum"], $dates["EndDatum"])
+                        DateHelper::BuildTimePeriodString($expandableZeitraum['StartDatum'], $dates['EndDatum'])
                     ] = $anzahlAzubis;
                 } else {
                     $zeitraumHolder[$zeitraum] = $anzahlAzubis;
@@ -266,24 +262,24 @@ function SumUpTimePeriods($errors) {
         $zeitraumHolder = [];
         foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $azubi_id => $zeitraeume) {
 
-            $lastStartdate = "";
+            $lastStartdate = '';
             foreach ($zeitraeume as $zeitraum) {
 
                 $dates = DateHelper::GetDatesFromString($zeitraum);
 
-                if (!empty($lastStartdate) && DateHelper::NextMonday($lastStartdate) === $dates["StartDatum"]) {
+                if (!empty($lastStartdate) && DateHelper::NextMonday($lastStartdate) === $dates['StartDatum']) {
 
                     $expandableZeitraum = DateHelper::GetDatesFromString(array_pop($zeitraumHolder[$azubi_id]));
                     $zeitraumHolder[$azubi_id][] = DateHelper::BuildTimePeriodString(
-                        $expandableZeitraum["StartDatum"],
-                        $dates["EndDatum"]
+                        $expandableZeitraum['StartDatum'],
+                        $dates['EndDatum']
                     );
 
                 } else {
                     $zeitraumHolder[$azubi_id][] = $zeitraum;
                 }
 
-                $lastStartdate = $dates["StartDatum"];
+                $lastStartdate = $dates['StartDatum'];
             }
 
             ksort($zeitraumHolder[$azubi_id]);

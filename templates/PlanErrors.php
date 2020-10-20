@@ -13,7 +13,7 @@ use core\helper\DataHelper;
 use core\helper\DateHelper;
 use core\PlanErrorCodes;
 
-include_once(dirname(__DIR__) . "/config.php");
+include_once(dirname(__DIR__) . '/config.php');
 
 $helper = new DataHelper();
 ?>
@@ -28,18 +28,19 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $id_azubi => $errorList) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <div>
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+                    <?= $azubi->Nachname; ?>,
+                    <?= $azubi->Vorname; ?>
                 </div>
 
                 <?php foreach ($errorList as $zeitraum) : ?>
                     <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
                     <li>
-                        <?= DateHelper::FormatDate($dates["StartDatum"]); ?> -
-                        <?= DateHelper::FormatDate($dates["EndDatum"]); ?>
+                        <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                        <?= DateHelper::FormatDate($dates['EndDatum']); ?>
                     </li>
 
                 <?php endforeach; ?>
@@ -56,18 +57,19 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $abteilungen) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <div>
 
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
+                    <?= $azubi->Nachname; ?>,
+                    <?= $azubi->Vorname; ?>:
 
                     <?php $abteilungenMissing = [] ?>
                     <?php foreach ($abteilungen as $id_abteilung) : ?>
                         <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
                     <?php endforeach; ?>
 
-                    <?= implode(", ", $abteilungenMissing); ?>
+                    <?= implode(', ', $abteilungenMissing); ?>
 
                 </div>
 
@@ -84,16 +86,17 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
+                <?php $abteilung = $helper->GetAbteilungen($id_abteilung); ?>
 
-                <div>Abteilung <?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
-                <div>Maximale Anzahl an Auszubildenden: <?= $helper->GetAbteilungen($id_abteilung)->MaxAzubis; ?></div>
+                <div>Abteilung <?= $abteilung->Bezeichnung; ?></div>
+                <div>Maximale Anzahl an Auszubildenden: <?= $abteilung->MaxAzubis; ?></div>
 
                 <?php foreach ($errorList as $zeitraum => $anzahlAzubis) : ?>
                     <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
                     <li>
-                        <?= DateHelper::FormatDate($dates["StartDatum"]); ?> -
-                        <?= DateHelper::FormatDate($dates["EndDatum"]); ?>,
+                        <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                        <?= DateHelper::FormatDate($dates['EndDatum']); ?>,
                         Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
                     </li>
 
@@ -111,18 +114,19 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $abteilungen) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <div>
 
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
+                    <?= $azubi->Nachname; ?>,
+                    <?= $azubi->Vorname; ?>:
 
                     <?php $abteilungenWithErrors = []; ?>
                     <?php foreach ($abteilungen as $id_abteilung) : ?>
                         <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
                     <?php endforeach; ?>
 
-                    <?= implode(", ", $abteilungenWithErrors); ?>
+                    <?= implode(', ', $abteilungenWithErrors); ?>
 
                 </div>
 
