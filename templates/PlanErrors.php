@@ -5,6 +5,8 @@
  * Die Template für die Anzeige der Verstöße gegen Planungsrichtlinien.
  *
  * Für diese Template muss die Variable $errors gesetzt sein.
+ *
+ * TODO: Daten der Fehleranalyse zurückgeben und Template im Frontend bauen.
  */
 
 if (empty($errors)) return;
@@ -39,11 +41,13 @@ $helper = new DataHelper();
                     <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
                     <li>
-                        <input type="checkbox" />
-                        <span>
-                            <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
-                            <?= DateHelper::FormatDate($dates['EndDatum']); ?>
-                        </span>
+                        <label>
+                            <input type="checkbox" />
+                            <span>
+                                <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                                <?= DateHelper::FormatDate($dates['EndDatum']); ?>
+                            </span>
+                        </label>
                     </li>
 
                 <?php endforeach; ?>
@@ -63,20 +67,22 @@ $helper = new DataHelper();
                 <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <li>
-                    <input type="checkbox" />
-                    <span>
+                    <label>
+                        <input type="checkbox" />
+                        <span>
 
-                        <?= $azubi->Nachname; ?>,
-                        <?= $azubi->Vorname; ?>:
+                            <?= $azubi->Nachname; ?>,
+                            <?= $azubi->Vorname; ?>:
 
-                        <?php $abteilungenMissing = [] ?>
-                        <?php foreach ($abteilungen as $id_abteilung) : ?>
-                            <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
-                        <?php endforeach; ?>
+                            <?php $abteilungenMissing = [] ?>
+                            <?php foreach ($abteilungen as $id_abteilung) : ?>
+                                <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                            <?php endforeach; ?>
 
-                        <?= implode(', ', $abteilungenMissing); ?>
+                            <?= implode(', ', $abteilungenMissing); ?>
 
-                    </span>
+                        </span>
+                    </label>
                 </li>
 
             <?php endforeach; ?>
@@ -101,12 +107,14 @@ $helper = new DataHelper();
                     <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
                     <li>
-                        <input type="checkbox" />
-                        <span>
-                            <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
-                            <?= DateHelper::FormatDate($dates['EndDatum']); ?>,
-                            Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
-                        </span>
+                        <label>
+                            <input type="checkbox" />
+                            <span>
+                                <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                                <?= DateHelper::FormatDate($dates['EndDatum']); ?>,
+                                Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
+                            </span>
+                        </label>
                     </li>
 
                 <?php endforeach; ?>
@@ -126,20 +134,22 @@ $helper = new DataHelper();
                 <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <li>
-                    <input type="checkbox" />
-                    <span>
+                    <label>
+                        <input type="checkbox" />
+                        <span>
 
-                        <?= $azubi->Nachname; ?>,
-                        <?= $azubi->Vorname; ?>:
+                            <?= $azubi->Nachname; ?>,
+                            <?= $azubi->Vorname; ?>:
 
-                        <?php $abteilungenWithErrors = []; ?>
-                        <?php foreach ($abteilungen as $id_abteilung) : ?>
-                            <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
-                        <?php endforeach; ?>
+                            <?php $abteilungenWithErrors = []; ?>
+                            <?php foreach ($abteilungen as $id_abteilung) : ?>
+                                <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                            <?php endforeach; ?>
 
-                        <?= implode(', ', $abteilungenWithErrors); ?>
+                            <?= implode(', ', $abteilungenWithErrors); ?>
 
-                    </span>
+                        </span>
+                    </label>
                 </li>
 
             <?php endforeach; ?>
