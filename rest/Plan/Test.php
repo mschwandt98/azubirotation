@@ -30,6 +30,7 @@ foreach ($helper->GetPlaene() as $plan) {
 // Azubi ist in länger in Abteilungen als im Plan vorgesehen &
 // Planung außerhalb des Ausbildungszeitraums &
 // Abteilung am Anfang der Ausbildung entspricht Standardplan
+$errors = [];
 foreach ($Azubis as $azubi) {
 
     $abteilungenCounter = [];
@@ -147,7 +148,7 @@ foreach ($helper->GetAbteilungen() as $abteilung) {
                     $dates['EndDatum']
                 )] = $maxAzubis;
 
-                $timePeriodToCheck = DateHelper::BuildTimePeriodString($plan->Startdatum, $plan->Enddatum);
+                $timePeriodToCheck = $planTimePeriodString;
                 unset($abteilungsHelper[$timePeriod]);
 
             } elseif (!DateHelper::InRange($plan->Startdatum, $dates['StartDatum'], $dates['EndDatum']) &&
@@ -196,8 +197,7 @@ foreach ($helper->GetAbteilungen() as $abteilung) {
             if (!empty($timePeriodToCheck)) {
 
                 if ($abteilungsHelper[$timePeriodToCheck] > $abteilung->MaxAzubis) {
-                    $key = DateHelper::BuildTimePeriodString($plan->Startdatum, $plan->Enddatum);
-                    $errors[PlanErrorCodes::AbteilungenMaxAzubis][$abteilung->ID][$key] = $abteilungsHelper[$timePeriodToCheck];
+                    $errors[PlanErrorCodes::AbteilungenMaxAzubis][$abteilung->ID][$planTimePeriodString] = $abteilungsHelper[$timePeriodToCheck];
                 }
             }
         }
