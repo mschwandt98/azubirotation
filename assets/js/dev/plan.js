@@ -628,7 +628,16 @@ jQuery(function($) {
                 url: API + "Plan/Test",
                 data: { csrfToken: $("#CsrfToken").val() },
                 success: function(response) {
-                    if (response != true) {
+                    if (response == true) {
+                        $("#PlanErrors").html(
+                            $("<div></div>")
+                                .css({ color: "limegreen" })
+                                .text("In der Planung konnten keine Fehler gefunden werden.")
+                        ).fadeIn();
+                        setTimeout(_ => {
+                            $("#PlanErrors > div").fadeOut();
+                        }, 5000);
+                    } else {
                         $("#PlanErrors").html(response).fadeIn();
                         $("html, body").animate({
                             scrollTop: $("#PlanErrors").offset().top
