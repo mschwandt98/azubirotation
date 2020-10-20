@@ -10,6 +10,7 @@ namespace core\helper;
 
 use core\helper\DataHelper;
 use core\helper\DateHelper;
+use models\Ansprechpartner;
 use models\Plan;
 
 if (!defined('BASE')) {
@@ -49,13 +50,31 @@ class PlanungsHelper {
     private $BelegteZeitraeumeInAbteilungen = [];
 
     /**
+     * @var array Alle in der Datenbank gespeicherten Ansprechpartner.
+     *
+     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Cache etc)
+     * kann diese Property entfernt werden.
+     */
+    private $Ansprechpartner;
+
+    /**
+     * @var array Alle in der Datenbank gespeicherten Pläne.
+     *
+     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Cache etc)
+     * kann diese Property entfernt werden.
+     */
+    private $ExistingPlaene;
+
+    /**
      * Vorbereitungen
      *
      * @param Azubi $azubi Der Azubi, für den die Pläne erstellt werden sollen.
      */
     public function __construct($azubi) {
-        $this->Azubi = $azubi;
-        $this->Helper = new DataHelper();
+        $this->Azubi            = $azubi;
+        $this->Helper           = new DataHelper();
+        $this->Ansprechpartner  = $this->Helper->GetAnsprechpartner();
+        $this->ExistingPlaene   = $this->Helper->GetPlaene();
     }
 
     /**
@@ -288,7 +307,7 @@ class PlanungsHelper {
     private function GetAnsprechpartnerFuerAbteilung($id_abteilung) {
 
         $abteilungsAnsprechpartner = [];
-        foreach ($this->Helper->GetAnsprechpartner() as $ansprechpartner) {
+        foreach ($this->Ansprechpartner as $ansprechpartner) {
 
             if ($ansprechpartner->ID_Abteilung === $id_abteilung) {
                 $abteilungsAnsprechpartner[] = $ansprechpartner;
@@ -322,7 +341,7 @@ class PlanungsHelper {
         $abteilungsPlaene = [];
         $belegteZeitraeume = []; // ... in Abteilungen
 
-        foreach ($this->Helper->GetPlaene() as $plan) { // TODO: Pläne nur einmal während kompletter Ausführung holen
+        foreach ($this->ExistingPlaene as $plan) {
             if ($plan === $id_abteilung) {
                 $abteilungsPlaene[] = $plan;
             }
