@@ -94,6 +94,8 @@ foreach ($Azubis as $azubi) {
 // Maximale Anzahl an Azubis in Abteilung
 foreach ($helper->GetAbteilungen() as $abteilung) {
 
+    if (empty($plaeneAbteilungen[$abteilung->ID])) continue;
+
     $abteilungsHelper = [];
     foreach ($plaeneAbteilungen[$abteilung->ID] as $plan) {
         $planTimePeriodString = DateHelper::BuildTimePeriodString($plan->Startdatum, $plan->Enddatum);
