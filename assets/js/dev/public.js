@@ -26,7 +26,10 @@ jQuery(function($) {
                         scrollLeft += 400;
                     }
 
-                    $("#Plan").scrollLeft(scrollLeft);
+                    $("#Plan").animate({
+                        'scrollLeft': scrollLeft
+                    }, 400)
+
                     break;
                 }
             }
