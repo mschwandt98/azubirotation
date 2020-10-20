@@ -7,8 +7,8 @@
  */
 
 session_start();
-include(__DIR__ . "/config.php");
-ob_start("minifier");
+include(__DIR__ . '/config.php');
+ob_start('minifier');
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +35,9 @@ ob_start("minifier");
 
 </head>
 <body>
-    <header id="Header"><?php include_once(__DIR__ . "/header.php") ?></header>
-    <main id="Main"><?php include_once(__DIR__ . "/main.php") ?></main>
-    <footer id="Footer"><?php include_once(__DIR__ . "/footer.php") ?></footer>
+    <header id="Header"><?php include_once(__DIR__ . '/header.php') ?></header>
+    <main id="Main"><?php include_once(__DIR__ . '/main.php') ?></main>
+    <footer id="Footer"><?php include_once(__DIR__ . '/footer.php') ?></footer>
     <div id="ErrorMessageBox" style="display: none;">
         <div class="message"></div>
     </div>

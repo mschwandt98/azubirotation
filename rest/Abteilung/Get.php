@@ -7,7 +7,7 @@
 
 use core\helper\DataHelper;
 
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
 $abteilungen = (new DataHelper())->GetAbteilungen();
 exit(json_encode($abteilungen));

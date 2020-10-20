@@ -13,7 +13,7 @@ use core\helper\PlanungsHelper;
 if (empty($azubi_id)) return;
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
-include_once(dirname(__DIR__) . "/config.php");
+include_once(dirname(__DIR__) . '/config.php');
 
 if (!is_logged_in()) return;
 
@@ -47,24 +47,24 @@ foreach ($standardplan->Phasen as $phase) {
 }
 
 $abteilungen = [
-    "Praeferierte"          => $praeferierteAbteilungen,
-    "PraeferierteOptionale" => $praeferierteOptionaleAbteilungen,
-    "Normale"               => $normaleAbteilungen,
-    "Optionale"             => $optionaleAbteilungen
+    'Praeferierte'          => $praeferierteAbteilungen,
+    'PraeferierteOptionale' => $praeferierteOptionaleAbteilungen,
+    'Normale'               => $normaleAbteilungen,
+    'Optionale'             => $optionaleAbteilungen
 ];
 
-if (!empty($abteilungen["Praeferierte"]) || !empty($abteilungen["PraeferierteOptionale"])) {
+if (!empty($abteilungen['Praeferierte']) || !empty($abteilungen['PraeferierteOptionale'])) {
 
-    $mergedAbteilungen = $abteilungen["Praeferierte"] + $abteilungen["PraeferierteOptionale"];
+    $mergedAbteilungen = $abteilungen['Praeferierte'] + $abteilungen['PraeferierteOptionale'];
     $planungsHelper->PlanStartOfAusbildung($mergedAbteilungen);
 }
 
-if (!empty($abteilungen["Normale"])) {
-    $planungsHelper->PlanAbteilungen($abteilungen["Normale"]);
+if (!empty($abteilungen['Normale'])) {
+    $planungsHelper->PlanAbteilungen($abteilungen['Normale']);
 }
 
 if (end($planungsHelper->Plaene)->Enddatum < $azubi->Ausbildungsende) {
-    $planungsHelper->PlanAbteilungen($abteilungen["Optionale"]);
+    $planungsHelper->PlanAbteilungen($abteilungen['Optionale']);
 }
 
 if (!empty($planungsHelper->AbteilungenLeft)) {
@@ -72,14 +72,14 @@ if (!empty($planungsHelper->AbteilungenLeft)) {
 }
 
 // Pläne eintragen
-$sql = "";
+$sql = '';
 
 foreach ($planungsHelper->Plaene as $plan) {
 
-    $sql .= "INSERT INTO " . T_PLAENE . "(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
+    $sql .= 'INSERT INTO ' . T_PLAENE . '(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
         VALUES (
-            $plan->ID_Azubi, " .
-            ($plan->ID_Ansprechpartner ?? ":null") . ", " .
+            $plan->ID_Azubi, ' .
+            ($plan->ID_Ansprechpartner ?? ':null') . ', ' .
             $plan->ID_Abteilung . ", '" .
             $plan->Startdatum . "', '" .
             $plan->Enddatum ."'
@@ -87,4 +87,4 @@ foreach ($planungsHelper->Plaene as $plan) {
 }
 
 $statement = $pdo->prepare($sql);
-$statement->execute([ ":null" => NULL ]);
+$statement->execute([ ':null' => NULL ]);

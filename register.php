@@ -2,14 +2,14 @@
 use core\helper\DataHelper;
 
 session_start();
-include_once("config.php");
+include_once('config.php');
 
-$value = (new DataHelper())->GetSetting("allow-registration")->Value;
-$formStartseite = '<form action="' . explode("register.php", $_SERVER["PHP_SELF"])[0] . '">
+$value = (new DataHelper())->GetSetting('allow-registration')->Value;
+$formStartseite = '<form action="' . explode('register.php', $_SERVER['PHP_SELF'])[0] . '">
     <input type="submit" value="Zur Startseite" />
 </form>';
 
-ob_start("minifier");
+ob_start('minifier');
 ?>
 
 <style>
@@ -36,19 +36,19 @@ ob_start("minifier");
             <input type="radio"
                    name="allowRegistration"
                    value="true"
-                   <?= ($value === "true") ? "checked" : ""; ?> />
+                   <?= ($value === 'true') ? 'checked' : ''; ?> />
         </label>
         <label>
             <span>Nein</span>
             <input type="radio"
                    name="allowRegistration"
                    value="false"
-                   <?= ($value !== "true") ? "checked" : ""; ?> />
+                   <?= ($value !== 'true') ? 'checked' : ''; ?> />
         </label>
         <input type="submit" value="Auswahl speichern" />
     </form>
 
-<?php elseif ($value === "true") : ?>
+<?php elseif ($value === 'true') : ?>
 
     <form id="Register" action="rest/Authorization/Register" method="POST">
         <label>

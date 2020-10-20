@@ -12,10 +12,10 @@ use core\helper\DataHelper;
 use core\helper\DateHelper;
 use models\Plan;
 
-if (!defined("BASE")) {
-    include_once(BASE . "/config.php");
+if (!defined('BASE')) {
+    include_once(BASE . '/config.php');
 } else {
-    include_once(dirname(dirname(__DIR__)) . "/config.php");
+    include_once(dirname(dirname(__DIR__)) . '/config.php');
 }
 
 /**
@@ -82,7 +82,7 @@ class PlanungsHelper {
                     foreach ($zeitraeume as $zeitraum) {
 
                         if (!$this->IsZeitraumInAbteilungFrei(
-                            DateHelper::BuildTimePeriodString($zeitraum["Startdatum"], $zeitraum["Enddatum"]),
+                            DateHelper::BuildTimePeriodString($zeitraum['Startdatum'], $zeitraum['Enddatum']),
                             $abteilung->ID_Abteilung
                         )) {
                             $alleWochenFrei = false;
@@ -95,7 +95,7 @@ class PlanungsHelper {
                         $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
                         foreach ($zeitraeume as $zeitraum) {
-                            $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
+                            $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                         }
 
                         unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -127,7 +127,7 @@ class PlanungsHelper {
                 $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
 
                 foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
+                    $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                 }
 
                 unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
@@ -168,7 +168,7 @@ class PlanungsHelper {
             foreach ($zeitraeume as $zeitraum) {
 
                 if (!$this->IsZeitraumInAbteilungFrei(
-                    DateHelper::BuildTimePeriodString($zeitraum["Startdatum"], $zeitraum["Enddatum"]),
+                    DateHelper::BuildTimePeriodString($zeitraum['Startdatum'], $zeitraum['Enddatum']),
                     $abteilung->ID_Abteilung
                 )) {
                     $alleWochenFrei = false;
@@ -183,7 +183,7 @@ class PlanungsHelper {
                 unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
 
                 foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung, $zeitraum["Startdatum"], $zeitraum["Enddatum"], $ansprechpartner);
+                    $this->CreatePlanPhase($abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
                 }
 
                 break;
@@ -193,7 +193,7 @@ class PlanungsHelper {
         // Da keine Abteilung frei ist -> maximale Anzahl einer zufälligen präferierten Abteilung ignorieren
         if (!$eingetragen) {
 
-            $randomAbteilung = $abteilungen[array_rand($abteilungen)];
+            $randomAbteilung = $abteilungen[mt_rand(0, count($abteilungen) - 1)];
             unset($this->AbteilungenLeft[$randomAbteilung->ID_Abteilung]);
 
             $startDate = (DateHelper::IsMonday($this->Azubi->Ausbildungsstart))
@@ -223,8 +223,8 @@ class PlanungsHelper {
      * @return array Die einzelnen Zeiträume mit Start- und Enddatum.
      *               Aufbau Array:
      *               [0] => [
-     *                   "Startdatum" => "[STARTDATUM Y-m-d]",
-     *                   "Enddatum"   => "[ENDDATUM Y-m-d]"
+     *                   'Startdatum' => '[STARTDATUM Y-m-d]',
+     *                   'Enddatum'   => '[ENDDATUM Y-m-d]'
      *               ],
      *               [1] => ...
      */
@@ -237,7 +237,7 @@ class PlanungsHelper {
 
             if ($startDate > $this->Azubi->Ausbildungsende) break;
 
-            $zeitraeume[] = [ "Startdatum" => $startDate, "Enddatum" => $endDate];
+            $zeitraeume[] = [ 'Startdatum' => $startDate, 'Enddatum' => $endDate];
             $startDate = DateHelper::NextMonday($startDate);
             $endDate = DateHelper::NextSunday($endDate);
         }
@@ -263,8 +263,7 @@ class PlanungsHelper {
             (empty($ansprechpartner)) ? null : $ansprechpartner->ID,
             $abteilung->ID_Abteilung,
             $startDate,
-            $endDate,
-            ""
+            $endDate
         );
     }
 
@@ -291,7 +290,7 @@ class PlanungsHelper {
 
         return (empty($abteilungsAnsprechpartner))
             ? false
-            : $abteilungsAnsprechpartner[array_rand($abteilungsAnsprechpartner)];
+            : $abteilungsAnsprechpartner[mt_rand(0, count($abteilungsAnsprechpartner) - 1)];;
     }
 
     /**

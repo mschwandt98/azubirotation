@@ -22,10 +22,10 @@ use models\Phase;
 use models\Standardplan;
 use models\Plan;
 
-if (!defined("BASE")) {
-    include_once(BASE . "/config.php");
+if (!defined('BASE')) {
+    include_once(BASE . '/config.php');
 } else {
-    include_once(dirname(dirname(__DIR__)) . "/config.php");
+    include_once(dirname(dirname(__DIR__)) . '/config.php');
 }
 
 /**
@@ -58,19 +58,19 @@ class DataHelper {
     public function GetAbteilungen($id = null) {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_ABTEILUNGEN .
+            'SELECT * FROM ' . T_ABTEILUNGEN .
             $this->CreateWhereId($id) .
-            "ORDER BY Bezeichnung ASC;"
+            'ORDER BY Bezeichnung ASC;'
         );
         $statement->execute();
         $abteilungen = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($abteilungen as $key => $abteilung) {
             $abteilungen[$key] = new Abteilung(
-                $abteilung["Bezeichnung"],
-                $abteilung["MaxAzubis"],
-                $abteilung["Farbe"],
-                $abteilung["ID"]
+                $abteilung['Bezeichnung'],
+                $abteilung['MaxAzubis'],
+                $abteilung['Farbe'],
+                $abteilung['ID']
             );
         }
 
@@ -90,19 +90,19 @@ class DataHelper {
     public function GetAnsprechpartner($id = null) {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_ANSPRECHPARTNER .
+            'SELECT * FROM ' . T_ANSPRECHPARTNER .
             $this->CreateWhereId($id) .
-            "ORDER BY Name ASC;"
+            'ORDER BY Name ASC;'
         );
         $statement->execute();
         $ansprechpartner = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($ansprechpartner as $key => $person) {
             $ansprechpartner[$key] = new Ansprechpartner(
-                $person["Name"],
-                $person["Email"],
-                $person["ID_Abteilung"],
-                $person["ID"]
+                $person['Name'],
+                $person['Email'],
+                $person['ID_Abteilung'],
+                $person['ID']
             );
         }
 
@@ -123,17 +123,17 @@ class DataHelper {
     public function GetAusbildungsberufe($id = null) {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_AUSBILDUNGSBERUFE .
+            'SELECT * FROM ' . T_AUSBILDUNGSBERUFE .
             $this->CreateWhereId($id) .
-            "ORDER BY Bezeichnung ASC;"
+            'ORDER BY Bezeichnung ASC;'
         );
         $statement->execute();
         $ausbildungsberufe = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($ausbildungsberufe as $key => $beruf) {
             $ausbildungsberufe[$key] = new Ausbildungsberuf(
-                $beruf["Bezeichnung"],
-                $beruf["ID"]
+                $beruf['Bezeichnung'],
+                $beruf['ID']
             );
         }
 
@@ -153,22 +153,22 @@ class DataHelper {
     public function GetAzubis($id = null) {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_AUSZUBILDENDE .
+            'SELECT * FROM ' . T_AUSZUBILDENDE .
             $this->CreateWhereId($id) .
-            "ORDER BY Nachname ASC;"
+            'ORDER BY Nachname ASC;'
         );
         $statement->execute();
         $azubis = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($azubis as $key => $azubi) {
             $azubis[$key] = new Auszubildender(
-                $azubi["Vorname"],
-                $azubi["Nachname"],
-                $azubi["Email"],
-                $azubi["ID_Ausbildungsberuf"],
-                $azubi["Ausbildungsstart"],
-                $azubi["Ausbildungsende"],
-                $azubi["ID"]
+                $azubi['Vorname'],
+                $azubi['Nachname'],
+                $azubi['Email'],
+                $azubi['ID_Ausbildungsberuf'],
+                $azubi['Ausbildungsstart'],
+                $azubi['Ausbildungsende'],
+                $azubi['ID']
             );
         }
 
@@ -190,11 +190,11 @@ class DataHelper {
      */
     public function GetStandardPlaene($id_ausbildungsberuf = null) {
 
-        $sql_where = "";
+        $sql_where = '';
 
         if ($id_ausbildungsberuf !== null) {
             $id_ausbildungsberuf = intval($id_ausbildungsberuf);
-            $sql_where = " WHERE ab.ID = $id_ausbildungsberuf";
+            $sql_where = ' WHERE ab.ID = ' . $id_ausbildungsberuf;
         }
 
         $statement = $this->db->prepare(
@@ -212,19 +212,19 @@ class DataHelper {
         foreach ($standardplan_phasen as $phase) {
 
             $needed_phase = new Phase(
-                $phase["ID_Abteilung"],
-                $phase["Abteilung"],
-                $phase["AnzahlWochen"],
-                $phase["Praeferieren"],
-                $phase["Optional"]
+                $phase['ID_Abteilung'],
+                $phase['Abteilung'],
+                $phase['AnzahlWochen'],
+                $phase['Praeferieren'],
+                $phase['Optional']
             );
 
-            if (array_key_exists($phase["Ausbildungsberuf"], $standardplaene)) {
-                $standardplaene[$phase["Ausbildungsberuf"]]->Phasen[] = $needed_phase;
+            if (array_key_exists($phase['Ausbildungsberuf'], $standardplaene)) {
+                $standardplaene[$phase['Ausbildungsberuf']]->Phasen[] = $needed_phase;
             } else {
-                $standardplaene[$phase["Ausbildungsberuf"]] = new Standardplan(
-                    $phase["ID_Ausbildungsberuf"],
-                    $phase["Ausbildungsberuf"],
+                $standardplaene[$phase['Ausbildungsberuf']] = new Standardplan(
+                    $phase['ID_Ausbildungsberuf'],
+                    $phase['Ausbildungsberuf'],
                     [ $needed_phase ]
                 );
             }
@@ -245,21 +245,21 @@ class DataHelper {
     public function GetPlaene() {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_PLAENE .
-            " ORDER BY ID_Auszubildender ASC, Startdatum ASC;"
+            'SELECT * FROM ' . T_PLAENE .
+            ' ORDER BY ID_Auszubildender ASC, Startdatum ASC;'
         );
         $statement->execute();
         $plaene = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($plaene as $key => $plan) {
             $plaene[$key] = new Plan(
-                $plan["ID_Auszubildender"],
-                $plan["ID_Ansprechpartner"],
-                $plan["ID_Abteilung"],
-                $plan["Startdatum"],
-                $plan["Enddatum"],
-                $plan["Termin"],
-                $plan["ID"]
+                $plan['ID_Auszubildender'],
+                $plan['ID_Ansprechpartner'],
+                $plan['ID_Abteilung'],
+                $plan['Startdatum'],
+                $plan['Enddatum'],
+                $plan['Termin'],
+                $plan['ID']
             );
         }
 
@@ -276,12 +276,12 @@ class DataHelper {
     public function GetSetting($name) {
 
         $statement = $this->db->prepare(
-            "SELECT * FROM " . T_SETTINGS .
-            " WHERE name = '$name';"
+            'SELECT * FROM ' . T_SETTINGS .
+            ' WHERE name = :name;'
         );
-        $statement->execute();
+        $statement->execute([ ':name' => $name ]);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-        return new Einstellung($result["name"], $result["value"]);
+        return new Einstellung($result['name'], $result['value']);
     }
 
     /**
@@ -295,10 +295,10 @@ class DataHelper {
     public function UpdateSetting($name, $value) {
 
         return ($this->db->prepare(
-            "UPDATE " . T_SETTINGS .
-            " SET value = '$value'" .
-            " WHERE name = '$name';"
-        ))->execute();
+            'UPDATE ' . T_SETTINGS .
+            ' SET value = :value' .
+            ' WHERE name = :name;'
+        ))->execute([ ':value' => $value, ':name' => $name ]);
     }
 
     /**
@@ -310,6 +310,6 @@ class DataHelper {
      *                Ansonsten wird " WHERE ID = [$id] " zurückgegeben.
      */
     private function CreateWhereId($id) {
-        return (empty($id)) ? " " : " WHERE ID = " . intval($id) . " ";
+        return (empty($id)) ? ' ' : ' WHERE ID = ' . intval($id) . ' ';
     }
 }

@@ -19,18 +19,18 @@ class DateHelper {
     /**
      * @var string Das Standard-Format für Daten.
      */
-    private const defaultFormat = "Y-m-d";
+    private const defaultFormat = 'Y-m-d';
 
     /**
      * Erstellt einen String aus zwei Daten mit einen Limiter dazwischen.
      *
      * @param string $startDate Das Startdatum.
      * @param string $endDate   Das Enddatum.
-     * @param string $limiter   Der Limiter zwischen den Daten. Standard: " ".
+     * @param string $limiter   Der Limiter zwischen den Daten. Standard: ' '.
      *
      * @return string Ein String mit dem zusammengesetzten Start- und Enddatum.
      */
-    public static function BuildTimePeriodString($startDate, $endDate, $limiter = " ") {
+    public static function BuildTimePeriodString($startDate, $endDate, $limiter = ' ') {
         return $startDate . $limiter . $endDate;
     }
 
@@ -42,7 +42,7 @@ class DateHelper {
      * @return string Das Datum des Tages nach dem hereingegebenden Datum.
      */
     public static function DayAfter($date) {
-        return date(self::defaultFormat, strtotime("$date +1 day"));
+        return date(self::defaultFormat, strtotime($date . ' +1 day'));
     }
 
     /**
@@ -53,7 +53,7 @@ class DateHelper {
      * @return string Das Datum des Tages vor dem hereingegebenden Datum.
      */
     public static function DayBefore($date) {
-        return date(self::defaultFormat, strtotime("$date -1 day"));
+        return date(self::defaultFormat, strtotime($date . ' -1 day'));
     }
 
     /**
@@ -64,7 +64,7 @@ class DateHelper {
      *
      * @return string Das formatierte Datum.
      */
-    public static function FormatDate($date, $format = "d.m.Y") {
+    public static function FormatDate($date, $format = 'd.m.Y') {
         return date($format, strtotime($date));
     }
 
@@ -78,7 +78,7 @@ class DateHelper {
      * @return string Das Datum in der gewünschten Anzahl an Wochen.
      */
     public static function GetDateInXWeeks($date, $weeks, $format = self::defaultFormat) {
-        return date($format, strtotime("+$weeks weeks", strtotime($date)));
+        return date($format, strtotime('+' . $weeks . ' weeks', strtotime($date)));
     }
 
     /**
@@ -89,11 +89,11 @@ class DateHelper {
      *
      * @return string[] Das "StartDatum" und "EndDatum" des gegebenden Strings.
      */
-    public static function GetDatesFromString($dateString, $delimiter = " ") {
+    public static function GetDatesFromString($dateString, $delimiter = ' ') {
         $dates = explode($delimiter, $dateString);
         return [
-            "StartDatum"    => $dates[0],
-            "EndDatum"      => $dates[1]
+            'StartDatum'    => $dates[0],
+            'EndDatum'      => $dates[1]
         ];
     }
 
@@ -119,31 +119,33 @@ class DateHelper {
      * @return bool Der Status, ob das gegebende Datum auf einen Montag fällt.
      */
     public static function IsMonday($date) {
-        return strtolower(date("l", strtotime($date))) === "monday";
+        return strtolower(date('l', strtotime($date))) === 'monday';
     }
 
     /**
      * Ermittelt das Datum vom letzten Montag.
      *
-     * @param string $date Das Datum, von dem aus das Datum des letzen Montags
-     *                     ermittelt werden soll.
+     * @param string $date      Das Datum, von dem aus das Datum des letzen
+     *                          Montags ermittelt werden soll.
+     * @param string $format    Das gewünschte Format des Datums.
      *
      * @param string Das Datum des letzten Montags.
      */
-    public static function LastMonday($date) {
-        return date("Y-m-d", strtotime($date . "last monday"));
+    public static function LastMonday($date, $format = self::defaultFormat) {
+        return date($format, strtotime($date . 'last monday'));
     }
 
     /**
      * Ermittelt das Datum vom nächsten Montag.
      *
-     * @param string $date Das Datum, von dem aus das Datum des nächsten Montags
-     *                     ermittelt werden soll.
+     * @param string $date      Das Datum, von dem aus das Datum des nächsten Montags
+     *                          ermittelt werden soll.
+     * @param string $format    Das gewünschte Format des Datums.
      *
      * @param string Das Datum des nächsten Montags.
      */
     public static function NextMonday($date, $format = self::defaultFormat) {
-        return date($format, strtotime($date . " next monday"));
+        return date($format, strtotime($date . ' next monday'));
     }
 
     /**
@@ -155,7 +157,7 @@ class DateHelper {
      * @param string Das Datum des nächsten Sonntags.
      */
     public static function NextSunday($date, $format = self::defaultFormat) {
-        return date($format, strtotime($date . " next sunday"));
+        return date($format, strtotime($date . ' next sunday'));
     }
 
     /**

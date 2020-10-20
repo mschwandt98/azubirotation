@@ -11,25 +11,25 @@
 
 <?php if (is_logged_in()) : ?>
 
-    <input type="hidden" id="CsrfToken" value="<?= $_SESSION["csrf_token"]; ?>" />
+    <input type="hidden" id="CsrfToken" value="<?= $_SESSION['csrf_token']; ?>" />
     <div class="grid">
         <div>
-            <?php include_once("templates/Abteilungen.php"); ?>
-            <?php include_once("templates/Standardplaene.php"); ?>
+            <?php include_once('templates/Abteilungen.php'); ?>
+            <?php include_once('templates/Standardplaene.php'); ?>
         </div>
         <div>
-            <?php include_once("templates/Ausbildungsberufe.php"); ?>
-            <?php include_once("templates/Azubis.php"); ?>
+            <?php include_once('templates/Ausbildungsberufe.php'); ?>
+            <?php include_once('templates/Azubis.php'); ?>
         </div>
         <div>
-            <?php include_once("templates/Ansprechpartner.php"); ?>
+            <?php include_once('templates/Ansprechpartner.php'); ?>
         </div>
     </div>
-    <div><?php include_once("templates/InfoButton.php"); ?></div>
+    <div><?php include_once('templates/InfoButton.php'); ?></div>
 
 <?php endif; ?>
 
-<div id="Plan"><?php include_once("core/Plan.php"); ?></div>
+<div id="Plan"><?php include_once('core/Plan.php'); ?></div>
 
 <?php if (is_logged_in()) : ?>
 

@@ -10,13 +10,13 @@ use core\helper\DateHelper;
 use models\Plan;
 
 session_start();
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
 if (is_logged_in() && is_token_valid()) {
 
-    if (array_key_exists("azubis", $_POST)) {
+    if (array_key_exists('azubis', $_POST)) {
 
-        $azubis = $_POST["azubis"];
+        $azubis = $_POST['azubis'];
 
         if (!empty($azubis)) {
 
@@ -24,24 +24,24 @@ if (is_logged_in() && is_token_valid()) {
 
             foreach ($azubis as $azubi) {
 
-                $id_azubi = sanitize_string($azubi["id"]);
+                $id_azubi = sanitize_string($azubi['id']);
                 $deletedPhasen = []; // beinhaltet die Startdaten
 
-                foreach ($azubi["phasen"] as $phase) {
+                foreach ($azubi['phasen'] as $phase) {
 
-                    $startDate = sanitize_string($phase["date"]);
+                    $startDate = sanitize_string($phase['date']);
 
-                    if (empty($phase["id_abteilung"])) {
+                    if (empty($phase['id_abteilung'])) {
                         $deletedPhasen[] = $startDate;
                     } else {
 
-                        $id_abteilung = sanitize_string($phase["id_abteilung"]);
+                        $id_abteilung = sanitize_string($phase['id_abteilung']);
                         $endDate = DateHelper::NextSunday($startDate);
 
-                        if (empty($phase["id_ansprechpartner"])) {
+                        if (empty($phase['id_ansprechpartner'])) {
                             $ansprechpartner_id = NULL;
                         } else {
-                            $ansprechpartner_id = sanitize_string($phase["id_ansprechpartner"]);
+                            $ansprechpartner_id = sanitize_string($phase['id_ansprechpartner']);
 
                             // Überprüfung, ob Ansprechpartner für die Abteilung erlaubt ist
                             if ($ansprechpartner = (new DataHelper())->GetAnsprechpartner($ansprechpartner_id)) {
@@ -58,38 +58,38 @@ if (is_logged_in() && is_token_valid()) {
                             $id_abteilung,
                             $startDate,
                             $endDate,
-                            (!empty($phase["termin"])) ? sanitize_string($phase["termin"]) : ""
+                            (!empty($phase['termin'])) ? sanitize_string($phase['termin']) : ''
                         );
 
                         $replacements = [
-                            ":id_azubi"     => $plan->ID_Azubi,
-                            ":startDate"    => $plan->Startdatum,
-                            ":endDate"      => $plan->Enddatum
+                            ':id_azubi'     => $plan->ID_Azubi,
+                            ':startDate'    => $plan->Startdatum,
+                            ':endDate'      => $plan->Enddatum
                         ];
 
                         $statement = $pdo->prepare(
-                            "SELECT * FROM " . T_PLAENE . "
+                            'SELECT * FROM ' . T_PLAENE . '
                                 WHERE ID_Auszubildender = :id_azubi AND
                                 Startdatum = :startDate AND
-                                Enddatum = :endDate;"
+                                Enddatum = :endDate;'
                         );
                         $statement->execute($replacements);
 
                         if ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
 
                             $replacements = [
-                                ":id"                   => $result["ID"],
-                                ":id_ansprechpartner"   => $plan->ID_Ansprechpartner,
-                                ":id_abteilung"         => $plan->ID_Abteilung,
-                                ":termin"               => $plan->Termin
+                                ':id'                   => $result['ID'],
+                                ':id_ansprechpartner'   => $plan->ID_Ansprechpartner,
+                                ':id_abteilung'         => $plan->ID_Abteilung,
+                                ':termin'               => $plan->Termin
                             ];
 
                             $statement = $pdo->prepare(
-                                "UPDATE " . T_PLAENE . "
+                                'UPDATE ' . T_PLAENE . '
                                 SET ID_Ansprechpartner = :id_ansprechpartner,
                                     ID_Abteilung = :id_abteilung,
                                     Termin = :termin
-                                WHERE ID = :id;"
+                                WHERE ID = :id;'
                             );
 
                             if (!$statement->execute($replacements)) {
@@ -99,16 +99,16 @@ if (is_logged_in() && is_token_valid()) {
                         } else {
 
                             $replacements = [
-                                ":id_azubi"             => $plan->ID_Azubi,
-                                ":id_ansprechpartner"   => $plan->ID_Ansprechpartner,
-                                ":id_abteilung"         => $plan->ID_Abteilung,
-                                ":startDate"            => $plan->Startdatum,
-                                ":endDate"              => $plan->Enddatum,
-                                ":termin"               => $plan->Termin
+                                ':id_azubi'             => $plan->ID_Azubi,
+                                ':id_ansprechpartner'   => $plan->ID_Ansprechpartner,
+                                ':id_abteilung'         => $plan->ID_Abteilung,
+                                ':startDate'            => $plan->Startdatum,
+                                ':endDate'              => $plan->Enddatum,
+                                ':termin'               => $plan->Termin
                             ];
 
                             $statement = $pdo->prepare(
-                                "INSERT " . T_PLAENE . "
+                                'INSERT ' . T_PLAENE . '
                                 (
                                     ID_Auszubildender,
                                     ID_Ansprechpartner,
@@ -124,7 +124,7 @@ if (is_logged_in() && is_token_valid()) {
                                     :startDate,
                                     :endDate,
                                     :termin
-                                );"
+                                );'
                             );
 
                             if (!$statement->execute($replacements)) {
@@ -138,8 +138,8 @@ if (is_logged_in() && is_token_valid()) {
                 if (!empty($deletedPhasen)) {
 
                     $statement = $pdo->prepare(
-                        "DELETE FROM " . T_PLAENE . "
-                        WHERE ID_Auszubildender = $id_azubi AND ".
+                        'DELETE FROM ' . T_PLAENE . '
+                        WHERE ID_Auszubildender = ' . $id_azubi . ' AND '.
                             "Startdatum IN ('" . implode("','", $deletedPhasen) . "');"
                     );
 
@@ -151,8 +151,8 @@ if (is_logged_in() && is_token_valid()) {
             }
 
             http_response_code(200);
-            ob_start("minifier");
-            include_once(BASE . "/core/Plan.php");
+            ob_start('minifier');
+            include_once(BASE . '/core/Plan.php');
             ob_end_flush();
             exit;
         }

@@ -18,22 +18,29 @@ use core\helper\DateHelper;
 
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
-include_once(dirname(__DIR__) . "/config.php");
+include_once(dirname(__DIR__) . '/config.php');
 
 $helper = new DataHelper();
 
-$Abteilungen        = $helper->GetAbteilungen();
-$Ansprechpartner    = $helper->GetAnsprechpartner();
-$Ausbildungsberufe  = $helper->GetAusbildungsberufe();
-$Azubis             = $helper->GetAzubis();
-$Standardplaene     = $helper->GetStandardPlaene();
-$Plaene             = $helper->GetPlaene();
+$Abteilungen = [];
+foreach ($helper->GetAbteilungen() as $abteilung) {
+    $Abteilungen[$abteilung->ID] = $abteilung;
+}
 
-$tableFirstDate;
-$tableLastDate;
+$Ausbildungsberufe = [];
+foreach ($helper->GetAusbildungsberufe() as $ausbildungsberuf) {
+    $Ausbildungsberufe[$ausbildungsberuf->ID] = $ausbildungsberuf;
+}
+
+$Ansprechpartner = [];
+foreach ($helper->GetAnsprechpartner() as $ansprechpartner) {
+    $Ansprechpartner[$ansprechpartner->ID] = $ansprechpartner;
+}
+
+$Plaene = $helper->GetPlaene();
 
 $azubisByAusbildungsberufe = [];
-foreach ($Azubis as $azubi) {
+foreach ($helper->GetAzubis() as $azubi) {
 
     $azubi->plan = [];
 
@@ -69,8 +76,8 @@ $weeksPerMonth = [];
 $currentDate = $tableFirstDate;
 for ($i = 0; $i < $weeksInTable; $i++) {
 
-    $month = DateHelper::FormatDate($currentDate, "M Y");
-    $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")] = [];
+    $month = DateHelper::FormatDate($currentDate, 'M Y');
+    $abteilungenInWeek[DateHelper::FormatDate($currentDate, 'W Y')] = [];
 
     if (array_key_exists($month, $weeksPerMonth)) {
         $weeksPerMonth[$month]++;
@@ -101,9 +108,9 @@ unset($currentDate);
             <?php $currentDate = $tableFirstDate; ?>
             <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
-                <th class="month <?= (DateHelper::InRange(date("Y-m-d"), $currentDate, DateHelper::NextSunday($currentDate))) ? "current-week" : "" ?>"
-                    title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, "d.m.Y"); ?>">
-                    <?= DateHelper::FormatDate($currentDate, "W"); ?>
+                <th class="month <?= (DateHelper::InRange(date('Y-m-d'), $currentDate, DateHelper::NextSunday($currentDate))) ? 'current-week' : '' ?>"
+                    title="<?= DateHelper::FormatDate($currentDate); ?> - <?= DateHelper::NextSunday($currentDate, 'd.m.Y'); ?>">
+                    <?= DateHelper::FormatDate($currentDate, 'W'); ?>
                 </th>
 
                 <?php $currentDate = DateHelper::NextMonday($currentDate); ?>
@@ -119,41 +126,41 @@ unset($currentDate);
             <tr>
                 <th class="ausbildungsberuf" colspan="3">
                     <div class="icon-triangle-b"></div>
-                    <b><?= ($helper->GetAusbildungsberufe($id_ausbildungsberuf))->Bezeichnung; ?></b>
+                    <b><?= $Ausbildungsberufe[$id_ausbildungsberuf]->Bezeichnung; ?></b>
                 </th>
                 <td colspan="<?= $weeksInTable; ?>"></td>
             </tr>
 
             <?php foreach ($azubis as $azubi) : ?>
 
-                <tr class="azubi <?= ($azubi->Ausbildungsende < DateHelper::Today()) ? "old" : ""; ?>"
+                <tr class="azubi <?= ($azubi->Ausbildungsende < DateHelper::Today()) ? 'old' : ''; ?>"
                     data-id="<?= $azubi->ID; ?>">
                     <th><?= $azubi->Nachname; ?></th>
                     <th><?= $azubi->Vorname; ?></th>
                     <th>
-                        <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . " - " . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
+                        <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . ' - ' . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
                     </th>
 
                     <?php $currentDate = $tableFirstDate; ?>
                     <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
 
                         <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
-                            <?php $abteilung = $helper->GetAbteilungen($plan->ID_Abteilung); ?>
-                            <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, "W Y")][$abteilung->ID] = $abteilung; ?>
+                            <?php $abteilung = $Abteilungen[$plan->ID_Abteilung]; ?>
+                            <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, 'W Y')][$abteilung->ID] = $abteilung; ?>
 
                             <td class="plan-phase
-                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
-                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'mark-start': ''; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'mark-ende': ''; ?>"
                                 style="background-color: <?= $abteilung->Farbe; ?>; border-left-color: <?= $abteilung->Farbe; ?>; border-right-color: <?= $abteilung->Farbe; ?>;"
                                 data-date="<?= $currentDate; ?>"
                                 data-id-abteilung="<?= $plan->ID_Abteilung;?>"
-                                data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ""; ?>"
+                                data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ''; ?>"
                             >
 
                                 <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate) && !empty($plan->ID_Ansprechpartner)) : ?>
 
                                     <span class="ansprechpartner-name">
-                                        <?= $helper->GetAnsprechpartner($plan->ID_Ansprechpartner)->Name; ?>
+                                        <?= $Ansprechpartner[$plan->ID_Ansprechpartner]->Name; ?>
                                     </span>
 
                                 <?php endif; ?>
@@ -169,8 +176,8 @@ unset($currentDate);
                         <?php else: ?>
 
                             <td class="plan-phase
-                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? "mark-start": ""; ?>
-                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? "mark-ende": ""; ?>"
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'mark-start': ''; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'mark-ende': ''; ?>"
                                 data-date="<?= $currentDate; ?>"></td>
 
                         <?php endif; ?>
@@ -212,7 +219,8 @@ function IsAusbildungsende($ausbildungsende, $date) {
 
 function IsFirstPhaseInAbteilung($azubi, $plan) {
 
-    for ($i = 0; $i < count($azubi->plan); $i++) {
+    $loopMax = count($azubi->plan);
+    for ($i = 0; $i < $loopMax; $i++) {
 
         $currentPlan = $azubi->plan[$i];
 

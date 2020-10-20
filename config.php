@@ -7,27 +7,27 @@
 
 // globales Datenbankobjekt
 try {
-    $pdo = new PDO("mysql:dbname=azubirotation;host=localhost", "root", "");
+    $pdo = new PDO('mysql:dbname=azubirotation;host=localhost', 'root', '');
 } catch (Exception $e) {
     exit($e->getMessage());
 }
 
 // Datenbank-Tabellen
-define("T_ABTEILUNGEN", "abteilungen");
-define("T_ACCOUNTS", "accounts");
-define("T_ANSPRECHPARTNER", "ansprechpartner");
-define("T_AUSBILDUNGSBERUFE", "ausbildungsberufe");
-define("T_AUSZUBILDENDE", "auszubildende");
-define("T_PLAENE", "pläne");
-define("T_SETTINGS", "settings");
-define("T_STANDARDPLAENE", "standardpläne");
+define('T_ABTEILUNGEN', 'abteilungen');
+define('T_ACCOUNTS', 'accounts');
+define('T_ANSPRECHPARTNER', 'ansprechpartner');
+define('T_AUSBILDUNGSBERUFE', 'ausbildungsberufe');
+define('T_AUSZUBILDENDE', 'auszubildende');
+define('T_PLAENE', 'pläne');
+define('T_SETTINGS', 'settings');
+define('T_STANDARDPLAENE', 'standardpläne');
 
 // Pfade
-define("BASE", __DIR__ . "/");
+define('BASE', __DIR__ . '/');
 
 spl_autoload_register(function ($class) {
 
-    $fileName = str_replace("\\", "/", $class) . ".php";
+    $fileName = strtr($class, "\\", '/') . '.php';
 
     if (file_exists(BASE . $fileName)) {
         include_once(BASE . $fileName);
@@ -40,7 +40,7 @@ spl_autoload_register(function ($class) {
  * @return bool Status, ob der Benutzer eingeloggt ist.
  */
 function is_logged_in() {
-    if (array_key_exists("user_id", $_SESSION) && !empty($_SESSION["user_id"])) return true;
+    if (array_key_exists('user_id', $_SESSION) && !empty($_SESSION['user_id'])) return true;
     return false;
 }
 
@@ -50,8 +50,8 @@ function is_logged_in() {
  * @return bool Der Status, ob der CSRF-Token existiert bzw. valide ist.
  */
 function is_token_valid() {
-    if (!array_key_exists("csrfToken", $_POST)) return false;
-    if (sanitize_string($_POST["csrfToken"]) === $_SESSION["csrf_token"]) return true;
+    if (!array_key_exists('csrfToken', $_POST)) return false;
+    if (sanitize_string($_POST['csrfToken']) === $_SESSION['csrf_token']) return true;
     return false;
 }
 
@@ -70,15 +70,15 @@ function minifier($code) {
         "/(\s)+/s",         // Remove multiple whitespace sequences
         "/<!--(.|\s)*?-->/" // Remove comments
     ];
-    $replace = [ ">", "<", "\\1" ];
+    $replace = [ '>', '<', "\\1" ];
     $minified_code = preg_replace($search, $replace, $code);
 
-    if (array_key_exists("HTTP_ACCEPT_ENCODING", $_SERVER) && !empty($_SERVER["HTTP_ACCEPT_ENCODING"])) {
+    if (array_key_exists('HTTP_ACCEPT_ENCODING', $_SERVER) && !empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 
-        $compressionMethods = explode(", ", $_SERVER["HTTP_ACCEPT_ENCODING"]);
+        $compressionMethods = explode(', ', $_SERVER['HTTP_ACCEPT_ENCODING']);
 
-        if (in_array("gzip", $compressionMethods)) {
-            header("Content-Encoding: gzip");
+        if (in_array('gzip', $compressionMethods)) {
+            header('Content-Encoding: gzip');
             return gzencode($minified_code);
         }
     }
@@ -96,5 +96,5 @@ function minifier($code) {
 function sanitize_string($data) {
     $data = strip_tags($data);
     $data = htmlspecialchars($data, ENT_HTML5);
-    return str_replace("&amp;", "&", $data);
+    return str_replace('&amp;', '&', $data);
 }
