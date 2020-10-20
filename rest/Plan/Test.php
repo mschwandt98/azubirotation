@@ -12,11 +12,16 @@ if (!is_logged_in() || !is_token_valid()) {
 }
 
 $helper = new DataHelper();
+$Azubis = $helper->GetAzubis();
 $Standardplaene = $helper->GetStandardplaene();
 
-// Pläne nach Azubis und Abteilungen sortieren
 $plaeneAbteilungen = [];
 $plaeneAzubis = [];
+foreach ($Azubis as $azubi) {
+    $plaeneAzubis[$azubi->ID] = [];
+}
+
+// Pläne nach Azubis und Abteilungen sortieren
 foreach ($helper->GetPlaene() as $plan) {
     $plaeneAzubis[$plan->ID_Azubi][] = $plan;
     $plaeneAbteilungen[$plan->ID_Abteilung][] = $plan;
@@ -25,7 +30,7 @@ foreach ($helper->GetPlaene() as $plan) {
 // Azubi ist in länger in Abteilungen als im Plan vorgesehen &
 // Planung außerhalb des Ausbildungszeitraums &
 // Abteilung am Anfang der Ausbildung entspricht Standardplan
-foreach ($helper->GetAzubis() as $azubi) {
+foreach ($Azubis as $azubi) {
 
     $abteilungenCounter = [];
     foreach ($plaeneAzubis[$azubi->ID] as $plan) {
