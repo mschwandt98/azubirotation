@@ -1,7 +1,31 @@
+/**
+ * html-elements.scss
+ *
+ * Standarddesign für verwendete HTML-Element.
+ *
+ * Index
+ * - form label
+ * - form label input (mehrere types)
+ * - form label select
+ * - input[type="button"]
+ * - input[type="submit"]
+ */
+
+input[type="button"],
+input[type="date"],
+input[type="email"],
+input[type="number"],
+input[type="password"]
+input[type="submit"],
+input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 form label {
     color: $selectline-dark-blue;
-    display: blocK;
-    margin-right: 16px;
+    display: block;
 
     input[type="checkbox"] {
         border: 1px solid $gray;
@@ -18,9 +42,11 @@ form label {
     select {
         border: 1px solid $gray;
         border-radius: 8px;
+        box-sizing: border-box;
         color: $selectline-text-blue;
         height: 24px;
         max-width: 128px;
+        width: 128px;
         outline: 0;
         padding: 0 8px;
 

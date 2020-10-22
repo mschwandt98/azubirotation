@@ -1,26 +1,44 @@
 <?php
-if (array_key_exists("id", $_POST) && array_key_exists("bezeichnung", $_POST)) {
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Ausbildungsberufes.
+ */
 
-    $id = intval($_POST["id"]);
-    $bezeichnung = $_POST["bezeichnung"];
+use models\Ausbildungsberuf;
 
-    if (!empty($id) && !empty($bezeichnung)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+if (is_logged_in() && is_token_valid()) {
 
-        global $pdo;
+    if (array_key_exists('id', $_POST) && array_key_exists('bezeichnung', $_POST)) {
 
-        $statement = $pdo->prepare(
-            "UPDATE " . T_AUSBILDUNGSBERUFE . "
-            SET Bezeichnung = :bezeichnung
-            WHERE ID = :id"
-        );
+        $id             = sanitize_string($_POST['id']);
+        $bezeichnung    = sanitize_string($_POST['bezeichnung']);
 
-        if ($statement->execute([ ":id" => $id, ":bezeichnung" => $bezeichnung ])) {
-            http_response_code(200);
-            exit;
+        if (!empty($id) && !empty($bezeichnung)) {
+
+            global $pdo;
+            $ausbildungsberuf = new Ausbildungsberuf($bezeichnung, $id);
+
+            $statement = $pdo->prepare(
+                'UPDATE ' . T_AUSBILDUNGSBERUFE . '
+                SET Bezeichnung = :bezeichnung
+                WHERE ID = :id'
+            );
+
+            if ($statement->execute([
+                ':id'           => $ausbildungsberuf->ID,
+                ':bezeichnung'  => $ausbildungsberuf->Bezeichnung ])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
 }
 
-http_response_code(400);
+http_response_code(401);

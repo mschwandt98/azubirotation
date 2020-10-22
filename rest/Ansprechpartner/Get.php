@@ -1,9 +1,13 @@
 <?php
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Ansprechpartner, sortiert nach dem Namen.
+ */
 
-global $pdo;
+use core\helper\DataHelper;
 
-$statement = $pdo->prepare("SELECT * FROM " . T_ANSPRECHPARTNER . " ORDER BY `Name` ASC;");
-$statement->execute();
-$ansprechpartner = $statement->fetchAll(PDO::FETCH_ASSOC);
+include_once(dirname(dirname(__DIR__)) . '/config.php');
+
+$ansprechpartner = (new DataHelper())->GetAnsprechpartner();
 exit(json_encode($ansprechpartner));

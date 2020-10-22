@@ -1,5 +1,14 @@
+<?php
+/**
+ * Ausbildungsberufe.php
+ *
+ * Die Template für die Formulare zum Anzeigen, Anlegen, Bearbeiten und Löschen
+ * von Ausbildungsberufen.
+ */
+?>
+
 <div class="data-item">
-    <div class="minimize-data-item"></div>
+    <div class="icon-minus"></div>
     <div class="title">Ausbildungsberufe</div>
     <div class="show-add-buttons">
         <input type="button" id="ShowAusbildungsberufeButton" value="Anzeigen" />
@@ -9,7 +18,7 @@
     <form id="AddAusbildungsberufForm" method="post" style="display: none;">
         <label>
             <span>Bezeichnung</span>
-            <input type="text" name="bezeichnung" />
+            <input type="text" name="bezeichnung" required />
         </label>
         <div>
             <input type="submit" value="Ausbildungsberuf anlegen" />
@@ -19,7 +28,7 @@
         <input type="hidden" name="id" />
         <label>
             <span>Bezeichnung</span>
-            <input type="text" name="bezeichnung" />
+            <input type="text" name="bezeichnung" required />
         </label>
         <div>
             <input type="submit" value="Änderungen speichern" />

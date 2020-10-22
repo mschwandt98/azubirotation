@@ -1,30 +1,46 @@
 <?php
-if (array_key_exists("bezeichnung", $_POST) && array_key_exists("maxAzubis", $_POST) && array_key_exists("farbe", $_POST)) {
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen einer Abteilung.
+ */
 
-    $bezeichnung = $_POST["bezeichnung"];
-    $maxAzubis = intval($_POST["maxAzubis"]);
-    $farbe = $_POST["farbe"];
+use models\Abteilung;
 
-    if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+if (is_logged_in() && is_token_valid()) {
 
-        global $pdo;
+    if (array_key_exists('bezeichnung', $_POST) && array_key_exists('maxAzubis', $_POST) && array_key_exists('farbe', $_POST)) {
 
-        $statement = $pdo->prepare(
-            "INSERT INTO " . T_ABTEILUNGEN . "(Bezeichnung, MaxAzubis, Farbe)
-            VALUES (:bezeichnung, :maxAzubis, :farbe);"
-        );
+        $bezeichnung    = sanitize_string($_POST['bezeichnung']);
+        $maxAzubis      = sanitize_string($_POST['maxAzubis']);
+        $farbe          = sanitize_string($_POST['farbe']);
 
-        if ($statement->execute([
-            ":bezeichnung"   => $bezeichnung,
-            ":maxAzubis"     => $maxAzubis,
-            ":farbe"         => $farbe])) {
+        if (!empty($bezeichnung) && !empty($maxAzubis) && !empty($farbe)) {
 
-            http_response_code(200);
-            exit;
+            global $pdo;
+            $abteilung = new Abteilung($bezeichnung, $maxAzubis, $farbe);
+
+            $statement = $pdo->prepare(
+                'INSERT INTO ' . T_ABTEILUNGEN . '(Bezeichnung, MaxAzubis, Farbe)
+                VALUES (:bezeichnung, :maxAzubis, :farbe);'
+            );
+
+            if ($statement->execute([
+                ':bezeichnung'   => $abteilung->Bezeichnung,
+                ':maxAzubis'     => $abteilung->MaxAzubis,
+                ':farbe'         => $abteilung->Farbe ])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

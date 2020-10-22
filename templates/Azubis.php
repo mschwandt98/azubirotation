@@ -1,5 +1,14 @@
+<?php
+/**
+ * Azubis.php
+ *
+ * Die Template für die Formulare zum Anzeigen, Anlegen, Bearbeiten und Löschen
+ * von Auszubildenden.
+ */
+?>
+
 <div class="data-item">
-    <div class="minimize-data-item"></div>
+    <div class="icon-minus"></div>
     <div class="title">Auszubildende</div>
     <div class="show-add-buttons">
         <input type="button" id="ShowAzubisButton" value="Anzeigen" />
@@ -9,31 +18,35 @@
     <form id="AddAzubiForm" method="post" style="display: none;">
         <label>
             <span>Vorname</span>
-            <input type="text" name="vorname" />
+            <input type="text" name="vorname" required />
         </label>
         <label>
             <span>Nachname</span>
-            <input type="text" name="nachname" />
+            <input type="text" name="nachname" required />
         </label>
         <label>
             <span>Email</span>
-            <input type="email" name="email" />
+            <input type="email" name="email" required />
         </label>
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <label>
             <span>Ausbildungsstart</span>
             <input type="date"
-                    name="ausbildungsstart"
-                    min="<?= date("Y-m-d"); ?>" />
+                   name="ausbildungsstart" required />
         </label>
         <label>
             <span>Ausbildungsende</span>
             <input type="date"
-                    name="ausbildungsende"
-                    min="<?= date("Y-m-d"); ?>" />
+                   name="ausbildungsende" required />
+        </label>
+        <label>
+            <span>Planung erstellen?</span>
+            <input type="checkbox"
+                   name="planung_erstellen"
+                   checked />
         </label>
         <div>
             <input type="submit" value="Auszubildenden anlegen" />
@@ -43,27 +56,32 @@
         <input type="hidden" name="id" />
         <label>
             <span>Vorname</span>
-            <input type="text" name="vorname" />
+            <input type="text" name="vorname" required />
         </label>
         <label>
             <span>Nachname</span>
-            <input type="text" name="nachname" />
+            <input type="text" name="nachname" required />
         </label>
         <label>
             <span>Email</span>
-            <input type="email" name="email" />
+            <input type="email" name="email" required />
         </label>
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <label>
             <span>Ausbildungsstart</span>
-            <input type="date" name="ausbildungsstart" />
+            <input type="date" name="ausbildungsstart" required />
         </label>
         <label>
             <span>Ausbildungsende</span>
-            <input type="date" name="ausbildungsende" />
+            <input type="date" name="ausbildungsende" required />
+        </label>
+        <label>
+            <span>Planung aktualisieren?</span>
+            <input type="checkbox"
+                   name="planung_erstellen" />
         </label>
         <div>
             <input type="submit" value="Änderungen speichern" />

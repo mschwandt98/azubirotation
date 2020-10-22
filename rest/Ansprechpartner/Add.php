@@ -1,30 +1,46 @@
 <?php
-if (array_key_exists("name", $_POST) && array_key_exists("email", $_POST) && array_key_exists("id_abteilung", $_POST)) {
+/**
+ * Add.php
+ *
+ * Der API-Endpunkt zum Hinzufügen eines Ansprechpartners.
+ */
 
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $id_abteilung = intval($_POST["id_abteilung"]);
+use models\Ansprechpartner;
 
-    if (!empty($name) && !empty($email) && !empty($id_abteilung)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+if (is_logged_in() && is_token_valid()) {
 
-        global $pdo;
+    if (array_key_exists('name', $_POST) && array_key_exists('email', $_POST) && array_key_exists('id_abteilung', $_POST)) {
 
-        $statement = $pdo->prepare(
-            "INSERT INTO " . T_ANSPRECHPARTNER . "(Name, Email, ID_Abteilung)
-            VALUES (:name, :email, :id_abteilung);"
-        );
+        $name           = sanitize_string($_POST['name']);
+        $email          = sanitize_string($_POST['email']);
+        $id_abteilung   = sanitize_string($_POST['id_abteilung']);
 
-        if ($statement->execute([
-            ":name"         => $name,
-            ":email"        => $email,
-            ":id_abteilung" => $id_abteilung ])) {
+        if (!empty($name) && !empty($email) && !empty($id_abteilung)) {
 
-            http_response_code(200);
-            exit;
+            global $pdo;
+            $ansprechpartner = new Ansprechpartner($name, $email, $id_abteilung);
+
+            $statement = $pdo->prepare(
+                'INSERT INTO ' . T_ANSPRECHPARTNER . '(Name, Email, ID_Abteilung)
+                VALUES (:name, :email, :id_abteilung);'
+            );
+
+            if ($statement->execute([
+                ':name'         => $ansprechpartner->Name,
+                ':email'        => $ansprechpartner->Email,
+                ':id_abteilung' => $ansprechpartner->ID_Abteilung ])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

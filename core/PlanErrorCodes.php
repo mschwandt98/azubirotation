@@ -1,6 +1,15 @@
 <?php
-namespace Core;
+/**
+ * PlanErrorCodes.php
+ *
+ * Enthält die abstrakte Klasse PlanErrorCodes.
+ */
 
+namespace core;
+
+/**
+ * Dient als Enum für die Fehler-Codes der Planung.
+ */
 abstract class PlanErrorCodes {
 
     const Ausbildungszeitraum = 0;

@@ -1,15 +1,16 @@
 <?php
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Ausbildungsberufe, sortiert nach der
+ * Bezeichnung.
+ */
 
-global $pdo;
+use core\helper\DataHelper;
 
-$sql_where = "";
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-if (array_key_exists("id", $_GET) && !empty($_GET["id"])) {
-    $sql_where = " WHERE ID = " . intval($_GET["id"]);
-}
-
-$statement = $pdo->prepare("SELECT * FROM " . T_AUSBILDUNGSBERUFE . $sql_where . " ORDER BY Bezeichnung ASC;");
-$statement->execute();
-$ausbildungsberufe = $statement->fetchAll(PDO::FETCH_ASSOC);
+$ausbildungsberufe = (new DataHelper())->GetAusbildungsberufe(
+    (array_key_exists('id', $_GET) && !empty($_GET['id'])) ? sanitize_string($_GET['id']) : null
+);
 exit(json_encode($ausbildungsberufe));

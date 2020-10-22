@@ -1,44 +1,65 @@
 <?php
-if (array_key_exists("id_ausbildungsberuf", $_POST) && array_key_exists("phasen", $_POST)) {
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Standardplans.
+ */
 
-    $id_ausbildungsberuf = intval($_POST["id_ausbildungsberuf"]);
-    $phasen = $_POST["phasen"];
+use models\Phase;
+use core\helper\DataHelper;
 
-    if (!empty($id_ausbildungsberuf) && !empty($phasen)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+if (is_logged_in() && is_token_valid()) {
 
-        global $pdo;
+    if (array_key_exists('id_ausbildungsberuf', $_POST) && array_key_exists('phasen', $_POST)) {
 
-        $statement = $pdo->prepare(
-            "DELETE FROM " . T_STANDARDPLAENE . " WHERE ID_Ausbildungsberuf = :id_ausbildungsberuf;"
-        );
-        $statement->execute([ ":id_ausbildungsberuf" => $id_ausbildungsberuf ]);
+        $id_ausbildungsberuf = intval(sanitize_string($_POST['id_ausbildungsberuf']));
+        $phasen = $_POST['phasen'];
 
-        foreach ($phasen as $phase) {
+        if (!empty($id_ausbildungsberuf) && !empty($phasen)) {
+            global $pdo;
 
             $statement = $pdo->prepare(
-                "INSERT INTO " . T_STANDARDPLAENE . "(ID_Ausbildungsberuf, ID_Abteilung, AnzahlWochen, Praeferieren, Optional)
-                VALUES (:id_ausbildungsberuf, :id_abteilung, :wochen, :praeferieren, :optional);"
+                'DELETE FROM ' . T_STANDARDPLAENE . ' WHERE ID_Ausbildungsberuf = :id_ausbildungsberuf;'
             );
+            $statement->execute([ ':id_ausbildungsberuf' => $id_ausbildungsberuf ]);
 
-            $phase["praeferieren"] = filter_var($phase["praeferieren"], FILTER_VALIDATE_BOOLEAN);
-            $phase["optional"] = filter_var($phase["optional"], FILTER_VALIDATE_BOOLEAN);
+            foreach ($phasen as $phase) {
 
-            if (!$statement->execute([
-                ":id_ausbildungsberuf"  => $id_ausbildungsberuf,
-                ":id_abteilung"         => intval($phase["id_abteilung"]),
-                ":wochen"               => intval($phase["wochen"]),
-                ":praeferieren"         => $phase["praeferieren"],
-                ":optional"             => $phase["optional"] ])) {
+                $phase = new Phase(
+                    sanitize_string($phase['id_abteilung']),
+                    (new DataHelper())->GetAbteilungen($phase['id_abteilung'])->Bezeichnung,
+                    sanitize_string($phase['wochen']),
+                    sanitize_string($phase['praeferieren']),
+                    sanitize_string($phase['optional'])
+                );
 
-                http_response_code(400);
-                exit;
+                $statement = $pdo->prepare(
+                    'INSERT INTO ' . T_STANDARDPLAENE . '(ID_Ausbildungsberuf, ID_Abteilung, AnzahlWochen, Praeferieren, Optional)
+                    VALUES (:id_ausbildungsberuf, :id_abteilung, :wochen, :praeferieren, :optional);'
+                );
+
+                if (!$statement->execute([
+                    ':id_ausbildungsberuf'  => $id_ausbildungsberuf,
+                    ':id_abteilung'         => $phase->ID_Abteilung,
+                    ':wochen'               => $phase->Wochen,
+                    ':praeferieren'         => $phase->Praeferieren,
+                    ':optional'             => $phase->Optional ])) {
+
+                    http_response_code(400);
+                    exit;
+                }
             }
-        }
 
-        exit;
+            http_response_code(200);
+            exit;
+        }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

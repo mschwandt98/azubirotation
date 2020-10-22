@@ -1,12 +1,21 @@
 <?php
+/**
+ * PlanErrors.php
+ *
+ * Die Template für die Anzeige der Verstöße gegen Planungsrichtlinien.
+ *
+ * Für diese Template muss die Variable $errors gesetzt sein.
+ *
+ * TODO: Daten der Fehleranalyse zurückgeben und Template im Frontend bauen.
+ */
+
 if (empty($errors)) return;
 
-use Core\Helper\DataHelper;
-use Core\PlanErrorCodes;
+use core\helper\DataHelper;
+use core\helper\DateHelper;
+use core\PlanErrorCodes;
 
-include_once(dirname(__DIR__) . "/config.php");
-include_once(HELPER . "/DataHelper.php");
-include_once(BASE . "/core/PlanErrorCodes.php");
+include_once(dirname(__DIR__) . '/config.php');
 
 $helper = new DataHelper();
 ?>
@@ -21,15 +30,25 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::Ausbildungszeitraum] as $id_azubi => $errorList) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
                 <div>
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
+                    <?= $azubi->Nachname; ?>,
+                    <?= $azubi->Vorname; ?>
                 </div>
 
-                <?php foreach ($errorList as $week => $plan) : ?>
+                <?php foreach ($errorList as $zeitraum) : ?>
+                    <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
-                    <li>Woche: <?= $week; ?></li>
+                    <li>
+                        <label>
+                            <input type="checkbox" />
+                            <span>
+                                <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                                <?= DateHelper::FormatDate($dates['EndDatum']); ?>
+                            </span>
+                        </label>
+                    </li>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
@@ -44,13 +63,27 @@ $helper = new DataHelper();
                 Auszubildende in nicht präferierten Abteilungen am Anfang ihrer jeweiligen Ausbildung
             </div>
 
-            <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $id_abteilung) : ?>
+            <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $abteilungen) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
-                <div>
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>
-                    (<?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>)
-                </div>
+                <li>
+                    <label>
+                        <input type="checkbox" />
+                        <span>
+
+                            <?= $azubi->Nachname; ?>,
+                            <?= $azubi->Vorname; ?>:
+
+                            <?php $abteilungenMissing = [] ?>
+                            <?php foreach ($abteilungen as $id_abteilung) : ?>
+                                <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                            <?php endforeach; ?>
+
+                            <?= implode(', ', $abteilungenMissing); ?>
+
+                        </span>
+                    </label>
+                </li>
 
             <?php endforeach; ?>
 
@@ -65,13 +98,24 @@ $helper = new DataHelper();
             </div>
 
             <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
+                <?php $abteilung = $helper->GetAbteilungen($id_abteilung); ?>
 
-                <div><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></div>
-                <div>Maximale Anzahl an Auszubildenden: <?= $helper->GetAbteilungen($id_abteilung)->MaxAzubis; ?></div>
+                <div>Abteilung <?= $abteilung->Bezeichnung; ?></div>
+                <div>Maximale Anzahl an Auszubildenden: <?= $abteilung->MaxAzubis; ?></div>
 
-                <?php foreach ($errorList as $week => $anzahlAzubis) : ?>
+                <?php foreach ($errorList as $zeitraum => $anzahlAzubis) : ?>
+                    <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
-                    <li>Woche: <?= $week; ?>, Anzahl an Auszubildenden: <?= $anzahlAzubis; ?></li>
+                    <li>
+                        <label>
+                            <input type="checkbox" />
+                            <span>
+                                <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
+                                <?= DateHelper::FormatDate($dates['EndDatum']); ?>,
+                                Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
+                            </span>
+                        </label>
+                    </li>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
@@ -86,13 +130,27 @@ $helper = new DataHelper();
                 Auszubildene, die länger in Abteilungen sind als vorgeschrieben
             </div>
 
-            <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $id_abteilung) : ?>
+            <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $abteilungen) : ?>
+                <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
-                <div>
-                    <?= $helper->GetAzubis($id_azubi)->Nachname; ?>,
-                    <?= $helper->GetAzubis($id_azubi)->Vorname; ?>:
-                    <?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
-                </div>
+                <li>
+                    <label>
+                        <input type="checkbox" />
+                        <span>
+
+                            <?= $azubi->Nachname; ?>,
+                            <?= $azubi->Vorname; ?>:
+
+                            <?php $abteilungenWithErrors = []; ?>
+                            <?php foreach ($abteilungen as $id_abteilung) : ?>
+                                <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
+                            <?php endforeach; ?>
+
+                            <?= implode(', ', $abteilungenWithErrors); ?>
+
+                        </span>
+                    </label>
+                </li>
 
             <?php endforeach; ?>
 

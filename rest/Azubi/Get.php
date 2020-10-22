@@ -1,9 +1,13 @@
 <?php
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Azubis, sortiert nach dem Nachnamen.
+ */
 
-global $pdo;
+use core\helper\DataHelper;
 
-$statement = $pdo->prepare("SELECT * FROM " . T_AUSZUBILDENDE . " ORDER BY `Nachname` ASC;");
-$statement->execute();
-$auszubildende = $statement->fetchAll(PDO::FETCH_ASSOC);
+include_once(dirname(dirname(__DIR__)) . '/config.php');
+
+$auszubildende = (new DataHelper())->GetAzubis();
 exit(json_encode($auszubildende));

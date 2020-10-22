@@ -1,9 +1,13 @@
 <?php
-include_once(dirname(dirname(__DIR__)) . "/config.php");
+/**
+ * Get.php
+ *
+ * Der API-Endpunkt zum Holen aller Abteilungen, sortiert nach der Bezeichnung.
+ */
 
-global $pdo;
+use core\helper\DataHelper;
 
-$statement = $pdo->prepare("SELECT * FROM " . T_ABTEILUNGEN . " ORDER BY Bezeichnung ASC;");
-$statement->execute();
-$abteilungen = $statement->fetchAll(PDO::FETCH_ASSOC);
+include_once(dirname(dirname(__DIR__)) . '/config.php');
+
+$abteilungen = (new DataHelper())->GetAbteilungen();
 exit(json_encode($abteilungen));

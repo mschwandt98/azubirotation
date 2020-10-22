@@ -1,33 +1,48 @@
 <?php
-if (array_key_exists("id", $_POST) && array_key_exists("name", $_POST) && array_key_exists("email", $_POST) && array_key_exists("id_abteilung", $_POST)) {
+/**
+ * Edit.php
+ *
+ * Der API-Endpunkt zum Bearbeiten eines Ansprechpartners.
+ */
 
-    $id = intval($_POST["id"]);
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $id_abteilung = intval($_POST["id_abteilung"]);
+use models\Ansprechpartner;
 
-    if (!empty($id) && !empty($name) && !empty($email) && !empty($id_abteilung)) {
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+if (is_logged_in() && is_token_valid()) {
 
-        global $pdo;
+    if (array_key_exists('id', $_POST) && array_key_exists('name', $_POST) && array_key_exists('email', $_POST) && array_key_exists('id_abteilung', $_POST)) {
 
-        $statement = $pdo->prepare(
-            "UPDATE " . T_ANSPRECHPARTNER . "
-            SET Name = :name, Email = :email, ID_Abteilung = :id_abteilung
-            WHERE ID = :id"
-        );
+        $id             = sanitize_string($_POST['id']);
+        $name           = sanitize_string($_POST['name']);
+        $email          = sanitize_string($_POST['email']);
+        $id_abteilung   = sanitize_string($_POST['id_abteilung']);
 
-        if ($statement->execute([
-            ":id"           => $id,
-            ":name"         => $name,
-            ":email"        => $email,
-            ":id_abteilung" => $id_abteilung])) {
+        if (!empty($id) && !empty($name) && !empty($email) && !empty($id_abteilung)) {
 
-            http_response_code(200);
-            exit;
+            global $pdo;
+            $ansprechpartner = new Ansprechpartner($name, $email, $id_abteilung, $id);
+
+            $statement = $pdo->prepare(
+                'UPDATE ' . T_ANSPRECHPARTNER . '
+                SET Name = :name, Email = :email, ID_Abteilung = :id_abteilung
+                WHERE ID = :id'
+            );
+
+            if ($statement->execute([
+                ':id'           => $ansprechpartner->ID,
+                ':name'         => $ansprechpartner->Name,
+                ':email'        => $ansprechpartner->Email,
+                ':id_abteilung' => $ansprechpartner->ID_Abteilung ])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
 }
 
-http_response_code(400);
+http_response_code(401);

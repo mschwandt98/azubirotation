@@ -1,3 +1,14 @@
+/**
+ * variables.scss
+ *
+ * Definierte SCSS-Variablen für den Gebrauch in anderen SCSS-Dateien. Häufig
+ * verwendete Werte werden hier definiert.
+ *
+ * Index
+ * - Farben
+ * - Standardisierte Breakpoints
+ */
+
 $selectline-blue: #009fda;
 $selectline-blue-hover: #0c88b9;
 $selectline-dark-blue: #003359;
@@ -6,3 +17,13 @@ $selectline-text-blue: #4b556a;
 $gray: #bdbdcb;
 
 $rgba-selectline-blue: rgba(0, 159, 218, 0.4);
+
+// common breakpoints
+$xs-max: 575px;
+$sm-min: 576px;
+$sm-max: 767px;
+$md-min: 768px;
+$md-max: 991px;
+$lg-min: 992px;
+$lg-max: 1199px;
+$xl-min: 1200px;

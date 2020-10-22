@@ -20,11 +20,11 @@ CREATE TABLE `abteilungen` (
 CREATE TABLE `accounts` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Username` varchar(30) NOT NULL,
-  `Password` varchar(30) NOT NULL
+  `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `accounts` (`ID`, `Username`, `Password`) VALUES
-(1, 'sa', 'sl$001');
+(1, 'sa', '$2y$10$Z8T5tsr6NRWzPGda6krGqeQk/HRKa8MUvdycYFrkm09GlL4s2JWXW');
 
 CREATE TABLE `ansprechpartner` (
   `ID` bigint(20) UNSIGNED NOT NULL,
@@ -54,8 +54,18 @@ CREATE TABLE `pläne` (
   `ID_Ansprechpartner` bigint(20) UNSIGNED DEFAULT NULL,
   `ID_Abteilung` bigint(20) UNSIGNED DEFAULT NULL,
   `Startdatum` date NOT NULL,
-  `Enddatum` date NOT NULL
+  `Enddatum` date NOT NULL,
+  `Termin` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `settings` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `settings` (`ID`, `name`, `value`) VALUES
+(1, 'allow-registration', 'true');
 
 CREATE TABLE `standardpläne` (
   `ID` bigint(20) UNSIGNED NOT NULL,
@@ -97,6 +107,11 @@ ALTER TABLE `pläne`
   ADD KEY `ID_Ansprechpartner` (`ID_Ansprechpartner`),
   ADD KEY `ID_Abteilung` (`ID_Abteilung`);
 
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `ID` (`ID`),
+  ADD UNIQUE KEY `name` (`name`);
+
 ALTER TABLE `standardpläne`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`),
@@ -121,6 +136,9 @@ ALTER TABLE `auszubildende`
 
 ALTER TABLE `pläne`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `settings`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `standardpläne`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;

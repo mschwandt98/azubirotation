@@ -1,5 +1,14 @@
+<?php
+/**
+ * Standardplaene.php
+ *
+ * Die Template für die Formulare zum Anzeigen, Anlegen, Bearbeiten und Löschen
+ * von Standardplänen.
+ */
+?>
+
 <div class="data-item">
-    <div class="minimize-data-item"></div>
+    <div class="icon-minus"></div>
     <div class="title">Standardpläne</div>
     <div class="show-add-buttons">
         <input type="button" id="ShowStandardplaeneButton" value="Anzeigen" />
@@ -9,22 +18,22 @@
     <form id="AddStandardplanForm" method="post" style="display: none;">
         <label>
             <span>Ausbildungsberuf auswählen</span>
-            <select name="id_ausbildungsberuf"></select>
+            <select name="id_ausbildungsberuf" required></select>
         </label>
         <div class="plan-phasen">
             <div class="phase">
                 <label>
                     <span>Abteilung auswählen</span>
-                    <select name="id_abteilung"></select>
+                    <select name="id_abteilung" required></select>
                 </label>
                 <label>
-                    <span>Wochen: </span><input type="number" name="wochen" />
+                    <span>Wochen</span><input type="number" name="wochen" required />
                 </label>
                 <label>
-                    <span>Präferieren: </span><input type="checkbox" name="praeferieren" />
+                    <span>Präferieren</span><input type="checkbox" name="praeferieren" />
                 </label>
                 <label>
-                    <span>Optional: </span><input type="checkbox" name="optional" />
+                    <span>Optional</span><input type="checkbox" name="optional" />
                 </label>
                 <input type="button" class="delete-phase" value="Phase löschen" />
             </div>
@@ -37,6 +46,18 @@
         </div>
     </form>
     <form id="EditStandardplanForm" method="post" style="display: none;">
+        <style>
+            #EditStandardplanForm .plan > div:first-of-type {
+                font-weight: bold;
+                margin: 16px 0;
+            }
+            #EditStandardplanForm .plan .plan-phasen .phase {
+                border-bottom: 1px solid #bdbdcb;
+            }
+            #EditStandardplanForm .plan .plan-phasen .phase:last-of-type {
+                border-bottom: 0;
+            }
+        </style>
         <input type="hidden" name="id_ausbildungsberuf" />
         <div class="plan"></div>
         <div>

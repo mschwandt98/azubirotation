@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="azubirotation" default="index">
+    <property name="ver" value="1.0.0" />
+    <property file="build.properties" />
+
+    <target name="index">
+        <mkdir dir="./build" />
+        <copy todir="./build">
+            <fileset dir=".">
+                <include name=".htaccess" />
+                <include name="favicon.ico" />
+                <include name="**/*.php" />
+                <include name="assets/css/*.css" />
+                <include name="assets/css/*.map" />
+                <include name="assets/js/*.js" />
+                <exclude name="assets/css/dev/**" />
+                <exclude name="assets/js/dev/**" />
+                <exclude name="build/**" />
+                <exclude name="docs/**" />
+                <exclude name="node_modules/**" />
+                <exclude name="vendor/**" />
+            </fileset>
+        </copy>
+    </target>
+</project>

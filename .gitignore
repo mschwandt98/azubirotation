@@ -1,5 +1,14 @@
-/node_modules
-/assets/css/*.css
-/assets/css/*.map
+/composer.lock
+/package-lock.json
+
 /.vscode
 /.git
+/assets/css/*.css
+/assets/css/*.map
+/assets/js/*.js/assets/css/*.css
+/assets/css/*.map
+/assets/js/*.js
+/build
+/docs
+/node_modules
+/vendor

@@ -1,0 +1,92 @@
+/**
+ * icons.scss
+ *
+ * Enthält Icon-Klassen
+ *
+ * Index
+ * - Rechteck rechts,
+ * - Rechteck unten
+ * - Plus
+ * - Minus
+ */
+
+.icon-triangle-b,
+.icon-triangle-r {
+    border-style: solid;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 8px;
+    height: 0;
+    width: 0;
+}
+
+.icon-triangle-b {
+    border-color: $selectline-blue transparent transparent transparent;
+    border-width: 8px 6px 0 6px;
+
+    &:hover {
+        border-color: $selectline-dark-blue transparent transparent transparent;
+    }
+}
+
+.icon-triangle-r {
+    border-color: transparent transparent transparent $selectline-blue;
+    border-width: 6px 0 6px 8px;
+
+    &:hover {
+        border-color: transparent transparent transparent $selectline-dark-blue;
+    }
+}
+
+.icon-minus,
+.icon-plus {
+    align-items: center;
+    background-color: $selectline-dark-blue;
+    border-radius: 8px;
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    height: 24px;
+    width: 24px;
+
+    &:hover {
+        background-color: $selectline-blue;
+        cursor: pointer;
+    }
+}
+
+.icon-minus:before {
+    background:white;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 50%;
+}
+
+.icon-plus {
+    &:before,
+    &:after {
+        background:white;
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    &:before {
+        margin: 6px auto;
+        width: 2px;
+    }
+
+    &:after {
+        height: 2px;
+        margin: auto 6px;
+    }
+}

@@ -1,42 +1,46 @@
 <?php
-use Core\Helper\DataHelper;
+use core\helper\DataHelper;
 
-include_once(dirname(dirname(__DIR__)) . "/config.php");
-include_once(HELPER . "/DataHelper.php");
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-$helper = new DataHelper();
+if (is_logged_in() && is_token_valid()) {
 
-$ansprechpartner = $helper->GetAnsprechpartner();
-$azubis = $helper->GetAzubis();
+    $helper = new DataHelper();
 
-$emails = [];
-foreach ($ansprechpartner as $person) $emails[] = $person->Email;
-foreach ($azubis as $person) $emails[] = $person->Email;
+    $ansprechpartner = $helper->GetAnsprechpartner();
+    $azubis = $helper->GetAzubis();
 
-$empfaenger = implode(", ", $emails);
-$betreff = "Änderungen an der Azubirotation";
-$url = $_SERVER["HTTP_REFERER"];
-$nachricht = "
-<html>
-<head>
-    <title>$betreff</title>
-</head>
-<body>
-    <div>Es wurden Änderungen an der Azubirotation vorgenommen.</div>
-    <div>
-        Klicke <a href=\"$url\">hier</a>, um den aktuellen Ausbildungsplan dir anzuschauen.
-    </div>
-</body>
-</html>
-";
+    $emails = [];
+    foreach ($ansprechpartner as $person) $emails[] = $person->Email;
+    foreach ($azubis as $person) $emails[] = $person->Email;
 
-$header[] = 'MIME-Version: 1.0';
-$header[] = 'Content-type: text/html; charset=iso-8859-1';
+    $empfaenger = implode(', ', $emails);
+    $betreff = '=?utf-8?b?' . base64_encode('Änderungen an der Azubirotation') . '?=';
+    $url = $_SERVER['HTTP_REFERER'];
+    $nachricht = '
+    <html>
+    <head>
+        <title>' . $betreff . '</title>
+    </head>
+    <body>
+        <div>Es wurden Änderungen an der Azubirotation vorgenommen.</div>
+        <div>
+            Klicke <a href=' . $url . '>hier</a>, um den aktuellen Ausbildungsplan dir anzuschauen.
+        </div>
+    </body>
+    </html>';
 
-if (mail($empfaenger, $betreff, $nachricht, implode("\r\n", $header))) {
-    http_response_code(200);
-    exit();
+    $header[] = 'MIME-Version: 1.0';
+    $header[] = 'Content-type: text/html; charset=utf-8';
+
+    if (mail($empfaenger, $betreff, minifier($nachricht), implode("\r\n", $header))) {
+        http_response_code(200);
+    } else {
+        http_response_code(400);
+    }
+    exit;
 }
 
-http_response_code(400);
-exit();
+http_response_code(401);
+exit;

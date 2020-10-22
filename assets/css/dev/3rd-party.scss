@@ -1,29 +1,18 @@
 /**
- * @seen https://gist.github.com/tbmiller/6675197
- * @seen https://gist.github.com/hellojosh/5270953
+ * 3rd-party.scss
+ *
+ * Drittanbieter-Styles, die an das Design der Anwendung angepasst wurden. Beim
+ * Hinzufügen weiterer Drittanbieter-Styles immer die Quelle im Kommentar mit
+ * @seen kennzeichnen.
+ *
+ * Index
+ * - Schatten für vertikales Scrollen
+ * - Ladebalken
  */
 
-.horizontal-scroll {
-    background:
-        linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
-        linear-gradient(-90deg, white 0%, rgba(255, 255, 255, 0)) 100% 0,
-        radial-gradient(
-            farthest-side at 0% 50%,
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0)
-        ),
-        radial-gradient(
-            farthest-side at 100% 50%,
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0)
-        ) 100% 0%;
-    background-repeat: no-repeat;
-    background-color: white;
-    background-size: 100px 137px, 100px 137px, 14px 137px, 14px 137px;
-    background-attachment: local, local, scroll, scroll;
-    overflow-x: auto;
-}
-
+/**
+ * @seen https://gist.github.com/hellojosh/5270953
+ */
 .vertical-scroll {
     background:
         linear-gradient(white 30%, hsla(0, 0%, 100%, 0)),
@@ -33,4 +22,48 @@
     background-repeat: no-repeat;
     background-size: 100% 20px, 100% 20px, 100% 10px, 100% 10px;
     background-attachment: local, local, scroll, scroll;
+}
+
+/**
+ * @seen https://tobiasahlin.com/spinkit/
+ */
+#LoadingSpinner {
+    margin: auto;
+    width: 70px;
+
+    > div {
+        width: 18px;
+        height: 18px;
+        background-color: $selectline-blue;
+
+        border-radius: 100%;
+        display: inline-block;
+        -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+
+    .bounce-1 {
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
+
+    .bounce-2 {
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+    }
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    } 40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
 }

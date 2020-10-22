@@ -1,23 +1,47 @@
 <?php
-if (array_key_exists("id", $_POST)) {
+/**
+ * Delete.php
+ *
+ * Der API-Endpunkt zum Löschen einer Abteilung.
+ */
 
-    $id = intval($_POST["id"]);
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-    if ($id !== 0 && !empty($id)) {
+if (is_logged_in() && is_token_valid()) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+    if (array_key_exists('id', $_POST)) {
 
-        global $pdo;
+        $id = intval(sanitize_string($_POST['id']));
 
-        $statement = $pdo->prepare(
-            "DELETE FROM " . T_ABTEILUNGEN . " WHERE ID = :id;"
-        );
+        if ($id !== 0 && !empty($id)) {
 
-        if ($statement->execute([":id" => $id])) {
-            http_response_code(200);
-            exit;
+            global $pdo;
+
+            ($pdo->prepare(
+                'UPDATE ' . T_ANSPRECHPARTNER . ' SET ID_Abteilung = :null WHERE ID_Abteilung = :id;'
+            ))->execute([ ':null' => null, ':id'   => $id ]);
+
+            ($pdo->prepare(
+                'DELETE FROM ' . T_STANDARDPLAENE . ' WHERE ID_Abteilung = :id;'
+            ))->execute([ ':id' => $id ]);
+
+            ($pdo->prepare(
+                'DELETE FROM ' . T_PLAENE . ' WHERE ID_Abteilung = :id;'
+            ))->execute([ ':id' => $id ]);
+
+            $statement = $pdo->prepare('DELETE FROM ' . T_ABTEILUNGEN . ' WHERE ID = :id;');
+
+            if ($statement->execute([ ':id' => $id ])) {
+
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);

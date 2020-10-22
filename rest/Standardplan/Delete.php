@@ -1,23 +1,36 @@
 <?php
-if (array_key_exists("id_ausbildungsberuf", $_POST)) {
+/**
+ * Delete.php
+ *
+ * Der API-Endpunkt zum Löschen eines Standardplans.
+ */
 
-    $id = intval($_POST["id_ausbildungsberuf"]);
+session_start();
+include_once(dirname(dirname(__DIR__)) . '/config.php');
 
-    if ($id !== 0 && !empty($id)) {
+if (is_logged_in() && is_token_valid()) {
 
-        include_once(dirname(dirname(__DIR__)) . "/config.php");
+    if (array_key_exists('id_ausbildungsberuf', $_POST)) {
 
-        global $pdo;
+        $id = intval(sanitize_string($_POST['id_ausbildungsberuf']));
 
-        $statement = $pdo->prepare(
-            "DELETE FROM " . T_STANDARDPLAENE . " WHERE ID_Ausbildungsberuf = :id;"
-        );
+        if ($id !== 0 && !empty($id)) {
 
-        if ($statement->execute([":id" => $id])) {
-            http_response_code(200);
-            exit;
+            global $pdo;
+
+            $statement = $pdo->prepare(
+                'DELETE FROM ' . T_STANDARDPLAENE . ' WHERE ID_Ausbildungsberuf = :id;'
+            );
+
+            if ($statement->execute([':id' => $id])) {
+                http_response_code(200);
+                exit;
+            }
         }
     }
+
+    http_response_code(400);
+    exit;
 }
 
-http_response_code(400);
+http_response_code(401);
