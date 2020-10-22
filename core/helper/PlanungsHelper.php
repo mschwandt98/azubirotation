@@ -37,7 +37,7 @@ class PlanungsHelper {
     /**
      * @var Plan[] Die erstellten Pläne.
      */
-    public $Plaene = [];
+    public $CreatedPlans = [];
 
     /**
      * @var array Eine Liste von Phasen des Standardplans, die noch nicht verplant sind.
@@ -63,7 +63,7 @@ class PlanungsHelper {
      * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Cache etc)
      * kann diese Property entfernt werden.
      */
-    private $ExistingPlaene;
+    private $Plaene;
 
     /**
      * Vorbereitungen
@@ -74,7 +74,7 @@ class PlanungsHelper {
         $this->Azubi            = $azubi;
         $this->Helper           = new DataHelper();
         $this->Ansprechpartner  = $this->Helper->GetAnsprechpartner();
-        $this->ExistingPlaene   = $this->Helper->GetPlaene();
+        $this->Plaene           = $this->Helper->GetPlaene();
     }
 
     /**
@@ -98,7 +98,7 @@ class PlanungsHelper {
 
                 if (array_key_exists($abteilung->ID_Abteilung, $this->AbteilungenLeft)) {
 
-                    $lastPlanEndDate = end($this->Plaene)->Enddatum;
+                    $lastPlanEndDate = end($this->CreatedPlans)->Enddatum;
                     $startDate = DateHelper::DayAfter($lastPlanEndDate);
                     $zeitraeume = $this->CreateZeitraeume($startDate, $abteilung->Wochen);
                     $alleWochenFrei = true;
@@ -115,14 +115,7 @@ class PlanungsHelper {
                     }
 
                     if ($alleWochenFrei) {
-
-                        $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
-
-                        foreach ($zeitraeume as $zeitraum) {
-                            $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
-                        }
-
-                        unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
+                        $this->SetPlanAbteilung($abteilung->ID_Abteilung, $zeitraeume);
                     }
                 }
             }
@@ -142,19 +135,12 @@ class PlanungsHelper {
 
         foreach ($this->AbteilungenLeft as $abteilung) {
 
-            $lastPlanEndDate = end($this->Plaene)->Enddatum;
+            $lastPlanEndDate = end($this->CreatedPlans)->Enddatum;
             $startDate = DateHelper::DayAfter($lastPlanEndDate);
             $zeitraeume = $this->CreateZeitraeume($startDate, $abteilung->Wochen);
 
             if (!empty($zeitraeume)) {
-
-                $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
-
-                foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
-                }
-
-                unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
+                $this->SetPlanAbteilung($abteilung->ID_Abteilung, $zeitraeume);
             }
         }
 
@@ -201,15 +187,8 @@ class PlanungsHelper {
             }
 
             if ($alleWochenFrei) {
-
                 $eingetragen = true;
-                $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID_Abteilung);
-                unset($this->AbteilungenLeft[$abteilung->ID_Abteilung]);
-
-                foreach ($zeitraeume as $zeitraum) {
-                    $this->CreatePlanPhase($abteilung->ID_Abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
-                }
-
+                $this->SetPlanAbteilung($abteilung->ID_Abteilung, $zeitraeume);
                 break;
             }
         }
@@ -227,7 +206,7 @@ class PlanungsHelper {
 
             $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($randomAbteilung->ID_Abteilung);
 
-            for ($i = 0; $i <= $randomAbteilung->Wochen; $i++) {
+            for ($i = 0; $i < $randomAbteilung->Wochen; $i++) {
                 $this->CreatePlanPhase($randomAbteilung->ID_Abteilung, $startDate, $endDate, $ansprechpartner);
                 $startDate = DateHelper::NextMonday($startDate);
                 $endDate = DateHelper::NextSunday($endDate);
@@ -271,7 +250,7 @@ class PlanungsHelper {
 
     /**
      * Erstellt eine neue Instanz des Models "Plan" und fügt diese den Plänen
-     * in $this->Plaene hinzu.
+     * in $this->CreatedPlans hinzu.
      *
      * @param Phase             $id_abteilung       Die ID der Abteilung, zu der
      *                                              der Plan erstellt werden
@@ -283,7 +262,7 @@ class PlanungsHelper {
      */
     private function CreatePlanPhase($id_abteilung, $startDate, $endDate, $ansprechpartner) {
 
-        $this->Plaene[] = new Plan(
+        $newPlan = new Plan(
             $this->Azubi->ID,
             (empty($ansprechpartner)) ? null : $ansprechpartner->ID,
             $id_abteilung,
@@ -291,6 +270,9 @@ class PlanungsHelper {
             $endDate,
             ''
         );
+
+        $this->CreatedPlans[] = $newPlan;
+        $this->Plaene[] =$newPlan;
     }
 
     /**
@@ -341,7 +323,7 @@ class PlanungsHelper {
         $abteilungsPlaene = [];
         $belegteZeitraeume = []; // ... in Abteilungen
 
-        foreach ($this->ExistingPlaene as $plan) {
+        foreach ($this->Plaene as $plan) {
             if ($plan === $id_abteilung) {
                 $abteilungsPlaene[] = $plan;
             }
@@ -411,6 +393,25 @@ class PlanungsHelper {
     }
 
     /**
+     * Erstellt den Plan für eine Abteilung.
+     *
+     * @param int   $id_abteilung   Die ID der Abteilung, für die der Plan
+     *                              erstellt werden soll.
+     * @param array $zeitraeume     Die Zeiträume, in denen der Plan erstellt
+     *                              werden soll.
+     */
+    private function SetPlanAbteilung($id_abteilung, $zeitraeume) {
+
+        $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($id_abteilung);
+
+        foreach ($zeitraeume as $zeitraum) {
+            $this->CreatePlanPhase($id_abteilung, $zeitraum['Startdatum'], $zeitraum['Enddatum'], $ansprechpartner);
+        }
+
+        unset($this->AbteilungenLeft[$id_abteilung]);
+    }
+
+    /**
      * Mischt die Abteilungen anhand der Keys (Keys = IDs der Abteilungen).
      *
      * @param array $abteilungen Die zu mischenden Abteilungen.
@@ -438,7 +439,7 @@ class PlanungsHelper {
         /**
          * @see https://stackoverflow.com/questions/4282413/sort-array-of-objects-by-object-fields
          */
-        usort($this->Plaene, function ($a, $b) {
+        usort($this->CreatedPlans, function ($a, $b) {
             return strcmp($a->Startdatum, $b->Startdatum);
         });
     }

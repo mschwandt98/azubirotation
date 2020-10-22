@@ -63,7 +63,7 @@ if (!empty($abteilungen['Normale'])) {
     $planungsHelper->PlanAbteilungen($abteilungen['Normale']);
 }
 
-if (end($planungsHelper->Plaene)->Enddatum < $azubi->Ausbildungsende) {
+if (end($planungsHelper->CreatedPlans)->Enddatum < $azubi->Ausbildungsende) {
     $planungsHelper->PlanAbteilungen($abteilungen['Optionale']);
 }
 
@@ -74,7 +74,7 @@ if (!empty($planungsHelper->AbteilungenLeft)) {
 // Pläne eintragen
 $sql = '';
 
-foreach ($planungsHelper->Plaene as $plan) {
+foreach ($planungsHelper->CreatedPlans as $plan) {
 
     $sql .= 'INSERT INTO ' . T_PLAENE . '(ID_Auszubildender, ID_Ansprechpartner, ID_Abteilung, Startdatum, Enddatum)
         VALUES (' .
