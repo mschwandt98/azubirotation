@@ -30,7 +30,8 @@ class PlanungsHelper {
     public $Azubi;
 
     /**
-     * @var DataHelper Eine Instanz der DataHelper-Klasse zum Beschaffen von Daten.
+     * @var DataHelper Eine Instanz der DataHelper-Klasse zum Beschaffen von
+     *                 Daten.
      */
     public $Helper;
 
@@ -40,30 +41,43 @@ class PlanungsHelper {
     public $CreatedPlans = [];
 
     /**
-     * @var array Eine Liste von Phasen des Standardplans, die noch nicht verplant sind.
+     * @var array Eine Liste von Phasen des Standardplans, die noch nicht
+     *            verplant sind.
      */
     public $AbteilungenLeft = [];
 
     /**
-     * @var array Eine Liste von belegten in den einzelnen Abteilungen.
+     * @var array Eine Liste der belegten und freien Zeiträume der einzelnen
+     *            Abteilungen.
      */
-    private $BelegteZeitraeumeInAbteilungen = [];
+    private $StatusZeitraeume = [];
 
     /**
-     * @var array Alle in der Datenbank gespeicherten Ansprechpartner.
+     * @var Abteilung[] Alle in der Datenbank gespeicherten Abteilungen;
      *
-     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Cache etc)
+     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Caching)
+     * kann diese Property entfernt werden.
+     */
+    private $Abteilungen = [];
+
+    /**
+     * @var Ansprechpartner[] Alle in der Datenbank gespeicherten
+     *                        Ansprechpartner.
+     *
+     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Caching)
      * kann diese Property entfernt werden.
      */
     private $Ansprechpartner;
 
     /**
-     * @var array Alle in der Datenbank gespeicherten Pläne.
+     * @var Plan[] Alle in der Datenbank gespeicherten Pläne.
      *
-     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Cache etc)
+     * TODO: Sobald der DataHelper zur DB-Klasse ausgebaut wurde (mit Caching)
      * kann diese Property entfernt werden.
      */
     private $Plaene;
+
+    private const MIN_WOCHEN = 4;
 
     /**
      * Vorbereitungen
@@ -75,6 +89,10 @@ class PlanungsHelper {
         $this->Helper           = new DataHelper();
         $this->Ansprechpartner  = $this->Helper->GetAnsprechpartner();
         $this->Plaene           = $this->Helper->GetPlaene();
+
+        foreach ($this->Helper->GetAbteilungen() as $abteilung) {
+            $this->Abteilungen[$abteilung->ID] = $abteilung;
+        }
     }
 
     /**
@@ -211,6 +229,8 @@ class PlanungsHelper {
                 $startDate = DateHelper::NextMonday($startDate);
                 $endDate = DateHelper::NextSunday($endDate);
             }
+
+            unset($this->StatusZeitraeume[$abteilung->ID_Abteilung]);
         }
 
         $this->SortPlaene();
@@ -302,63 +322,108 @@ class PlanungsHelper {
     }
 
     /**
-     * Ermittelt die belegten Zeiträume einer Abteilung.
-     * Ein Zeitraum gilt als belegt, sobald ein Azubi für diesen Zeitraum
-     * geplant ist. Es heißt nicht, dass die maximale Anzahl an Azubis für die
-     * Abteilung innerhalb dieses Zeitraums bereits erreicht ist.
+     * Gibt die Zeiträume der Abteilung zurück unterteilt in belegte und freie
+     * Zeiträume.
+     * Die belegten Zeiträume sind die Zeiträume, in denen bereits die maximale
+     * Anzahl an Azubis erreicht wurde.
+     * Die freien Zeiträume sind die Zeiträume, in denen noch kein Azubi oder
+     * weniger Azubis als maximal zulässig verplant sind.
      *
-     * @param int $id_abteilung Die ID der Abteilung, zu der die belegten
-     *                          Zeiträume ermittelt werden sollen.
+     * @param int $id_abteilung Die ID der Abteilung, zu der die belegten und
+     *                          freien Zeiträume ermittelt werden sollen.
      *
-     * @return array Die belegten Zeiträume.
+     * @return array Die belegten und freien Zeiträume der Abteilung.
      *               Aufbau des Arrays:
      *               [
-     *                   (Startdatum_1 Enddatum_2) => Anzahl an Azubis,
-     *                   ...
-     *                   (Startdatum_n Enddatum_n) => Anzahl an Azubis
+     *                  "belegt"    => [ "1970-01-01 1970-07-01", ... ]
+     *                  "frei"      => [ "1970-08-01 1970-14-01", ... ]
      *               ]
      */
-    private function GetBelegteZeitraeumeInAbteilungen($id_abteilung) {
+    private function GetZeitraeumeOfAbteilung($id_abteilung) {
+
+        $zeitraeume = [
+            "belegt"    => [],
+            "frei"      => []
+        ];
+        $verplanteZeitraeume = [];
+        $plaene = $this->GetPlaeneOfAbteilung($id_abteilung);
+
+        // Verplante Zeiträume mit Azubis in dieser Zeit sammeln
+        foreach ($plaene as $plan) {
+
+            $startDate = $plan->Startdatum;
+            $endDate = $plan->Enddatum;
+            $timePeriodString = DateHelper::BuildTimePeriodString($startDate, $endDate);
+
+            if (empty($verplanteZeitraeume)) {
+                $verplanteZeitraeume[$timePeriodString] = 1;
+                continue;
+            }
+
+            $eingetragen = false;
+            foreach ($verplanteZeitraeume as $zeitraum => $anzahlAzubis) {
+
+                if ($timePeriodString === $zeitraum) {
+                    $verplanteZeitraeume[$zeitraum]++;
+                    $eingetragen = true;
+                }
+            }
+
+            if (!$eingetragen) {
+                $verplanteZeitraeume[$timePeriodString] = 1;
+            }
+        }
+        ksort($verplanteZeitraeume);
+
+        // Anhand der verplanten Zeiträume die freien und belegten Zeiträume
+        // ermitteln
+        $lastEndDate = "";
+        foreach ($verplanteZeitraeume as $zeitraum => $anzahlAzubis) {
+
+            $dates = DateHelper::GetDatesFromString($zeitraum);
+
+            if (!empty($lastEndDate || $lastEndDate < $dates["StartDatum"])) {
+
+                $zeitraeume["frei"][] = DateHelper::BuildTimePeriodString(
+                    DateHelper::DayAfter($lastEndDate),
+                    DateHelper::DayBefore($dates["StartDatum"])
+                );
+            }
+
+            if ($anzahlAzubis < $this->Abteilungen[$id_abteilung]->MaxAzubis) {
+                $zeitraeume["frei"][] = $zeitraum;
+            } else {
+                $zeitraeume["belegt"][] = $zeitraum;
+            }
+
+            $lastEndDate = $dates["EndDatum"];
+        }
+
+        // Zeiträume aufsteigend sortieren
+        ksort($zeitraeume["belegt"]);
+        ksort($zeitraeume["frei"]);
+
+        return $zeitraeume;
+    }
+
+    /**
+     * Gibt die Pläne einer Abteilung zurück.
+     *
+     * @param int $id_abteilung Die ID der Abteilung, zu der die Pläne
+     *                          zurückgegeben werden sollen.
+     *
+     * @param Plan[] Die Pläne zu der Abteilung.
+     */
+    private function GetPlaeneOfAbteilung($id_abteilung) {
 
         $abteilungsPlaene = [];
-        $belegteZeitraeume = []; // ... in Abteilungen
-
         foreach ($this->Plaene as $plan) {
             if ($plan === $id_abteilung) {
                 $abteilungsPlaene[] = $plan;
             }
         }
 
-        if (!empty($abteilungsPlaene)) {
-
-            foreach ($abteilungsPlaene as $plan) {
-
-                $startDate = $plan->Startdatum;
-                $endDate = $plan->Enddatum;
-                $timePeriodString = DateHelper::BuildTimePeriodString($startDate, $endDate);
-
-                if (empty($belegteZeitraeume)) {
-                    $belegteZeitraeume[$timePeriodString] = 1;
-                    continue;
-                }
-
-                $eingetragen = false;
-                foreach ($belegteZeitraeume as $zeitraum => $anzahlAzubis) {
-
-                    if ($timePeriodString === $zeitraum) {
-                        $belegteZeitraeume[$zeitraum]++;
-                        $eingetragen = true;
-                    }
-                }
-
-                if (!$eingetragen) {
-                    $belegteZeitraeume[$timePeriodString] = 1;
-                }
-            }
-        }
-
-        ksort($belegteZeitraeume);
-        return $belegteZeitraeume;
+        return $abteilungsPlaene;
     }
 
     /**
@@ -376,20 +441,15 @@ class PlanungsHelper {
      */
     private function IsZeitraumInAbteilungFrei($timePeriod, $id_abteilung) {
 
-        $abteilung = $this->Helper->GetAbteilungen($id_abteilung);
-
-        if (!array_key_exists($id_abteilung, $this->BelegteZeitraeumeInAbteilungen)) {
-            $this->BelegteZeitraeumeInAbteilungen[$id_abteilung] = $this->GetBelegteZeitraeumeInAbteilungen($id_abteilung);
+        if (!array_key_exists($id_abteilung, $this->StatusZeitraeume)) {
+            $this->StatusZeitraeume[$id_abteilung] = $this->GetZeitraeumeOfAbteilung($id_abteilung);
         }
 
-        if (array_key_exists($timePeriod, $this->BelegteZeitraeumeInAbteilungen[$id_abteilung])) {
-
-            if ($this->BelegteZeitraeumeInAbteilungen[$id_abteilung][$timePeriod] >= $abteilung->MaxAzubis) {
-                return false;
-            }
+        if (array_key_exists($timePeriod, $this->StatusZeitraeume[$id_abteilung]["frei"])) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -409,6 +469,7 @@ class PlanungsHelper {
         }
 
         unset($this->AbteilungenLeft[$id_abteilung]);
+        unset($this->StatusZeitraeume[$id_abteilung]);
     }
 
     /**
