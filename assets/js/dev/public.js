@@ -27,7 +27,7 @@ jQuery(function($) {
                     }
 
                     $("#Plan").animate({
-                        'scrollLeft': scrollLeft
+                        "scrollLeft": scrollLeft
                     }, 400)
 
                     break;
