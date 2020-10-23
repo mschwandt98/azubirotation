@@ -285,7 +285,19 @@ jQuery(function($) {
                 tdItems.push(currentTd);
             } else {
 
-                if ($(tdItems[0]).closest("tr").data("id") == currentTd.closest("tr").data("id")) {
+                let lastAddedTd = $(tdItems[tdItems.length - 1]);
+                let currentTdDate = currentTd.data("date");
+
+                if (lastAddedTd.closest("tr").data("id") != currentTd.closest("tr").data("id")) return;
+                if (lastAddedTd.data("date") == currentTdDate) return;
+
+                if (lastAddedTd.prev().data("date") == currentTdDate) {
+                    currentTd.removeClass("selected");
+                    lastAddedTd.removeClass("selected");
+                    // 2 Mal, da currentTd und lastAddedTd im Array vorhanden sind und beide entfernt werden müssen
+                    tdItems.pop();
+                    tdItems.pop();
+                } else if (lastAddedTd.next().data("date") == currentTdDate) {
 
                     let exists = false;
 
@@ -473,6 +485,7 @@ jQuery(function($) {
                         .removeClass("selected")
                         .empty();
                 });
+                SetPopupContent("");
                 return;
             }
 
