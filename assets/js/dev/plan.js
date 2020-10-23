@@ -280,24 +280,6 @@ jQuery(function($) {
             if (!clicking) return;
             var currentTd = $(e.target);
 
-            let thWidth = 0;
-            currentTd.closest("tr").find("th").each(function(index) {
-                thWidth += parseInt($(this).width());
-            });
-
-            let windowWidth = $(window).innerWidth();
-            let leftOffset = currentTd.offset().left;
-            let currentTdWidth = currentTd.outerWidth();
-            if (leftOffset + currentTdWidth * 5 > windowWidth) {
-                $("#Plan").animate({
-                    "scrollLeft": $("#Plan").scrollLeft() + currentTdWidth
-                }, 25);
-            } else if (leftOffset - currentTdWidth * 5 < thWidth) {
-                $("#Plan").animate({
-                    "scrollLeft": $("#Plan").scrollLeft() - currentTdWidth
-                }, 25);
-            }
-
             if (tdItems.length < 1) {
                 currentTd.addClass("selected");
                 tdItems.push(currentTd);
@@ -338,6 +320,26 @@ jQuery(function($) {
                     }
                 }
             }
+
+            // Automatisches Scollen Anfang
+            let thWidth = 0;
+            currentTd.closest("tr").find("th").each(function(index) {
+                thWidth += parseInt($(this).width());
+            });
+
+            let windowWidth = $(window).innerWidth();
+            let leftOffset = currentTd.offset().left;
+            let currentTdWidth = currentTd.outerWidth();
+            if (leftOffset + currentTdWidth * 5 > windowWidth) {
+                $("#Plan").animate({
+                    "scrollLeft": $("#Plan").scrollLeft() + currentTdWidth
+                }, 25);
+            } else if (leftOffset - currentTdWidth * 5 < thWidth) {
+                $("#Plan").animate({
+                    "scrollLeft": $("#Plan").scrollLeft() - currentTdWidth
+                }, 25);
+            }
+            // Automatisches Scollen Ende
         });
 
         /**
