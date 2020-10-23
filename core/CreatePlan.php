@@ -71,6 +71,10 @@ if (!empty($planungsHelper->AbteilungenLeft)) {
     $planungsHelper->PlanLeftAbteilungen();
 }
 
+if (!empty($abteilungen['Praeferierte'])) {
+    $planungsHelper->PlanLeftZeitraeume($abteilungen['Praeferierte']);
+}
+
 // Pläne eintragen
 $sql = '';
 
