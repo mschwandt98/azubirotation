@@ -291,13 +291,14 @@ jQuery(function($) {
                 if (lastAddedTd.closest("tr").data("id") != currentTd.closest("tr").data("id")) return;
                 if (lastAddedTd.data("date") == currentTdDate) return;
 
-                if (lastAddedTd.prev().data("date") == currentTdDate) {
-                    currentTd.removeClass("selected");
+                let nextTd = lastAddedTd.next();
+                let prevTd = lastAddedTd.prev();
+
+                if ((prevTd.data("date") == currentTdDate && prevTd.hasClass("selected")) ||
+                    (nextTd.data("date") == currentTdDate && nextTd.hasClass("selected"))) {
                     lastAddedTd.removeClass("selected");
-                    // 2 Mal, da currentTd und lastAddedTd im Array vorhanden sind und beide entfernt werden müssen
                     tdItems.pop();
-                    tdItems.pop();
-                } else if (lastAddedTd.next().data("date") == currentTdDate) {
+                } else if (prevTd.data("date") == currentTdDate || nextTd.data("date") == currentTdDate) {
 
                     let exists = false;
 
@@ -315,7 +316,7 @@ jQuery(function($) {
                     if (!exists) {
                         currentTd.addClass("selected");
                         tdItems.push(currentTd);
-                        tdItems.sort(SortTdItems);
+                        // tdItems.sort(SortTdItems);
                     }
                 }
             }
