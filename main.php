@@ -41,6 +41,7 @@
     <div>
         <span style="display: none; color: limegreen;">Die Benachrichtigungen wurden erfolgreich versendet.</span>
         <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+        <input type="button" id="PrintPlan" value="Plan drucken" />
     </div>
 </div>
 <div id="PlanErrors"></div>
