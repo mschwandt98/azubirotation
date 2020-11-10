@@ -127,6 +127,10 @@
     }
 }
 
+#Plan .plan-phase {
+    cursor: cell;
+}
+
 #Popup {
     position: absolute;
     z-index: 9999;

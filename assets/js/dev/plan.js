@@ -287,9 +287,10 @@ jQuery(function($) {
 
                 let lastAddedTd = $(tdItems[tdItems.length - 1]);
                 let currentTdDate = currentTd.data("date");
+                let lastAddedTdDate = lastAddedTd.data("date");
 
                 if (lastAddedTd.closest("tr").data("id") != currentTd.closest("tr").data("id")) return;
-                if (lastAddedTd.data("date") == currentTdDate) return;
+                if (lastAddedTdDate == currentTdDate) return;
 
                 let nextTd = lastAddedTd.next();
                 let prevTd = lastAddedTd.prev();
@@ -317,6 +318,26 @@ jQuery(function($) {
                         currentTd.addClass("selected");
                         tdItems.push(currentTd);
                     }
+                } else if (currentTdDate < lastAddedTdDate) {
+
+                    let td = lastAddedTd;
+
+                    while (currentTdDate < td.data("date")) {
+                        td = td.prev();
+                        td.addClass("selected");
+                        tdItems.push(td);
+                    }
+
+                } else if (currentTdDate > lastAddedTdDate) {
+
+                    let td = lastAddedTd;
+
+                    while (currentTdDate > td.data("date")) {
+                        td = td.next();
+                        td.addClass("selected");
+                        tdItems.push(td);
+                    }
+
                 }
             }
 
