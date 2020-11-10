@@ -316,7 +316,6 @@ jQuery(function($) {
                     if (!exists) {
                         currentTd.addClass("selected");
                         tdItems.push(currentTd);
-                        // tdItems.sort(SortTdItems);
                     }
                 }
             }
