@@ -10,6 +10,38 @@
  * - Minus
  */
 
+.icon-close {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    opacity: 0.3;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    &:before,
+    &:after {
+        position: absolute;
+        left: 8px;
+        content: ' ';
+        height: 16px;
+        width: 2px;
+        background-color: $selectline-dark-blue;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+}
+
 .icon-triangle-b,
 .icon-triangle-r {
     border-style: solid;

@@ -738,6 +738,7 @@ jQuery(function($) {
                 url: API + "Plan/Test",
                 data: { csrfToken: $("#CsrfToken").val() },
                 success: function(response) {
+                    console.log(response);
                     if (response == true) {
                         $("#PlanErrors").html(
                             $("<div></div>")
@@ -757,6 +758,21 @@ jQuery(function($) {
                 },
                 error: function() {
                     HandleError("Es traten Fehler bei der Authentifizierung auf.");
+                }
+            });
+        });
+
+        $("#PlanErrors").on("click", 'input[type="checkbox"]', function() {
+
+            let checkbox = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: API + "Plan/MarkError",
+                data: {
+                    csrfToken: $("#CsrfToken").val(),
+                    id_error: checkbox.data("id-error"),
+                    bool: checkbox.prop("checked")
                 }
             });
         });

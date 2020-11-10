@@ -211,11 +211,167 @@ if (empty($errors)) {
 }
 
 $errors = SumUpTimePeriods($errors);
+$errors = SaveErrors($errors);
+
+if (empty($errors)) {
+    exit(true);
+}
 
 ob_start('minifier');
 include_once(BASE . '/templates/PlanErrors.php');
 ob_end_flush();
 exit;
+
+/**
+ * Die gefundenen Fehler werden in der Datenbank gespeichert. Sofern dieser
+ * Fehler bereits in der Datenbank existiert und als "akzeptiert"
+ * gekennzeichnet ist, wird dieser Fehler aus der Liste entfernt.
+ *
+ * @param array $errors Eine Liste aller gefunden Fehler.
+ *
+ * @return array Eine Liste alle Fehler, die nicht als "akzeptiert"
+ *               gekennzeichnet sind.
+ */
+function SaveErrors($errors) {
+
+    global $pdo;
+
+    foreach ($errors as $errorcode => $errorList) {
+
+        $statement = $pdo->prepare('SELECT * FROM errors WHERE ErrorCode = :errorcode');
+        $statement->execute([ ':errorcode' => $errorcode ]);
+        $dbErrors = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        switch ($errorcode) {
+            case PlanErrorCodes::Ausbildungszeitraum:
+
+                foreach ($errorList as $id_azubi => $zeitraeume) {
+
+                    foreach ($zeitraeume as $error_id => $zeitraum) {
+                        $jsonString = json_encode([
+                            'id_azubi' => $id_azubi,
+                            'zeitraum' => $zeitraum
+                        ]);
+
+                        $errorExists = false;
+                        $id = ErrorIsAccepted($dbErrors, $jsonString);
+                        if ($id !== false) {
+
+                            $errorExists = true;
+
+                            if ($id !== true) {
+                                $errors[$errorcode][$id_azubi]['id-' . $id] = $zeitraum;
+                            }
+                        }
+
+                        if (!$errorExists) {
+
+                            $dbErrorId = strval(InsertError($errorcode, $jsonString));
+                            $errors[$errorcode][$id_azubi][$dbErrorId] = $zeitraum;
+                        }
+
+                        unset($errors[$errorcode][$id_azubi][$error_id]);
+                    }
+
+                    if (empty($errors[$errorcode][$id_azubi])) {
+                        unset($errors[$errorcode][$id_azubi]);
+                    }
+                }
+
+                break;
+            case PlanErrorCodes::AbteilungenMaxAzubis: // TODO: DB-ID noch speichern
+
+                foreach ($errorList as $id_abteilung => $zeitraeume) {
+
+                    foreach ($zeitraeume as $zeitraum => $anzahlAzubis) {
+
+                        $jsonString = json_encode([
+                            'id_abteilung'  => $id_abteilung,
+                            'anzahlAzubis'  => $anzahlAzubis,
+                            'zeitraum'      => $zeitraum
+                        ]);
+
+                        $errorExists = false;
+                        $id = ErrorIsAccepted($dbErrors, $jsonString);
+                        if ($id !== false) {
+
+                            $errorExists = true;
+
+                            if ($id !== true) {
+                                $errors[$errorcode][$id_abteilung]['id-' . $id] = [
+                                    'zeitraum'      => $zeitraum,
+                                    'anzahlAzubis'  => $anzahlAzubis
+                                ];
+                            }
+                        }
+
+                        if (!$errorExists) {
+
+                            $dbErrorId = strval(InsertError($errorcode, $jsonString));
+                            $errors[$errorcode][$id_abteilung]['id-' . $dbErrorId] = [
+                                'zeitraum'      => $zeitraum,
+                                'anzahlAzubis'  => $anzahlAzubis
+                            ];
+                        }
+
+                        unset($errors[$errorcode][$id_abteilung][$zeitraum]);
+
+                        if (empty($errors[$errorcode][$id_abteilung])) {
+                            unset($errors[$errorcode][$id_abteilung]);
+                        }
+                    }
+                }
+
+                break;
+            case PlanErrorCodes::PraeferierteAbteilungen:
+            case PlanErrorCodes::WochenInAbteilungen:
+
+                foreach ($errorList as $id_azubi => $abteilungen) {
+
+                    foreach ($abteilungen as $key => $id_abteilung) {
+
+                        $jsonString = json_encode([
+                            'id_abteilung'  => $id_abteilung,
+                            'id_azubi'      => $id_azubi
+                        ]);
+
+                        $errorExists = false;
+                        $id = ErrorIsAccepted($dbErrors, $jsonString);
+                        if ($id !== false) {
+
+                            $errorExists = true;
+
+                            if ($id !== true) {
+                                $errors[$errorcode][$id_azubi]['id-' . $id] = $id_abteilung;
+                            }
+                        }
+
+                        if (!$errorExists) {
+
+                            $dbErrorId = strval(InsertError($errorcode, $jsonString));
+                            $errors[$errorcode][$id_azubi]['id-' . $dbErrorId] = $id_abteilung;
+                        }
+
+                        unset($errors[$errorcode][$id_azubi][$key]);
+
+                        if (empty($errors[$errorcode][$id_azubi])) {
+                            unset($errors[$errorcode][$id_azubi]);
+                        }
+                    }
+                }
+
+                break;
+            default:
+                continue 2;
+        }
+
+        if (empty($errors[$errorcode])) {
+            unset($errors[$errorcode]);
+        }
+    }
+
+    return $errors;
+}
 
 /**
  * Fasst die Zeiträume von Fehler zusammen, sodass nicht jeder Woche einzeln als
@@ -303,4 +459,58 @@ function SumUpTimePeriods($errors) {
     }
 
     return $summedUpErrors;
+}
+
+/**
+ * Prüft, ob ein Fehler als "akzeptiert" gekennzeichnet ist.
+ *
+ * @param array     $dbErrors   Die in der Datenbank gespeicherten Fehler.
+ * @param string    $jsonString Die Daten des Fehlers.
+ *
+ * @return bool|string True, wenn der Fehler als "akzeptiert" gekennzeichet ist.
+ *                     False, wenn der Fehler in der Datenbank nicht existiert.
+ *                     String - Die Datenbank-ID des Fehler als String.
+ */
+function ErrorIsAccepted($dbErrors, $jsonString) {
+
+    foreach ($dbErrors as $dbError) {
+
+        if ($dbError['JSON'] === $jsonString) {
+
+            if ($dbError['Accepted'] == true) {
+                return true;
+            }
+
+            return strval($dbError['ID']);
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Speichert einen Fehler in der Datenbank.
+ *
+ * @param int       $errorcode  Der Fehlercode (Klasse PlanErrorCodes).
+ * @param string    $jsonString Die Daten des Fehlers.
+ *
+ * @return int Die Datenbank-ID des gespeicherten Fehlers.
+ */
+function InsertError($errorcode, $jsonString) {
+
+    global $pdo;
+
+    $statement = $pdo->prepare(
+        'INSERT INTO errors
+        (ErrorCode, `JSON`, Accepted)
+        VALUES (:errorCode, :jsonString, :accepted)'
+    );
+
+    $statement->execute([
+        ':errorCode'    => $errorcode,
+        ':jsonString'   => $jsonString,
+        ':accepted'     => false
+    ]);
+
+    return $pdo->lastInsertId();
 }

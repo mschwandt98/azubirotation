@@ -48,6 +48,13 @@ CREATE TABLE `auszubildende` (
   `Ausbildungsende` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `errors` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `ErrorCode` tinyint(4) NOT NULL,
+  `JSON` longtext NOT NULL,
+  `Accepted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `pläne` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `ID_Auszubildender` bigint(20) UNSIGNED DEFAULT NULL,
@@ -100,6 +107,9 @@ ALTER TABLE `auszubildende`
   ADD UNIQUE KEY `ID` (`ID`),
   ADD KEY `ID_Ausbildungsberuf` (`ID_Ausbildungsberuf`);
 
+ALTER TABLE `errors`
+  ADD UNIQUE KEY `ID` (`ID`);
+
 ALTER TABLE `pläne`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`),
@@ -132,6 +142,9 @@ ALTER TABLE `ausbildungsberufe`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `auszubildende`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `errors`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `pläne`

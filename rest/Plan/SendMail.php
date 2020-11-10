@@ -1,4 +1,10 @@
 <?php
+/**
+ * SendMail.php
+ *
+ * Der API-Endpunkt zum Senden einer Email an alle Azubis und Ansprechpartner.
+ */
+
 use core\helper\DataHelper;
 
 session_start();

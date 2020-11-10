@@ -21,6 +21,7 @@ $helper = new DataHelper();
 ?>
 
 <div>
+    <div class="icon-close"></div>
 
     <?php if (array_key_exists(PlanErrorCodes::Ausbildungszeitraum, $errors)) : ?>
 
@@ -37,12 +38,12 @@ $helper = new DataHelper();
                     <?= $azubi->Vorname; ?>
                 </div>
 
-                <?php foreach ($errorList as $zeitraum) : ?>
+                <?php foreach ($errorList as $id_error => $zeitraum) : ?>
                     <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
 
                     <li>
                         <label>
-                            <input type="checkbox" />
+                            <input type="checkbox" data-id-error="<?= str_replace('id-', '', $id_error); ?>" />
                             <span>
                                 <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
                                 <?= DateHelper::FormatDate($dates['EndDatum']); ?>
@@ -66,24 +67,20 @@ $helper = new DataHelper();
             <?php foreach ($errors[PlanErrorCodes::PraeferierteAbteilungen] as $id_azubi => $abteilungen) : ?>
                 <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
-                <li>
-                    <label>
-                        <input type="checkbox" />
-                        <span>
+                <div style="text-decoration: underline;">
+                    <?= $azubi->Nachname; ?>, <?= $azubi->Vorname; ?>:
+                </div>
 
-                            <?= $azubi->Nachname; ?>,
-                            <?= $azubi->Vorname; ?>:
+                <?php foreach ($abteilungen as $id_error => $id_abteilung) : ?>
 
-                            <?php $abteilungenMissing = [] ?>
-                            <?php foreach ($abteilungen as $id_abteilung) : ?>
-                                <?php $abteilungenMissing[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
-                            <?php endforeach; ?>
+                    <li>
+                        <label>
+                            <input type="checkbox" data-id-error="<?= str_replace('id-', '', $id_error); ?>" />
+                            <span><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></span>
+                        </label>
+                    </li>
 
-                            <?= implode(', ', $abteilungenMissing); ?>
-
-                        </span>
-                    </label>
-                </li>
+                <?php endforeach; ?>
 
             <?php endforeach; ?>
 
@@ -100,19 +97,19 @@ $helper = new DataHelper();
             <?php foreach ($errors[PlanErrorCodes::AbteilungenMaxAzubis] as $id_abteilung => $errorList) : ?>
                 <?php $abteilung = $helper->GetAbteilungen($id_abteilung); ?>
 
-                <div>Abteilung <?= $abteilung->Bezeichnung; ?></div>
+                <div style="text-decoration: underline;">Abteilung <?= $abteilung->Bezeichnung; ?></div>
                 <div>Maximale Anzahl an Auszubildenden: <?= $abteilung->MaxAzubis; ?></div>
 
-                <?php foreach ($errorList as $zeitraum => $anzahlAzubis) : ?>
-                    <?php $dates = DateHelper::GetDatesFromString($zeitraum); ?>
+                <?php foreach ($errorList as $id_error => $data) : ?>
+                    <?php $dates = DateHelper::GetDatesFromString($data['zeitraum']); ?>
 
                     <li>
                         <label>
-                            <input type="checkbox" />
+                            <input type="checkbox" data-id-error="<?= str_replace('id-', '', $id_error); ?>" />
                             <span>
                                 <?= DateHelper::FormatDate($dates['StartDatum']); ?> -
                                 <?= DateHelper::FormatDate($dates['EndDatum']); ?>,
-                                Anzahl an Auszubildenden: <?= $anzahlAzubis; ?>
+                                Anzahl an Auszubildenden: <?= $data['anzahlAzubis']; ?>
                             </span>
                         </label>
                     </li>
@@ -133,25 +130,20 @@ $helper = new DataHelper();
             <?php foreach ($errors[PlanErrorCodes::WochenInAbteilungen] as $id_azubi => $abteilungen) : ?>
                 <?php $azubi = $helper->GetAzubis($id_azubi); ?>
 
-                <li>
-                    <label>
-                        <input type="checkbox" />
-                        <span>
+                <div style="text-decoration: underline;">
+                    <?= $azubi->Nachname; ?>, <?= $azubi->Vorname; ?>:
+                </div>
 
-                            <?= $azubi->Nachname; ?>,
-                            <?= $azubi->Vorname; ?>:
+                <?php foreach ($abteilungen as $id_error => $id_abteilung) : ?>
 
-                            <?php $abteilungenWithErrors = []; ?>
-                            <?php foreach ($abteilungen as $id_abteilung) : ?>
-                                <?php $abteilungenWithErrors[] = $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?>
-                            <?php endforeach; ?>
+                    <li>
+                        <label>
+                            <input type="checkbox" data-id-error="<?= str_replace('id-', '', $id_error); ?>" />
+                            <span><?= $helper->GetAbteilungen($id_abteilung)->Bezeichnung; ?></span>
+                        </label>
+                    </li>
 
-                            <?= implode(', ', $abteilungenWithErrors); ?>
-
-                        </span>
-                    </label>
-                </li>
-
+                    <?php endforeach; ?>
             <?php endforeach; ?>
 
         </div>
