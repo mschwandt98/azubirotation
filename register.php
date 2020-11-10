@@ -1,4 +1,10 @@
 <?php
+/**
+ * register.php
+ *
+ * Die Registrierungs-Seite der Anwendung.
+ */
+
 use core\helper\DataHelper;
 
 session_start();

@@ -13,6 +13,7 @@
 
 @import "variables.scss";
 @import "html-elements.scss";
+@import "plan.scss";
 @import "icons.scss";
 @import "3rd-party.scss";
 
@@ -60,129 +61,6 @@ header {
 
 main {
     margin: 16px 32px;
-}
-
-#Plan {
-    margin: 16px 0;
-    max-height: 50vh;
-    overflow: auto;
-    padding-bottom: 24px;
-
-    table, th, td {
-        border: 1px solid $gray;
-    }
-
-    table {
-        border-collapse: collapse;
-
-        thead {
-            tr:first-of-type th {
-                top: 0;
-            }
-
-            tr:last-of-type th {
-                top: 47px;
-            }
-        }
-
-        tbody th {
-            text-align: left;
-            white-space: nowrap;
-        }
-
-        th {
-            background-color: white;
-            box-shadow: 0 0 0 0.5px $gray;
-            padding: 4px 8px;
-            position: sticky;
-            z-index: 100;
-
-            &.month {
-                width: 48px;
-            }
-
-            &.current-week {
-                background-color: lighten($gray, 10%);
-            }
-        }
-
-        tr .ausbildungsberuf:hover {
-            cursor: pointer;
-
-            .icon-triangle-b {
-                border-color: $selectline-dark-blue transparent transparent transparent;
-            }
-
-            .icon-triangle-r {
-                border-color: transparent transparent transparent $selectline-dark-blue;
-            }
-        }
-
-        .azubi.old {
-            color: $gray;
-        }
-
-        td {
-            position: relative;
-            white-space: nowrap;
-
-            &.mark-start:after {
-                border-top: 8px solid red;
-                border-right: 8px solid transparent;
-                content: " ";
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 0;
-                width: 0;
-            }
-
-            &.mark-ende:after {
-                border-top: 8px solid red;
-                border-left: 8px solid transparent;
-                content: " ";
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 0;
-                width: 0;
-            }
-
-            &.selected {
-                border-color: inherit !important;
-
-                &::before {
-                    background-color: rgba(0, 0, 0, 0.2);
-                    content: " ";
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                }
-            }
-
-            .ansprechpartner-name {
-                background-color: rgba(white, 0.4);
-                font-size: 12px;
-                padding: 0 4px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                user-select: none;
-                z-index: 99;
-            }
-
-            .plan-mark {
-                background-color: black;
-                position: absolute;
-                top: 0;
-                right: 45%;
-                bottom: 0;
-                left: 45%;
-            }
-        }
-    }
 }
 
 Footer {

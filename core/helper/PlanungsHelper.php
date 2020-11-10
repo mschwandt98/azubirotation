@@ -166,6 +166,49 @@ class PlanungsHelper {
     }
 
     /**
+     * Verplant eine der gegebenen Abteilungen, bis das Ausbildungsende des
+     * Azubis erreicht ist.
+     *
+     * @param array $abteilungen Die zu verplanenden Abteilungen.
+     */
+    function PlanLeftZeitraeume($abteilungen) {
+
+        $lastPlanEndDate = end($this->CreatedPlans)->Enddatum;
+        $startDate = DateHelper::DayAfter($lastPlanEndDate);
+
+        if (DateHelper::GetDateInXWeeks($lastPlanEndDate, self::MIN_WOCHEN) > $this->Azubi->Ausbildungsende) {
+            $abteilung = $this->Abteilungen[end($this->CreatedPlans)->ID_Abteilung];
+
+            foreach ($this->Ansprechpartner as $ap) {
+                if ($ap->ID === end($this->CreatedPlans)->ID_Ansprechpartner) {
+                    $ansprechpartner = $ap;
+                }
+            }
+
+        } else {
+            $abteilungen = $this->ShuffleAbteilungen($abteilungen);
+            $abteilung = $this->Abteilungen[$abteilungen[array_rand($abteilungen)]->ID_Abteilung];
+        }
+
+        if (empty($ansprechpartner)) {
+            $ansprechpartner = $this->GetAnsprechpartnerFuerAbteilung($abteilung->ID);
+        }
+
+        while ($lastPlanEndDate < $this->Azubi->Ausbildungsende) {
+
+            $this->CreatePlanPhase(
+                $abteilung->ID,
+                $startDate,
+                DateHelper::NextSunday($startDate),
+                $ansprechpartner
+            );
+
+            $lastPlanEndDate = end($this->CreatedPlans)->Enddatum;
+            $startDate = DateHelper::DayAfter($lastPlanEndDate);
+        }
+    }
+
+    /**
      * Verplant den ersten Aufenthalt des Azubis in einer der gegebenen
      * Abteilungen.
      * Wenn anfangs kein Zeitraum gefunden werden konnte, wird ein Plan in einer

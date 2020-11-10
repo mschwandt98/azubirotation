@@ -127,6 +127,10 @@
     }
 }
 
+#Plan .plan-phase {
+    cursor: cell;
+}
+
 #Popup {
     position: absolute;
     z-index: 9999;
@@ -207,6 +211,17 @@
     }
 }
 
+@media screen and (max-width: $md-max) {
+    #PlanActions {
+        display: block;
+
+        input[type="button"] {
+            display: block;
+            margin-bottom: 16px;
+        }
+    }
+}
+
 @media screen and (max-width: $md-max) and (min-width: $md-min) {
     #InfoButton > div > div,
     .grid {
@@ -221,15 +236,6 @@
 
     .grid {
         grid-template-columns: 1fr;
-    }
-
-    #PlanActions {
-        display: block;
-
-        input[type="button"] {
-            display: block;
-            margin-bottom: 16px;
-        }
     }
 }
 

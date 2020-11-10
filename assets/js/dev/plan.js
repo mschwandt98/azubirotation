@@ -141,6 +141,15 @@ jQuery(function($) {
         }
 
         /**
+         * Sortiert die Items in tdItems.
+         */
+        function SortTdItems(a, b) {
+            var aDate = $(a).data("date");
+            var bDate = $(b).data("date");
+            return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
+        }
+
+        /**
          * Handhabung der Anwendung bei Fehlern.
          * Versteckt den Loading-Spinner und zeigt die Fehlernachricht für 10
          * Sekunden an.
@@ -214,6 +223,7 @@ jQuery(function($) {
                 var el = $(this);
                 el.addClass("selected");
                 tdItems.push(el);
+                tdItems.sort(SortTdItems);
 
                 var popup = $("<div></div>").addClass("set-abteilung-popup vertical-scroll");
                 var abteilungenList = $("<ul></ul>");
@@ -275,7 +285,21 @@ jQuery(function($) {
                 tdItems.push(currentTd);
             } else {
 
-                if ($(tdItems[0]).closest("tr").data("id") == currentTd.closest("tr").data("id")) {
+                let lastAddedTd = $(tdItems[tdItems.length - 1]);
+                let currentTdDate = currentTd.data("date");
+                let lastAddedTdDate = lastAddedTd.data("date");
+
+                if (lastAddedTd.closest("tr").data("id") != currentTd.closest("tr").data("id")) return;
+                if (lastAddedTdDate == currentTdDate) return;
+
+                let nextTd = lastAddedTd.next();
+                let prevTd = lastAddedTd.prev();
+
+                if ((prevTd.data("date") == currentTdDate && prevTd.hasClass("selected")) ||
+                    (nextTd.data("date") == currentTdDate && nextTd.hasClass("selected"))) {
+                    lastAddedTd.removeClass("selected");
+                    tdItems.pop();
+                } else if (prevTd.data("date") == currentTdDate || nextTd.data("date") == currentTdDate) {
 
                     let exists = false;
 
@@ -294,8 +318,48 @@ jQuery(function($) {
                         currentTd.addClass("selected");
                         tdItems.push(currentTd);
                     }
+                } else if (currentTdDate < lastAddedTdDate) {
+
+                    let td = lastAddedTd;
+
+                    while (currentTdDate < td.data("date")) {
+                        td = td.prev();
+                        td.addClass("selected");
+                        tdItems.push(td);
+                    }
+
+                } else if (currentTdDate > lastAddedTdDate) {
+
+                    let td = lastAddedTd;
+
+                    while (currentTdDate > td.data("date")) {
+                        td = td.next();
+                        td.addClass("selected");
+                        tdItems.push(td);
+                    }
+
                 }
             }
+
+            // Automatisches Scollen Anfang
+            let thWidth = 0;
+            currentTd.closest("tr").find("th").each(function(index) {
+                thWidth += parseInt($(this).width());
+            });
+
+            let windowWidth = $(window).innerWidth();
+            let leftOffset = currentTd.offset().left;
+            let currentTdWidth = currentTd.outerWidth();
+            if (leftOffset + currentTdWidth * 5 > windowWidth) {
+                $("#Plan").animate({
+                    "scrollLeft": $("#Plan").scrollLeft() + currentTdWidth
+                }, 25);
+            } else if (leftOffset - currentTdWidth * 5 < thWidth) {
+                $("#Plan").animate({
+                    "scrollLeft": $("#Plan").scrollLeft() - currentTdWidth
+                }, 25);
+            }
+            // Automatisches Scollen Ende
         });
 
         /**
@@ -360,6 +424,8 @@ jQuery(function($) {
 
             popup.append(contextList);
             SetPopupContent(popup, el.position());
+        }).find(".ansprechpartner-name").contextmenu(function(e) {
+            $(this).closest(".plan-phase").contextmenu();
         });
 
         /**
@@ -454,11 +520,13 @@ jQuery(function($) {
             if (!idAbteilung) {
 
                 tdItems.forEach(item => {
+
                     $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
                         .addClass("changed")
                         .removeClass("selected")
                         .empty();
                 });
+                SetPopupContent("");
                 return;
             }
 
@@ -471,8 +539,25 @@ jQuery(function($) {
                     "border-left-color: " + GetAbteilungsFarbe(idAbteilung) + "; " +
                     "border-right-color: " + GetAbteilungsFarbe(idAbteilung) + ";"
                 )
-                .addClass("changed");
+                .addClass("changed")
+                .empty();
             });
+
+            tdItems.sort(SortTdItems);
+            var lastTd = tdItems[tdItems.length - 1].next();
+
+            if (lastTd.attr("data-id-abteilung") != idAbteilung) {
+
+                Ansprechpartner.some(ansprechpartner => {
+
+                    if (ansprechpartner.ID == lastTd.attr("data-id-ansprechpartner")) {
+                        lastTd.append(
+                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                        );
+                        return;
+                    }
+                });
+            }
 
             CreateAnsprechpartnerPopup(idAbteilung);
         });
@@ -491,18 +576,43 @@ jQuery(function($) {
                     .empty();
             });
 
+            tdItems.sort(SortTdItems);
+
             Ansprechpartner.some(ansprechpartner => {
 
                 if (ansprechpartner.ID == idAnsprechpartner) {
-                    $(tdItems[0]).append(
-                        $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
-                    );
+
+                    let prevTd;
+
+                    if (prevTd = tdItems[0].prev()) {
+
+                        if (prevTd.attr("data-id-ansprechpartner") == idAnsprechpartner) {
+                           return;
+                        }
+
+                        $(tdItems[0]).append(
+                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                        );
+
+                    } else {
+                        $(tdItems[0]).append(
+                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                        );
+                    }
+
                     return;
                 }
             });
 
             SetPopupContent("");
             RemoveSelectedStatus();
+        });
+
+        /**
+         * Öffnet die druckbare Version des Plans.
+         */
+        $("#PrintPlan").on("click", function() {
+            window.open(window.location.href + "print");
         });
 
         /**
