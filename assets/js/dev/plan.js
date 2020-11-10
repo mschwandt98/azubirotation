@@ -612,7 +612,7 @@ jQuery(function($) {
          * Öffnet die druckbare Version des Plans.
          */
         $("#PrintPlan").on("click", function() {
-            window.open(window.location.href + "print");
+            window.open(window.location.href + "print", "_blank", "height=600,width=1000,menubar=0,status=0,titlebar=0,toolbar=0");
         });
 
         /**
