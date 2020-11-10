@@ -20,8 +20,9 @@ ob_start("minifier");
 ?>
 
 <link rel="stylesheet" href="assets/css/print.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<h1>Ausbildungsplaner</h1>
+<h1>Ausbildungsplan</h1>
 <div id="Legende">
     <?= $legende; ?>
 </div>
@@ -30,8 +31,27 @@ ob_start("minifier");
 </div>
 
 <script>
-    window.print();
+    var table = $("#Plan table"),
+        tableWidth = table.outerWidth(),
+        pageWidth = 1400,
+        pageCount = Math.ceil(tableWidth / pageWidth),
+        printWrap = $("#Plan"),
+        i,
+        printPage;
+    for (i = 0; i < pageCount; i++) {
+        printPage = $("<div></div>").css({
+            "overflow": "hidden",
+            "width": pageWidth,
+            "page-break-before": i === 0 ? "auto" : "always"
+        }).appendTo(printWrap);
+        table.clone().removeAttr("id").appendTo(printPage).css({
+            "position": "relative",
+            "left": -i * pageWidth
+        });
+    }
+    table.hide();
 
+    window.print();
     window.addEventListener('afterprint', (event) => {
         window.close();
     });

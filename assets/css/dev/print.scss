@@ -18,7 +18,9 @@ h1 {
     }
 
     .legenden-list {
-        display: flex;
+        display: grid;
+        font-size: 14px;
+        grid-template-columns: auto auto auto auto auto auto auto auto;
 
         .legende {
             margin-right: 32px;
@@ -67,39 +69,30 @@ h1 {
     }
 }
 
+#Plan {
+    overflow: visible;
+
+    table {
+        font-size: 14px;
+
+        th {
+            position: initial;
+        }
+
+        .current-week {
+            background-color: white !important;
+        }
+    }
+}
+
+/* Hintergrundfarben anzeigen */
+* {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+}
+
 @media print {
     @page {
-        size: landscape;
-    }
-
-    /* Hintergrundfarben anzeigen */
-    * {
-        -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
-    }
-
-    body {
-        margin: 300px 0 0;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        transform: rotate(90deg);
-    }
-
-    #Plan {
-        overflow: visible;
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        z-index: 100000;
-
-        table {
-            .current-week {
-                background-color: white !important;
-            }
-        }
+        size: A4 landscape;
     }
 }
