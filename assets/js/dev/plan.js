@@ -460,9 +460,8 @@ jQuery(function($) {
                 if (el.data("delete-ansprechpartner")) {
 
                     $(tdItems).each(index => {
-                        $(tdItems[index]).removeAttr("data-id-ansprechpartner")
-                            .addClass("changed")
-                            .empty();
+                        $(tdItems[index]).removeAttr("data-id-ansprechpartner").addClass("changed")
+                        $(tdItems[index]).find(".ansprechpartner-name").remove();
                     });
                     SetPopupContent("");
                     RemoveSelectedStatus();
@@ -475,7 +474,8 @@ jQuery(function($) {
 
             if (el.data("delete-termin")) {
                 tdItems.forEach(item => {
-                    $(item).empty().addClass("changed");
+                    $(item).find(".plan-mark").remove();
+                    $(item).addClass("changed");
                 });
 
                 SetPopupContent("");
@@ -517,8 +517,8 @@ jQuery(function($) {
 
                 let item = $(tdItems[i]);
 
-                item.empty()
-                    .addClass("changed")
+                item.find(".plan-mark").remove();
+                item.addClass("changed")
                     .append(
                         $("<div></div>").attr("title", markerBezeichnung).addClass(
                             "plan-mark " + (tdItemsLength > 1 ? "icon-plan-mark" : "icon-plan-mark-separat")
@@ -597,9 +597,8 @@ jQuery(function($) {
             var idAnsprechpartner = $(this).data("id");
 
             tdItems.forEach(item => {
-                $(item).attr("data-id-ansprechpartner", idAnsprechpartner)
-                    .addClass("changed")
-                    .empty();
+                $(item).attr("data-id-ansprechpartner", idAnsprechpartner).addClass("changed");
+                $(item).find(".ansprechpartner-name").remove();
             });
 
             tdItems.sort(SortTdItems);
