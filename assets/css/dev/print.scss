@@ -8,6 +8,16 @@
 @import "icons.scss";
 @import "plan.scss";
 
+#BlackScreen {
+    background-color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999999999;
+}
+
 h1 {
     color: $selectline-blue;
 }
@@ -30,40 +40,10 @@ h1 {
                 vertical-align: middle;
             }
 
-            /* TODO: vereinheitlichen in icons.scss */
             .symbol {
                 position: relative;
                 height: 1em;
                 width: 32px;
-
-                &.begin-end > div {
-                    &:before,
-                    &:after {
-                        border-top: 8px solid red;
-                        content: " ";
-                        position: absolute;
-                        top: 0;
-                        height: 0;
-                        width: 0;
-                    }
-
-                    &:before {
-                        border-right: 8px solid transparent;
-                        left: 0;
-                    }
-
-                    &:after {
-                        border-left: 8px solid transparent;
-                        right: 0;
-                    }
-                }
-
-                &.marker > div {
-                    background-color: black;
-                    margin: 0 auto;
-                    height: 100%;
-                    width: 4px;
-                }
             }
         }
     }
@@ -94,5 +74,9 @@ h1 {
 @media print {
     @page {
         size: A4 landscape;
+    }
+
+    #BlackScreen {
+        display: none;
     }
 }

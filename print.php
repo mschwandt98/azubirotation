@@ -22,6 +22,7 @@ ob_start("minifier");
 <link rel="stylesheet" href="assets/css/print.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+<div id="BlackScreen"></div>
 <h1>Ausbildungsplan</h1>
 <div id="Legende">
     <?= $legende; ?>

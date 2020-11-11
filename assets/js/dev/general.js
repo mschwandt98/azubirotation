@@ -63,5 +63,12 @@ jQuery(function($) {
             container.find("> div.show-add-buttons").stop().show(TIME);
             el.removeClass("icon-plus").addClass("icon-minus");
         });
+
+        /**
+         * Schließt die Fehler der Planung.
+         */
+        $("#PlanErrors").on("click", ".icon-close", function() {
+            $("#PlanErrors").empty();
+        });
     });
 });

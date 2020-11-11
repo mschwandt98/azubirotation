@@ -149,8 +149,8 @@ unset($currentDate);
                             <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, 'W Y')][$abteilung->ID] = $abteilung; ?>
 
                             <td class="plan-phase
-                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'mark-start': ''; ?>
-                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'mark-ende': ''; ?>"
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'icon-mark-begin': ''; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'icon-mark-end': ''; ?>"
                                 style="background-color: <?= $abteilung->Farbe; ?>; border-left-color: <?= $abteilung->Farbe; ?>; border-right-color: <?= $abteilung->Farbe; ?>;"
                                 data-date="<?= $currentDate; ?>"
                                 data-id-abteilung="<?= $plan->ID_Abteilung;?>"
@@ -167,7 +167,7 @@ unset($currentDate);
 
                                 <?php if (!empty($plan->Termin)) : ?>
 
-                                    <div class="plan-mark" title="<?= $plan->Termin; ?>"></div>
+                                    <div class="icon-plan-mark-separat" title="<?= $plan->Termin; ?>"></div>
 
                                 <?php endif; ?>
 
@@ -176,8 +176,8 @@ unset($currentDate);
                         <?php else: ?>
 
                             <td class="plan-phase
-                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'mark-start': ''; ?>
-                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'mark-ende': ''; ?>"
+                                <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'icon-mark-begin': ''; ?>
+                                <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'icon-mark-end': ''; ?>"
                                 data-date="<?= $currentDate; ?>"></td>
 
                         <?php endif; ?>
