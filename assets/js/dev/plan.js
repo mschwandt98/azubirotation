@@ -242,6 +242,8 @@ jQuery(function($) {
                 popup.append(abteilungenList);
                 SetPopupContent(popup, el.position());
             }
+        }).find(".icon-plan-mark-separat").click(function() {
+            $(this).closest(".plan-phase").click();
         });
 
         /**
@@ -424,7 +426,7 @@ jQuery(function($) {
 
             popup.append(contextList);
             SetPopupContent(popup, el.position());
-        }).find(".ansprechpartner-name").contextmenu(function(e) {
+        }).find(".ansprechpartner-name, .icon-plan-mark-separat").contextmenu(function(e) {
             $(this).closest(".plan-phase").contextmenu();
         });
 
