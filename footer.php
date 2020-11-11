@@ -13,16 +13,22 @@ $Abteilungen = (new DataHelper())->GetAbteilungen();
 <div class="toggle-legende">Legende</div>
 <div class="legenden-list visible">
     <div class="legende">
-        <div class="symbol begin-end">
-            <div></div>
+        <div class="symbol">
+            <div class="icon-mark-begin"></div>
+            <div class="icon-mark-end"></div>
         </div>
         <div>Ausbildungsanfang/-ende</div>
     </div>
     <div class="legende">
-        <div class="symbol marker">
-            <div></div>
+        <div class="symbol">
+            <div class="icon-plan-mark-separat"></div>
         </div>
-        <div>Termin</div>
+        <div>Einzelner Termin</div>
+    </div>
+    <div class="legende">
+        <div class="symbol icon-plan-mark">
+        </div>
+        <div>Längerer Termin</div>
     </div>
 
     <?php foreach ($Abteilungen as $abteilung) : ?>

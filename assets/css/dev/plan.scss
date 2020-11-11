@@ -66,28 +66,6 @@
             position: relative;
             white-space: nowrap;
 
-            &.mark-start:after {
-                border-top: 8px solid red;
-                border-right: 8px solid transparent;
-                content: " ";
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 0;
-                width: 0;
-            }
-
-            &.mark-ende:after {
-                border-top: 8px solid red;
-                border-left: 8px solid transparent;
-                content: " ";
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 0;
-                width: 0;
-            }
-
             &.selected {
                 border-color: inherit !important;
 
@@ -111,15 +89,6 @@
                 left: 0;
                 user-select: none;
                 z-index: 99;
-            }
-
-            .plan-mark {
-                background-color: black;
-                position: absolute;
-                top: 0;
-                right: 45%;
-                bottom: 0;
-                left: 45%;
             }
         }
     }

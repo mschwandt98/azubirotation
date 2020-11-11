@@ -414,7 +414,7 @@ jQuery(function($) {
 
             contextList.append($("<hr>"));
 
-            if (el.find(".plan-mark").length > 0) {
+            if (el.find(".icon-plan-mark-separat").length > 0) {
                 contextList.append($("<li></li>").text("Termin umbenennen").data("update-termin", "true"));
                 contextList.append($("<hr>"));
                 contextList.append($("<li></li>").text("Termin löschen").data("delete-termin", "true"));
@@ -497,7 +497,7 @@ jQuery(function($) {
             td.empty()
                 .addClass("changed")
                 .append(
-                    $("<div></div>").attr("title", markerBezeichnung).addClass("plan-mark")
+                    $("<div></div>").attr("title", markerBezeichnung).addClass("icon-plan-mark-separat")
                 );
 
             $("#Popup").empty();
@@ -644,7 +644,7 @@ jQuery(function($) {
                     let phase = $(phaseDivs[index]);
                     let id_abteilung = phase.attr("data-id-abteilung");
 
-                    let termin = phase.find(".plan-mark");
+                    let termin = phase.find(".icon-plan-mark-separat");
                     if (termin.length > 0) {
                         var terminBezeichnung = termin.attr("title");
                     }
