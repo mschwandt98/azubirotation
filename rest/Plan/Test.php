@@ -1,4 +1,16 @@
 <?php
+/**
+ * Test.php
+ *
+ * Testet die Planung auf Richtlinienverstöße. Bei diesen Richtlinienverstößen
+ * wird geschaut, ob:
+ *      - ein Azubi länger als im Standardplan vorgesehen in einer Abteilung ist
+ *      - eine Abteilung mehr Azubis als erlaubt zugeordnet sind
+ *      - ein Azubi außerhalb seines Ausbildungszeitraums verplant ist
+ *      - ein Azubi am Anfang seiner Ausbildung in einer nicht präferierten
+ *        Abteilung verplant ist
+ */
+
 use core\helper\DataHelper;
 use core\helper\DateHelper;
 use core\PlanErrorCodes;
@@ -212,7 +224,9 @@ if (empty($errors)) {
 
 $errors = SumUpTimePeriods($errors);
 $errors = SaveErrors($errors);
+DeleteOldErrors($errors['jsonStrings']);
 
+$errors = $errors['errors'];
 if (empty($errors)) {
     exit(true);
 }
@@ -223,6 +237,46 @@ ob_end_flush();
 exit;
 
 /**
+ *
+ *
+ * @param
+ *
+ * @return
+ */
+function DeleteOldErrors($errors) {
+
+    global $pdo;
+
+    $statement = $pdo->prepare('SELECT * FROM errors;');
+    $statement->execute();
+    $dbErrors = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($dbErrors as $dbError) {
+
+        $exists = false;
+        foreach ($errors as $errorcode => $jsonStrings) {
+
+            if ($errorcode === intval($dbError['ErrorCode'])) {
+                foreach ($jsonStrings as $json) {
+
+                    if ($json === $dbError['JSON']) {
+                        $exists = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        if (!$exists) {
+
+            ($pdo->prepare(
+                'DELETE FROM errors WHERE ID = :id'
+            ))->execute([ ':id' => intval($dbError['ID']) ]);
+        }
+    }
+}
+
+/**
  * Die gefundenen Fehler werden in der Datenbank gespeichert. Sofern dieser
  * Fehler bereits in der Datenbank existiert und als "akzeptiert"
  * gekennzeichnet ist, wird dieser Fehler aus der Liste entfernt.
@@ -230,13 +284,21 @@ exit;
  * @param array $errors Eine Liste aller gefunden Fehler.
  *
  * @return array Eine Liste alle Fehler, die nicht als "akzeptiert"
- *               gekennzeichnet sind.
+ *               gekennzeichnet sind und aller JSON-Strings, unterteilt nach den
+ *               Error-Codes.
+ *               [
+ *                   'jsonStrings' => [],
+ *                   'errors'      => []
+ *               ]
  */
 function SaveErrors($errors) {
 
     global $pdo;
 
+    $jsonStrings = [];
     foreach ($errors as $errorcode => $errorList) {
+
+        $jsonStrings[$errorcode] = [];
 
         $statement = $pdo->prepare('SELECT * FROM errors WHERE ErrorCode = :errorcode');
         $statement->execute([ ':errorcode' => $errorcode ]);
@@ -252,6 +314,7 @@ function SaveErrors($errors) {
                             'id_azubi' => $id_azubi,
                             'zeitraum' => $zeitraum
                         ]);
+                        $jsonStrings[$errorcode][] = $jsonString;
 
                         $errorExists = false;
                         $id = ErrorIsAccepted($dbErrors, $jsonString);
@@ -279,7 +342,7 @@ function SaveErrors($errors) {
                 }
 
                 break;
-            case PlanErrorCodes::AbteilungenMaxAzubis: // TODO: DB-ID noch speichern
+            case PlanErrorCodes::AbteilungenMaxAzubis:
 
                 foreach ($errorList as $id_abteilung => $zeitraeume) {
 
@@ -290,6 +353,7 @@ function SaveErrors($errors) {
                             'anzahlAzubis'  => $anzahlAzubis,
                             'zeitraum'      => $zeitraum
                         ]);
+                        $jsonStrings[$errorcode][] = $jsonString;
 
                         $errorExists = false;
                         $id = ErrorIsAccepted($dbErrors, $jsonString);
@@ -334,6 +398,7 @@ function SaveErrors($errors) {
                             'id_abteilung'  => $id_abteilung,
                             'id_azubi'      => $id_azubi
                         ]);
+                        $jsonStrings[$errorcode][] = $jsonString;
 
                         $errorExists = false;
                         $id = ErrorIsAccepted($dbErrors, $jsonString);
@@ -370,7 +435,10 @@ function SaveErrors($errors) {
         }
     }
 
-    return $errors;
+    return [
+        'jsonStrings'   => $jsonStrings,
+        'errors'        => $errors
+    ];
 }
 
 /**
