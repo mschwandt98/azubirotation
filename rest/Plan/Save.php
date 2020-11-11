@@ -1,6 +1,6 @@
 <?php
 /**
- * Add.php
+ * Save.php
  *
  * Der API-Endpunkt zum Aktualisieren der Daten aus der Planung.
  */

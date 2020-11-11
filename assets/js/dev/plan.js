@@ -695,7 +695,7 @@ jQuery(function($) {
 
             $.ajax({
                 type: "POST",
-                url: API + "Plan/Add",
+                url: API + "Plan/Save",
                 data: {
                     csrfToken: $("#CsrfToken").val(),
                     azubis: azubis
