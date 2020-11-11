@@ -237,11 +237,10 @@ ob_end_flush();
 exit;
 
 /**
+ * Löscht nicht mehr existierende Fehler aus der Datenbank.
  *
- *
- * @param
- *
- * @return
+ * @param array $errors Die JSON-String der Fehler unterteilt nach den
+ *                      Error-Codes.
  */
 function DeleteOldErrors($errors) {
 
@@ -270,7 +269,7 @@ function DeleteOldErrors($errors) {
         if (!$exists) {
 
             ($pdo->prepare(
-                'DELETE FROM errors WHERE ID = :id'
+                'DELETE FROM errors WHERE ID = :id;'
             ))->execute([ ':id' => intval($dbError['ID']) ]);
         }
     }
