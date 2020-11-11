@@ -3,5 +3,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-RewriteRule ^(config\.php|footer\.php|header\.php|main\.php) - [F,L,NC]
-RewriteRule ^(models/|migration/|core/|templates/) - [F,L,NC]
+RewriteRule ^(config\.php|footer\.php|header\.php|main\.php|backup\.php) - [F,L,NC]
+RewriteRule ^(models/|migration/|core/|templates/|_backup/) - [F,L,NC]

@@ -205,9 +205,11 @@ if (is_logged_in() && is_token_valid()) {
                 }
             }
 
+            include_once(BASE . 'backup.php');
+
             http_response_code(200);
             ob_start('minifier');
-            include_once(BASE . '/core/Plan.php');
+            include_once(BASE . 'core/Plan.php');
             ob_end_flush();
             exit;
         }

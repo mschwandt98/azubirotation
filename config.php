@@ -5,9 +5,15 @@
  * Konfigurationsdatei, die am Anfang jeder PHP-Datei eingebunden werden sollte.
  */
 
+// DB-Zugang
+define('DB_DATABASE', 'azubirotation');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
 // globales Datenbankobjekt
 try {
-    $pdo = new PDO('mysql:dbname=azubirotation;host=localhost', 'root', '');
+    $pdo = new PDO('mysql:dbname=' . DB_DATABASE .  ';host=' . DB_HOST, DB_USER, DB_PASS);
 } catch (Exception $e) {
     exit($e->getMessage());
 }

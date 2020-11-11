@@ -3,6 +3,7 @@
 
 /.vscode
 /.git
+/_backup
 /assets/css/*.css
 /assets/css/*.map
 /assets/js/*.js/assets/css/*.css
