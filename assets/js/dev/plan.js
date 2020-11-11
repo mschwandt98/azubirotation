@@ -127,7 +127,15 @@ jQuery(function($) {
                 }
             };
 
-            return tds;
+            let idAnsprechpartner = el.attr("data-id-ansprechpartner");
+            let returnTds = [];
+            $(tds).each(index => {
+                if ($(tds[index]).attr("data-id-ansprechpartner") === idAnsprechpartner) {
+                    returnTds.push($(tds[index]));
+                }
+            });
+
+            return returnTds;
         }
 
         /**
@@ -281,6 +289,8 @@ jQuery(function($) {
             if (e.which !== 1 && e.which !== 3) return;
             if (!clicking) return;
             var currentTd = $(e.target);
+
+            if (e.which === 3 && !currentTd.data("id-abteilung")) return;
 
             if (tdItems.length < 1) {
                 currentTd.addClass("selected");

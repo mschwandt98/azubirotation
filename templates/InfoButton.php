@@ -57,6 +57,11 @@
                     klicken und die gewünschte Aktion auswählen. Beim Klick auf "Termin umbennenen" wie beim Hinzufügen
                     eines Termins fortfahren. Mit Klick auf "Termin löschen" wird der Termin entfernt.
                 </div>
+                <div>
+                    Um einen Termin über einen längeren Zeitraum einzutragen, muss die rechte Maustaste gedrückt
+                    gehalten und der Cursor über die entsprechenden Felder gezogen werden. Beim aufkommenden Popup wie
+                    oben beschrieben vorfahren.
+                </div>
             </div>
             <div>
                 <div>
