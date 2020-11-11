@@ -19,8 +19,9 @@ use models\Ausbildungsberuf;
 use models\Auszubildender;
 use models\Einstellung;
 use models\Phase;
-use models\Standardplan;
 use models\Plan;
+use models\Standardplan;
+use models\Termin;
 
 if (!defined('BASE')) {
     include_once(BASE . '/config.php');
@@ -258,7 +259,6 @@ class DataHelper {
                 $plan['ID_Abteilung'],
                 $plan['Startdatum'],
                 $plan['Enddatum'],
-                $plan['Termin'],
                 $plan['ID']
             );
         }
@@ -282,6 +282,25 @@ class DataHelper {
         $statement->execute([ ':name' => $name ]);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return new Einstellung($result['name'], $result['value']);
+    }
+
+    function GetTermin($id_plan) {
+
+        $statement = $this->db->prepare(
+            'SELECT * FROM ' . T_TERMINE . '
+            WHERE ID_Plan = :id_plan'
+        );
+        $statement->execute([ ':id_plan' => intval($id_plan) ]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($result)) return false;
+
+        return new Termin(
+            $result['Bezeichnung'],
+            $result['Separat'],
+            $result['ID_Plan'],
+            $result['ID']
+        );
     }
 
     /**

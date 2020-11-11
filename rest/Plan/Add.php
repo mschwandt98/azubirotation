@@ -57,8 +57,7 @@ if (is_logged_in() && is_token_valid()) {
                             $ansprechpartner_id,
                             $id_abteilung,
                             $startDate,
-                            $endDate,
-                            (!empty($phase['termin'])) ? sanitize_string($phase['termin']) : ''
+                            $endDate
                         );
 
                         $replacements = [
@@ -77,18 +76,17 @@ if (is_logged_in() && is_token_valid()) {
 
                         if ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
 
+                            $id_plan = intval($result['ID']);
                             $replacements = [
-                                ':id'                   => $result['ID'],
+                                ':id'                   => $id_plan,
                                 ':id_ansprechpartner'   => $plan->ID_Ansprechpartner,
-                                ':id_abteilung'         => $plan->ID_Abteilung,
-                                ':termin'               => $plan->Termin
+                                ':id_abteilung'         => $plan->ID_Abteilung
                             ];
 
                             $statement = $pdo->prepare(
                                 'UPDATE ' . T_PLAENE . '
                                 SET ID_Ansprechpartner = :id_ansprechpartner,
-                                    ID_Abteilung = :id_abteilung,
-                                    Termin = :termin
+                                    ID_Abteilung = :id_abteilung
                                 WHERE ID = :id;'
                             );
 
@@ -103,8 +101,7 @@ if (is_logged_in() && is_token_valid()) {
                                 ':id_ansprechpartner'   => $plan->ID_Ansprechpartner,
                                 ':id_abteilung'         => $plan->ID_Abteilung,
                                 ':startDate'            => $plan->Startdatum,
-                                ':endDate'              => $plan->Enddatum,
-                                ':termin'               => $plan->Termin
+                                ':endDate'              => $plan->Enddatum
                             ];
 
                             $statement = $pdo->prepare(
@@ -114,16 +111,14 @@ if (is_logged_in() && is_token_valid()) {
                                     ID_Ansprechpartner,
                                     ID_Abteilung,
                                     Startdatum,
-                                    Enddatum,
-                                    Termin
+                                    Enddatum
                                 )
                                 VALUES (
                                     :id_azubi,
                                     :id_ansprechpartner,
                                     :id_abteilung,
                                     :startDate,
-                                    :endDate,
-                                    :termin
+                                    :endDate
                                 );'
                             );
 
@@ -131,6 +126,63 @@ if (is_logged_in() && is_token_valid()) {
                                 http_response_code(400);
                                 exit;
                             }
+
+                            $id_plan = $pdo->lastInsertId();
+                        }
+
+                        $termin = sanitize_string($phase['termin']);
+                        $termin_separat = sanitize_string($phase['termin_separat']);
+                        if (!empty($termin) || !empty($termin_separat)) {
+
+                            $separat = !empty($termin_separat);
+
+                            $statement = $pdo->prepare(
+                                'SELECT *
+                                FROM ' . T_TERMINE . '
+                                WHERE ID_Plan = :id_plan'
+                            );
+
+                            $statement->execute([ ':id_plan' => $id_plan ]);
+
+                            if ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+                                $statement = $pdo->prepare('
+                                    UPDATE ' . T_TERMINE . '
+                                    SET Bezeichnung = :bezeichnung,
+                                        Separat = :separat
+                                    WHERE ID = :id_termin
+                                ');
+
+                                $statement->execute([
+                                    ':bezeichnung'  => ($separat) ? $termin_separat : $termin,
+                                    ':separat'      => $separat,
+                                    ':id_termin'    => intval($result['ID'])
+                                ]);
+
+                            } else {
+
+                                $statement = $pdo->prepare(
+                                    'INSERT INTO ' . T_TERMINE . '
+                                    (Bezeichnung, Separat, ID_Plan)
+                                    VALUES (:bezeichnung, :separat, :id_plan);'
+                                );
+
+                                if (!$statement->execute([
+                                    ':bezeichnung'  => ($separat) ? $termin_separat : $termin,
+                                    ':separat'      => $separat,
+                                    ':id_plan'      => $id_plan
+                                ])) {
+                                    http_response_code(400);
+                                    exit;
+                                }
+                            }
+                        } elseif (empty($termin) && empty($termin_separat)) {
+
+                            $statement = $pdo->prepare(
+                                'DELETE FROM ' . T_TERMINE . '
+                                WHERE ID_Plan = :id_plan'
+                            );
+                            $statement->execute([ ':id_plan' => $id_plan ]);
                         }
                     }
                 }
@@ -144,6 +196,9 @@ if (is_logged_in() && is_token_valid()) {
                     );
 
                     if (!$statement->execute()) {
+
+                        $test = $statement->errorInfo();
+
                         http_response_code(400);
                         exit;
                     }

@@ -246,7 +246,7 @@ function DeleteOldErrors($errors) {
 
     global $pdo;
 
-    $statement = $pdo->prepare('SELECT * FROM errors;');
+    $statement = $pdo->prepare('SELECT * FROM ' . T_ERRORS);
     $statement->execute();
     $dbErrors = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -269,7 +269,7 @@ function DeleteOldErrors($errors) {
         if (!$exists) {
 
             ($pdo->prepare(
-                'DELETE FROM errors WHERE ID = :id;'
+                'DELETE FROM ' . T_ERRORS . ' WHERE ID = :id;'
             ))->execute([ ':id' => intval($dbError['ID']) ]);
         }
     }
@@ -299,7 +299,7 @@ function SaveErrors($errors) {
 
         $jsonStrings[$errorcode] = [];
 
-        $statement = $pdo->prepare('SELECT * FROM errors WHERE ErrorCode = :errorcode');
+        $statement = $pdo->prepare('SELECT * FROM ' . T_ERRORS . ' WHERE ErrorCode = :errorcode');
         $statement->execute([ ':errorcode' => $errorcode ]);
         $dbErrors = $statement->fetchAll(PDO::FETCH_ASSOC);
 
