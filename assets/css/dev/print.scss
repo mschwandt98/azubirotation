@@ -8,6 +8,10 @@
 @import "icons.scss";
 @import "plan.scss";
 
+body {
+    margin: 0 16px;
+}
+
 #BlackScreen {
     background-color: black;
     position: absolute;
@@ -18,8 +22,13 @@
     z-index: 99999999999;
 }
 
+#Header {
+    padding: 16px 0;
+}
+
 h1 {
     color: $selectline-blue;
+    margin-top: 0;
 }
 
 #Legende {
@@ -29,8 +38,8 @@ h1 {
 
     .legenden-list {
         display: grid;
-        font-size: 14px;
-        grid-template-columns: auto auto auto auto auto auto auto auto;
+        font-size: 12px;
+        grid-template-columns: auto auto auto auto auto auto;
 
         .legende {
             margin-right: 32px;
@@ -50,17 +59,24 @@ h1 {
 }
 
 #Plan {
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: visible;
 
     table {
-        font-size: 14px;
+        font-size: 12px;
 
         th {
+            padding: 2px 8px;
             position: initial;
         }
 
         .current-week {
             background-color: white !important;
+        }
+
+        .ansprechpartner-name {
+            font-size: 10px !important;
         }
     }
 }
@@ -71,11 +87,11 @@ h1 {
     color-adjust: exact !important;
 }
 
-@media print {
-    @page {
-        size: A4 landscape;
-    }
+@page {
+    size: A4 landscape;
+}
 
+@media print {
     #BlackScreen {
         display: none;
     }

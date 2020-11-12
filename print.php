@@ -23,9 +23,12 @@ ob_start("minifier");
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <div id="BlackScreen"></div>
-<h1>Ausbildungsplan</h1>
-<div id="Legende">
-    <?= $legende; ?>
+<div id="Header">
+    <h1>Ausbildungsplan</h1>
+    <div id="Legende">
+        <?= $legende; ?>
+    </div>
+    <br>
 </div>
 <div id="Plan">
     <?= $plan; ?>
@@ -34,7 +37,7 @@ ob_start("minifier");
 <script>
     var table = $("#Plan table"),
         tableWidth = table.outerWidth(),
-        pageWidth = 1400,
+        pageWidth = 1090,
         pageCount = Math.ceil(tableWidth / pageWidth),
         printWrap = $("#Plan"),
         i,
@@ -52,8 +55,11 @@ ob_start("minifier");
     }
     table.hide();
 
+    var tableParts = $("#Plan > div:not(:first)");
+    tableParts.css({ marginTop: $("#Header").outerHeight() });
+
     window.print();
-    window.addEventListener('afterprint', (event) => {
+    window.addEventListener("afterprint", (event) => {
         window.close();
     });
 </script>
