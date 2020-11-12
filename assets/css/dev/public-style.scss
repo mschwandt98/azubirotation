@@ -152,6 +152,16 @@ Footer {
             &:nth-of-type(3) {
                 left: 234px;
             }
+
+            @-moz-document url-prefix() {
+                &:first-of-type {
+                    left: 1px !important;
+                }
+
+                &:nth-of-type(3) {
+                    left: 235px;
+                }
+            }
         }
 
         tbody th {
@@ -171,6 +181,16 @@ Footer {
 
             &:nth-of-type(3) {
                 left: 234px;
+            }
+
+            @-moz-document url-prefix() {
+                &:first-of-type {
+                    left: 1px !important;
+                }
+
+                &:nth-of-type(3) {
+                    left: 235px;
+                }
             }
         }
     }
