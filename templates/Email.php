@@ -77,9 +77,16 @@
         </div>
         <hr>
         <div>
-            <h2>Warum erhalte ich diese E-Mail?</h2>
+            <h2>Warum erhälst du diese E-Mail?</h2>
             <div>
                 Du erhälst diese E-Mail, da deine E-Mail-Adresse in der Ausbildungsplanung bei einem Auszubildenden oder einem Ansprechpartner hinterlegt ist.
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h2>Du möchtest die Planung ausdrucken?</h2>
+            <div>
+                Folge <a href="<?= $url . '/print'; ?>" target="_blank">diesem Link</a>, um den aktuellen Ausbildungsplan auszudrucken.
             </div>
         </div>
     </div>
