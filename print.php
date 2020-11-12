@@ -19,7 +19,9 @@ $legende = ob_get_clean();
 ob_start("minifier");
 ?>
 
-<link rel="stylesheet" href="assets/css/print.css">
+<style>
+    <?php include_once(BASE . 'assets/css/print.css'); ?>
+</style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <div id="BlackScreen"></div>
