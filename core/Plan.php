@@ -55,6 +55,8 @@ foreach ($helper->GetAzubis() as $azubi) {
     foreach ($Plaene as $plan) {
 
         if ($plan->ID_Azubi === $azubi->ID) {
+
+            $plan->Termin = $helper->GetTermin($plan->ID);
             $azubi->plan[] = $plan;
         }
     }
@@ -167,7 +169,9 @@ unset($currentDate);
 
                                 <?php if (!empty($plan->Termin)) : ?>
 
-                                    <div class="icon-plan-mark-separat" title="<?= $plan->Termin; ?>"></div>
+                                    <div class="plan-mark <?= ($plan->Termin->Separat) ? 'icon-plan-mark-separat' : 'icon-plan-mark' ; ?>"
+                                         title="<?= $plan->Termin->Bezeichnung; ?>">
+                                    </div>
 
                                 <?php endif; ?>
 

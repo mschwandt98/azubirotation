@@ -1,5 +1,7 @@
 /**
+ * plan.scss
  *
+ * Enthält den Style für den Plan.
  */
 
 #Plan {
@@ -32,6 +34,7 @@
 
         th {
             background-color: white;
+            -moz-box-shadow: 0 0 0 1px $gray;
             box-shadow: 0 0 0 0.5px $gray;
             padding: 4px 8px;
             position: sticky;
@@ -43,6 +46,12 @@
 
             &.current-week {
                 background-color: lighten($gray, 10%);
+            }
+        }
+
+        @-moz-document url-prefix() {
+            th {
+                box-shadow: 0 0 0 1px $gray !important;
             }
         }
 

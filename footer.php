@@ -26,7 +26,8 @@ $Abteilungen = (new DataHelper())->GetAbteilungen();
         <div>Einzelner Termin</div>
     </div>
     <div class="legende">
-        <div class="symbol icon-plan-mark">
+        <div class="symbol">
+            <div class="icon-plan-mark"></div>
         </div>
         <div>Längerer Termin</div>
     </div>
