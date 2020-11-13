@@ -1,8 +1,8 @@
 <?php
 /**
- * data.php
+ * index.php
  *
- *
+ * REST-API-Endpunkt, der die Daten der Planung im JSON-Format zurückgibt.
  */
 
 use core\helper\DataHelper;
