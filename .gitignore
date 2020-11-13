@@ -6,8 +6,6 @@
 /_backup
 /assets/css/*.css
 /assets/css/*.map
-/assets/js/*.js/assets/css/*.css
-/assets/css/*.map
 /assets/js/*.js
 /build
 /docs
