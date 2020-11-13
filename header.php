@@ -20,6 +20,9 @@
         </div>
     </div>
     <form id="Logout">
+        <span style="padding-right: 16px;">
+            Angemeldet als <b><?= $_SESSION['user_name']; ?></b>
+        </span>
         <input type="submit" value="Logout" />
     </form>
     <script>

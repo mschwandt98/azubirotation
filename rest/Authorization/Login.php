@@ -25,6 +25,7 @@ if (!is_logged_in()) {
 
             if (password_verify($password, $account['Password'])) {
                 $_SESSION['user_id'] = $account['ID'];
+                $_SESSION['user_name'] = $account['Username'];
                 $_SESSION['csrf_token'] = uniqid('', true);
                 http_response_code(200);
                 exit;
