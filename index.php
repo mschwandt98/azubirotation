@@ -19,6 +19,7 @@ ob_start('minifier');
     <meta name="apple-mobile-web-app-status-bar" content="#009fda" />
     <meta name="theme-color" content="#009fda">
     <meta name="author" content="Marian Schwandt">
+    <meta name="description" content="Der Ausbildungsplaner ist ein Tool zur Erleichterung der Ausbildungsplanung in der SelectLine Software GmbH, welches den Ausbildungsplan jedem Mitarbeiter zur Verfügung stellt.">
     <link rel="shortcut icon" href="favicon.ico" />
     <title>SelectLine Ausbildungsplaner</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
