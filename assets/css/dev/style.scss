@@ -127,8 +127,13 @@
     }
 }
 
-#Plan .plan-phase {
-    cursor: cell;
+// Abgezogene Pixel ~= Header + Main Margin + PlanActions + Data-Item-Boxen
+#Plan {
+    max-height: calc(100vh - 360px);
+
+    .plan-phase {
+        cursor: cell;
+    }
 }
 
 #Popup {

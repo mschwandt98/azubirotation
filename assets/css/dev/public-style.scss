@@ -116,6 +116,11 @@ Footer {
     }
 }
 
+// Abgezogene Pixel ~= Header + Main Margin
+#Plan {
+    max-height: calc(100vh - 150px);
+}
+
 #ErrorMessageBox {
     max-width: 50%;
     min-width: 25%;
