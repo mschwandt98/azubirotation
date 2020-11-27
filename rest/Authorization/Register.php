@@ -26,6 +26,7 @@ if (!is_logged_in()) {
                 global $pdo;
                 if (($pdo->prepare('INSERT INTO ' . T_ACCOUNTS . " (Username, Password) VALUES('$username', '$password')"))->execute()) {
                     $_SESSION['user_id'] = $pdo->lastInsertId();
+                    $_SESSION['user_name'] = $username;
                     $_SESSION['csrf_token'] = uniqid('', true);
                     $url = explode('/register', $_SERVER['HTTP_REFERER'])[0];
                     header('Location: '. $url);
