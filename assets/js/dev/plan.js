@@ -566,7 +566,7 @@ jQuery(function($) {
                     "border-right-color: " + GetAbteilungsFarbe(idAbteilung) + ";"
                 )
                 .addClass("changed")
-                .empty();
+                .find('*').not('.plan-mark').remove();
             });
 
             tdItems.sort(SortTdItems);
@@ -884,7 +884,7 @@ jQuery(function($) {
                 td.removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
                     .addClass("changed")
                     .removeClass("selected")
-                    .empty();
+                    .find('*').not('.plan-mark').remove();
             });
 
             var tempTarget = target;
@@ -898,7 +898,7 @@ jQuery(function($) {
                         backgroundColor: farbe,
                         borderColor: farbe
                     })
-                    .empty();
+                    .find('*').not('.plan-mark').remove();
 
                 if (tempTarget.next() !== null) {
                     tempTarget = tempTarget.next();
