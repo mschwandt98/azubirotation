@@ -29,8 +29,8 @@
 
 <?php endif; ?>
 
-<div id="Plan"><?php include_once('core/Plan.php'); ?></div>
-<div id="PlanActions">
+<div id="Plan"></div>
+<div id="PlanActions" style="display: none;">
 
     <?php if (is_logged_in()) : ?>
 

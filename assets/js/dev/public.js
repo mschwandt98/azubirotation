@@ -1,39 +1,46 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        // Scrollt zum aktuellen Datum in der Planung
-        var timePeriods = $("#Plan th.month");
+        $("#LoadingSpinner").show();
+        $("#Plan").load("rest/Refresh/Plan", _ => {
 
-        if (timePeriods.length > 0) {
+            $("#LoadingSpinner").hide();
+            $("#PlanActions").show();
 
-            let time = new Date().getTime();
-            let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+            // Scrollt zum aktuellen Datum in der Planung
+            let timePeriods = $("#Plan th.month");
 
-            for (let i = 0; i < timePeriods.length; i++) {
+            if (timePeriods.length > 0) {
 
-                let dates = timePeriods.eq(i).attr("title").split(" - ");
-                let firstDateTime = new Date(dates[0].replace(pattern,'$3-$2-$1')).getTime();
-                let secondDateTime = new Date(dates[1].replace(pattern,'$3-$2-$1')).getTime();
+                let time = new Date().getTime();
+                let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
 
-                if (time >= firstDateTime && time <= secondDateTime) {
+                for (let i = 0; i < timePeriods.length; i++) {
 
-                    let j = i;
+                    let dates = timePeriods.eq(i).attr("title").split(" - ");
+                    let firstDateTime = new Date(dates[0].replace(pattern,'$3-$2-$1')).getTime();
+                    let secondDateTime = new Date(dates[1].replace(pattern,'$3-$2-$1')).getTime();
 
-                    let scrollLeft = ((j - 1 > 0) ? --j : j) * ($(timePeriods[i]).innerWidth() + 1); // 1 = Border-width
+                    if (time >= firstDateTime && time <= secondDateTime) {
 
-                    // + 400, da Sticky-Columns on mobile disabled sind
-                    if ($(window).width() <= 991) {
-                        scrollLeft += 400;
+                        let j = i;
+
+                        let scrollLeft = ((j - 1 > 0) ? --j : j) * ($(timePeriods[i]).innerWidth() + 1); // 1 = Border-width
+
+                        // + 400, da Sticky-Columns on mobile disabled sind
+                        if ($(window).width() <= 991) {
+                            scrollLeft += 400;
+                        }
+
+                        $("#Plan").animate({
+                            "scrollLeft": scrollLeft
+                        }, 400)
+
+                        break;
                     }
-
-                    $("#Plan").animate({
-                        "scrollLeft": scrollLeft
-                    }, 400)
-
-                    break;
                 }
             }
-        }
+        });
 
         /**
          * Blendet alle Azubipläne eines Ausbildungsberufes ein bzw aus.
