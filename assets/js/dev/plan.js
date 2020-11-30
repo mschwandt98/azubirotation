@@ -550,7 +550,7 @@ jQuery(function($) {
                     $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
                         .addClass("changed")
                         .removeClass("selected")
-                        .empty();
+                        .find('*').not('.plan-mark').remove();
                 });
                 SetPopupContent("");
                 return;
