@@ -37,8 +37,45 @@ ob_start("minifier");
 </div>
 
 <script>
-    var table = $("#Plan table"),
-        tableWidth = table.outerWidth(),
+    var table = $("#Plan table");
+
+    /* Kalenderwochen verstecken */
+    var pastWeek = table.find(".current-week").prev();
+    var weeksToHide = 0;
+    while (pastWeek.hasClass("month")) {
+        pastWeek.hide();
+        pastWeek = pastWeek.prev();
+        weeksToHide++;
+    }
+
+    /* Wochen in Azubireihen verstecken */
+    var rows = table.find(".azubi");
+    rows.each(index => {
+        let phases = $(rows[index]).find(".plan-phase");
+        phases.each(i => {
+            if (i >= weeksToHide) return false;
+            $(phases[i]).remove();
+        });
+    });
+
+    /* Header der Tabelle verstecken (Monat Jahr) */
+    var headerColumns = table.find("thead").find("tr").eq(0).find("th:not(.top-left-sticky)");
+    var counter = weeksToHide;
+    headerColumns.each(index => {
+
+        column = $(headerColumns[index]);
+        counter = counter - column.prop("colSpan");
+
+        if (counter <= 0) {
+            column.attr("colSpan", Math.abs(counter));
+            return false;
+        } else {
+            column.remove();
+        }
+    });
+
+    /* Tabelle brechen für Druck */
+    var tableWidth = table.outerWidth(),
         pageWidth = 1090,
         pageCount = Math.ceil(tableWidth / pageWidth),
         printWrap = $("#Plan"),

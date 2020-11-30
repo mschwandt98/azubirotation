@@ -10,6 +10,7 @@
 
 body {
     margin: 0 16px;
+    overflow-y: hidden;
 }
 
 #BlackScreen {
@@ -64,7 +65,7 @@ h1 {
     overflow: visible;
 
     table {
-        font-size: 12px;
+        font-size: 10px;
 
         th {
             padding: 2px 8px;
