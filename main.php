@@ -30,20 +30,27 @@
 <?php endif; ?>
 
 <div id="Plan"><?php include_once('core/Plan.php'); ?></div>
-
-<?php if (is_logged_in()) : ?>
-
 <div id="PlanActions">
+
+    <?php if (is_logged_in()) : ?>
+
+        <div>
+            <input type="button" id="SavePlan" value="Planung speichern" />
+            <input type="button" id="TestPlan" value="Auf Fehler testen" />
+        </div>
+
+    <?php endif; ?>
+
     <div>
-        <input type="button" id="SavePlan" value="Planung speichern" />
-        <input type="button" id="TestPlan" value="Auf Fehler testen" />
-    </div>
-    <div>
-        <span style="display: none; color: limegreen;">Die Benachrichtigungen wurden erfolgreich versendet.</span>
-        <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+
+        <?php if (is_logged_in()) : ?>
+
+            <span style="display: none; color: limegreen;">Die Benachrichtigungen wurden erfolgreich versendet.</span>
+            <input type="button" id="SendMail" value="Benachrichtigungen senden" />
+
+        <?php endif; ?>
+
         <input type="button" id="PrintPlan" value="Plan drucken" />
     </div>
 </div>
 <div id="PlanErrors"></div>
-
-<?php endif; ?>

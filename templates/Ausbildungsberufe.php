@@ -8,9 +8,9 @@
 ?>
 
 <div class="data-item">
-    <div class="icon-minus"></div>
+    <div class="icon-plus"></div>
     <div class="title">Ausbildungsberufe</div>
-    <div class="show-add-buttons">
+    <div class="show-add-buttons" style="display: none;">
         <input type="button" id="ShowAusbildungsberufeButton" value="Anzeigen" />
         <input type="button" id="ShowAddAusbildungsberufForm" value="Anlegen" />
     </div>

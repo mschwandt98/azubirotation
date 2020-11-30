@@ -44,7 +44,7 @@ jQuery(function($) {
             var el = $(this);
             var container = el.closest(".data-item");
             container.find("form").hide(TIME);
-            container.find(".title").css({ marginBottom: 0 });
+            container.find(".title").removeAttr("style");
             var upperDivs = container.find("> div");
             upperDivs.stop().slice(upperDivs.length - 2, upperDivs.length).hide(TIME);
             el.removeClass("icon-minus").addClass("icon-plus");
@@ -59,7 +59,7 @@ jQuery(function($) {
         $(".data-item").on("click", ".icon-plus", function() {
             var el = $(this);
             var container = el.closest(".data-item");
-            container.find(".title").removeAttr("style");
+            container.find(".title").css({ marginBottom: 8 });
             container.find("> div.show-add-buttons").stop().show(TIME);
             el.removeClass("icon-plus").addClass("icon-minus");
         });

@@ -8,9 +8,9 @@
 ?>
 
 <div class="data-item">
-    <div class="icon-minus"></div>
+    <div class="icon-plus"></div>
     <div class="title">Abteilungen</div>
-    <div class="show-add-buttons">
+    <div class="show-add-buttons" style="display: none;">
         <input type="button" id="ShowAbteilungenButton" value="Anzeigen" />
         <input type="button" id="ShowAddAbteilungForm" value="Anlegen" />
     </div>

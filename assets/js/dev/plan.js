@@ -634,13 +634,6 @@ jQuery(function($) {
         });
 
         /**
-         * Öffnet die druckbare Version des Plans.
-         */
-        $("#PrintPlan").on("click", function() {
-            window.open(window.location.href + "print", "_blank", "height=600,width=1000,menubar=0,status=0,titlebar=0,toolbar=0");
-        });
-
-        /**
          * Alle Daten der Planung werden gesammelt und für die API zum Speichern
          * der Planung aufbereitet. Die aufbereiteten Daten werden mittels
          * AJAX-Anfrage des Typs POST gespeichert.

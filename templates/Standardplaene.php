@@ -8,9 +8,9 @@
 ?>
 
 <div class="data-item">
-    <div class="icon-minus"></div>
+    <div class="icon-plus"></div>
     <div class="title">Standardpläne</div>
-    <div class="show-add-buttons">
+    <div class="show-add-buttons" style="display: none;">
         <input type="button" id="ShowStandardplaeneButton" value="Anzeigen" />
         <input type="button" id="ShowAddStandardplanForm" value="Anlegen" />
     </div>
