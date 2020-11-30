@@ -752,6 +752,10 @@ jQuery(function($) {
          */
         $("#TestPlan").on("click", function() {
 
+            if ($("#Plan tr.azubi .plan-phase.changed").length > 0) {
+                $("#SavePlan").click();
+            }
+
             $("#LoadingSpinner").show();
             $("#PlanErrors").hide();
 
