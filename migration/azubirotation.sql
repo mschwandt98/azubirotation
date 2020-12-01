@@ -42,6 +42,7 @@ CREATE TABLE `auszubildende` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Vorname` varchar(30) NOT NULL,
   `Nachname` varchar(30) NOT NULL,
+  `Kuerzel` varchar(2) NOT NULL,
   `Email` varchar(320) NOT NULL,
   `ID_Ausbildungsberuf` bigint(20) UNSIGNED DEFAULT NULL,
   `Ausbildungsstart` date NOT NULL,
