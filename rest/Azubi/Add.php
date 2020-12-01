@@ -13,12 +13,13 @@ include_once(dirname(dirname(__DIR__)) . '/config.php');
 if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists('vorname', $_POST) && array_key_exists('nachname', $_POST) &&
-        array_key_exists('email', $_POST) && array_key_exists('id_ausbildungsberuf', $_POST) &&
-        array_key_exists('ausbildungsstart', $_POST) && array_key_exists('ausbildungsende', $_POST) &&
-        array_key_exists('planung_erstellen', $_POST)) {
+        array_key_exists('kuerzel', $_POST) && array_key_exists('email', $_POST) &&
+        array_key_exists('id_ausbildungsberuf', $_POST) && array_key_exists('ausbildungsstart', $_POST) &&
+        array_key_exists('ausbildungsende', $_POST) && array_key_exists('planung_erstellen', $_POST)) {
 
         $vorname                = sanitize_string($_POST['vorname']);
         $nachname               = sanitize_string($_POST['nachname']);
+        $kuerzel                = substr(sanitize_string($_POST['kuerzel']), 0, 2);
         $email                  = sanitize_string($_POST['email']);
         $id_ausbildungsberuf    = sanitize_string($_POST['id_ausbildungsberuf']);
         $ausbildungsstart       = sanitize_string($_POST['ausbildungsstart']);
@@ -30,16 +31,17 @@ if (is_logged_in() && is_token_valid()) {
             !empty($ausbildungsstart) && !empty($ausbildungsende)) {
 
             global $pdo;
-            $azubi = new Auszubildender($vorname, $nachname, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende);
+            $azubi = new Auszubildender($vorname, $nachname, $kuerzel, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende);
 
             $statement = $pdo->prepare(
-                'INSERT INTO ' . T_AUSZUBILDENDE . '(Vorname, Nachname, Email, ID_Ausbildungsberuf, Ausbildungsstart, Ausbildungsende)
-                VALUES (:vorname, :nachname, :email, :id_ausbildungsberuf, :ausbildungsstart, :ausbildungsende);'
+                'INSERT INTO ' . T_AUSZUBILDENDE . '(Vorname, Nachname, Kuerzel, Email, ID_Ausbildungsberuf, Ausbildungsstart, Ausbildungsende)
+                VALUES (:vorname, :nachname, :kuerzel, :email, :id_ausbildungsberuf, :ausbildungsstart, :ausbildungsende);'
             );
 
             if ($statement->execute([
                 ':vorname'              => $azubi->Vorname,
                 ':nachname'             => $azubi->Nachname,
+                ':kuerzel'              => $azubi->Kuerzel,
                 ':email'                => $azubi->Email,
                 ':id_ausbildungsberuf'  => $azubi->ID_Ausbildungsberuf,
                 ':ausbildungsstart'     => $azubi->Ausbildungsstart,

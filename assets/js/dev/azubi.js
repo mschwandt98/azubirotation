@@ -5,6 +5,7 @@ jQuery(function($) {
         const ID = "id";
         const VORNAME = "vorname";
         const NACHNAME = "nachname";
+        const KUERZEL = "kuerzel";
         const EMAIL = "email";
         const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
         const AUSBILDUNGSSTART = "ausbildungsstart";
@@ -103,6 +104,7 @@ jQuery(function($) {
                         .data(ID, auszubildender.ID)
                         .data(VORNAME, auszubildender.Vorname)
                         .data(NACHNAME, auszubildender.Nachname)
+                        .data(KUERZEL, auszubildender.Kuerzel)
                         .data(EMAIL, auszubildender.Email)
                         .data(ID_AUSBILDUNGSBERUF, auszubildender.ID_Ausbildungsberuf)
                         .data(AUSBILDUNGSSTART, auszubildender.Ausbildungsstart)
@@ -188,6 +190,7 @@ jQuery(function($) {
             var form = $(this);
             var vornameInput = form.find(`input[name="${ VORNAME }"]`).eq(0);
             var nachnameInput = form.find(`input[name="${ NACHNAME }"]`).eq(0);
+            var kuerzelInput = form.find(`input[name="${ KUERZEL }"]`).eq(0);
             var emailInput = form.find(`input[name="${ EMAIL }"]`).eq(0);
             var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`).eq(0);
             var ausbildungsstartInput = form.find(`input[name="${ AUSBILDUNGSSTART }"]`).eq(0);
@@ -201,6 +204,7 @@ jQuery(function($) {
                     csrfToken: $("#CsrfToken").val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
+                    kuerzel: kuerzelInput.val(),
                     email: emailInput.val(),
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
@@ -210,6 +214,7 @@ jQuery(function($) {
                 success: function() {
                     vornameInput.val("");
                     nachnameInput.val("");
+                    kuerzelInput.val("");
                     emailInput.val("");
                     ausbildungsberufSelect.empty();
                     planung_erstellen.prop("checked", true)
@@ -236,6 +241,7 @@ jQuery(function($) {
             var id = $(this).data(ID);
             var vorname = $(this).data(VORNAME);
             var nachname = $(this).data(NACHNAME);
+            var kuerzel = $(this).data(KUERZEL);
             var email = $(this).data(EMAIL);
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
             var ausbildungsstart = $(this).data(AUSBILDUNGSSTART);
@@ -258,6 +264,7 @@ jQuery(function($) {
                 form.find(`input[name="${ ID }"]`).val(id);
                 form.find(`input[name="${ VORNAME }"]`).val(vorname);
                 form.find(`input[name="${ NACHNAME }"]`).val(nachname);
+                form.find(`input[name="${ KUERZEL }"]`).val(kuerzel);
                 form.find(`input[name="${ EMAIL }"]`).val(email);
                 ausbildungsberufSelect.val(id_ausbildungsberuf);
                 form.find(`input[name="${ AUSBILDUNGSSTART }"]`).val(ausbildungsstart);
@@ -307,6 +314,7 @@ jQuery(function($) {
             var idInput = form.find(`input[name="${ ID }"]`);
             var vornameInput = form.find(`input[name="${ VORNAME }"]`);
             var nachnameInput = form.find(`input[name="${ NACHNAME }"]`);
+            var kuerzelInput = form.find(`input[name="${ KUERZEL }"]`);
             var emailInput = form.find(`input[name="${ EMAIL }"]`);
             var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
             var ausbildungsstartInput = form.find(`input[name="${ AUSBILDUNGSSTART }"]`);
@@ -321,6 +329,7 @@ jQuery(function($) {
                     id: idInput.val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
+                    kuerzel: kuerzelInput.val(),
                     email: emailInput.val(),
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
@@ -331,6 +340,7 @@ jQuery(function($) {
                     idInput.val("");
                     vornameInput.val("");
                     nachnameInput.val("");
+                    kuerzelInput.val("");
                     emailInput.val("");
                     ausbildungsberufSelect.empty();
                     ausbildungsstartInput.val("");

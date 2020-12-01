@@ -95,7 +95,7 @@ unset($currentDate);
 <table>
     <thead>
         <tr>
-            <th colspan="3" class="top-left-sticky"></th>
+            <th colspan="4" class="top-left-sticky"></th>
 
             <?php foreach ($weeksPerMonth as $month => $numberOfWeeks) : ?>
                 <th colspan="<?= $numberOfWeeks; ?>"><?= $month; ?></th>
@@ -105,6 +105,7 @@ unset($currentDate);
         <tr>
             <th class="top-left-sticky">Nachname</th>
             <th class="top-left-sticky">Vorname</th>
+            <th class="top-left-sticky">Kürzel</th>
             <th class="top-left-sticky">Zeitraum</th>
 
             <?php $currentDate = $tableFirstDate; ?>
@@ -126,7 +127,7 @@ unset($currentDate);
         <?php foreach ($azubisByAusbildungsberufe as $id_ausbildungsberuf => $azubis) : ?>
 
             <tr>
-                <th class="ausbildungsberuf" colspan="3">
+                <th class="ausbildungsberuf" colspan="4">
                     <div class="icon-triangle-b"></div>
                     <b><?= $Ausbildungsberufe[$id_ausbildungsberuf]->Bezeichnung; ?></b>
                 </th>
@@ -140,6 +141,7 @@ unset($currentDate);
                         data-id="<?= $azubi->ID; ?>">
                         <th><?= $azubi->Nachname; ?></th>
                         <th><?= $azubi->Vorname; ?></th>
+                        <th><?= $azubi->Kuerzel; ?></th>
                         <th>
                             <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . ' - ' . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
                         </th>

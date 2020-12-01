@@ -13,13 +13,14 @@ include_once(dirname(dirname(__DIR__)) . '/config.php');
 if (is_logged_in() && is_token_valid()) {
 
     if (array_key_exists('id', $_POST) && array_key_exists('vorname', $_POST) && array_key_exists('nachname', $_POST) &&
-        array_key_exists('email', $_POST) && array_key_exists('id_ausbildungsberuf', $_POST) &&
-        array_key_exists('ausbildungsstart', $_POST) && array_key_exists('ausbildungsende', $_POST) &&
-        array_key_exists('planung_erstellen', $_POST)) {
+        array_key_exists('kuerzel', $_POST) && array_key_exists('email', $_POST) &&
+        array_key_exists('id_ausbildungsberuf', $_POST) && array_key_exists('ausbildungsstart', $_POST) &&
+        array_key_exists('ausbildungsende', $_POST) && array_key_exists('planung_erstellen', $_POST)) {
 
         $id                     = sanitize_string($_POST['id']);
         $vorname                = sanitize_string($_POST['vorname']);
         $nachname               = sanitize_string($_POST['nachname']);
+        $kuerzel                = substr(sanitize_string($_POST['kuerzel']), 0, 2);
         $email                  = sanitize_string($_POST['email']);
         $id_ausbildungsberuf    = sanitize_string($_POST['id_ausbildungsberuf']);
         $ausbildungsstart       = sanitize_string($_POST['ausbildungsstart']);
@@ -31,11 +32,11 @@ if (is_logged_in() && is_token_valid()) {
             !empty($ausbildungsstart) && !empty($ausbildungsende)) {
 
             global $pdo;
-            $azubi = new Auszubildender($vorname, $nachname, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id);
+            $azubi = new Auszubildender($vorname, $nachname, $kuerzel, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id);
 
             $statement = $pdo->prepare(
                 'UPDATE ' . T_AUSZUBILDENDE . '
-                SET Vorname = :vorname, Nachname = :nachname, Email = :email, ID_Ausbildungsberuf = :id_ausbildungsberuf, Ausbildungsstart = :ausbildungsstart, Ausbildungsende = :ausbildungsende
+                SET Vorname = :vorname, Nachname = :nachname, Kuerzel = :kuerzel, Email = :email, ID_Ausbildungsberuf = :id_ausbildungsberuf, Ausbildungsstart = :ausbildungsstart, Ausbildungsende = :ausbildungsende
                 WHERE ID = :id'
             );
 
@@ -43,6 +44,7 @@ if (is_logged_in() && is_token_valid()) {
                 ':id'                   => $azubi->ID,
                 ':vorname'              => $azubi->Vorname,
                 ':nachname'             => $azubi->Nachname,
+                ':kuerzel'              => $azubi->Kuerzel,
                 ':email'                => $azubi->Email,
                 ':id_ausbildungsberuf'  => $azubi->ID_Ausbildungsberuf,
                 'ausbildungsstart'      => $azubi->Ausbildungsstart,

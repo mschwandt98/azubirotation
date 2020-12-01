@@ -25,6 +25,10 @@
             <input type="text" name="nachname" required />
         </label>
         <label>
+            <span>Kürzel</span>
+            <input type="text" name="kuerzel" required />
+        </label>
+        <label>
             <span>Email</span>
             <input type="email" name="email" required />
         </label>
@@ -61,6 +65,10 @@
         <label>
             <span>Nachname</span>
             <input type="text" name="nachname" required />
+        </label>
+        <label>
+            <span>Kürzel</span>
+            <input type="text" name="kuerzel" maxlength="2" required />
         </label>
         <label>
             <span>Email</span>

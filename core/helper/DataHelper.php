@@ -165,6 +165,7 @@ class DataHelper {
             $azubis[$key] = new Auszubildender(
                 $azubi['Vorname'],
                 $azubi['Nachname'],
+                $azubi['Kuerzel'],
                 $azubi['Email'],
                 $azubi['ID_Ausbildungsberuf'],
                 $azubi['Ausbildungsstart'],

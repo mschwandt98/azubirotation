@@ -23,6 +23,11 @@ class Auszubildender {
     public $Nachname;
 
     /**
+     * @var string Das Kürzel des Azubis.
+     */
+    public $Kuerzel;
+
+    /**
      * @var string Die Email des Azubis.
      */
     public $Email;
@@ -52,6 +57,7 @@ class Auszubildender {
      *
      * @param string    $vorname                Der Vornames des Azubis.
      * @param string    $nachname               Der Nachname des Azubis.
+     * @param string    $kuerzel                Das Kürzel des Azubis.
      * @param string    $email                  Die Email des Azubis.
      * @param int       $id_ausbildungsberuf    Die ID des Ausbildungsberufes
      *                                          des Azubis.
@@ -61,9 +67,10 @@ class Auszubildender {
      *                                          seine Ausbildung beendet.
      * @param int       $id                     Die ID des Azubis.
      */
-    function __construct($vorname, $nachname, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id = 0) {
+    function __construct($vorname, $nachname, $kuerzel, $email, $id_ausbildungsberuf, $ausbildungsstart, $ausbildungsende, $id = 0) {
         $this->Vorname = $vorname;
         $this->Nachname = $nachname;
+        $this->Kuerzel = $kuerzel;
         $this->Email = $email;
         $this->ID_Ausbildungsberuf = intval($id_ausbildungsberuf);
         $this->Ausbildungsstart = $ausbildungsstart;

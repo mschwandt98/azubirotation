@@ -158,6 +158,10 @@ Footer {
                 left: 234px;
             }
 
+            &:nth-of-type(4) {
+                left: 292px;
+            }
+
             @-moz-document url-prefix() {
                 &:first-of-type {
                     left: 1px !important;
@@ -165,6 +169,10 @@ Footer {
 
                 &:nth-of-type(3) {
                     left: 235px;
+                }
+
+                &:nth-of-type(4) {
+                    left: 293px;
                 }
             }
         }
@@ -188,6 +196,10 @@ Footer {
                 left: 234px;
             }
 
+            &:nth-of-type(4) {
+                left: 292px;
+            }
+
             @-moz-document url-prefix() {
                 &:first-of-type {
                     left: 1px !important;
@@ -195,6 +207,10 @@ Footer {
 
                 &:nth-of-type(3) {
                     left: 235px;
+                }
+
+                &:nth-of-type(3) {
+                    left: 293px;
                 }
             }
         }
