@@ -29,6 +29,7 @@ if (is_logged_in() && is_token_valid()) {
     include_once(BASE . 'templates/Email.php');
     $nachricht = ob_get_flush();
 
+    // TODO: From und Reply-To zu Email des aktuellen Accounts -> Accounts mit Email
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=utf-8';
     $header[] = 'From: Ausbildungsplaner <personal@selectline.de>';
