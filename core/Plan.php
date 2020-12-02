@@ -42,8 +42,6 @@ $Plaene = $helper->GetPlaene();
 $azubisByAusbildungsberufe = [];
 foreach ($helper->GetAzubis() as $azubi) {
 
-    $azubi->plan = [];
-
     if (empty($tableFirstDate) || $azubi->Ausbildungsstart < $tableFirstDate) {
         $tableFirstDate = $azubi->Ausbildungsstart;
     }
@@ -52,6 +50,7 @@ foreach ($helper->GetAzubis() as $azubi) {
         $tableLastDate = $azubi->Ausbildungsende;
     }
 
+    $azubi->plan = [];
     foreach ($Plaene as $plan) {
 
         if ($plan->ID_Azubi === $azubi->ID) {
@@ -65,6 +64,34 @@ foreach ($helper->GetAzubis() as $azubi) {
 }
 
 if (empty($tableFirstDate) || empty($tableLastDate)) return;
+
+// Volle Phasen (Startdatum und Enddatum) ermitteln
+$fullPlanPhases = [];
+foreach ($azubisByAusbildungsberufe as $k1 => $azubis) {
+    foreach ($azubis as $k2 => $azubi) {
+
+        $fullPlanPhases[$azubi->ID] = [];
+        $lastAbteilung = 0;
+        $lastAnsprechpartner = 0;
+        $lastUniqueId = '';
+        foreach ($azubi->plan as $k3 => $plan) {
+
+            if ($lastAbteilung === $plan->ID_Abteilung && $lastAnsprechpartner === $plan->ID_Ansprechpartner) {
+                $fullPlanPhases[$azubi->ID][$lastUniqueId]['Enddatum'] = DateHelper::FormatDate($plan->Enddatum);
+            } else {
+                $lastUniqueId = uniqid();
+                $fullPlanPhases[$azubi->ID][$lastUniqueId] = [
+                    'Startdatum'    => DateHelper::FormatDate($plan->Startdatum),
+                    'Enddatum'      => DateHelper::FormatDate($plan->Enddatum)
+                ];
+            }
+
+            $azubisByAusbildungsberufe[$k1][$k2]->plan[$k3]->uniqid = $lastUniqueId;
+            $lastAbteilung = $plan->ID_Abteilung;
+            $lastAnsprechpartner = $plan->ID_Ansprechpartner;
+        }
+    }
+}
 
 if (!DateHelper::IsMonday($tableFirstDate)) {
     $tableFirstDate = DateHelper::LastMonday($tableFirstDate);
@@ -148,7 +175,6 @@ unset($currentDate);
 
                         <?php $currentDate = $tableFirstDate; ?>
                         <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
-
                             <?php if ($plan = AzubiHasPlan($azubi, $currentDate)) : ?>
                                 <?php $abteilung = $Abteilungen[$plan->ID_Abteilung]; ?>
                                 <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, 'W Y')][$abteilung->ID] = $abteilung; ?>
@@ -160,7 +186,7 @@ unset($currentDate);
                                     data-date="<?= $currentDate; ?>"
                                     data-id-abteilung="<?= $plan->ID_Abteilung;?>"
                                     data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ''; ?>"
-                                    title="<?= $abteilung->Bezeichnung; ?>"
+                                    title="<?= $abteilung->Bezeichnung; ?> | <?= $fullPlanPhases[$azubi->ID][$plan->uniqid]['Startdatum']; ?> - <?= $fullPlanPhases[$azubi->ID][$plan->uniqid]['Enddatum']; ?>"
                                 >
 
                                     <?php if (IsFirstPhaseInAbteilung($azubi, $plan, $currentDate) && !empty($plan->ID_Ansprechpartner)) : ?>
