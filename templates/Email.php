@@ -49,7 +49,8 @@
             padding: 16px 32px 32px;
             position: relative;
             text-align: center;
-            width: 100%;
+            width: 75%;
+            min-width: 360px;
         }
     </style>
 </head>
@@ -59,13 +60,13 @@
         <p>
             Es wurden Änderungen an der Ausbildungsplanung vorgenommen.
             <br>
-            Klicke <a href="<?= $url; ?>" target="_blank">hier</a>, um den aktuellen Ausbildungsplan dir anzuschauen.
+            Klicke <a href="<?= $url; ?>" target="_blank">hier</a>, um dir den aktuellen Ausbildungsplan anzuschauen.
         </p>
         <hr>
         <div>
             <h2>Der Link funktioniert nicht?</h2>
             <div>
-                Um Zugang auf den Ausbildungsplaner zu erhalten, musst du im internen Netzwerk der SelectLine Software GmbH angemeldet sein!
+                Um auf den Ausbildungsplan zugreifen zu können, musst du im internen Netzwerk der SelectLine Software GmbH angemeldet sein!
             </div>
         </div>
         <hr>
@@ -79,7 +80,7 @@
         <div>
             <h2>Warum erhälst du diese E-Mail?</h2>
             <div>
-                Du erhälst diese E-Mail, da deine E-Mail-Adresse in der Ausbildungsplanung bei einem Auszubildenden oder einem Ansprechpartner hinterlegt ist.
+                Du bist in der Ausbildungsplanung als Auszubildender, Student oder Ansprechpartner aufgeführt. Dementsprechend ist deine Email für Benachrichtigungen wie dieser hinterlegt.
             </div>
         </div>
         <hr>

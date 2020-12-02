@@ -31,6 +31,8 @@ if (is_logged_in() && is_token_valid()) {
 
     $header[] = 'MIME-Version: 1.0';
     $header[] = 'Content-type: text/html; charset=utf-8';
+    $header[] = 'From: Ausbildungsplaner <personal@selectline.de>';
+    $header[] = 'Reply-To: Personal <personal@selectline.de>';
 
     if (mail($empfaenger, $betreff, $nachricht, implode("\r\n", $header))) {
         http_response_code(200);
