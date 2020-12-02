@@ -57,7 +57,7 @@
     <div id="Wrapper">
         <h1>Ausbildungsplaner</h1>
         <p>
-            Es wurden Änderungen an der Azubirotation vorgenommen.
+            Es wurden Änderungen an der Ausbildungsplanung vorgenommen.
             <br>
             Klicke <a href="<?= $url; ?>" target="_blank">hier</a>, um den aktuellen Ausbildungsplan dir anzuschauen.
         </p>
@@ -86,7 +86,7 @@
         <div>
             <h2>Du möchtest die Planung ausdrucken?</h2>
             <div>
-                Folge <a href="<?= $url . '/print'; ?>" target="_blank">diesem Link</a>, um den aktuellen Ausbildungsplan auszudrucken.
+                Folge <a href="<?= $url . 'print'; ?>" target="_blank">diesem Link</a>, um den aktuellen Ausbildungsplan auszudrucken.
             </div>
         </div>
     </div>

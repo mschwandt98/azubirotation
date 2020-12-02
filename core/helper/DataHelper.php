@@ -201,9 +201,9 @@ class DataHelper {
 
         $statement = $this->db->prepare(
             "SELECT sp.*, ab.Bezeichnung AS Ausbildungsberuf, a.Bezeichnung AS Abteilung
-            FROM standardpläne sp
-            JOIN ausbildungsberufe ab ON sp.ID_Ausbildungsberuf = ab.ID
-            JOIN abteilungen a ON sp.ID_Abteilung = a.ID
+            FROM " . T_STANDARDPLAENE . " sp
+            JOIN " . T_AUSBILDUNGSBERUFE . " ab ON sp.ID_Ausbildungsberuf = ab.ID
+            JOIN " . T_ABTEILUNGEN . " a ON sp.ID_Abteilung = a.ID
             $sql_where
             ORDER BY ab.Bezeichnung ASC;"
         );

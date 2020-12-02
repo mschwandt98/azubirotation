@@ -22,7 +22,7 @@ if (is_logged_in() && is_token_valid()) {
     foreach ($azubis as $person) $emails[] = $person->Email;
 
     $empfaenger = implode(', ', array_unique($emails));
-    $betreff = '=?utf-8?b?' . base64_encode('Änderungen an der Azubirotation') . '?=';
+    $betreff = '=?utf-8?b?' . base64_encode('Änderungen an der Ausbildungsplanung') . '?=';
     $url = $_SERVER['HTTP_REFERER'];
 
     ob_start();

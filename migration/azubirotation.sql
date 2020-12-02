@@ -7,8 +7,8 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `azubirotation` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `azubirotation`;
+CREATE DATABASE IF NOT EXISTS `ausbildungsplaner` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ausbildungsplaner`;
 
 CREATE TABLE `abteilungen` (
   `ID` bigint(20) UNSIGNED NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `errors` (
   `Accepted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `pläne` (
+CREATE TABLE `plaene` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `ID_Auszubildender` bigint(20) UNSIGNED DEFAULT NULL,
   `ID_Ansprechpartner` bigint(20) UNSIGNED DEFAULT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` (`ID`, `name`, `value`) VALUES
 (1, 'allow-registration', 'true');
 
-CREATE TABLE `standardpläne` (
+CREATE TABLE `standardplaene` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `ID_Ausbildungsberuf` bigint(20) UNSIGNED DEFAULT NULL,
   `ID_Abteilung` bigint(20) UNSIGNED DEFAULT NULL,
@@ -117,7 +117,7 @@ ALTER TABLE `auszubildende`
 ALTER TABLE `errors`
   ADD UNIQUE KEY `ID` (`ID`);
 
-ALTER TABLE `pläne`
+ALTER TABLE `plaene`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`),
   ADD KEY `ID_Auszubildender` (`ID_Auszubildender`),
@@ -129,7 +129,7 @@ ALTER TABLE `settings`
   ADD UNIQUE KEY `ID` (`ID`),
   ADD UNIQUE KEY `name` (`name`);
 
-ALTER TABLE `standardpläne`
+ALTER TABLE `standardplaene`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `ID` (`ID`),
   ADD KEY `ID_Ausbildungsberuf` (`ID_Ausbildungsberuf`),
@@ -158,13 +158,13 @@ ALTER TABLE `auszubildende`
 ALTER TABLE `errors`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `pläne`
+ALTER TABLE `plaene`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `settings`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE `standardpläne`
+ALTER TABLE `standardplaene`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `termine`
@@ -177,17 +177,17 @@ ALTER TABLE `ansprechpartner`
 ALTER TABLE `auszubildende`
   ADD CONSTRAINT `auszubildende_ibfk_1` FOREIGN KEY (`ID_Ausbildungsberuf`) REFERENCES `ausbildungsberufe` (`ID`);
 
-ALTER TABLE `pläne`
-  ADD CONSTRAINT `pläne_ibfk_1` FOREIGN KEY (`ID_Auszubildender`) REFERENCES `auszubildende` (`ID`),
-  ADD CONSTRAINT `pläne_ibfk_2` FOREIGN KEY (`ID_Ansprechpartner`) REFERENCES `ansprechpartner` (`ID`),
-  ADD CONSTRAINT `pläne_ibfk_3` FOREIGN KEY (`ID_Abteilung`) REFERENCES `abteilungen` (`ID`);
+ALTER TABLE `plaene`
+  ADD CONSTRAINT `plaene_ibfk_1` FOREIGN KEY (`ID_Auszubildender`) REFERENCES `auszubildende` (`ID`),
+  ADD CONSTRAINT `plaene_ibfk_2` FOREIGN KEY (`ID_Ansprechpartner`) REFERENCES `ansprechpartner` (`ID`),
+  ADD CONSTRAINT `plaene_ibfk_3` FOREIGN KEY (`ID_Abteilung`) REFERENCES `abteilungen` (`ID`);
 
-ALTER TABLE `standardpläne`
-  ADD CONSTRAINT `standardpläne_ibfk_1` FOREIGN KEY (`ID_Ausbildungsberuf`) REFERENCES `ausbildungsberufe` (`ID`),
-  ADD CONSTRAINT `standardpläne_ibfk_2` FOREIGN KEY (`ID_Abteilung`) REFERENCES `abteilungen` (`ID`);
+ALTER TABLE `standardplaene`
+  ADD CONSTRAINT `standardplaene_ibfk_1` FOREIGN KEY (`ID_Ausbildungsberuf`) REFERENCES `ausbildungsberufe` (`ID`),
+  ADD CONSTRAINT `standardplaene_ibfk_2` FOREIGN KEY (`ID_Abteilung`) REFERENCES `abteilungen` (`ID`);
 
 ALTER TABLE `termine`
-  ADD CONSTRAINT `termine_ibfk_1` FOREIGN KEY (`ID_Plan`) REFERENCES `pläne` (`ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `termine_ibfk_1` FOREIGN KEY (`ID_Plan`) REFERENCES `plaene` (`ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -6,7 +6,7 @@
  */
 
 // DB-Zugang
-define('DB_DATABASE', 'azubirotation');
+define('DB_DATABASE', 'ausbildungsplaner');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
@@ -25,9 +25,9 @@ define('T_ANSPRECHPARTNER', 'ansprechpartner');
 define('T_AUSBILDUNGSBERUFE', 'ausbildungsberufe');
 define('T_AUSZUBILDENDE', 'auszubildende');
 define('T_ERRORS', 'errors');
-define('T_PLAENE', 'pläne');
+define('T_PLAENE', 'plaene');
 define('T_SETTINGS', 'settings');
-define('T_STANDARDPLAENE', 'standardpläne');
+define('T_STANDARDPLAENE', 'standardplaene');
 define('T_TERMINE', 'termine');
 
 // Pfade
