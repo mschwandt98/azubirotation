@@ -7,12 +7,12 @@
  */
 ?>
 
-<div class="data-item">
+<div class="data-item ausbildungsberufe-item">
     <div class="icon-plus"></div>
     <div class="title">Ausbildungsberufe</div>
     <div class="show-add-buttons" style="display: none;">
-        <input type="button" id="ShowAusbildungsberufeButton" value="Anzeigen" />
-        <input type="button" id="ShowAddAusbildungsberufForm" value="Anlegen" />
+        <input type="button" class="show-data" value="Anzeigen" />
+        <input type="button" class="add-data" value="Anlegen" />
     </div>
     <div id="Ausbildungsberufe" style="display: none;"></div>
     <form id="AddAusbildungsberufForm" method="post" style="display: none;">

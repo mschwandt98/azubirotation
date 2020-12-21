@@ -7,12 +7,12 @@
  */
 ?>
 
-<div class="data-item">
+<div class="data-item standardplaene-item">
     <div class="icon-plus"></div>
     <div class="title">Standardpläne</div>
     <div class="show-add-buttons" style="display: none;">
-        <input type="button" id="ShowStandardplaeneButton" value="Anzeigen" />
-        <input type="button" id="ShowAddStandardplanForm" value="Anlegen" />
+        <input type="button" class="show-data" value="Anzeigen" />
+        <input type="button" class="add-data" value="Anlegen" />
     </div>
     <div id="Standardplaene" style="display: none;"></div>
     <form id="AddStandardplanForm" method="post" style="display: none;">

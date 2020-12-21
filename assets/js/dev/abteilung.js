@@ -41,11 +41,10 @@ jQuery(function($) {
         }
 
         /**
-         * Führt ein Click-Event auf dem Element mit der ID
-         * "ShowAbteilungenButton" aus.
+         * Führt das Click-Event des Buttons zum Anzeigen der Abteilungen aus.
          */
         function ShowAbteilungen() {
-            $("#ShowAbteilungenButton").click();
+            $(".data-item.abteilung-item .show-data").click();
         }
 
         /**
@@ -53,7 +52,7 @@ jQuery(function($) {
          * Für jede Abteilung wird ein Button zum Bearbeiten und Löschen der
          * jeweiligen Abteilung erstellt.
          */
-        $("#ShowAbteilungenButton").on("click", function() {
+        $(".data-item.abteilung-item").on("click", ".show-data", function() {
 
             $("#LoadingSpinner").show();
             $.get(APIABTEILUNG + "Get", function(data) {
@@ -95,7 +94,7 @@ jQuery(function($) {
         /**
          * Zeigt das Formular zum Hinzufügen einer Abteilung an.
          */
-        $("#ShowAddAbteilungForm").on("click", function() {
+        $(".data-item.abteilung-item").on("click", ".add-data", function() {
             HideViews();
             $("#AddAbteilungForm").stop().show(TIME);
         });

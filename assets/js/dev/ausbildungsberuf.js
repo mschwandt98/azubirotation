@@ -32,11 +32,11 @@ jQuery(function($) {
         }
 
         /**
-         * Führt ein Click-Event auf dem Element mit der ID
-         * "ShowAusbildungsberufeButton" aus.
+         * Führt das Click-Event des Buttons zum Anzeigen der Ausbildungsberufe
+         * aus.
          */
         function ShowAusbildungsberufe() {
-            $("#ShowAusbildungsberufeButton").click();
+            $(".data-item.ausbildungsberufe-item .show-data").click();
         }
 
         /**
@@ -44,7 +44,7 @@ jQuery(function($) {
          * an. Für jeden Ausbildungsberuf wird ein Button zum Bearbeiten und
          * Löschen des jeweiligen Ausbildungsberufes erstellt.
          */
-        $("#ShowAusbildungsberufeButton").on("click", function() {
+        $(".data-item.ausbildungsberufe-item").on("click", ".show-data", function() {
 
             $("#LoadingSpinner").show();
             $.get(APIAUSBILDUNGSBERUF + "Get", function(data) {
@@ -84,7 +84,7 @@ jQuery(function($) {
         /**
          * Zeigt das Formular zum Hinzufügen eines Ausbildungsberufes an.
          */
-        $("#ShowAddAusbildungsberufForm").on("click", function() {
+        $(".data-item.ausbildungsberufe-item").on("click", ".add-data", function() {
             HideViews();
             $("#AddAusbildungsberufForm").stop().show(TIME);
         });

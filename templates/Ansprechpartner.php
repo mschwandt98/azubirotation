@@ -7,12 +7,12 @@
  */
 ?>
 
-<div class="data-item">
+<div class="data-item ansprechpartner-item">
     <div class="icon-plus"></div>
     <div class="title">Ansprechpartner</div>
     <div class="show-add-buttons" style="display: none;">
-        <input type="button" id="ShowAnsprechpartnerButton" value="Anzeigen" />
-        <input type="button" id="ShowAddAnsprechpartnerForm" value="Anlegen" />
+        <input type="button" class="show-data" value="Anzeigen" />
+        <input type="button" class="add-data" value="Anlegen" />
     </div>
     <div id="Ansprechpartner" style="display: none;"></div>
     <form id="AddAnsprechpartnerForm" method="post" style="display: none;">

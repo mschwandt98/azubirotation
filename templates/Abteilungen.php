@@ -7,12 +7,12 @@
  */
 ?>
 
-<div class="data-item">
+<div class="data-item abteilung-item">
     <div class="icon-plus"></div>
     <div class="title">Abteilungen</div>
     <div class="show-add-buttons" style="display: none;">
-        <input type="button" id="ShowAbteilungenButton" value="Anzeigen" />
-        <input type="button" id="ShowAddAbteilungForm" value="Anlegen" />
+        <input type="button" class="show-data" value="Anzeigen" />
+        <input type="button" class="add-data" value="Anlegen" />
     </div>
     <div id="Abteilungen" style="display: none;"></div>
     <form id="AddAbteilungForm" method="post" style="display: none">

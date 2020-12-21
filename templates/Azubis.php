@@ -7,12 +7,12 @@
  */
 ?>
 
-<div class="data-item">
+<div class="data-item azubis-item">
     <div class="icon-plus"></div>
     <div class="title">Auszubildende</div>
     <div class="show-add-buttons" style="display: none;">
-        <input type="button" id="ShowAzubisButton" value="Anzeigen" />
-        <input type="button" id="ShowAddAzubiForm" value="Anlegen" />
+        <input type="button" class="show-data" value="Anzeigen" />
+        <input type="button" class="add-data" value="Anlegen" />
     </div>
     <div id="Azubis" style="display: none;"></div>
     <form id="AddAzubiForm" method="post" style="display: none;">

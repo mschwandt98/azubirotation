@@ -43,11 +43,11 @@ jQuery(function($) {
         }
 
         /**
-         * Führt ein Click-Event auf dem Element mit der ID
-         * "ShowAnsprechpartnerButton" aus.
+         * Führt das Click-Event des Buttons zum Anzeigen der Ansprechpartner
+         * aus.
          */
         function ShowAnsprechpartner() {
-            $("#ShowAnsprechpartnerButton").click();
+            $(".data-item.ansprechpartner-item .show-data").click();
         }
 
         /**
@@ -55,7 +55,7 @@ jQuery(function($) {
          * an. Für jeden Ansprechpartner wird ein Button zum Bearbeiten und
          * Löschen des jeweiligen Ansprechpartners erstellt.
          */
-        $("#ShowAnsprechpartnerButton").on("click", function() {
+        $(".data-item.ansprechpartner-item").on("click", ".show-data", function() {
 
             $("#LoadingSpinner").show();
             $.get(APIANSPRECHPARTNER + "Get", function(data) {
@@ -100,7 +100,7 @@ jQuery(function($) {
          * dieses Formular alle Abteilungen benötigt werden, wird eine
          * AJAX-Anfrage des Typs GET gestellt.
          */
-        $("#ShowAddAnsprechpartnerForm").on("click", function() {
+        $(".data-item.ansprechpartner-item").on("click", ".add-data", function() {
 
             $("#LoadingSpinner").show();
 
@@ -242,7 +242,7 @@ jQuery(function($) {
                     abteilungSelect.find("option").remove();
 
                     HideViews();
-                    $("#ShowAnsprechpartnerButton").click();
+                    $(".data-item.ansprechpartner-item .show-data").click();
                 },
                 error: function() {
                     HandleError("Es traten Fehler beim Aktualisieren des Ansprechpartners auf.");

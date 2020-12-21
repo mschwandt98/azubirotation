@@ -72,12 +72,11 @@ jQuery(function($) {
         }
 
         /**
-         * Führt ein Click-Event auf dem Element mit der ID "ShowAzubisButton"
-         * aus.
+         * Führt das Click-Event des Buttons zum Anzeigen der Azubis aus.
          */
         function ShowAzubis() {
             HideViews();
-            $("#ShowAzubisButton").click();
+            $(".data-item.azubis-item .show-data").click();
         }
 
         /**
@@ -85,7 +84,7 @@ jQuery(function($) {
          * jeden Azubi wird ein Button zum Bearbeiten und Löschen des jeweiligen
          * Azubis erstellt.
          */
-        $("#ShowAzubisButton").on("click", function() {
+        $(".data-item.azubis-item").on("click", ".show-data", function() {
 
             $("#LoadingSpinner").show();
             $.get(APIAZUBI + "Get", function(data) {
@@ -133,7 +132,7 @@ jQuery(function($) {
          * alle Ausbildungsberufe benötigt werden, wird eine AJAX-Anfrage des
          * Typs GET gestellt, um diese zu holen.
          */
-        $("#ShowAddAzubiForm").on("click", function() {
+        $(".data-item.azubis-item").on("click", ".add-data", function() {
 
             $("#LoadingSpinner").show();
             var ausbildungsberufSelect = $("#AddAzubiForm").find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);

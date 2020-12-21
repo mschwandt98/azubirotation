@@ -60,7 +60,9 @@ jQuery(function($) {
             var el = $(this);
             var container = el.closest(".data-item");
             container.find(".title").css({ marginBottom: 8 });
-            container.find("> div.show-add-buttons").stop().show(TIME);
+            var showButtons = container.find("> div.show-add-buttons");
+            showButtons.find(".show-data").click();
+            showButtons.stop().show(400);
             el.removeClass("icon-plus").addClass("icon-minus");
         });
 

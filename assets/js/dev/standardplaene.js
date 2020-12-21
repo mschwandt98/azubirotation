@@ -121,11 +121,10 @@ jQuery(function($) {
         }
 
         /**
-         * Führt ein Click-Event auf dem Element mit der ID
-         * "ShowStandardplaeneButton" aus.
+         * Führt das Click-Event des Buttons zum Anzeigen der Standardpläne aus.
          */
         function ShowStandardPlaene() {
-            $("#ShowStandardplaeneButton").click();
+            $(".data-item.standardplaene-item .show-data").click();
         }
 
         /**
@@ -133,7 +132,7 @@ jQuery(function($) {
          * Für jeden Standardplan wird ein Button zum Bearbeiten und Löschen des
          * jeweiligen Standardplans erstellt.
          */
-        $("#ShowStandardplaeneButton").on("click", function() {
+        $(".data-item.standardplaene-item").on("click", ".show-data", function() {
 
             $("#LoadingSpinner").show();
 
@@ -179,7 +178,7 @@ jQuery(function($) {
          * Formular die Ausbildungsberufe und Abteilungen benötigt werden,
          * werden AJAX-Anfragen des Typs GET gestellt, um diese zu holen.
          */
-        $("#ShowAddStandardplanForm").on("click", function() {
+        $(".data-item.standardplaene-item").on("click", ".add-data", function() {
 
             $("#LoadingSpinner").show();
             var form = $("#AddStandardplanForm");
