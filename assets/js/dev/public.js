@@ -52,8 +52,9 @@ jQuery(function($) {
          *                                      werden sollen.
          * @param {boolean}             hide    True = Reihen ausblenden
          *                                      False = Reihen einblenden
+         * @param {requestCallback}     callback
          */
-        function HideShowAzubisOfBeruf(row, hide) {
+        function HideShowAzubisOfBeruf(row, hide, callback = null) {
 
             var row = $(row);
             while (true) {
@@ -63,13 +64,17 @@ jQuery(function($) {
                     row = row.next();
 
                     if (hide) {
-                        HideAzubiRow();
+                        HideAzubiRow(row);
                     } else {
-                        ShowAzubiRow();
+                        ShowAzubiRow(row);
                     }
                 } else {
                     break;
                 }
+            }
+
+            if (callback && !hide) {
+                callback();
             }
         }
 
@@ -99,12 +104,27 @@ jQuery(function($) {
         });
 
         /**
-         * Filtert die Azubis in der Planung nach dem eingegebenen Suchtext.
-         * Gefiltert wird in den Nachnamen, den Vornamen und den Kürzeln.
+         * Triggert die Filterung.
          */
         $("#Filter").on("input", 'input[type="search"]', function() {
 
-            var searchText = ($(this).val()).toLowerCase();
+            var rows = $("#Plan tr .ausbildungsberuf").closest("tr");
+            rows.each(index => {
+                let row = $(rows[index]);
+                row.find("th div").first().removeClass("icon-triangle-r").addClass("icon-triangle-b");
+                HideShowAzubisOfBeruf(row, false);
+            });
+
+            FilterAzubis();
+        });
+
+        /**
+         * Filtert die Azubis in der Planung nach dem eingegebenen Suchtext.
+         * Gefiltert wird in den Nachnamen, den Vornamen und den Kürzeln.
+         */
+        function FilterAzubis() {
+
+            var searchText = ($('#Filter input[type="search"]').val()).toLowerCase();
             var azubis = $("#Plan .azubi");
 
             azubis.each(index => {
@@ -160,7 +180,7 @@ jQuery(function($) {
                     berufsRow.show();
                 }
             });
-        });
+        }
 
         /**
          * Öffnet die druckbare Version des Plans.
@@ -178,9 +198,9 @@ jQuery(function($) {
             icon = el.find("div").first();
 
             if (icon.hasClass("icon-triangle-b")) {
-                HideShowAzubisOfBeruf(el.closest("tr"), true);
+                HideShowAzubisOfBeruf(el.closest("tr"), true, FilterAzubis);
             } else {
-                HideShowAzubisOfBeruf(el.closest("tr"));
+                HideShowAzubisOfBeruf(el.closest("tr"), false, FilterAzubis);
             }
 
             icon.toggleClass("icon-triangle-b icon-triangle-r");
