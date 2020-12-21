@@ -5,7 +5,7 @@
  * Der API-Endpunkt zum Holen aller Standardpläne.
  */
 
-use core\Helper\DataHelper;
+use core\helper\DataHelper;
 
 include_once(dirname(dirname(__DIR__)) . '/config.php');
 
