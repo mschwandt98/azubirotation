@@ -133,7 +133,7 @@
 
 // Abgezogene Pixel ~= Header + Main Margin + PlanActions + Data-Item-Boxen
 #Plan {
-    max-height: calc(100vh - 390px);
+    max-height: calc(100vh - 380px);
 
     .plan-phase {
         cursor: cell;
