@@ -16,6 +16,7 @@ input[type="date"],
 input[type="email"],
 input[type="number"],
 input[type="password"]
+input[type="search"],
 input[type="submit"],
 input[type="text"] {
     -webkit-appearance: none;
@@ -38,6 +39,7 @@ form label {
     input[type="email"],
     input[type="number"],
     input[type="password"],
+    input[type="search"],
     input[type="text"],
     select {
         border: 1px solid $gray;
@@ -91,13 +93,13 @@ input[type="button"] {
 
     &.secondary-button {
         background-color: white;
-        border-color: $gray;
-        color: $gray;
+        border-color: $selectline-blue;
+        color: $selectline-blue;
 
         &:active,
         &:focus,
         &:hover {
-            background-color: $gray;
+            background-color: $selectline-blue;
             color: white;
         }
     }

@@ -5,6 +5,7 @@ jQuery(function($) {
         $("#Plan").load("rest/Refresh/Plan", _ => {
 
             $("#LoadingSpinner").hide();
+            $("#Filter").show();
             $("#PlanActions").show();
 
             // Scrollt zum aktuellen Datum in der Planung
@@ -52,7 +53,7 @@ jQuery(function($) {
          * @param {boolean}             hide    True = Reihen ausblenden
          *                                      False = Reihen einblenden
          */
-        function HideShowAzubiRow(row, hide) {
+        function HideShowAzubisOfBeruf(row, hide) {
 
             var row = $(row);
             while (true) {
@@ -62,15 +63,104 @@ jQuery(function($) {
                     row = row.next();
 
                     if (hide) {
-                        row.css({ visibility: "collapse" });
+                        HideAzubiRow();
                     } else {
-                        row.css({ visibility: "visible" });
+                        ShowAzubiRow();
                     }
                 } else {
                     break;
                 }
             }
         }
+
+        /**
+         * Setzt die Visibility der Reihe auf "collapse".
+         *
+         * @param {HTMLTableRowElement} row Die zu versteckende Reihe.
+         */
+        function HideAzubiRow(row) {
+            $(row).css({ visibility: "collapse" });
+        }
+
+        /**
+         * Setzt die Visibility der Reihe auf "visible".
+         *
+         * @param {HTMLTableRowElement} row Die zu zeigende Reihe.
+         */
+        function ShowAzubiRow(row) {
+            $(row).css({ visibility: "visible" });
+        }
+
+        /**
+         * Verhindert, dass das Formular zur Filterung submitted werden kann.
+         */
+        $("#Filter").on("submit", function(e) {
+            e.preventDefault();
+        });
+
+        /**
+         * Filtert die Azubis in der Planung nach dem eingegebenen Suchtext.
+         * Gefiltert wird in den Nachnamen, den Vornamen und den Kürzeln.
+         */
+        $("#Filter").on("input", 'input[type="search"]', function() {
+
+            var searchText = ($(this).val()).toLowerCase();
+            var azubis = $("#Plan .azubi");
+
+            azubis.each(index => {
+
+                let azubi = $(azubis[index]);
+                let data = azubi.find("> th:lt(3)");
+                let nachname = data.eq(0).text().toLowerCase();
+                let vorname = data.eq(1).text().toLowerCase();
+                let kuerzel = data.eq(2).text().toLowerCase();
+
+                if (nachname.includes(searchText)) {
+                    ShowAzubiRow(azubi);
+                    return;
+                }
+
+                if (vorname.includes(searchText)) {
+                    ShowAzubiRow(azubi);
+                    return;
+                }
+
+                if (kuerzel.includes(searchText)) {
+                    ShowAzubiRow(azubi);
+                    return;
+                }
+
+                HideAzubiRow(azubi);
+            });
+
+            var rows = $("#Plan .ausbildungsberuf").closest("tr");
+            rows.each(index => {
+
+                let berufsRow = $(rows[index]);
+                let row = berufsRow;
+                let hide = true;
+
+                while (true) {
+                    if (row.next().hasClass("azubi")) {
+
+                        row = row.next();
+                        if (row.css("visibility") === "visible") {
+                            hide = false;
+                            break;
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                if (hide) {
+                    berufsRow.hide();
+                } else {
+                    berufsRow.show();
+                }
+            });
+        });
 
         /**
          * Öffnet die druckbare Version des Plans.
@@ -88,9 +178,9 @@ jQuery(function($) {
             icon = el.find("div").first();
 
             if (icon.hasClass("icon-triangle-b")) {
-                HideShowAzubiRow(el.closest("tr"), true);
+                HideShowAzubisOfBeruf(el.closest("tr"), true);
             } else {
-                HideShowAzubiRow(el.closest("tr"));
+                HideShowAzubisOfBeruf(el.closest("tr"));
             }
 
             icon.toggleClass("icon-triangle-b icon-triangle-r");

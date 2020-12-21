@@ -49,6 +49,7 @@
             input[type="date"],
             input[type="email"],
             input[type="number"],
+            input[type="search"],
             input[type="text"],
             select {
                 max-width: 100%;
@@ -128,7 +129,7 @@
 
 // Abgezogene Pixel ~= Header + Main Margin + PlanActions + Data-Item-Boxen
 #Plan {
-    max-height: calc(100vh - 360px);
+    max-height: calc(100vh - 390px);
 
     .plan-phase {
         cursor: cell;

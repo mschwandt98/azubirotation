@@ -25,9 +25,26 @@
             <?php include_once('templates/Ansprechpartner.php'); ?>
         </div>
     </div>
-    <div><?php include_once('templates/InfoButton.php'); ?></div>
 
 <?php endif; ?>
+
+<div style="display: grid; grid-template-columns: auto 1fr; margin: 16px 0;">
+    <div>
+        <form id="Filter" style="display: none;">
+            <label>
+                <span>Auszubildende filtern: </span>
+                <input type="search" />
+            </label>
+        </form>
+    </div>
+    <div>
+
+        <?php if (is_logged_in()) : ?>
+            <?php include_once('templates/InfoButton.php'); ?>
+        <?php endif; ?>
+
+    </div>
+</div>
 
 <div id="Plan"></div>
 <div id="PlanActions" style="display: none;">
