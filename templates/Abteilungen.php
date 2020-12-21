@@ -28,7 +28,7 @@
             <span>Farbe auswählen</span>
             <input type="color" name="farbe" value="#ffffff" required />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Abteilung anlegen" />
         </div>
     </form>
@@ -46,7 +46,7 @@
             <span>Farbe auswählen</span>
             <input type="color" name="farbe" value="#ffffff" required />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Änderungen speichern" />
         </div>
     </form>

@@ -52,7 +52,7 @@
                    name="planung_erstellen"
                    checked />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Auszubildenden anlegen" />
         </div>
     </form>
@@ -91,7 +91,7 @@
             <input type="checkbox"
                    name="planung_erstellen" />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Änderungen speichern" />
         </div>
     </form>

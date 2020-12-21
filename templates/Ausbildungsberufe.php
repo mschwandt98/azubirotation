@@ -20,7 +20,7 @@
             <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" required />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Ausbildungsberuf anlegen" />
         </div>
     </form>
@@ -30,7 +30,7 @@
             <span>Bezeichnung</span>
             <input type="text" name="bezeichnung" required />
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Änderungen speichern" />
         </div>
     </form>

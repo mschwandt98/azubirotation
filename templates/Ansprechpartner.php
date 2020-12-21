@@ -28,7 +28,7 @@
             <span>Abteilung auswählen</span>
             <select name="id_abteilung" required></select>
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Ansprechpartner anlegen" />
         </div>
     </form>
@@ -46,7 +46,7 @@
             <span>Abteilung auswählen</span>
             <select name="id_abteilung" required></select>
         </label>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Änderungen speichern" />
         </div>
     </form>

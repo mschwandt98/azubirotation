@@ -41,7 +41,7 @@
         <div>
             <input type="button" class="add-phase" value="Phase hinzufügen" />
         </div>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Standardplan anlegen" />
         </div>
     </form>
@@ -60,7 +60,7 @@
         </style>
         <input type="hidden" name="id_ausbildungsberuf" />
         <div class="plan"></div>
-        <div>
+        <div class="submit-button">
             <input type="submit" value="Änderungen speichern" />
         </div>
     </form>
