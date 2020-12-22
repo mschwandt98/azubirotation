@@ -102,6 +102,7 @@ Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
 ## Was ist noch zu tun?
 * Fehler der Planung aus automatischer Suche nach Richtlinienverstöße als Popup
 * Undo und Redo der letzten nicht gespeicherten Änderungen auf Oberfläche
-* jQuery-Instanzen zu einer Instanz zusammenfügen (Extra Build-Skript bauen?)
+* jQuery-Instanzen zu einer Instanz zusammenfügen (Auf die Konstantennamen achten! + Extra Build-Skript bauen?)
 * Deutsches Language-Pack auf Server für PHP installieren
 * Planung immer weiter verbessern
+* Druckversion optimieren + Kürzel der jeweiligen Azubis am Anfang jeder Seite anzeigen
