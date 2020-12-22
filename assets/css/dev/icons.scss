@@ -6,11 +6,7 @@
  * Index
  * - Ausbildungsstart-Markierung
  * - Ausbildungsende-Markierung
- * - Close-Cross
- * - Rechteck rechts,
- * - Rechteck unten
- * - Plus
- * - Minus
+ * - Markierung für einzelne und längere Termine
  */
 
 @import "3rd-party-icons.scss";
@@ -56,6 +52,8 @@
     right: 0;
 }
 
+
+/* Anpassung 3rd-party-class */
 .icon-cross {
     position: absolute;
     right: 8px;

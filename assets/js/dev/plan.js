@@ -130,8 +130,9 @@ jQuery(function($) {
             let idAnsprechpartner = el.attr("data-id-ansprechpartner");
             let returnTds = [];
             $(tds).each(index => {
-                if ($(tds[index]).attr("data-id-ansprechpartner") === idAnsprechpartner) {
-                    returnTds.push($(tds[index]));
+                let td = $(tds[index])
+                if (td.attr("data-id-ansprechpartner") === idAnsprechpartner) {
+                    returnTds.push(td);
                 }
             });
 
@@ -460,8 +461,9 @@ jQuery(function($) {
                 if (el.data("delete-ansprechpartner")) {
 
                     $(tdItems).each(index => {
-                        $(tdItems[index]).removeAttr("data-id-ansprechpartner").addClass("changed")
-                        $(tdItems[index]).find(".ansprechpartner-name").remove();
+                        let selectedTd = $(tdItems[index]);
+                        selectedTd.removeAttr("data-id-ansprechpartner").addClass("changed")
+                        selectedTd.find(".ansprechpartner-name").remove();
                     });
                     SetPopupContent("");
                     RemoveSelectedStatus();
@@ -664,12 +666,14 @@ jQuery(function($) {
                     let termin = phase.find(".plan-mark");
 
                     if (id_abteilung) {
+                        let terminTitle = termin.attr("title");
+
                         phases.push({
                             date: phase.data("date"),
                             id_abteilung: id_abteilung,
                             id_ansprechpartner: phase.attr("data-id-ansprechpartner"),
-                            termin: (termin.length && termin.hasClass("icon-plan-mark")) ? termin.attr("title") : null,
-                            termin_separat: (termin.length && termin.hasClass("icon-plan-mark-separat")) ? termin.attr("title") : null
+                            termin: (termin.length && termin.hasClass("icon-plan-mark")) ? terminTitle : null,
+                            termin_separat: (termin.length && termin.hasClass("icon-plan-mark-separat")) ? terminTitle : null
                         });
                     } else {
                         phases.push({

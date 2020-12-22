@@ -198,9 +198,11 @@ jQuery(function($) {
             icon = el.find("i");
 
             if (icon.hasClass("icon-triangle-down")) {
-                HideShowAzubisOfBeruf(el.closest("tr"), true, FilterAzubis);
-            } else {
+                HideShowAzubisOfBeruf(el.closest("tr"), true);
+            } else if ($('#Filter input[type="search"]').val()) {
                 HideShowAzubisOfBeruf(el.closest("tr"), false, FilterAzubis);
+            } else {
+                HideShowAzubisOfBeruf(el.closest("tr"), false);
             }
 
             icon.toggleClass("icon-triangle-down icon-triangle-right");
@@ -211,14 +213,15 @@ jQuery(function($) {
          */
         $("#Footer").on("click", ".toggle-legende", function() {
 
-            var list = $("#Footer .legenden-list");
+            var footer = $("#Footer");
+            var list = footer.find(".legenden-list");
             var classVisible = "visible";
 
             if (list.hasClass(classVisible)) {
-                $("#Footer").animate({ bottom: "-" + list.outerHeight() + "px" });
+                footer.animate({ bottom: "-" + list.outerHeight() + "px" });
                 list.removeClass(classVisible);
             } else {
-                $("#Footer").animate({ bottom: 0 });
+                footer.animate({ bottom: 0 });
                 list.addClass(classVisible);
             }
         });
