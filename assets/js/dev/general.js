@@ -11,30 +11,6 @@ jQuery(function($) {
     $(document).ready(function() {
 
         /**
-         * Mit den Tastenkombinationen SHIFT+ und SHIFT- lassen sich die Boxen
-         * der Daten aus- bzw einklappen.
-         */
-        $(document).on("keydown", function(e) {
-
-            // 16 = shift
-            if (e.shiftKey && e.which !== 16) {
-
-                switch (e.which) {
-                    // show
-                    case 107:
-                    case 187:
-                        $(".data-item .icon-eye").click();
-                        break;
-                    // hide
-                    case 109:
-                    case 189:
-                        $(".data-item .icon-eye-blocked").click();
-                        break;
-                }
-            }
-        });
-
-        /**
          * Minimiert die jeweilige Ansicht des Datentyps und zeigt einen Button
          * zum Ausklappen der Ansicht des jeweiligen Datentyps.
          * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
@@ -67,7 +43,8 @@ jQuery(function($) {
         });
 
         /**
-         *
+         * Öffnet die Anzeige zum Anlegen eines Datensatzes des jeweiligen
+         * Datentyps.
          */
         $(".data-item").on("click", ".icon-plus", function() {
             var el = $(this);
@@ -79,7 +56,8 @@ jQuery(function($) {
         });
 
         /**
-         *
+         * Blendet die Anzeige zum Anlegen eines Datensatzes des jeweiligen
+         * Datentyps aus.
          */
         $(".data-item").on("click", ".icon-minus", function() {
             var el = $(this);
