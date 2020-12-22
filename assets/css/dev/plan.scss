@@ -55,15 +55,15 @@
             }
         }
 
-        tr .ausbildungsberuf:hover {
+        tr .ausbildungsberuf {
             cursor: pointer;
 
-            .icon-triangle-b {
-                border-color: $selectline-dark-blue transparent transparent transparent;
+            &:hover i {
+                color: $selectline-blue;
             }
 
-            .icon-triangle-r {
-                border-color: transparent transparent transparent $selectline-dark-blue;
+            i {
+                vertical-align: middle;
             }
         }
 

@@ -13,6 +13,8 @@
  * - Minus
  */
 
+@import "3rd-party-icons.scss";
+
 .icon-plan-mark {
     border-top: 4px solid black;
     position: absolute;
@@ -54,7 +56,7 @@
     right: 0;
 }
 
-.icon-close {
+.icon-cross {
     position: absolute;
     right: 8px;
     top: 8px;
@@ -65,104 +67,5 @@
     &:hover {
         cursor: pointer;
         opacity: 1;
-    }
-
-    &:before,
-    &:after {
-        position: absolute;
-        left: 8px;
-        content: ' ';
-        height: 16px;
-        width: 2px;
-        background-color: $selectline-dark-blue;
-    }
-
-    &:before {
-        transform: rotate(45deg);
-    }
-
-    &:after {
-        transform: rotate(-45deg);
-    }
-}
-
-.icon-triangle-b,
-.icon-triangle-r {
-    border-style: solid;
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 8px;
-    height: 0;
-    width: 0;
-}
-
-.icon-triangle-b {
-    border-color: $selectline-blue transparent transparent transparent;
-    border-width: 8px 6px 0 6px;
-
-    &:hover {
-        border-color: $selectline-dark-blue transparent transparent transparent;
-    }
-}
-
-.icon-triangle-r {
-    border-color: transparent transparent transparent $selectline-blue;
-    border-width: 6px 0 6px 8px;
-
-    &:hover {
-        border-color: transparent transparent transparent $selectline-dark-blue;
-    }
-}
-
-.icon-minus,
-.icon-plus {
-    align-items: center;
-    background-color: $selectline-dark-blue;
-    border-radius: 8px;
-    position: absolute;
-    top: 16px;
-    right: 24px;
-    height: 24px;
-    width: 24px;
-
-    &:hover {
-        background-color: $selectline-blue;
-        cursor: pointer;
-    }
-}
-
-.icon-minus:before {
-    background:white;
-    content: '';
-    margin: auto;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    width: 50%;
-}
-
-.icon-plus {
-    &:before,
-    &:after {
-        background:white;
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-
-    &:before {
-        margin: 6px auto;
-        width: 2px;
-    }
-
-    &:after {
-        height: 2px;
-        margin: auto 6px;
     }
 }

@@ -111,7 +111,7 @@ jQuery(function($) {
             var rows = $("#Plan tr .ausbildungsberuf").closest("tr");
             rows.each(index => {
                 let row = $(rows[index]);
-                row.find("th div").first().removeClass("icon-triangle-r").addClass("icon-triangle-b");
+                row.find("th i").removeClass("icon-triangle-right").addClass("icon-triangle-down");
                 HideShowAzubisOfBeruf(row, false);
             });
 
@@ -195,15 +195,15 @@ jQuery(function($) {
         $("#Plan").on("click", "tr .ausbildungsberuf", function() {
 
             var el = $(this);
-            icon = el.find("div").first();
+            icon = el.find("i");
 
-            if (icon.hasClass("icon-triangle-b")) {
+            if (icon.hasClass("icon-triangle-down")) {
                 HideShowAzubisOfBeruf(el.closest("tr"), true, FilterAzubis);
             } else {
                 HideShowAzubisOfBeruf(el.closest("tr"), false, FilterAzubis);
             }
 
-            icon.toggleClass("icon-triangle-b icon-triangle-r");
+            icon.toggleClass("icon-triangle-down icon-triangle-right");
         });
 
         /**

@@ -80,6 +80,24 @@
             border-top-width: 0;
         }
     }
+
+    .data-actions {
+        position: absolute;
+        top: 20px;
+        right: 16px;
+
+        i {
+            color: $selectline-dark-blue;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 8px;
+            vertical-align: middle;
+
+            &:hover {
+                color: $selectline-blue;
+            }
+        }
+    }
 }
 
 #InfoButton {
@@ -97,7 +115,7 @@
         font-size: 20px;
         position: absolute;
         text-align: center;
-        top: calc(50% - 0.5em);
+        top: calc(50% - 0.6em);
         width: 100%;
     }
 
@@ -250,16 +268,5 @@
 
     .grid {
         grid-template-columns: 1fr;
-    }
-}
-
-@media screen and (max-width: $xs-max) {
-    .data-item .show-add-buttons {
-        display: grid;
-        grid-gap: 8px;
-
-        input[type="button"] {
-            margin-right: 0;
-        }
     }
 }

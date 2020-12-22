@@ -8,13 +8,16 @@
 ?>
 
 <div class="data-item azubis-item">
-    <div class="icon-plus"></div>
-    <div class="title">Auszubildende</div>
-    <div class="show-add-buttons" style="display: none;">
-        <input type="button" class="show-data" value="Anzeigen" />
-        <input type="button" class="add-data" value="Anlegen" />
+    <div class="data-actions">
+        <i class="icon-plus" title="Anlegen"></i>
+        <i class="icon-minus" title="Ausblenden" style="display: none;"></i>
+        <i class="icon-eye" title="Anzeigen"></i>
+        <i class="icon-eye-blocked" title="Ausblenden" style="display: none;"></i>
+        <input type="button" class="show-data" hidden />
+        <input type="button" class="add-data" hidden />
     </div>
-    <div id="Azubis" style="display: none;"></div>
+    <div class="title">Auszubildende</div>
+    <div id="Azubis" class="container" style="display: none;"></div>
     <form id="AddAzubiForm" method="post" style="display: none;">
         <label>
             <span>Vorname</span>

@@ -155,7 +155,7 @@ unset($currentDate);
 
             <tr>
                 <th class="ausbildungsberuf" colspan="4">
-                    <div class="icon-triangle-b"></div>
+                    <i class="icon-triangle-down"></i>
                     <b><?= $Ausbildungsberufe[$id_ausbildungsberuf]->Bezeichnung; ?></b>
                 </th>
                 <td colspan="<?= $weeksInTable; ?>"></td>

@@ -21,7 +21,7 @@ $helper = new DataHelper();
 ?>
 
 <div>
-    <div class="icon-close"></div>
+    <i class="icon-cross"></i>
 
     <?php if (array_key_exists(PlanErrorCodes::Ausbildungszeitraum, $errors)) : ?>
 

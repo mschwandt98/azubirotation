@@ -20,15 +20,15 @@ jQuery(function($) {
             if (e.shiftKey && e.which !== 16) {
 
                 switch (e.which) {
-                    // +
+                    // show
                     case 107:
                     case 187:
-                        $(".data-item .icon-plus").click();
+                        $(".data-item .icon-eye").click();
                         break;
-                    // -
+                    // hide
                     case 109:
                     case 189:
-                        $(".data-item .icon-minus").click();
+                        $(".data-item .icon-eye-blocked").click();
                         break;
                 }
             }
@@ -40,14 +40,15 @@ jQuery(function($) {
          * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
          * Ausbildungsberufe, Azubis und Standardpläne.
          */
-        $(".data-item").on("click", ".icon-minus", function() {
+        $(".data-item").on("click", ".icon-eye-blocked", function() {
             var el = $(this);
             var container = el.closest(".data-item");
             container.find("form").hide(TIME);
-            container.find(".title").removeAttr("style");
-            var upperDivs = container.find("> div");
-            upperDivs.stop().slice(upperDivs.length - 2, upperDivs.length).hide(TIME);
-            el.removeClass("icon-minus").addClass("icon-plus");
+            container.find(".container").hide(TIME);
+            container.find(".icon-eye").show();
+            el.siblings(".icon-plus").show();
+            el.siblings(".icon-minus").hide();
+            el.hide();
         });
 
         /**
@@ -56,20 +57,43 @@ jQuery(function($) {
          * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
          * Ausbildungsberufe, Azubis und Standardpläne.
          */
+        $(".data-item").on("click", ".icon-eye", function() {
+            var el = $(this);
+            el.siblings(".icon-eye-blocked").show();
+            el.siblings(".icon-plus").show();
+            el.siblings(".icon-minus").hide();
+            el.siblings(".show-data").click();
+            el.hide();
+        });
+
+        /**
+         *
+         */
         $(".data-item").on("click", ".icon-plus", function() {
             var el = $(this);
-            var container = el.closest(".data-item");
-            container.find(".title").css({ marginBottom: 8 });
-            var showButtons = container.find("> div.show-add-buttons");
-            showButtons.find(".show-data").click();
-            showButtons.stop().show(400);
-            el.removeClass("icon-plus").addClass("icon-minus");
+            el.siblings(".add-data").click();
+            el.siblings(".icon-eye-blocked").hide();
+            el.siblings(".icon-eye").show();
+            el.siblings(".icon-minus").show();
+            el.hide();
+        });
+
+        /**
+         *
+         */
+        $(".data-item").on("click", ".icon-minus", function() {
+            var el = $(this);
+            el.closest(".data-item").find("form").hide(TIME);
+            el.siblings(".icon-eye-blocked").hide();
+            el.siblings(".icon-eye").show();
+            el.siblings(".icon-plus").show();
+            el.hide();
         });
 
         /**
          * Schließt die Fehler der Planung.
          */
-        $("#PlanErrors").on("click", ".icon-close", function() {
+        $("#PlanErrors").on("click", ".icon-cross", function() {
             $("#PlanErrors").empty();
         });
     });
