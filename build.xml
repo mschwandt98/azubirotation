@@ -11,7 +11,6 @@
                 <include name="favicon.ico" />
                 <include name="**/*.php" />
                 <include name="assets/css/*.css" />
-                <include name="assets/css/*.map" />
                 <include name="assets/fonts/*" />
                 <include name="assets/js/*.js" />
                 <exclude name="assets/css/dev/**" />
