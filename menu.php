@@ -20,14 +20,6 @@
             <i class="icon-list"></i>
             <div>Legende</div>
         </li>
-        <li class="menu-point" title="Drucken" id="PrintPlan">
-            <i class="icon-print"></i>
-            <div>Drucken</div>
-        </li>
-        <li class="menu-point" title="Dark Mode an/aus" id="DarkMode">
-            <i class="icon-sun<?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] == 'true') ? '-dark' : ''; ?>"></i>
-            <div>Dark Mode</div>
-        </li>
 
         <?php if (is_logged_in()) : ?>
 
@@ -54,6 +46,15 @@
             </li>
 
         <?php endif; ?>
+
+        <li class="menu-point" title="Drucken" id="PrintPlan">
+            <i class="icon-print"></i>
+            <div>Drucken</div>
+        </li>
+        <li class="menu-point" title="Dark Mode an/aus" id="DarkMode">
+            <i class="icon-sun<?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] == 'true') ? '-dark' : ''; ?>"></i>
+            <div>Dark Mode</div>
+        </li>
 
     </nav>
     <div id="SubMenu" style="position: relative;">

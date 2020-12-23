@@ -30,7 +30,7 @@ html[data-theme='dark'] {
 
     form label,
     form span {
-        color: $selectline-dark-mode-white !important; // TODO
+        color: $selectline-dark-mode-white !important;
     }
 
     #Plan table th {
@@ -43,6 +43,7 @@ html[data-theme='dark'] {
 
         li.menu-point:hover {
             background-color: $selectline-dark-mode-black;
+            box-shadow: inset 0px 8px 4px -4px #f3f3f3;
         }
     }
 
@@ -141,6 +142,7 @@ body {
             color: white;
             cursor: pointer;
             height: 100%;
+            margin-left: 16px;
             padding: 8px;
 
             &:hover {
