@@ -104,5 +104,6 @@ Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
 * Undo und Redo der letzten nicht gespeicherten Änderungen auf Oberfläche
 * jQuery-Instanzen zu einer Instanz zusammenfügen (Auf die Konstantennamen achten! + Extra Build-Skript bauen?)
 * Deutsches Language-Pack auf Server für PHP installieren
-* Planung immer weiter verbessern
+* Automatisierte Planung immer weiter verbessern
 * Druckversion optimieren + Kürzel der jeweiligen Azubis am Anfang jeder Seite anzeigen
+* Tabelle optimieren: zu viele Elemente (Table Cells) werden gerendert

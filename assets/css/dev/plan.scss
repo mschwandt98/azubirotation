@@ -45,7 +45,7 @@
             }
 
             &.current-week {
-                background-color: lighten($gray, 10%);
+                background-color: #dedde5;
             }
         }
 
@@ -64,6 +64,16 @@
 
             i {
                 vertical-align: middle;
+            }
+        }
+
+        tr.space-row {
+            &:last-of-type {
+                display: none;
+            }
+
+            th {
+                background-color: transparent !important;
             }
         }
 
