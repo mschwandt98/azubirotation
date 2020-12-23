@@ -225,5 +225,24 @@ jQuery(function($) {
                 list.addClass(classVisible);
             }
         });
+
+        /**
+         * Toggled dem DarkMode.
+         */
+        $("#DarkMode").on("click", function() {
+
+            let el = $(this);
+            let html = $("html");
+
+            if (html.attr("data-theme") == "dark") {
+                html.attr("data-theme", "light");
+                el.addClass("icon-sun").removeClass("icon-sun-dark");
+                document.cookie = "darkmode=false; max-age=2592000";
+            } else {
+                html.attr("data-theme", "dark");
+                el.addClass("icon-sun-dark").removeClass("icon-sun");
+                document.cookie = "darkmode=true; max-age=2592000";
+            }
+        });
     });
 });

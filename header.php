@@ -10,6 +10,11 @@
 
 <h1>Ausbildungsplaner</h1>
 <div>
+    <i id="DarkMode"
+       class="icon-sun<?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] == 'true') ? '-dark' : ''; ?>"
+    ></i>
+</div>
+<div>
     <div id="LoadingSpinner" style="display: none;">
         <div class="bounce-1"></div>
         <div class="bounce-2"></div>

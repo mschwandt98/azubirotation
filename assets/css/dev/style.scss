@@ -11,6 +11,25 @@
 
 @import "public-style.scss";
 
+html[data-theme='dark'] {
+
+    #PlanErrors {
+        color: #f3f3f3;
+    }
+
+    .data-item {
+        color: #f3f3f3;
+
+        i {
+            color: $selectline-blue;
+
+            &:hover {
+                color: $selectline-blue-hover;
+            }
+        }
+    }
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

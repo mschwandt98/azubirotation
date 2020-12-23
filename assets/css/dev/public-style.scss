@@ -17,6 +17,32 @@
 @import "icons.scss";
 @import "3rd-party.scss";
 
+html[data-theme='dark'] {
+
+    body,
+    html {
+        background-color: #38444b;
+    }
+
+    header {
+        background-color: #41535e;
+    }
+
+    form label,
+    form span {
+        color: #f3f5f3 !important;
+    }
+
+    #DarkMode {
+        color: #f3f3f3;
+    }
+
+    #Plan table th {
+        background-color: #41535e;
+        color: #f3f3f3;
+    }
+}
+
 body {
     background-color: white;
     color: $selectline-text-blue;
@@ -31,7 +57,7 @@ header {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     margin-bottom: 16px;
     padding: 16px 32px;
     position: sticky;
@@ -113,6 +139,16 @@ Footer {
                 width: 32px;
             }
         }
+    }
+}
+
+#DarkMode {
+    color: $selectline-dark-blue;
+    cursor: pointer;
+    font-size: 24px;
+
+    &:hover {
+        color: $selectline-blue !important;
     }
 }
 

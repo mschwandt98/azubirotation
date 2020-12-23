@@ -12,7 +12,9 @@ ob_start('minifier');
 ?>
 
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de"
+      data-theme="<?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] == 'true') ? 'dark' : 'light'; ?>"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
