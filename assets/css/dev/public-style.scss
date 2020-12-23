@@ -21,25 +21,25 @@ html[data-theme='dark'] {
 
     body,
     html {
-        background-color: #38444b;
+        background-color: $selectline-dark-mode-black;
     }
 
     header {
-        background-color: #41535e;
+        background-color: $selectline-dark-mode-black-light;
     }
 
     form label,
     form span {
-        color: #f3f5f3 !important;
+        color: $selectline-dark-mode-white !important;
     }
 
     #DarkMode {
-        color: #f3f3f3;
+        color: $selectline-dark-mode-white;
     }
 
     #Plan table th {
-        background-color: #41535e;
-        color: #f3f3f3;
+        background-color: $selectline-dark-mode-black-light;
+        color: $selectline-dark-mode-white;
     }
 }
 
