@@ -21,7 +21,7 @@ html[data-theme='dark'] {
 
     body,
     html {
-        background-color: $selectline-dark-mode-black-mid;
+        background-color: $selectline-dark-mode-black;
     }
 
     #TopHeader {
@@ -30,24 +30,24 @@ html[data-theme='dark'] {
 
     form label,
     form span {
-        color: $selectline-dark-mode-white !important;
+        color: $selectline-dark-mode-white !important; // TODO
     }
 
     #Plan table th {
-        background-color: $selectline-dark-mode-black-light;
+        background-color: $selectline-dark-mode-black-mid;
         color: $selectline-dark-mode-white;
     }
 
     #Menu {
-        background-color: $selectline-dark-mode-black-light;
+        background-color: $selectline-dark-mode-black-mid;
 
         li.menu-point:hover {
-            background-color: $selectline-dark-mode-black-mid;
+            background-color: $selectline-dark-mode-black;
         }
     }
 
     #SubMenu i.icon-cross:hover {
-        background-color: $selectline-dark-mode-black-mid;
+        background-color: $selectline-dark-mode-black;
     }
 }
 
@@ -71,6 +71,7 @@ body {
 #TopHeader {
     align-items: center;
     background-color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
     grid-template-columns: auto auto 1fr;
@@ -149,7 +150,7 @@ body {
 
         .menu-action {
             display: none;
-            padding: 8px 0;
+            padding: 16px 0;
         }
     }
 }

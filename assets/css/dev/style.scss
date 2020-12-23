@@ -19,10 +19,12 @@ html[data-theme='dark'] {
 
     #Info > div {
         background-color: $selectline-dark-mode-black;
+        border-color: $selectline-dark-mode-white;
         color: $selectline-dark-mode-white;
     }
 
     .data-item {
+        background-color: $selectline-dark-mode-black-light;
         color: $selectline-dark-mode-white;
 
         i {
