@@ -5,5 +5,5 @@ RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
 RewriteRule ^(assets/fonts)($|/) - [L]
 
-RewriteRule ^(config\.php|footer\.php|header\.php|main\.php|backup\.php) - [F,L,NC]
+RewriteRule ^(config\.php|header\.php|legende\.php|main\.php|backup\.php) - [F,L,NC]
 RewriteRule ^(_backup/|assets/|core/|migration/|models/|templates/) - [F,L,NC]

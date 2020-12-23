@@ -7,6 +7,7 @@
 @import "variables.scss";
 @import "icons.scss";
 @import "plan.scss";
+@import "legende.scss";
 
 body {
     margin: 0 16px;
@@ -32,33 +33,6 @@ h1 {
     margin-top: 0;
 }
 
-#Legende {
-    .toggle-legende {
-        display: none;
-    }
-
-    .legenden-list {
-        display: grid;
-        font-size: 12px;
-        grid-template-columns: auto auto auto auto auto auto;
-
-        .legende {
-            margin-right: 32px;
-
-            > div {
-                display: inline-block;
-                vertical-align: middle;
-            }
-
-            .symbol {
-                position: relative;
-                height: 1em;
-                width: 32px;
-            }
-        }
-    }
-}
-
 #Plan {
     margin: 0 !important;
     padding: 0 !important;
@@ -81,6 +55,16 @@ h1 {
         }
     }
 }
+
+.legenden-list {
+    color: $selectline-text-blue;
+    grid-template-columns: auto auto auto auto auto auto;
+
+    .legende .symbol {
+        border: 0;
+    }
+}
+
 
 /* Hintergrundfarben anzeigen */
 * {

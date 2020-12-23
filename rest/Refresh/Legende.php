@@ -1,8 +1,8 @@
 <?php
 /**
- * Footer.php
+ * Legende.php
  *
- * Der API-Endpunkt zum Updaten des Footers bzw der Legende im Footer.
+ * Der API-Endpunkt zum Updaten der Legende.
  */
 
 use core\helper\DataHelper;
@@ -11,5 +11,5 @@ include_once(dirname(dirname(__DIR__)) . '/config.php');
 
 $Abteilungen = (new DataHelper())->GetAbteilungen();
 ob_start('minifier');
-include_once(BASE . '/footer.php');
+include_once(BASE . '/legende.php');
 ob_end_flush();

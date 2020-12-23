@@ -13,7 +13,7 @@ include_once(__DIR__ . '/core/Plan.php');
 $plan = ob_get_clean();
 
 ob_start();
-include_once(__DIR__ . '/footer.php');
+include_once(__DIR__ . '/legende.php');
 $legende = ob_get_clean();
 
 ob_start("minifier");

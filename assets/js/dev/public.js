@@ -5,7 +5,6 @@ jQuery(function($) {
         $("#Plan").load("rest/Refresh/Plan", _ => {
 
             $("#LoadingSpinner").hide();
-            $("#Filter").show();
             $("#PlanActions").show();
 
             // Scrollt zum aktuellen Datum in der Planung
@@ -213,29 +212,11 @@ jQuery(function($) {
         });
 
         /**
-         * Toggled die Sichtbarkeit der Legende.
-         */
-        $("#Footer").on("click", ".toggle-legende", function() {
-
-            var footer = $("#Footer");
-            var list = footer.find(".legenden-list");
-            var classVisible = "visible";
-
-            if (list.hasClass(classVisible)) {
-                footer.animate({ bottom: "-" + list.outerHeight() + "px" });
-                list.removeClass(classVisible);
-            } else {
-                footer.animate({ bottom: 0 });
-                list.addClass(classVisible);
-            }
-        });
-
-        /**
          * Toggled dem DarkMode.
          */
         $("#DarkMode").on("click", function() {
 
-            let el = $(this);
+            let el = $(this).find("i");
             let html = $("html");
 
             if (html.attr("data-theme") == "dark") {
@@ -247,6 +228,35 @@ jQuery(function($) {
                 el.addClass("icon-sun-dark").removeClass("icon-sun");
                 document.cookie = "darkmode=true; max-age=2592000";
             }
+        });
+
+        /**
+         *
+         */
+        $("#Menu").on("click", ".menu-point", function() {
+
+            var el = $(this);
+            var action = el.attr("class").match(/action-.*/);
+
+            if (action) {
+
+                action = action[0].replace("action-", "");
+
+                var submenu = $("#SubMenu");
+                submenu.find(".menu-action").hide();
+                submenu.show();
+
+                $("#" + action.charAt(0).toUpperCase() + action.slice(1)).show();
+            }
+        })
+
+        /**
+         *
+         */
+        $("#SubMenu").on("click", "i.icon-cross", function() {
+            var submenu = $("#SubMenu");
+            submenu.find(".menu-action").hide();
+            submenu.hide();
         });
     });
 });

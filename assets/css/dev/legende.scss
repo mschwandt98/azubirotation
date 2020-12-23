@@ -1,0 +1,28 @@
+/**
+ * legende.scss
+ *
+ * Enthält den Style zur Legenden-Auflistung.
+ */
+
+.legenden-list {
+    color: white;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+
+    .legende {
+        margin-right: 32px;
+
+        > div {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .symbol {
+            background-color: white;
+            border: 1px solid black;
+            position: relative;
+            height: 1em;
+            width: 32px;
+        }
+    }
+}

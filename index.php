@@ -36,15 +36,15 @@ ob_start('minifier');
     </style>
 </head>
 <body>
-    <header id="Header"><?php include_once(__DIR__ . '/header.php') ?></header>
-    <main id="Main"><?php include_once(__DIR__ . '/main.php') ?></main>
-    <footer id="Footer"><?php include_once(__DIR__ . '/footer.php') ?></footer>
+    <?php include_once(__DIR__ . '/header.php') ?>
+    <?php include_once(__DIR__ . '/main.php') ?>
     <div id="ErrorMessageBox" style="display: none;">
         <div class="message"></div>
     </div>
 
     <?php if (is_logged_in()) : ?>
 
+        <input type="hidden" id="CsrfToken" value="<?= $_SESSION['csrf_token']; ?>" />
         <div id="Popup"></div>
         <script>
             <?php include_once(BASE . 'assets/js/script.js'); ?>

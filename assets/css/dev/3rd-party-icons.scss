@@ -24,11 +24,35 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-help:before {
+  content: "\e90c";
+}
 .icon-triangle-down:before {
   content: "\e900";
 }
 .icon-triangle-right:before {
   content: "\e901";
+}
+.icon-database:before {
+  content: "\e910";
+}
+.icon-test:before {
+  content: "\e90d";
+}
+.icon-save:before {
+  content: "\e90e";
+}
+.icon-mail:before {
+  content: "\e90f";
+}
+.icon-list:before {
+  content: "\e90b";
+}
+.icon-print:before {
+  content: "\e908";
+}
+.icon-filter:before {
+  content: "\e909";
 }
 .icon-sun-dark:before {
   content: "\e902";

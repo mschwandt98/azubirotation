@@ -207,7 +207,7 @@ jQuery(function($) {
             }
 
             if(!$(e.target).closest("#InfoButton").length) {
-                $("#InfoButton > div").fadeOut();
+                $("#Info > div").fadeOut();
             }
         });
 
@@ -215,7 +215,7 @@ jQuery(function($) {
          * Blendet die Informationen des Info-Buttons ein.
          */
         $("#InfoButton").on("click", function() {
-            $(this).find("> div").fadeIn();
+            $("#Info > div").fadeIn();
         });
 
         /**
@@ -718,7 +718,6 @@ jQuery(function($) {
 
             if (confirm("Mit Bestätigung dieser Meldung, werden Benachrichtigungs-Emails an alle Ansprechpartner und Auszubildende gesendet.")) {
 
-                var button = $(this);
                 $("#LoadingSpinner").show();
 
                 $.ajax({
@@ -726,9 +725,6 @@ jQuery(function($) {
                     url: API + "Plan/SendMail",
                     data: { csrfToken: $("#CsrfToken").val() },
                     success: function() {
-                        var messageSpan = button.siblings("span");
-                        messageSpan.fadeIn();
-                        setTimeout(_ => { messageSpan.fadeOut(); }, 5000);
                         $("#LoadingSpinner").hide();
                     },
                     error: function() {

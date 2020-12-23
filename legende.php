@@ -1,8 +1,8 @@
 <?php
 /**
- * footer.php
+ * legende.php
  *
- * Der Footer der Anwendung, in dem die Legende für die Planung dargestellt ist.
+ * Die Legende zur Planung.
  */
 
 use core\helper\DataHelper;
@@ -10,7 +10,6 @@ use core\helper\DataHelper;
 $Abteilungen = (new DataHelper())->GetAbteilungen();
 ?>
 
-<div class="toggle-legende">Legende</div>
 <div class="legenden-list visible">
     <div class="legende">
         <div class="symbol">

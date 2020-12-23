@@ -7,7 +7,7 @@
  */
 ?>
 
-<div id="InfoButton">
+<div id="Info">
     <div style="display: none;">
         <div>
             <div>

@@ -7,13 +7,13 @@
  * Index
  * - header mit Login-Formularen
  * - Planung
- * - Legende
  * - Messagebox für Fehlernachrichten
  */
 
 @import "variables.scss";
 @import "html-elements.scss";
 @import "plan.scss";
+@import "legende.scss";
 @import "icons.scss";
 @import "3rd-party.scss";
 
@@ -21,11 +21,11 @@ html[data-theme='dark'] {
 
     body,
     html {
-        background-color: $selectline-dark-mode-black;
+        background-color: $selectline-dark-mode-black-mid;
     }
 
-    header {
-        background-color: $selectline-dark-mode-black-light;
+    #TopHeader {
+        background-color: $selectline-dark-mode-black;
     }
 
     form label,
@@ -33,13 +33,21 @@ html[data-theme='dark'] {
         color: $selectline-dark-mode-white !important;
     }
 
-    #DarkMode {
-        color: $selectline-dark-mode-white;
-    }
-
     #Plan table th {
         background-color: $selectline-dark-mode-black-light;
         color: $selectline-dark-mode-white;
+    }
+
+    #Menu {
+        background-color: $selectline-dark-mode-black-light;
+
+        li.menu-point:hover {
+            background-color: $selectline-dark-mode-black-mid;
+        }
+    }
+
+    #SubMenu i.icon-cross:hover {
+        background-color: $selectline-dark-mode-black-mid;
     }
 }
 
@@ -51,20 +59,22 @@ body {
     margin: 0;
 }
 
-header {
-    align-items: center;
-    background-color: white;
+#Header {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-    display: grid;
-    column-gap: 16px;
-    grid-template-columns: auto auto auto 1fr;
-    margin-bottom: 16px;
-    padding: 16px 32px;
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
     z-index: 175;
+}
+
+#TopHeader {
+    align-items: center;
+    background-color: white;
+    display: grid;
+    column-gap: 16px;
+    grid-template-columns: auto auto 1fr;
+    padding: 16px 32px;
 
     h1 {
         color: $selectline-blue;
@@ -85,74 +95,71 @@ header {
     }
 }
 
-main {
-    margin: 16px 32px;
-}
+#Menu {
+    background-color: $selectline-blue;
+    padding: 0 16px;
+    position: relative;
 
-Footer {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 999;
-
-    .toggle-legende {
-        background-color: $selectline-dark-blue;
-        border: solid $selectline-dark-blue;
-        border-top-left-radius: 8px;
-        border-width: 1px 1px 0 1px;
+    nav {
         color: white;
-        cursor: pointer;
-        margin-left: auto;
-        padding: 4px 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        list-style: none;
 
-        &:hover {
-            background-color: $selectline-blue;
-            border-color: $selectline-blue;
-        }
-    }
+        li.menu-point {
+            cursor: pointer;
+            padding: 16px 32px;
+            text-align: center;
 
-    .legenden-list {
-        background-color: rgba(white, 0.9);
-        border: 1px solid $rgba-selectline-blue;
-        box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
-        padding: 16px 24px;
-
-        .legende {
-            align-items: center;
-            display: flex;
-            margin: 4px 0;
-
-            &:first-of-type {
-                margin: 0 0 4px;
+            &:hover {
+                background-color: $selectline-blue-hover;
             }
 
-            &:last-of-type {
-                margin: 4px 0 0;
-            }
-
-            .symbol {
-                margin-right: 8px;
-                position: relative;
-                height: 1em;
-                width: 32px;
+            i {
+                font-size: 24px;
             }
         }
     }
 }
 
-#DarkMode {
-    color: $selectline-dark-blue;
-    cursor: pointer;
-    font-size: 24px;
+#SubMenu {
+    border-top: 2px solid white;
+    display: none;
+    overflow: hidden;
 
-    &:hover {
-        color: $selectline-blue !important;
+    > div {
+        display: grid;
+        grid-template-columns: 1fr auto;
+
+        form#Filter label {
+            color: white;
+        }
+
+        i.icon-cross {
+            color: white;
+            cursor: pointer;
+            height: 100%;
+            padding: 8px;
+
+            &:hover {
+                background-color: $selectline-blue-hover;
+            }
+        }
+
+        .menu-action {
+            display: none;
+            padding: 8px 0;
+        }
     }
 }
 
-// Abgezogene Pixel ~= Header + Main Margin
+main {
+    margin: 16px;
+}
+
 #Plan {
-    max-height: calc(100vh - 220px);
+    max-height: calc(100vh - 180px);
 }
 
 #ErrorMessageBox {
@@ -284,9 +291,8 @@ Footer {
 }
 
 @media screen and (max-width: $sm-max) {
-    header {
+    #TopHeader {
         display: block;
-        padding: 16px;
 
         h1 {
             border-bottom: 1px solid $gray;
@@ -301,14 +307,6 @@ Footer {
             margin-right: 0;
             margin-bottom: 8px;
         }
-    }
-
-    main {
-        margin: 16px;
-    }
-
-    footer {
-        font-size: 12px;
     }
 }
 
@@ -336,4 +334,14 @@ Footer {
 
 ::-webkit-scrollbar-thumb:hover {
     background: $selectline-blue-hover;
+}
+
+body {
+    &::-webkit-scrollbar-thumb {
+        background: $selectline-dark-blue;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $selectline-blue;
+    }
 }

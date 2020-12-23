@@ -17,8 +17,8 @@ html[data-theme='dark'] {
         color: $selectline-dark-mode-white;
     }
 
-    #InfoButton > div {
-        background-color: #273238;
+    #Info > div {
+        background-color: $selectline-dark-mode-black;
         color: $selectline-dark-mode-white;
     }
 
@@ -42,6 +42,7 @@ html[data-theme='dark'] {
 }
 
 .data-item {
+    background-color: white;
     border: 1px solid $rgba-selectline-blue;
     border-radius: 8px;
     box-shadow: 0px 0px 16px -8px rgba($gray, 0.4);
@@ -124,62 +125,33 @@ html[data-theme='dark'] {
     }
 }
 
-#InfoButton {
-    background-color: $selectline-dark-blue;
-    border-radius: 16px;
-    color: white;
-    margin-left: auto;
-    position: relative;
-    height: 24px;
-    width: 24px;
-
-    &:before {
-        content: "?";
-        display: block;
-        font-size: 20px;
-        position: absolute;
-        text-align: center;
-        top: calc(50% - 0.6em);
-        width: 100%;
-    }
-
-    &:hover {
-        background-color: $selectline-blue;
-        cursor: pointer;
-    }
+#Info > div {
+    background-color: $gray;
+    border: 1px solid $selectline-text-blue;
+    border-radius: 8px;
+    color: $selectline-dark-blue;
+    cursor: default;
+    display: none;
+    max-height: 70vh;
+    min-width: 256px;
+    overflow-y: auto;
+    padding: 16px 32px;
+    position: fixed;
+    top: 10%;
+    right: 15%;
+    left: 15%;
+    z-index: 9999;
 
     > div {
-        background-color: $gray;
-        border: 1px solid $selectline-text-blue;
-        border-radius: 8px;
-        color: $selectline-dark-blue;
-        cursor: default;
-        max-height: 70vh;
-        min-width: 256px;
-        overflow-y: auto;
-        padding: 16px 32px;
-        position: fixed;
-        top: 10%;
-        right: 15%;
-        left: 15%;
-        z-index: 9999;
-
-        > div {
-            display: grid;
-            grid-gap: 32px;
-            grid-template-columns: 1fr 1fr 1fr;
-            text-align: justify;
-        }
+        display: grid;
+        grid-gap: 32px;
+        grid-template-columns: 1fr 1fr 1fr;
+        text-align: justify;
     }
 }
 
-// Abgezogene Pixel ~= Header + Main Margin + PlanActions + Data-Item-Boxen
-#Plan {
-    max-height: calc(100vh - 380px);
-
-    .plan-phase {
-        cursor: cell;
-    }
+#Plan .plan-phase {
+    cursor: cell;
 }
 
 #Popup {
@@ -279,17 +251,13 @@ html[data-theme='dark'] {
 }
 
 @media screen and (max-width: $md-max) and (min-width: $md-min) {
-    #InfoButton > div > div,
+    #Info > div > div,
     .grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
 @media screen and (max-width: $sm-max) {
-    #InfoButton {
-        display: none;
-    }
-
     .grid {
         grid-template-columns: 1fr;
     }
