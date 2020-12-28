@@ -24,8 +24,11 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-moon:before {
+  content: "\e913";
+}
 .icon-columns:before {
-  content: "\e911";
+  content: "\e912";
 }
 .icon-help:before {
   content: "\e90c";
@@ -56,9 +59,6 @@ i {
 }
 .icon-filter:before {
   content: "\e909";
-}
-.icon-sun-dark:before {
-  content: "\e902";
 }
 .icon-sun:before {
   content: "\e907";

@@ -45,6 +45,10 @@ html[data-theme='dark'] {
             background-color: $selectline-dark-mode-black;
             box-shadow: inset 0px 8px 4px -4px #f3f3f3;
         }
+
+        .switch .slider:before {
+            color: $selectline-dark-mode-black !important;
+        }
     }
 
     #SubMenu i.icon-cross:hover {
@@ -120,6 +124,61 @@ body {
 
             i {
                 font-size: 24px;
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 32px;
+
+                input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+
+                    &:checked + .slider {
+                        background-color: white;
+                    }
+
+                    &:focus + .slider {
+                        box-shadow: 0 0 1px white;
+                    }
+
+                    &:checked + .slider:before {
+                        content: "\e913";
+                        -webkit-transform: translateX(26px);
+                        -ms-transform: translateX(26px);
+                        transform: translateX(26px);
+                    }
+                }
+
+                .slider {
+                    background-color: white;
+                    border-radius: 32px;
+                    cursor: pointer;
+                    font-family: "icons";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    -webkit-transition: 0.4s;
+                    transition: 0.4s;
+
+                    &:before {
+                        border-radius: 50%;
+                        color: $selectline-blue;
+                        content: "\e907";
+                        position: absolute;
+                        bottom: 4px;
+                        left: 4px;
+                        height: 24px;
+                        width: 24px;
+                        -webkit-transition: 0.4s;
+                        transition: 0.4s;
+                    }
+                }
             }
         }
     }

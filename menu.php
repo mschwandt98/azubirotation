@@ -52,7 +52,10 @@
             <div>Drucken</div>
         </li>
         <li class="menu-point" title="Dark Mode an/aus" id="DarkMode">
-            <i class="icon-sun<?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] == 'true') ? '-dark' : ''; ?>"></i>
+            <label class="switch">
+                    <input type="checkbox" />
+                    <i class="slider"></i>
+            </label>
             <div>Dark Mode</div>
         </li>
 

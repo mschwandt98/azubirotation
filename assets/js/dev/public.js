@@ -1,6 +1,10 @@
 jQuery(function($) {
     $(document).ready(function() {
 
+        if ($("html").data("theme") === "dark") {
+            $("#DarkMode").click();
+        }
+
         $("#LoadingSpinner").show();
         $("#Plan").load("rest/Refresh/Plan", _ => {
 
@@ -222,19 +226,24 @@ jQuery(function($) {
          */
         $("#DarkMode").on("click", function() {
 
-            let el = $(this).find("i");
+            let el = $(this);
+            let checkbox = el.find('input[type="checkbox"]');
             let html = $("html");
 
             if (html.attr("data-theme") == "dark") {
                 html.attr("data-theme", "light");
-                el.addClass("icon-sun").removeClass("icon-sun-dark");
+                checkbox.prop("checked", false);
                 document.cookie = "darkmode=false; max-age=2592000";
             } else {
                 html.attr("data-theme", "dark");
-                el.addClass("icon-sun-dark").removeClass("icon-sun");
+                checkbox.prop("checked", true);
                 document.cookie = "darkmode=true; max-age=2592000";
             }
-        });
+        }).find(".slider").click(function() {
+            let checkbox = $(this).siblings('input[type="checkbox"]');
+            checkbox.prop("checked", !checkbox.prop("checked"));
+            $("#DarkMode").click();
+        });;
 
         /**
          *
