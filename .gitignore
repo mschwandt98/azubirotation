@@ -4,6 +4,7 @@
 /.vscode
 /.git
 /_backup
+/_cache
 /assets/css/*.css
 /assets/css/*.map
 /assets/js/*.js

@@ -13,7 +13,7 @@
             <div>Filter</div>
         </li>
         <li class="menu-point action-information" title="Spalten umschalten">
-            <i class="icon-list"></i>
+            <i class="icon-columns"></i>
             <div>Spalten umschalten</div>
         </li>
         <li class="menu-point action-legende" title="Legende anzeigen">
@@ -65,6 +65,23 @@
                     <input type="search" />
                 </label>
             </form>
+            <div class="menu-action" id="Information" style="color: white;">
+                <div style="margin-bottom: 8px;">Spalten ein- bzw ausblenden:</div>
+                <div style="display: flex; gap: 32px;">
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" value="nachname" />
+                        <span>Nachname</span>
+                    </label>
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" value="vorname" />
+                        <span>Vorname</span>
+                    </label>
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" value="zeitraum" />
+                        <span>Zeitraum</span>
+                    </label>
+                </div>
+            </div>
             <div class="menu-action" id="Legende">
                 <?php include_once('legende.php'); ?>
             </div>

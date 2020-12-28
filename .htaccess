@@ -3,7 +3,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-RewriteRule ^(assets/fonts)($|/) - [L]
+RewriteRule ^(assets/css|assets/fonts|assets/js)($|/) - [L]
 
 RewriteRule ^(config\.php|header\.php|legende\.php|main\.php|backup\.php) - [F,L,NC]
 RewriteRule ^(_backup/|assets/|core/|migration/|models/|templates/) - [F,L,NC]

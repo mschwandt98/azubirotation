@@ -25,15 +25,7 @@ ob_start('minifier');
     <link rel="shortcut icon" href="favicon.ico" />
     <title>SelectLine Ausbildungsplaner</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <style>
-
-        <?php if (is_logged_in()) : ?>
-            <?php include_once(BASE . 'assets/css/style.css'); ?>
-        <?php else : ?>
-            <?php include_once(BASE . 'assets/css/public-style.css'); ?>
-        <?php endif; ?>
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="assets/css/">
 </head>
 <body>
     <?php include_once(__DIR__ . '/header.php') ?>
@@ -46,18 +38,10 @@ ob_start('minifier');
 
         <input type="hidden" id="CsrfToken" value="<?= $_SESSION['csrf_token']; ?>" />
         <div id="Popup"></div>
-        <script>
-            <?php include_once(BASE . 'assets/js/script.js'); ?>
-        </script>
-
-    <?php else: ?>
-
-        <script>
-            <?php include_once(BASE . 'assets/js/public-script.js'); ?>
-        </script>
 
     <?php endif; ?>
 
+    <script type="text/javascript" src="assets/js/"></script>
 </body>
 </html>
 

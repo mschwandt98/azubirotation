@@ -20,6 +20,16 @@ if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 include_once(dirname(__DIR__) . '/config.php');
 
+$cached_file = BASE . '_cache/Plan.php';
+if (file_exists($cached_file)) {
+
+    $filemtime = filemtime($cached_file);
+    if (time() - $filemtime < 120) { // 2 Minuten Cache-Lifetime
+        echo file_get_contents($cached_file);
+        return;
+    }
+}
+
 $helper = new DataHelper();
 
 $Abteilungen = [];
@@ -119,6 +129,7 @@ for ($i = 0; $i < $weeksInTable; $i++) {
     $currentDate = DateHelper::NextMonday($currentDate);
 }
 unset($currentDate);
+ob_start();
 ?>
 
 <table>
@@ -132,10 +143,10 @@ unset($currentDate);
 
         </tr>
         <tr>
-            <th class="top-left-sticky">Nachname</th>
-            <th class="top-left-sticky">Vorname</th>
-            <th class="top-left-sticky">Kürzel</th>
-            <th class="top-left-sticky">Zeitraum</th>
+            <th class="top-left-sticky nachname">Nachname</th>
+            <th class="top-left-sticky vorname">Vorname</th>
+            <th class="top-left-sticky kuerzel">Kürzel</th>
+            <th class="top-left-sticky zeitraum">Zeitraum</th>
 
             <?php $currentDate = $tableFirstDate; ?>
             <?php for ($i = 0; $i < $weeksInTable; $i++) : ?>
@@ -167,10 +178,10 @@ unset($currentDate);
 
                 <tr class="azubi"
                     data-id="<?= $azubi->ID; ?>">
-                    <th><?= $azubi->Nachname; ?></th>
-                    <th><?= $azubi->Vorname; ?></th>
-                    <th><?= $azubi->Kuerzel; ?></th>
-                    <th>
+                    <th class="nachname"><?= $azubi->Nachname; ?></th>
+                    <th class="vorname"><?= $azubi->Vorname; ?></th>
+                    <th class="kuerzel"><?= $azubi->Kuerzel; ?></th>
+                    <th class="zeitraum">
                         <?= DateHelper::FormatDate($azubi->Ausbildungsstart) . ' - ' . DateHelper::FormatDate($azubi->Ausbildungsende); ?>
                     </th>
 
@@ -234,6 +245,10 @@ unset($currentDate);
 </table>
 
 <?php
+$html = preg_replace('/\s+/', ' ', ob_get_clean());
+file_put_contents($cached_file, $html);
+echo $html;
+
 function AzubiHasPlan($azubi, $startDate) {
 
     foreach ($azubi->plan as $phase) {

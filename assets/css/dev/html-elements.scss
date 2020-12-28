@@ -28,13 +28,6 @@ form label {
     color: $selectline-dark-blue;
     display: block;
 
-    input[type="checkbox"] {
-        border: 1px solid $gray;
-        border-radius: 8px;
-        color: $selectline-text-blue;
-        outline: 0;
-    }
-
     input[type="date"],
     input[type="email"],
     input[type="number"],
@@ -57,6 +50,14 @@ form label {
             border-color: $selectline-blue;
         }
     }
+}
+
+input[type="checkbox"] {
+    border: 1px solid $gray;
+    border-radius: 8px;
+    color: $selectline-text-blue;
+    cursor: pointer;
+    outline: 0;
 }
 
 input[type="button"],

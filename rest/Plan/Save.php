@@ -206,6 +206,7 @@ if (is_logged_in() && is_token_valid()) {
             }
 
             include_once(BASE . 'backup.php');
+            unlink(BASE . '_cache/Plan.php');
 
             http_response_code(200);
             ob_start('minifier');

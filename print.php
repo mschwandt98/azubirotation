@@ -24,7 +24,7 @@ ob_start("minifier");
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<div id="BlackScreen"></div>
+<!-- <div id="BlackScreen"></div> -->
 <div id="Header">
     <h1>Ausbildungsplan</h1>
     <div id="Legende">
@@ -97,7 +97,7 @@ ob_start("minifier");
     var tableParts = $("#Plan > div:not(:first)");
     tableParts.css({ marginTop: $("#Header").outerHeight() });
 
-    window.print();
+    // window.print();
     window.addEventListener("afterprint", (event) => {
         window.close();
     });

@@ -311,6 +311,10 @@ main {
             margin-bottom: 8px;
         }
     }
+
+    #Menu {
+        display: none;
+    }
 }
 
 @media screen and (max-width: $xs-max) {

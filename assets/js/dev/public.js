@@ -40,6 +40,12 @@ jQuery(function($) {
                     }
                 }
             }
+
+            var hiddenColumns = getCookie("hidden-columns").split("-");
+            var wrapper = $("#Information");
+            hiddenColumns.forEach(column => {
+                wrapper.find(`input[type="checkbox"][value="${ column }"]`).click();
+            });
         });
 
         /**
@@ -241,12 +247,17 @@ jQuery(function($) {
             if (action) {
 
                 action = action[0].replace("action-", "");
+                let actionMenu = $("#" + action.charAt(0).toUpperCase() + action.slice(1));
+                let submenu = $("#SubMenu");
 
-                var submenu = $("#SubMenu");
-                submenu.find(".menu-action").hide();
-                submenu.show();
-
-                $("#" + action.charAt(0).toUpperCase() + action.slice(1)).show();
+                if (actionMenu.is(":hidden")) {
+                    submenu.find(".menu-action").hide();
+                    submenu.show();
+                    actionMenu.show();
+                } else {
+                    actionMenu.hide();
+                    submenu.hide();
+                }
             }
         })
 
@@ -258,5 +269,118 @@ jQuery(function($) {
             submenu.find(".menu-action").hide();
             submenu.hide();
         });
+
+        /**
+         *
+         */
+        $("#Information").on("click", 'input[type="checkbox"]', function() {
+
+            var plan = $("#Plan");
+            var columns = plan.find("th." + $(this).val());
+
+            const cFirst = 0;
+            const cSecond = 117;
+            const cThird = 234;
+            const cFourth = 292;
+
+            if (this.checked) {
+                columns.hide();
+            } else {
+                columns.show();
+            }
+
+            var nachname = plan.find("th.nachname");
+            var vorname = plan.find("th.vorname");
+            var kuerzel = plan.find("th.kuerzel");
+            var zeitraum = plan.find("th.zeitraum");
+
+            var topLeft = plan.find("thead th.top-left-sticky").first();
+            var ausbildungsBerufe = plan.find("tbody th.ausbildungsberuf");
+
+            var nachnameHidden = nachname.is(":hidden");
+            var vornameHidden = vorname.is(":hidden");
+            var zeitraumHidden = zeitraum.is(":hidden");
+
+            if (nachnameHidden && vornameHidden) {
+
+                kuerzel.css("left", cFirst + "px");
+                topLeft.attr("colspan", 1);
+                ausbildungsBerufe.attr("colspan", 1);
+
+            } else if (nachnameHidden && !vornameHidden) {
+
+                vorname.css("left", cFirst + "px");
+                kuerzel.css("left", cSecond + "px");
+                topLeft.attr("colspan", 2);
+                ausbildungsBerufe.attr("colspan", 2);
+
+            } else if (!nachnameHidden && vornameHidden) {
+
+                nachname.css("left", cFirst + "px");
+                kuerzel.css("left", cSecond + "px");
+                topLeft.attr("colspan", 2);
+                ausbildungsBerufe.attr("colspan", 2);
+
+            } else if (zeitraumHidden) {
+
+                nachname.css("left", cFirst + "px");
+                vorname.css("left", cSecond + "px");
+                kuerzel.css("left", cThird + "px");
+                topLeft.attr("colspan", 3);
+                ausbildungsBerufe.attr("colspan", 3);
+
+            } else {
+
+                nachname.css("left", cFirst + "px");
+                vorname.css("left", cSecond + "px");
+                kuerzel.css("left", cThird + "px");
+                zeitraum.css("left", cFourth + "px");
+                topLeft.attr("colspan", 4);
+                ausbildungsBerufe.attr("colspan", 4);
+                document.cookie = "hidden-columns=; max-age=2592000";
+                return;
+            }
+
+            if (!zeitraumHidden) {
+
+                // setTimeout für Behebung eines Timing-Problems
+                setTimeout(function() {
+                    let kuerzelLeft = kuerzel.css("left");
+
+                    zeitraum.css(
+                        "left",
+                        parseInt(kuerzelLeft.substring(0, kuerzelLeft.length - 2)) + kuerzel.innerWidth() + "px"
+                    );
+                }, 0);
+
+                topLeft.attr("colspan", parseInt(topLeft.attr("colspan")) + 1);
+                ausbildungsBerufe.attr("colspan", parseInt(ausbildungsBerufe.attr("colspan")) + 1);
+            }
+
+            let hiddenColumns = [];
+            nachnameHidden ? hiddenColumns.push("nachname") : null;
+            vornameHidden ? hiddenColumns.push("vorname") : null;
+            zeitraumHidden ? hiddenColumns.push("zeitraum") : null;
+            document.cookie = `hidden-columns=${ hiddenColumns.join("-") }; max-age=2592000`;
+        });
+
+        /**
+         * @seen https://www.w3schools.com/js/js_cookies.asp
+         */
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
     });
 });

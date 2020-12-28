@@ -95,7 +95,7 @@ function minifier($code) {
 }
 
 /**
- * Säubert einen String; Entfernt Tags und wandelt HTML-Special-Chars um.
+ * Säubert einen String, entfernt Tags und wandelt HTML-Special-Chars um.
  *
  * @param string $data Der zu säubernde String.
  *
