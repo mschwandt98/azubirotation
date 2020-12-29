@@ -34,12 +34,12 @@ html[data-theme='dark'] {
     }
 
     #Plan table th {
-        background-color: $selectline-dark-mode-black-mid;
+        background-color: $selectline-dark-mode-black-light;
         color: $selectline-dark-mode-white;
     }
 
     #Menu {
-        background-color: $selectline-dark-mode-black-mid;
+        background-color: $selectline-dark-mode-black-light;
 
         li.menu-point:hover {
             background-color: $selectline-dark-mode-black;
@@ -51,8 +51,23 @@ html[data-theme='dark'] {
         }
     }
 
-    #SubMenu i.icon-cross:hover {
+    #SubMenu {
         background-color: $selectline-dark-mode-black;
+        border-bottom-color: $selectline-dark-mode-white;
+
+        i.icon-cross {
+            color: $selectline-blue;
+
+            &:hover {
+                background-color: $selectline-dark-mode-black-light;
+                color: $selectline-blue-hover;
+            }
+        }
+    }
+
+    #Information,
+    #Legende {
+        color: $selectline-dark-mode-white;
     }
 }
 
@@ -193,27 +208,27 @@ body {
 }
 
 #SubMenu {
-    border-top: 2px solid white;
+    background-color: white;
+    border-bottom: 1px solid $selectline-blue;
     display: none;
     overflow: hidden;
+    padding: 0 16px;
 
     > div {
         display: grid;
         grid-template-columns: 1fr auto;
 
-        form#Filter label {
-            color: white;
-        }
-
         i.icon-cross {
-            color: white;
+            color: $selectline-dark-blue;
             cursor: pointer;
             height: 100%;
             margin-left: 16px;
+            outline: 0;
             padding: 8px;
 
             &:hover {
-                background-color: $selectline-blue-hover;
+                background-color: $selectline-blue-gray;
+                color: $selectline-blue-hover;
             }
         }
 
@@ -224,12 +239,27 @@ body {
     }
 }
 
+#Information {
+    > div:first-of-type {
+        margin-bottom: 8px;
+    }
+
+    > div:last-of-type {
+        display: flex;
+        gap: 32px;
+
+        label {
+            cursor: pointer;
+        }
+    }
+}
+
 main {
     margin: 16px;
 }
 
 #Plan {
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 190px);
 }
 
 #ErrorMessageBox {
@@ -379,8 +409,9 @@ main {
         }
     }
 
-    #Menu {
-        display: none;
+    #Menu,
+    #SubMenu {
+        display: none !important;
     }
 }
 

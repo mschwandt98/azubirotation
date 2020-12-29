@@ -5,7 +5,6 @@
  */
 
 .legenden-list {
-    color: white;
     display: grid;
     grid-template-columns: auto auto auto auto auto;
 
@@ -24,5 +23,17 @@
             height: 1em;
             width: 32px;
         }
+    }
+}
+
+@media screen and (max-width: $lg-max) and (min-width: $lg-min) {
+    .legenden-list {
+        grid-template-columns: auto auto auto auto;
+    }
+}
+
+@media screen and (max-width: $md-max) {
+    .legenden-list {
+        grid-template-columns: auto auto auto;
     }
 }

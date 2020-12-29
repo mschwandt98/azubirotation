@@ -5,7 +5,6 @@ jQuery(function($) {
         $("#Plan").load("rest/Refresh/Plan", _ => {
 
             $("#LoadingSpinner").hide();
-            $("#PlanActions").show();
 
             // Scrollt zum aktuellen Datum in der Planung
             let timePeriods = $("#Plan th.month");
@@ -224,15 +223,18 @@ jQuery(function($) {
 
             let el = $(this);
             let checkbox = el.find('input[type="checkbox"]');
+            let text = el.find("> div:last-of-type");
             let html = $("html");
 
             if (html.attr("data-theme") == "dark") {
                 html.attr("data-theme", "light");
                 checkbox.prop("checked", false);
+                text.text("Light Mode");
                 document.cookie = "darkmode=false; max-age=2592000";
             } else {
                 html.attr("data-theme", "dark");
                 checkbox.prop("checked", true);
+                text.text("Dark Mode");
                 document.cookie = "darkmode=true; max-age=2592000";
             }
         }).find(".slider").click(function() {
@@ -242,7 +244,9 @@ jQuery(function($) {
         });;
 
         /**
-         *
+         * Öffnet bzw schließt den angeklickten Menüpunkt. Sofern der Menüpunkt
+         * bereits sichtbar ist, wird er versteckt. Ansonsten werden alle
+         * anderen Menüpunkte versteckt und der angeklickte wird angezeigt.
          */
         $("#Menu").on("click", ".menu-point", function() {
 
@@ -267,7 +271,7 @@ jQuery(function($) {
         })
 
         /**
-         *
+         * Schließt das Submenü beim Klick auf das Kreuz.
          */
         $("#SubMenu").on("click", "i.icon-cross", function() {
             var submenu = $("#SubMenu");
@@ -276,7 +280,8 @@ jQuery(function($) {
         });
 
         /**
-         *
+         * Blendet die jeweiligen Spalten mit den Azubiinformationen in der
+         * Tabelle bzw in der Planung aus.
          */
         $("#Information").on("click", 'input[type="checkbox"]', function() {
 

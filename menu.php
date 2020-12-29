@@ -77,54 +77,56 @@
                         <i class="slider"></i>
                 </label>
             </div>
-            <div>Dark Mode</div>
+            <div>
+                <?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] === 'true') ? 'Dark' : 'Light' ?> Mode
+            </div>
         </li>
 
     </nav>
-    <div id="SubMenu" style="position: relative;">
-        <div>
-            <form class="menu-action" id="Filter">
+</div>
+<div id="SubMenu" style="position: relative;">
+    <div>
+        <form class="menu-action" id="Filter">
+            <label>
+                <span>Auszubildende filtern: </span>
+                <input type="search" />
+            </label>
+        </form>
+        <div class="menu-action" id="Information">
+            <div>Spalten ein- bzw ausblenden:</div>
+            <div>
                 <label>
-                    <span>Auszubildende filtern: </span>
-                    <input type="search" />
+                    <input type="checkbox" value="nachname" />
+                    <span>Nachname</span>
                 </label>
-            </form>
-            <div class="menu-action" id="Information" style="color: white;">
-                <div style="margin-bottom: 8px;">Spalten ein- bzw ausblenden:</div>
-                <div style="display: flex; gap: 32px;">
-                    <label style="cursor: pointer;">
-                        <input type="checkbox" value="nachname" />
-                        <span>Nachname</span>
-                    </label>
-                    <label style="cursor: pointer;">
-                        <input type="checkbox" value="vorname" />
-                        <span>Vorname</span>
-                    </label>
-                    <label style="cursor: pointer;">
-                        <input type="checkbox" value="zeitraum" />
-                        <span>Zeitraum</span>
-                    </label>
-                </div>
+                <label>
+                    <input type="checkbox" value="vorname" />
+                    <span>Vorname</span>
+                </label>
+                <label>
+                    <input type="checkbox" value="zeitraum" />
+                    <span>Zeitraum</span>
+                </label>
             </div>
-            <div class="menu-action" id="Legende">
-                <?php include_once('legende.php'); ?>
-            </div>
-            <div class="menu-action" id="Data">
-                <div class="grid">
-                    <div>
-                        <?php include_once('templates/Abteilungen.php'); ?>
-                        <?php include_once('templates/Standardplaene.php'); ?>
-                    </div>
-                    <div>
-                        <?php include_once('templates/Ausbildungsberufe.php'); ?>
-                        <?php include_once('templates/Azubis.php'); ?>
-                    </div>
-                    <div>
-                        <?php include_once('templates/Ansprechpartner.php'); ?>
-                    </div>
-                </div>
-            </div>
-            <i class="icon-cross" title="Submenu schließen"></i>
         </div>
+        <div class="menu-action" id="Legende">
+            <?php include_once('legende.php'); ?>
+        </div>
+        <div class="menu-action" id="Data">
+            <div class="grid">
+                <div>
+                    <?php include_once('templates/Abteilungen.php'); ?>
+                    <?php include_once('templates/Standardplaene.php'); ?>
+                </div>
+                <div>
+                    <?php include_once('templates/Ausbildungsberufe.php'); ?>
+                    <?php include_once('templates/Azubis.php'); ?>
+                </div>
+                <div>
+                    <?php include_once('templates/Ansprechpartner.php'); ?>
+                </div>
+            </div>
+        </div>
+        <i class="icon-cross" title="Submenu schließen"></i>
     </div>
 </div>

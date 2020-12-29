@@ -197,11 +197,6 @@ html[data-theme='dark'] {
     }
 }
 
-#PlanActions {
-    display: flex;
-    justify-content: space-between;
-}
-
 #PlanErrors > div {
     border: 1px solid red;
     border-radius: 8px;
@@ -241,25 +236,15 @@ html[data-theme='dark'] {
     }
 }
 
-@media screen and (max-width: $md-max) {
-    #PlanActions {
-        display: block;
-
-        input[type="button"] {
-            display: block;
-            margin-bottom: 16px;
-        }
-    }
-}
-
-@media screen and (max-width: $md-max) and (min-width: $md-min) {
+@media screen and (max-width: $lg-max) and (min-width: $lg-min) {
     #Info > div > div,
     .grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media screen and (max-width: $sm-max) {
+@media screen and (max-width: $md-max) {
+    #Info > div > div,
     .grid {
         grid-template-columns: 1fr;
     }
