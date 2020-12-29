@@ -22,6 +22,7 @@ html[data-theme='dark'] {
     body,
     html {
         background-color: $selectline-dark-mode-black;
+        color: $selectline-dark-mode-white;
     }
 
     #TopHeader {
@@ -35,7 +36,6 @@ html[data-theme='dark'] {
 
     #Plan table th {
         background-color: $selectline-dark-mode-black-light;
-        color: $selectline-dark-mode-white;
     }
 
     #Menu {
@@ -64,11 +64,6 @@ html[data-theme='dark'] {
             }
         }
     }
-
-    #Information,
-    #Legende {
-        color: $selectline-dark-mode-white;
-    }
 }
 
 body {
@@ -94,7 +89,7 @@ body {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     padding: 16px 32px;
 
     h1 {
@@ -113,6 +108,15 @@ body {
             display: inline;
             margin-right: 16px;
         }
+    }
+}
+
+#ToggleMenu {
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+        color: $selectline-blue;
     }
 }
 
@@ -260,6 +264,10 @@ main {
 
 #Plan {
     max-height: calc(100vh - 190px);
+
+    &.full-height {
+        max-height: calc(100vh - 105px);
+    }
 }
 
 #ErrorMessageBox {
@@ -366,6 +374,16 @@ main {
     }
 }
 
+@media screen and (max-width: $md-max) {
+
+    #Plan table {
+        th.top-left-sticky,
+        tbody th {
+            position: inherit;
+        }
+    }
+}
+
 @media screen and (max-width: $md-max) and (min-width: $md-min) {
     #Login {
         display: grid;
@@ -410,7 +428,8 @@ main {
     }
 
     #Menu,
-    #SubMenu {
+    #SubMenu,
+    #ToggleMenu {
         display: none !important;
     }
 }

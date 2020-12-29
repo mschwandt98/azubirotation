@@ -244,6 +244,26 @@ jQuery(function($) {
         });;
 
         /**
+         * Blendet das Menü ein, wenn es ausgeblendet ist und blendet es aus,
+         * wenn es eingeblendet ist.
+         */
+        $("#ToggleMenu").on("click", function() {
+
+            var menu = $("#Menu");
+
+            if (menu.is(":visible")) {
+                menu.hide();
+                $("#SubMenu").hide();
+                $("#Plan").addClass("full-height");
+                $(this).text("Menü anzeigen");
+            } else {
+                menu.show();
+                $("#Plan").removeClass("full-height");
+                $(this).text("Menü ausblenden");
+            }
+        });
+
+        /**
          * Öffnet bzw schließt den angeklickten Menüpunkt. Sofern der Menüpunkt
          * bereits sichtbar ist, wird er versteckt. Ansonsten werden alle
          * anderen Menüpunkte versteckt und der angeklickte wird angezeigt.
