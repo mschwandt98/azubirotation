@@ -9,38 +9,54 @@
 <div id="Menu">
     <nav>
         <li class="menu-point action-filter" title="Planung filtern">
-            <i class="icon-filter"></i>
+            <div class="menu-icon">
+                <i class="icon-filter"></i>
+            </div>
             <div>Filter</div>
         </li>
         <li class="menu-point action-information" title="Spalten umschalten">
-            <i class="icon-columns"></i>
+            <div class="menu-icon">
+                <i class="icon-columns"></i>
+            </div>
             <div>Spalten umschalten</div>
         </li>
         <li class="menu-point action-legende" title="Legende anzeigen">
-            <i class="icon-list"></i>
+            <div class="menu-icon">
+                <i class="icon-list"></i>
+            </div>
             <div>Legende</div>
         </li>
 
         <?php if (is_logged_in()) : ?>
 
             <li class="menu-point action-data" title="Stammdaten verwalten">
-                <i class="icon-database"></i>
+                <div class="menu-icon">
+                    <i class="icon-database"></i>
+                </div>
                 <div>Stammdaten</div>
             </li>
             <li class="menu-point" title="Planung speichern" id="SavePlan">
-                <i class="icon-save"></i>
+                <div class="menu-icon">
+                    <i class="icon-save"></i>
+                </div>
                 <div>Speichern</div>
             </li>
             <li class="menu-point" title="Auf Fehler testen" id="TestPlan">
-                <i class="icon-test"></i>
+                <div class="menu-icon">
+                    <i class="icon-test"></i>
+                </div>
                 <div>Testen</div>
             </li>
             <li class="menu-point" title="Benachrichtigungen senden" id="SendMail">
-                <i class="icon-mail"></i>
+                <div class="menu-icon">
+                    <i class="icon-mail"></i>
+                </div>
                 <div>Senden</div>
             </li>
             <li class="menu-point" title="Anleitung" id="InfoButton">
-                <i class="icon-help"></i>
+                <div class="menu-icon">
+                    <i class="icon-help"></i>
+                </div>
                 <div>Anleitung</div>
                 <?php include_once('templates/InfoButton.php'); ?>
             </li>
@@ -48,14 +64,19 @@
         <?php endif; ?>
 
         <li class="menu-point" title="Drucken" id="PrintPlan">
-            <i class="icon-print"></i>
+            <div class="menu-icon">
+                <i class="icon-print"></i>
+            </div>
             <div>Drucken</div>
         </li>
         <li class="menu-point" title="Dark Mode an/aus" id="DarkMode">
-            <label class="switch">
-                    <input type="checkbox" />
-                    <i class="slider"></i>
-            </label>
+            <div class="menu-icon">
+                <label class="switch">
+                        <input type="checkbox"
+                            <?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] === 'true') ? 'checked' : '' ?> />
+                        <i class="slider"></i>
+                </label>
+            </div>
             <div>Dark Mode</div>
         </li>
 

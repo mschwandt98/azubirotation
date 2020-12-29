@@ -122,8 +122,16 @@ body {
                 background-color: $selectline-blue-hover;
             }
 
-            i {
-                font-size: 24px;
+            .menu-icon {
+                height: 36px;
+
+                > i:before {
+                    vertical-align: middle;
+                }
+
+                i {
+                    font-size: 24px;
+                }
             }
 
             .switch {

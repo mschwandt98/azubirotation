@@ -1,10 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
 
-        if ($("html").data("theme") === "dark") {
-            $("#DarkMode").click();
-        }
-
         $("#LoadingSpinner").show();
         $("#Plan").load("rest/Refresh/Plan", _ => {
 
