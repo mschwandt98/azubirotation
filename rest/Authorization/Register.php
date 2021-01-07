@@ -29,7 +29,7 @@ if (!is_logged_in()) {
                     $_SESSION['user_name'] = $username;
                     $_SESSION['csrf_token'] = uniqid('', true);
                     $url = explode('/register', $_SERVER['HTTP_REFERER'])[0];
-                    header('Location: '. $url);
+                    header('Location: ' . $url);
                     exit;
                 } else {
                     echo $backButtonString;

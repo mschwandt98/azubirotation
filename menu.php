@@ -59,7 +59,6 @@
                     <i class="icon-help"></i>
                 </div>
                 <div>Anleitung</div>
-                <?php include_once('templates/InfoButton.php'); ?>
             </li>
 
         <?php endif; ?>

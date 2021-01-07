@@ -205,17 +205,13 @@ jQuery(function($) {
                     RemoveSelectedStatus();
                 }
             }
-
-            if(!$(e.target).closest("#InfoButton").length) {
-                $("#Info > div").fadeOut();
-            }
         });
 
         /**
-         * Blendet die Informationen des Info-Buttons ein.
+         * Öffnet die Anleitung in einem neuen Tab.
          */
         $("#InfoButton").on("click", function() {
-            $("#Info > div").fadeIn();
+            window.open(window.location.href + "/manual", "_blank");
         });
 
         /**

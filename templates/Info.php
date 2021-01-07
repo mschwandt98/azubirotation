@@ -1,6 +1,6 @@
 <?php
 /**
- * InfoButton.php
+ * Info.php
  *
  * Die Template zum Info-Button, der eine Erklärung zum Umgang mit der Planung
  * beinhaltet.
@@ -8,7 +8,7 @@
 ?>
 
 <div id="Info">
-    <div style="display: none;">
+    <div>
         <div>
             <div>
                 <div>
@@ -68,11 +68,11 @@
                     <b>Planung speichern und testen</b>
                 </div>
                 <div>
-                    Zum Speichern der Planung den Button "Planung speichern" drücken.
+                    Zum Speichern der Planung den Menüpunkt "Speichern" drücken.
                 </div>
                 <div>
-                    Um zu testen, ob die Planung gegen Planungsrichtlinien verstößt, auf den Button "Auf Fehler testen"
-                    drücken. Sofern Richtlinienverstöße gefunden wurden, wird unter der Planung ein rot umrandetes Feld
+                    Um zu testen, ob die Planung gegen Planungsrichtlinien verstößt, auf den Menüpunkt "Testen" drücken.
+                    Sofern Richtlinienverstöße gefunden wurden, wird unter der Planung ein rot umrandetes Feld
                     eingeblendet, in dem alle Verstöße der Planung gelistet sind. Bevor die Planung getestet wird,
                     werden offene Änderungen an der Planung abgespeichert.
                 </div>
@@ -82,11 +82,11 @@
                     <b>Email-Benachrichtigung senden und Planung drucken</b>
                 </div>
                 <div>
-                    Mit Klick auf den Button "Benachrichtigungen senden" wird eine Email an alle Ansprechpartner und
-                    Auszubildenden geschickt. In dieser Email wird auf den Plan verlinkt.
+                    Mit Klick auf den Menüpunkt "Senden" wird eine Email an alle Ansprechpartner und Auszubildenden
+                    geschickt. In dieser Email wird auf den Plan verlinkt.
                 </div>
                 <div>
-                    Um eine Druckversion der Planung zu erstellen, auf den Button "Plan drucken" klicken. Es öffnet sich
+                    Um eine Druckversion der Planung zu erstellen, auf den Menüpunkt "Drucken" klicken. Es öffnet sich
                     ein neues Fenster mit der Planung als Druckansicht. Je nach Größe des Plans kann es längere Zeit
                     dauern, bis der Browser die Druckansicht fertig erstellt hat.
                 </div>
