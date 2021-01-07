@@ -310,13 +310,12 @@ jQuery(function($) {
                     tdItems.pop();
                 } else if (prevTd.data("date") == currentTdDate || nextTd.data("date") == currentTdDate) {
 
-                    let exists = false;
-
                     // Falls ein Child-Element ausgewählt wurde
                     if (currentTd.parents(".plan-phase").length > 0) {
                         currentTd = currentTd.parents(".plan-phase");
                     }
 
+                    let exists = false;
                     tdItems.forEach(function(item) {
                         if ($(item).data("date") === currentTd.data("date")) {
                             exists = true;

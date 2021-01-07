@@ -22,6 +22,10 @@ html[data-theme='dark'] {
         color: $selectline-text-blue !important;
     }
 
+    #Plan td.selected::before {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
     .data-item {
         background-color: $selectline-dark-mode-black-light;
         color: $selectline-dark-mode-white;
@@ -137,8 +141,7 @@ html[data-theme='dark'] {
     > div {
         background-color: white !important;
         border: 1px solid $gray;
-        border-radius: 8px;
-        box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.2);
         padding: 8px 16px;
     }
 
