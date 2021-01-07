@@ -33,9 +33,11 @@ ob_start('minifier');
         }
 
         #Info > div {
+            border: 1px solid #003359;
+            border-radius: 4px;
+            margin: 10% 10% 0;
             overflow: auto;
             padding: 16px 32px;
-            margin: 10% 10% 0;
         }
 
         #Info > div > div {

@@ -127,12 +127,14 @@ body {
     background-color: $selectline-blue;
     padding: 0 16px;
 
-    nav {
+    nav ul {
         color: white;
         display: flex;
         flex-wrap: wrap;
         justify-content: left;
         list-style: none;
+        margin: 0;
+        padding: 0;
 
         #Filter form {
             height: 100%;
