@@ -105,5 +105,5 @@ Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
 * jQuery-Instanzen zu einer Instanz zusammenfügen (Auf die Konstantennamen achten! + Extra Build-Skript bauen?)
 * Deutsches Language-Pack auf Server für PHP installieren
 * Automatisierte Planung immer weiter verbessern
-* Druckversion optimieren + Kürzel der jeweiligen Azubis am Anfang jeder Seite anzeigen
+* Druckversion optimieren: Filterung und Spalten umschalten mit über + nur bestimmte Zeiträume drucken
 * Tabelle optimieren: zu viele Elemente (Table Cells) werden gerendert
