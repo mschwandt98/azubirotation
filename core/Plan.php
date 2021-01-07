@@ -227,7 +227,6 @@ ob_start();
                                 data-date="<?= $currentDate; ?>"></td>
 
                         <?php endif; ?>
-
                         <?php $currentDate = DateHelper::NextMonday($currentDate); ?>
                     <?php endfor; ?>
 
