@@ -110,7 +110,7 @@ body {
     }
 }
 
-#ToggleMenu {
+#ShowMenu {
     cursor: pointer;
     text-decoration: underline;
 
@@ -151,6 +151,20 @@ body {
             font-size: 14px;
             padding: 8px 16px;
             text-align: center;
+
+            &:last-of-type {
+                margin-left: auto;
+
+                .menu-icon {
+                    align-items: center;
+                    display: flex;
+                    height: 100%;
+
+                    i:before {
+                        vertical-align: unset;
+                    }
+                }
+            }
 
             &:hover {
                 background-color: $selectline-blue-hover;
@@ -367,7 +381,7 @@ body {
 
     #Menu,
     #SubMenu,
-    #ToggleMenu {
+    #ShowMenu {
         display: none !important;
     }
 

@@ -250,23 +250,22 @@ jQuery(function($) {
         });;
 
         /**
-         * Blendet das Menü ein, wenn es ausgeblendet ist und blendet es aus,
-         * wenn es eingeblendet ist.
+         * Blendet das Menü aus.
          */
-        $("#ToggleMenu").on("click", function() {
+        $("#HideMenu").on("click", function() {
+            $("#Menu").hide();
+            $("#SubMenu").hide();
+            $("#Plan").addClass("full-height");
+            $("#ShowMenu").show();
+        });
 
-            var menu = $("#Menu");
-
-            if (menu.is(":visible")) {
-                menu.hide();
-                $("#SubMenu").hide();
-                $("#Plan").addClass("full-height");
-                $(this).text("Menü anzeigen");
-            } else {
-                menu.show();
-                $("#Plan").removeClass("full-height");
-                $(this).text("Menü ausblenden");
-            }
+        /**
+         * Blendet das Menü ein.
+         */
+        $("#ShowMenu").on("click", function() {
+            $(this).hide();
+            $("#Menu").show();
+            $("#Plan").removeClass("full-height");
         });
 
         /**

@@ -82,6 +82,11 @@
                 <?= (array_key_exists('darkmode', $_COOKIE) && $_COOKIE['darkmode'] === 'true') ? 'Dark' : 'Light' ?> Mode
             </div>
         </li>
+        <li class="menu-point" title="Menü ausblenden" id="HideMenu">
+            <div class="menu-icon">
+                <i class="icon-compress"></i>
+            </div>
+        </li>
 
     </nav>
 </div>

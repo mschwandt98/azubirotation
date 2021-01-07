@@ -19,7 +19,9 @@
             </div>
         </div>
         <div>
-            <div id="ToggleMenu">Menü ausblenden</div>
+            <div id="ShowMenu" style="display: none;">
+                <span>Menü einblenden</span>
+            </div>
         </div>
 
         <?php if (is_logged_in()) : ?>
