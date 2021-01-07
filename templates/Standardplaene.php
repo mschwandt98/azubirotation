@@ -11,8 +11,8 @@
     <div class="data-actions">
         <i class="icon-plus" title="Anlegen"></i>
         <i class="icon-minus" title="Ausblenden" style="display: none;"></i>
-        <i class="icon-eye" title="Anzeigen"></i>
-        <i class="icon-eye-blocked" title="Ausblenden" style="display: none;"></i>
+        <i class="icon-chevron-down" title="Anzeigen"></i>
+        <i class="icon-chevron-up" title="Ausblenden" style="display: none;"></i>
         <input type="button" class="show-data" hidden />
         <input type="button" class="add-data" hidden />
     </div>

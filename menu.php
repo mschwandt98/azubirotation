@@ -8,11 +8,12 @@
 
 <div id="Menu">
     <nav>
-        <li class="menu-point action-filter" title="Planung filtern">
-            <div class="menu-icon">
-                <i class="icon-filter"></i>
-            </div>
-            <div>Filter</div>
+        <li title="Auszubildende filtern" id="Filter">
+            <form>
+                <label>
+                    <input type="search" placeholder="Auszubildende filtern..." />
+                </label>
+            </form>
         </li>
         <li class="menu-point action-information" title="Spalten umschalten">
             <div class="menu-icon">
@@ -84,49 +85,39 @@
 
     </nav>
 </div>
-<div id="SubMenu" style="position: relative;">
-    <div>
-        <form class="menu-action" id="Filter">
+<div id="SubMenu">
+    <div class="menu-action" id="Information">
+        <div>
             <label>
-                <span>Auszubildende filtern: </span>
-                <input type="search" />
+                <input type="checkbox" value="nachname" />
+                <span>Nachname</span>
             </label>
-        </form>
-        <div class="menu-action" id="Information">
-            <div>Spalten ein- bzw ausblenden:</div>
+            <label>
+                <input type="checkbox" value="vorname" />
+                <span>Vorname</span>
+            </label>
+            <label>
+                <input type="checkbox" value="zeitraum" />
+                <span>Zeitraum</span>
+            </label>
+        </div>
+    </div>
+    <div class="menu-action" id="Legende">
+        <?php include_once('legende.php'); ?>
+    </div>
+    <div class="menu-action" id="Data">
+        <div class="grid">
             <div>
-                <label>
-                    <input type="checkbox" value="nachname" />
-                    <span>Nachname</span>
-                </label>
-                <label>
-                    <input type="checkbox" value="vorname" />
-                    <span>Vorname</span>
-                </label>
-                <label>
-                    <input type="checkbox" value="zeitraum" />
-                    <span>Zeitraum</span>
-                </label>
+                <?php include_once('templates/Abteilungen.php'); ?>
+                <?php include_once('templates/Standardplaene.php'); ?>
+            </div>
+            <div>
+                <?php include_once('templates/Ausbildungsberufe.php'); ?>
+                <?php include_once('templates/Azubis.php'); ?>
+            </div>
+            <div>
+                <?php include_once('templates/Ansprechpartner.php'); ?>
             </div>
         </div>
-        <div class="menu-action" id="Legende">
-            <?php include_once('legende.php'); ?>
-        </div>
-        <div class="menu-action" id="Data">
-            <div class="grid">
-                <div>
-                    <?php include_once('templates/Abteilungen.php'); ?>
-                    <?php include_once('templates/Standardplaene.php'); ?>
-                </div>
-                <div>
-                    <?php include_once('templates/Ausbildungsberufe.php'); ?>
-                    <?php include_once('templates/Azubis.php'); ?>
-                </div>
-                <div>
-                    <?php include_once('templates/Ansprechpartner.php'); ?>
-                </div>
-            </div>
-        </div>
-        <i class="icon-cross" title="Submenu schließen"></i>
     </div>
 </div>

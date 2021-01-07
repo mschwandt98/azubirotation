@@ -24,6 +24,18 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-compress:before {
+  content: "\e903";
+}
+.icon-expand:before {
+  content: "\e909";
+}
+.icon-chevron-up:before {
+  content: "\e911";
+}
+.icon-chevron-down:before {
+  content: "\e902";
+}
 .icon-moon:before {
   content: "\e913";
 }
@@ -57,9 +69,6 @@ i {
 .icon-print:before {
   content: "\e908";
 }
-.icon-filter:before {
-  content: "\e909";
-}
 .icon-sun:before {
   content: "\e907";
 }
@@ -69,12 +78,6 @@ i {
 .icon-minus:before {
   content: "\e904";
 }
-.icon-eye-blocked:before {
-  content: "\e903";
-}
 .icon-plus:before {
   content: "\e906";
-}
-.icon-eye:before {
-  content: "\e90a";
 }

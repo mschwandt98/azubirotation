@@ -61,15 +61,7 @@ html[data-theme='dark'] {
     #SubMenu {
         background-color: $selectline-dark-mode-black;
         border-bottom-color: $selectline-dark-mode-white;
-
-        i.icon-cross {
-            color: $selectline-blue;
-
-            &:hover {
-                background-color: $selectline-dark-mode-black-light;
-                color: $selectline-blue-hover;
-            }
-        }
+        box-shadow: 0 4px 4px 0 rgba(255, 255, 255, 0.5);
     }
 }
 
@@ -79,11 +71,11 @@ body {
     font-family: "Calibri";
     font-size: 16px;
     margin: 0;
+    overflow-y: hidden;
 }
 
 #Header {
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -97,7 +89,7 @@ body {
     display: grid;
     column-gap: 16px;
     grid-template-columns: auto auto auto 1fr;
-    padding: 16px 32px;
+    padding: 8px 32px;
 
     h1 {
         color: $selectline-blue;
@@ -130,18 +122,34 @@ body {
 #Menu {
     background-color: $selectline-blue;
     padding: 0 16px;
-    position: relative;
 
     nav {
         color: white;
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: left;
         list-style: none;
+
+        #Filter form {
+            height: 100%;
+
+            label {
+                align-items: center;
+                display: flex;
+                height: inherit;
+                padding-right: 16px;
+
+                input {
+                    max-width: 256px;
+                    width: 256px;
+                }
+            }
+        }
 
         li.menu-point {
             cursor: pointer;
-            padding: 16px 32px;
+            font-size: 14px;
+            padding: 8px 16px;
             text-align: center;
 
             &:hover {
@@ -149,22 +157,22 @@ body {
             }
 
             .menu-icon {
-                height: 36px;
+                height: 24px;
 
                 > i:before {
                     vertical-align: middle;
                 }
 
                 i {
-                    font-size: 24px;
+                    font-size: 18px;
                 }
             }
 
             .switch {
                 position: relative;
                 display: inline-block;
-                width: 60px;
-                height: 32px;
+                width: 48px;
+                height: 24px;
 
                 input {
                     opacity: 0;
@@ -181,9 +189,9 @@ body {
 
                     &:checked + .slider:before {
                         content: "\e913";
-                        -webkit-transform: translateX(26px);
-                        -ms-transform: translateX(26px);
-                        transform: translateX(26px);
+                        -webkit-transform: translateX(16px);
+                        -ms-transform: translateX(16px);
+                        transform: translateX(16px);
                     }
                 }
 
@@ -205,7 +213,7 @@ body {
                         color: $selectline-blue;
                         content: "\e907";
                         position: absolute;
-                        bottom: 4px;
+                        bottom: -3px;
                         left: 4px;
                         height: 24px;
                         width: 24px;
@@ -221,59 +229,33 @@ body {
 #SubMenu {
     background-color: white;
     border-bottom: 1px solid $selectline-blue;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
     display: none;
     overflow: hidden;
     padding: 0 16px;
 
-    > div {
-        display: grid;
-        grid-template-columns: 1fr auto;
-
-        i.icon-cross {
-            color: $selectline-dark-blue;
-            cursor: pointer;
-            height: 100%;
-            margin-left: 16px;
-            outline: 0;
-            padding: 8px;
-
-            &:hover {
-                background-color: $selectline-blue-gray;
-                color: $selectline-blue-hover;
-            }
-        }
-
-        .menu-action {
-            display: none;
-            padding: 16px 0;
-        }
+    .menu-action {
+        display: none;
+        padding: 16px 0;
     }
 }
 
-#Information {
-    > div:first-of-type {
-        margin-bottom: 8px;
+#Information > div {
+    display: flex;
+    gap: 32px;
+
+    label {
+        cursor: pointer;
     }
-
-    > div:last-of-type {
-        display: flex;
-        gap: 32px;
-
-        label {
-            cursor: pointer;
-        }
-    }
-}
-
-main {
-    margin: 16px;
 }
 
 #Plan {
-    max-height: calc(100vh - 190px);
+    margin-top: 112px;
+    max-height: calc(100vh - 112px);
 
     &.full-height {
-        max-height: calc(100vh - 105px);
+        margin-top: 55px;
+        max-height: calc(100vh - 55px);
     }
 }
 
@@ -383,6 +365,12 @@ main {
 
 @media screen and (max-width: $md-max) {
 
+    #Menu,
+    #SubMenu,
+    #ToggleMenu {
+        display: none !important;
+    }
+
     #Plan table {
         th.top-left-sticky,
         tbody th {
@@ -433,12 +421,6 @@ main {
             margin-bottom: 8px;
         }
     }
-
-    #Menu,
-    #SubMenu,
-    #ToggleMenu {
-        display: none !important;
-    }
 }
 
 @media screen and (max-width: $xs-max) {
@@ -449,30 +431,18 @@ main {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
+    height: 12px;
+    width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: $gray;
-    border-radius: 16px;
+    background: $selectline-blue-gray;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: $selectline-blue;
-    border-radius: 16px;
+    background: $selectline-dark-blue;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: $selectline-blue-hover;
-}
-
-body {
-    &::-webkit-scrollbar-thumb {
-        background: $selectline-dark-blue;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background: $selectline-blue;
-    }
 }

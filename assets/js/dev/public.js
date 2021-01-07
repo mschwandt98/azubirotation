@@ -40,11 +40,17 @@ jQuery(function($) {
                 }
             }
 
-            var hiddenColumns = getCookie("hidden-columns").split("-");
+            var cookie = getCookie("hidden-columns");
             var wrapper = $("#Information");
-            hiddenColumns.forEach(column => {
-                wrapper.find(`input[type="checkbox"][value="${ column }"]`).click();
-            });
+            if (cookie) {
+                let hiddenColumns = cookie.split("-");
+
+                hiddenColumns.forEach(column => {
+                    wrapper.find(`input[type="checkbox"][value="${ column }"]`).click();
+                });
+            } else {
+                wrapper.find('input[type="checkbox"][value="zeitraum"]').click();
+            }
         });
 
         /**
@@ -288,22 +294,13 @@ jQuery(function($) {
                     submenu.hide();
                 }
             }
-        })
-
-        /**
-         * Schließt das Submenü beim Klick auf das Kreuz.
-         */
-        $("#SubMenu").on("click", "i.icon-cross", function() {
-            var submenu = $("#SubMenu");
-            submenu.find(".menu-action").hide();
-            submenu.hide();
         });
 
         /**
          * Blendet die jeweiligen Spalten mit den Azubiinformationen in der
          * Tabelle bzw in der Planung aus.
          */
-        $("#Information").on("click", 'input[type="checkbox"]', function() {
+        $("#Information").on("click", 'input[type="checkbox"]', function(e) {
 
             var plan = $("#Plan");
             var columns = plan.find("th." + $(this).val());
@@ -367,7 +364,7 @@ jQuery(function($) {
                 zeitraum.css("left", cFourth + "px");
                 topLeft.attr("colspan", 4);
                 ausbildungsBerufe.attr("colspan", 4);
-                document.cookie = "hidden-columns=; max-age=2592000";
+                document.cookie = "hidden-columns=-; max-age=2592000";
                 return;
             }
 
@@ -387,6 +384,8 @@ jQuery(function($) {
                 ausbildungsBerufe.attr("colspan", parseInt(ausbildungsBerufe.attr("colspan")) + 1);
             }
 
+            if (e.which !== 1) return;
+
             let hiddenColumns = [];
             nachnameHidden ? hiddenColumns.push("nachname") : null;
             vornameHidden ? hiddenColumns.push("vorname") : null;
@@ -401,7 +400,7 @@ jQuery(function($) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
+            for(var i = 0; i < ca.length; i++) {
                 var c = ca[i];
                 while (c.charAt(0) == ' ') {
                     c = c.substring(1);
@@ -410,7 +409,7 @@ jQuery(function($) {
                     return c.substring(name.length, c.length);
                 }
             }
-            return "";
+            return false;
         }
     });
 });

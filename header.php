@@ -18,7 +18,9 @@
                 <div class="bounce-3"></div>
             </div>
         </div>
-        <div id="ToggleMenu">Menü ausblenden</div>
+        <div>
+            <div id="ToggleMenu">Menü ausblenden</div>
+        </div>
 
         <?php if (is_logged_in()) : ?>
 
