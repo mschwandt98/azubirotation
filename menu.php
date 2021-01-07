@@ -101,6 +101,10 @@
                 <span>Vorname</span>
             </label>
             <label>
+                <input type="checkbox" value="kuerzel" />
+                <span>Kürzel</span>
+            </label>
+            <label>
                 <input type="checkbox" value="zeitraum" />
                 <span>Zeitraum</span>
             </label>

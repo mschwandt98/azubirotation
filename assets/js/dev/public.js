@@ -301,6 +301,9 @@ jQuery(function($) {
          */
         $("#Information").on("click", 'input[type="checkbox"]', function(e) {
 
+            $("#Information label").removeClass("disabled");
+            $("#Information input:checkbox").prop("disabled", false);
+
             var plan = $("#Plan");
             var columns = plan.find("th." + $(this).val());
 
@@ -325,72 +328,94 @@ jQuery(function($) {
 
             var nachnameHidden = nachname.is(":hidden");
             var vornameHidden = vorname.is(":hidden");
+            var kuerzelHidden = kuerzel.is(":hidden");
             var zeitraumHidden = zeitraum.is(":hidden");
 
-            if (nachnameHidden && vornameHidden) {
+            var visibleColumnsNumber = !nachnameHidden + !vornameHidden + !kuerzelHidden + !zeitraumHidden;
+            topLeft.attr("colspan", visibleColumnsNumber);
+            ausbildungsBerufe.attr("colspan", visibleColumnsNumber);
 
-                kuerzel.css("left", cFirst + "px");
-                topLeft.attr("colspan", 1);
-                ausbildungsBerufe.attr("colspan", 1);
+            if (visibleColumnsNumber === 1) {
+                let checkbox = $("#Information input:checkbox:not(:checked)");
+                checkbox.closest("label").addClass("disabled");
+                checkbox.prop("disabled", true);
+            }
 
-            } else if (nachnameHidden && !vornameHidden) {
+            var einheit = "px";
+            var order = 0;
 
-                vorname.css("left", cFirst + "px");
-                kuerzel.css("left", cSecond + "px");
-                topLeft.attr("colspan", 2);
-                ausbildungsBerufe.attr("colspan", 2);
+            if (!nachnameHidden) {
+                order++;
+                nachname.css(
+                    { "left": eval("c" + getPosition(order)) + einheit
+                });
+            }
 
-            } else if (!nachnameHidden && vornameHidden) {
+            if (!vornameHidden) {
+                order++;
+                vorname.css(
+                    { "left": eval("c" + getPosition(order)) + einheit
+                });
+            }
 
-                nachname.css("left", cFirst + "px");
-                kuerzel.css("left", cSecond + "px");
-                topLeft.attr("colspan", 2);
-                ausbildungsBerufe.attr("colspan", 2);
+            if (!kuerzelHidden) {
+                order++;
+                kuerzel.css(
+                    { "left": eval("c" + getPosition(order)) + einheit
+                });
+            }
 
-            } else if (zeitraumHidden) {
+            if (!zeitraumHidden) {
+                order++;
+                zeitraum.css(
+                    { "left": eval("c" + getPosition(order)) + einheit
+                });
+            }
 
-                nachname.css("left", cFirst + "px");
-                vorname.css("left", cSecond + "px");
-                kuerzel.css("left", cThird + "px");
-                topLeft.attr("colspan", 3);
-                ausbildungsBerufe.attr("colspan", 3);
-
-            } else {
-
-                nachname.css("left", cFirst + "px");
-                vorname.css("left", cSecond + "px");
-                kuerzel.css("left", cThird + "px");
-                zeitraum.css("left", cFourth + "px");
-                topLeft.attr("colspan", 4);
-                ausbildungsBerufe.attr("colspan", 4);
+            if (order === 4) {
                 document.cookie = "hidden-columns=-; max-age=2592000";
                 return;
             }
 
-            if (!zeitraumHidden) {
+            // Bug: Zeitraum-Spalte wird nicht richtig positioniert
+            if (!zeitraumHidden && !kuerzelHidden) {
 
-                // setTimeout für Behebung eines Timing-Problems
-                setTimeout(function() {
-                    let kuerzelLeft = kuerzel.css("left");
+                let kuerzelLeft = kuerzel.css("left");
 
-                    zeitraum.css(
-                        "left",
-                        parseInt(kuerzelLeft.substring(0, kuerzelLeft.length - 2)) + kuerzel.innerWidth() + "px"
-                    );
-                }, 0);
+                zeitraum.css(
+                    "left",
+                    parseInt(kuerzelLeft.substring(0, kuerzelLeft.length - 2)) + kuerzel.innerWidth() + "px"
+                );
 
                 topLeft.attr("colspan", parseInt(topLeft.attr("colspan")) + 1);
                 ausbildungsBerufe.attr("colspan", parseInt(ausbildungsBerufe.attr("colspan")) + 1);
             }
 
+            // Cookies sollen nur gesetzt werden, wenn Benutzer manuell auf die Checkboxen geklickt hat
             if (e.which !== 1) return;
 
             let hiddenColumns = [];
             nachnameHidden ? hiddenColumns.push("nachname") : null;
             vornameHidden ? hiddenColumns.push("vorname") : null;
+            kuerzelHidden ? hiddenColumns.push("kuerzel") : null;
             zeitraumHidden ? hiddenColumns.push("zeitraum") : null;
             document.cookie = `hidden-columns=${ hiddenColumns.join("-") }; max-age=2592000`;
         });
+
+        function getPosition(order) {
+            switch (order) {
+                case 1:
+                    return "First";
+                case 2:
+                    return "Second";
+                case 3:
+                    return "Third";
+                case 4:
+                    return "Fourth";
+                default:
+                    return "";
+            }
+        }
 
         /**
          * @seen https://www.w3schools.com/js/js_cookies.asp
