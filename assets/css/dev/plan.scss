@@ -43,7 +43,8 @@
             }
 
             &.current-week {
-                background-color: $selectline-blue-gray;
+                background-color: $selectline-blue;
+                color: white;
             }
         }
 

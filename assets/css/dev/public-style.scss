@@ -38,6 +38,11 @@ html[data-theme='dark'] {
 
         th {
             background-color: $selectline-dark-mode-black-light;
+
+            &.current-week {
+                background-color: $selectline-dark-mode-black;
+                color: $selectline-dark-mode-white;
+            }
         }
 
         .plan-phase {
