@@ -109,8 +109,9 @@ jQuery(function($) {
             tds.push(tempEl);
 
             while (true) {
-                if (tempEl.prev() !== null && tempEl.prev().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
-                    tempEl = tempEl.prev();
+                let prevEl = tempEl.prev();
+                if (prevEl !== null && prevEl.attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                    tempEl = prevEl;
                     tds.push(tempEl);
                 } else {
                     break;
@@ -119,8 +120,9 @@ jQuery(function($) {
 
             tempEl = el;
             while (true) {
-                if (tempEl.next() !== null && tempEl.next().attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
-                    tempEl = tempEl.next();
+                let nextEl = tempEl.next();
+                if (nextEl !== null && nextEl.attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                    tempEl = nextEl;
                     tds.push(tempEl);
                 } else {
                     break;
@@ -130,7 +132,7 @@ jQuery(function($) {
             let idAnsprechpartner = el.attr("data-id-ansprechpartner");
             let returnTds = [];
             $(tds).each(index => {
-                let td = $(tds[index])
+                let td = $(tds[index]);
                 if (td.attr("data-id-ansprechpartner") === idAnsprechpartner) {
                     returnTds.push(td);
                 }
@@ -317,7 +319,7 @@ jQuery(function($) {
 
                     let exists = false;
                     tdItems.forEach(function(item) {
-                        if ($(item).data("date") === currentTd.data("date")) {
+                        if ($(item).data("date") === currentTdDate) {
                             exists = true;
                         }
                     });
@@ -347,26 +349,6 @@ jQuery(function($) {
                     }
                 }
             }
-
-            // Automatisches Scollen Anfang
-            let thWidth = 0;
-            currentTd.closest("tr").find("th").each(function(index) {
-                thWidth += parseInt($(this).width());
-            });
-
-            let windowWidth = $(window).innerWidth();
-            let leftOffset = currentTd.offset().left;
-            let currentTdWidth = currentTd.outerWidth();
-            if (leftOffset + currentTdWidth * 5 > windowWidth) {
-                $("#Plan").animate({
-                    "scrollLeft": $("#Plan").scrollLeft() + currentTdWidth
-                }, 25);
-            } else if (leftOffset - currentTdWidth * 5 < thWidth) {
-                $("#Plan").animate({
-                    "scrollLeft": $("#Plan").scrollLeft() - currentTdWidth
-                }, 25);
-            }
-            // Automatisches Scollen Ende
         });
 
         /**
@@ -471,8 +453,9 @@ jQuery(function($) {
 
             if (el.data("delete-termin")) {
                 tdItems.forEach(item => {
-                    $(item).find(".plan-mark").remove();
-                    $(item).addClass("changed");
+                    let jItem = $(item);
+                    jItem.find(".plan-mark").remove();
+                    jItem.addClass("changed");
                 });
 
                 SetPopupContent("");
@@ -512,10 +495,10 @@ jQuery(function($) {
 
             for (let i = 0; i < tdItemsLength; i++) {
 
-                let item = $(tdItems[i]);
+                let jItem = $(tdItems[i]);
 
-                item.find(".plan-mark").remove();
-                item.addClass("changed")
+                jItem.find(".plan-mark").remove();
+                jItem.addClass("changed")
                     .append(
                         $("<div></div>").attr("title", markerBezeichnung).addClass(
                             "plan-mark " + (tdItemsLength > 1 ? "icon-plan-mark" : "icon-plan-mark-separat")
@@ -555,15 +538,17 @@ jQuery(function($) {
 
             tdItems.forEach(item => {
 
+                let abteilungsFarbe = GetAbteilungsFarbe(idAbteilung);
+
                 $(item).attr("data-id-abteilung", idAbteilung)
-                .attr(
-                    "style",
-                    "background-color: " + GetAbteilungsFarbe(idAbteilung) +"; " +
-                    "border-left-color: " + GetAbteilungsFarbe(idAbteilung) + "; " +
-                    "border-right-color: " + GetAbteilungsFarbe(idAbteilung) + ";"
-                )
-                .addClass("changed")
-                .find('*').not('.plan-mark').remove();
+                    .attr(
+                        "style",
+                        "background-color: " + abteilungsFarbe +"; " +
+                        "border-left-color: " + abteilungsFarbe + "; " +
+                        "border-right-color: " + abteilungsFarbe + ";"
+                    )
+                    .addClass("changed")
+                    .find('*').not('.plan-mark').remove();
             });
 
             tdItems.sort(SortTdItems);
@@ -594,8 +579,9 @@ jQuery(function($) {
             var idAnsprechpartner = $(this).data("id");
 
             tdItems.forEach(item => {
-                $(item).attr("data-id-ansprechpartner", idAnsprechpartner).addClass("changed");
-                $(item).find(".ansprechpartner-name").remove();
+                let jItem = $(item);
+                jItem.attr("data-id-ansprechpartner", idAnsprechpartner).addClass("changed");
+                jItem.find(".ansprechpartner-name").remove();
             });
 
             tdItems.sort(SortTdItems);
@@ -883,7 +869,8 @@ jQuery(function($) {
             });
 
             var tempTarget = target;
-            for (var i = 0; i < draggedTds.length; i++) {
+            var draggedTdsLength = draggedTds.length;
+            for (var i = 0; i < draggedTdsLength; i++) {
 
                 tempTarget.removeClass("selected")
                     .attr("data-id-abteilung", id_abteilung)
@@ -895,8 +882,9 @@ jQuery(function($) {
                     })
                     .find('*').not('.plan-mark').remove();
 
-                if (tempTarget.next() !== null) {
-                    tempTarget = tempTarget.next();
+                    let nextTempTarget = tempTarget.next();
+                if (nextTempTarget !== null) {
+                    tempTarget = nextTempTarget;
                 } else {
                     break;
                 }

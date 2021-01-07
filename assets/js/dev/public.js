@@ -8,13 +8,14 @@ jQuery(function($) {
 
             // Scrollt zum aktuellen Datum in der Planung
             let timePeriods = $("#Plan th.month");
+            let timePeriodsLength = timePeriods.length;
 
-            if (timePeriods.length > 0) {
+            if (timePeriodsLength > 0) {
 
                 let time = new Date().getTime();
                 let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
 
-                for (let i = 0; i < timePeriods.length; i++) {
+                for (let i = 0; i < timePeriodsLength; i++) {
 
                     let dates = timePeriods.eq(i).attr("title").split(" - ");
                     let firstDateTime = new Date(dates[0].replace(pattern,'$3-$2-$1')).getTime();
@@ -31,9 +32,7 @@ jQuery(function($) {
                             scrollLeft += 400;
                         }
 
-                        $("#Plan").animate({
-                            "scrollLeft": scrollLeft
-                        }, 400)
+                        $("#Plan").scrollLeft(scrollLeft);
 
                         break;
                     }
@@ -69,9 +68,10 @@ jQuery(function($) {
             var row = $(row);
             while (true) {
 
-                if (row.next().hasClass("azubi")) {
+                let nextRow = row.next();
+                if (nextRow.hasClass("azubi")) {
 
-                    row = row.next();
+                    row = nextRow;
 
                     if (hide) {
                         HideAzubiRow(row);
@@ -399,7 +399,8 @@ jQuery(function($) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
-            for(var i = 0; i < ca.length; i++) {
+            var caLength = ca.length;
+            for (var i = 0; i < caLength; i++) {
                 var c = ca[i];
                 while (c.charAt(0) == ' ') {
                     c = c.substring(1);
