@@ -9,9 +9,13 @@
             <fileset dir=".">
                 <include name=".htaccess" />
                 <include name="favicon.ico" />
+                <include name="manifest.webmanifest" />
+                <include name="offline.html" />
+                <include name="service-worker.js" />
                 <include name="**/*.php" />
                 <include name="assets/css/*.css" />
                 <include name="assets/fonts/*" />
+                <include name="assets/img/*" />
                 <include name="assets/js/*.js" />
                 <exclude name="assets/css/dev/**" />
                 <exclude name="assets/js/dev/**" />
