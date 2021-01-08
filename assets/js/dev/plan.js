@@ -210,13 +210,6 @@ jQuery(function($) {
         });
 
         /**
-         * Öffnet die Anleitung in einem neuen Tab.
-         */
-        $("#InfoButton").on("click", function() {
-            window.open(window.location.href + "/manual", "_blank");
-        });
-
-        /**
          * Beim Klick auf eine Phase wird ein Popup zur Auswahl der Abteilung
          * erzeugt.
          *

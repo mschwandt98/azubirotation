@@ -74,5 +74,17 @@ jQuery(function($) {
         $("#PlanErrors").on("click", ".icon-cross", function() {
             $("#PlanErrors").empty();
         });
+
+        /**
+         * Öffnet die Anleitung in einem neuen Tab.
+         */
+        $("#InfoButton").on("click", function() {
+
+            let href = window.location.href;
+            if (href.match(/.*\/index.php/) || href.match(/.*\/index/)) {
+                href = href.substring(0, href.indexOf("index") - 1);
+            }
+            window.open(href + "/manual", "_blank");
+        });
     });
 });
