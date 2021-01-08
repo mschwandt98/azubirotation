@@ -1,0 +1,23 @@
+{
+    "short_name": "Ausbildungsplaner",
+    "name": "SelectLine Ausbildungsplaner",
+    "description": "Der Ausbildungsplaner ist ein Tool zur Erleichterung der Ausbildungsplanung in der SelectLine Software GmbH, welches den Ausbildungsplan jedem Mitarbeiter zur Verfügung stellt.",
+    "icons": [
+        {
+            "src": "assets/img/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "assets/img/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "index.php",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "index.php",
+    "theme_color": "#009fda"
+}

@@ -23,6 +23,7 @@ ob_start('minifier');
     <meta name="author" content="Marian Schwandt">
     <meta name="description" content="Der Ausbildungsplaner ist ein Tool zur Erleichterung der Ausbildungsplanung in der SelectLine Software GmbH, welches den Ausbildungsplan jedem Mitarbeiter zur Verfügung stellt.">
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.webmanifest">
     <title>SelectLine Ausbildungsplaner</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/">
@@ -42,6 +43,18 @@ ob_start('minifier');
     <?php endif; ?>
 
     <script type="text/javascript" src="assets/js/"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", () => {
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("service-worker.js");
+            }
+        });
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            var deferredPrompt = e;
+        });
+    </script>
 </body>
 </html>
 

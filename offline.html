@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelectLine Ausbildungsplaner | Offline</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script>
+        function getCookie(cname) {
+            var name = cname + '=';
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return '';
+        }
+
+        var darkmode = getCookie('darkmode');
+        console.log(darkmode);
+        if (darkmode === 'true') {
+            document.getElementsByTagName('html')[0].dataset.theme = 'dark';
+        }
+    </script>
+    <style>
+        html[data-theme='dark'] body {
+            background-color: #273238;
+        }
+
+        html[data-theme='dark'] #Wrapper {
+            color: #f3f3f3;
+        }
+
+        body {
+            align-items: center;
+            display: flex;
+            font-family: 'Calibri';
+            margin: 0;
+            height: 100vh;
+        }
+
+        #Wrapper {
+            background-color: #009fda;
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="Wrapper">
+        <h1>SelectLine Ausbildungsplaner</h1>
+        <h2>Du bist gerade offline. Stelle eine Verbindung zum Internet her, um Zugriff auf den Ausbildungsplaner zu erhalten.</h2>
+    </div>
+</body>
+</html>
