@@ -107,4 +107,4 @@ Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
 * Automatisierte Planung immer weiter verbessern
 * Druckversion optimieren: Filterung und Spalten umschalten mit über + nur bestimmte Zeiträume drucken
 * Tabelle optimieren: zu viele Elemente (Table Cells) werden gerendert
-* PWA
+* PWA: Letzte Planung cachen für Offline-Mode
