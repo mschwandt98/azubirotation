@@ -2,10 +2,10 @@ jQuery(function($) {
     $(document).ready(function() {
 
         // Bezeichnungen für Ansprechpartnerproperties
-        const ID = "id";
-        const NAME = "name";
-        const EMAIL = "email";
-        const ID_ABTEILUNG = "id_abteilung";
+        const ID = 'id';
+        const NAME = 'name';
+        const EMAIL = 'email';
+        const ID_ABTEILUNG = 'id_abteilung';
 
         /**
          * Holt alle Abteilungen mittels einer AJAX-Anfrage des Typs GET.
@@ -13,7 +13,7 @@ jQuery(function($) {
          * @return {string} Alle Abteilungen im JSON-Format.
          */
         function GetAbteilungen() {
-            return $.get(APIABTEILUNG + "Get");
+            return $.get(APIABTEILUNG + 'Get');
         }
 
         /**
@@ -24,11 +24,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -37,9 +37,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Ansprechpartnern.
          */
         function HideViews() {
-            $("#Ansprechpartner").stop().hide(TIME);
-            $("#AddAnsprechpartnerForm").stop().hide(TIME);
-            $("#EditAnsprechpartner").stop().hide(TIME);
+            $('#Ansprechpartner').stop().hide(TIME);
+            $('#AddAnsprechpartnerForm').stop().hide(TIME);
+            $('#EditAnsprechpartner').stop().hide(TIME);
         }
 
         /**
@@ -47,7 +47,7 @@ jQuery(function($) {
          * aus.
          */
         function ShowAnsprechpartner() {
-            $(".data-item.ansprechpartner-item .show-data").click();
+            $('.data-item.ansprechpartner-item .show-data').click();
         }
 
         /**
@@ -55,32 +55,32 @@ jQuery(function($) {
          * an. Für jeden Ansprechpartner wird ein Button zum Bearbeiten und
          * Löschen des jeweiligen Ansprechpartners erstellt.
          */
-        $(".data-item.ansprechpartner-item").on("click", ".show-data", function() {
+        $('.data-item.ansprechpartner-item').on('click', '.show-data', function() {
 
-            $("#LoadingSpinner").show();
-            $.get(APIANSPRECHPARTNER + "Get", function(data) {
+            $('#LoadingSpinner').show();
+            $.get(APIANSPRECHPARTNER + 'Get', function(data) {
                 data = JSON.parse(data);
 
-                var ansprechpartnerDiv = $("#Ansprechpartner");
+                var ansprechpartnerDiv = $('#Ansprechpartner');
                 ansprechpartnerDiv.empty();
 
                 data.forEach(ansprechpartner => {
-                    var item = $("<div></div>").addClass("item-child");
-                    var outputDiv = $("<div></div>").text(ansprechpartner.Name);
-                    var buttonContainer = $("<div></div>");
+                    var item = $('<div></div>').addClass('item-child');
+                    var outputDiv = $('<div></div>').text(ansprechpartner.Name);
+                    var buttonContainer = $('<div></div>');
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child secondary-button")
+                        .addClass('edit-item-child secondary-button')
                         .data(ID, ansprechpartner.ID)
                         .data(NAME, ansprechpartner.Name)
                         .data(EMAIL, ansprechpartner.Email)
                         .data(ID_ABTEILUNG, ansprechpartner.ID_Abteilung)
-                        .val("Bearbeiten");
+                        .val('Bearbeiten');
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child secondary-button")
+                        .addClass('delete-item-child secondary-button')
                         .data(ID, ansprechpartner.ID)
-                        .val("Löschen");
+                        .val('Löschen');
 
                     buttonContainer.append(editButton).append(deleteButton);
 
@@ -91,7 +91,7 @@ jQuery(function($) {
 
                 HideViews();
                 ansprechpartnerDiv.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -100,11 +100,11 @@ jQuery(function($) {
          * dieses Formular alle Abteilungen benötigt werden, wird eine
          * AJAX-Anfrage des Typs GET gestellt.
          */
-        $(".data-item.ansprechpartner-item").on("click", ".add-data", function() {
+        $('.data-item.ansprechpartner-item').on('click', '.add-data', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
-            var form = $("#AddAnsprechpartnerForm");
+            var form = $('#AddAnsprechpartnerForm');
             var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`);
 
             GetAbteilungen().then(abteilungen => {
@@ -120,7 +120,7 @@ jQuery(function($) {
 
                 HideViews();
                 form.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -133,10 +133,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#AddAnsprechpartnerForm").on("submit", function(e) {
+        $('#AddAnsprechpartnerForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var nameInput = form.find(`input[name="${ NAME }"]`).eq(0);
@@ -144,25 +144,25 @@ jQuery(function($) {
             var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`).eq(0);
 
             $.ajax({
-                type: "POST",
-                url: APIANSPRECHPARTNER + "Add",
+                type: 'POST',
+                url: APIANSPRECHPARTNER + 'Add',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     name: nameInput.val(),
                     email: emailInput.val(),
                     id_abteilung: abteilungSelect.val()
                 },
                 success: function() {
-                    nameInput.val("");
-                    emailInput.val("");
-                    abteilungSelect.find("option").remove();
+                    nameInput.val('');
+                    emailInput.val('');
+                    abteilungSelect.find('option').remove();
 
                     HideViews();
                     ShowAnsprechpartner();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen des Ansprechpartners auf.");
+                    HandleError('Es traten Fehler beim Anlegen des Ansprechpartners auf.');
                 }
             })
         });
@@ -172,9 +172,9 @@ jQuery(function($) {
          * des Formulars zum Bearbeiten eines Ansprechpartners ein und blendet
          * dieses ein.
          */
-        $("#Ansprechpartner").on("click", ".edit-item-child", function() {
+        $('#Ansprechpartner').on('click', '.edit-item-child', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var id = $(this).data(ID);
             var name = $(this).data(NAME);
@@ -184,7 +184,7 @@ jQuery(function($) {
             GetAbteilungen().then(abteilungen => {
                 abteilungen = JSON.parse(abteilungen);
 
-                var form = $("#EditAnsprechpartner");
+                var form = $('#EditAnsprechpartner');
                 var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`);
 
                 abteilungen.forEach(abteilung => {
@@ -201,7 +201,7 @@ jQuery(function($) {
 
                 HideViews();
                 form.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -214,10 +214,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#EditAnsprechpartner").on("submit", function(e) {
+        $('#EditAnsprechpartner').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
@@ -226,26 +226,26 @@ jQuery(function($) {
             var abteilungSelect = form.find(`select[name="${ ID_ABTEILUNG }"]`);
 
             $.ajax({
-                type: "POST",
-                url: APIANSPRECHPARTNER + "Edit",
+                type: 'POST',
+                url: APIANSPRECHPARTNER + 'Edit',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id: idInput.val(),
                     name: nameInput.val(),
                     email: emailInput.val(),
                     id_abteilung: abteilungSelect.val()
                 },
                 success: function() {
-                    idInput.val("");
-                    nameInput.val("");
-                    emailInput.val("");
-                    abteilungSelect.find("option").remove();
+                    idInput.val('');
+                    nameInput.val('');
+                    emailInput.val('');
+                    abteilungSelect.find('option').remove();
 
                     HideViews();
-                    $(".data-item.ansprechpartner-item .show-data").click();
+                    $('.data-item.ansprechpartner-item .show-data').click();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Aktualisieren des Ansprechpartners auf.");
+                    HandleError('Es traten Fehler beim Aktualisieren des Ansprechpartners auf.');
                 }
             });
         });
@@ -257,29 +257,29 @@ jQuery(function($) {
          * beim Löschen des Ansprechpartners auftreten, wird eine Fehlernachricht
          * angezeigt.
          */
-        $("#Ansprechpartner").on("click", ".delete-item-child", function() {
+        $('#Ansprechpartner').on('click', '.delete-item-child', function() {
 
-            var ansprechpartner = $(this).closest(".item-child");
+            var ansprechpartner = $(this).closest('.item-child');
 
-            if (confirm("Soll der Ansprechpartner " + ansprechpartner.find("div").first().text() + " wirklich gelöscht werden?")) {
+            if (confirm('Soll der Ansprechpartner ' + ansprechpartner.find('div').first().text() + ' wirklich gelöscht werden?')) {
 
-                $("#LoadingSpinner").show();
+                $('#LoadingSpinner').show();
 
                 var id = $(this).data(ID);
 
                 $.ajax({
-                    type: "POST",
-                    url: APIANSPRECHPARTNER + "Delete",
+                    type: 'POST',
+                    url: APIANSPRECHPARTNER + 'Delete',
                     data: {
-                        csrfToken: $("#CsrfToken").val(),
+                        csrfToken: $('#CsrfToken').val(),
                         id: id
                     },
                     success: function() {
                         ansprechpartner.remove();
-                        $("#LoadingSpinner").hide();
+                        $('#LoadingSpinner').hide();
                     },
                     error: function() {
-                        HandleError("Es traten Fehler beim Löschen des Ansprechpartners auf.");
+                        HandleError('Es traten Fehler beim Löschen des Ansprechpartners auf.');
                     }
                 });
             }

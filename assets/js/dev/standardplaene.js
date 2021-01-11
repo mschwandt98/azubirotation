@@ -2,11 +2,11 @@ jQuery(function($) {
     $(document).ready(function() {
 
         // Bezeichnungen für Standardplanproperties
-        const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
-        const ID_ABTEILUNG = "id_abteilung";
-        const WOCHEN = "wochen";
-        const PRAEFERIEREN = "praeferieren";
-        const OPTIONAL = "optional";
+        const ID_AUSBILDUNGSBERUF = 'id_ausbildungsberuf';
+        const ID_ABTEILUNG = 'id_abteilung';
+        const WOCHEN = 'wochen';
+        const PRAEFERIEREN = 'praeferieren';
+        const OPTIONAL = 'optional';
 
         // TODO: besseren Weg finden
         var Abteilungen;
@@ -18,34 +18,34 @@ jQuery(function($) {
          *                                eingefügt werden soll.
          */
         function AddPhaseHtml(container) {
-            var item = $('<div></div>').addClass("phase");
-            var abteilungenSelect = $("<select></select>").attr("name", ID_ABTEILUNG);
+            var item = $('<div></div>').addClass('phase');
+            var abteilungenSelect = $('<select></select>').attr('name', ID_ABTEILUNG);
 
             AddSelectOption(abteilungenSelect, Abteilungen);
 
-            var abteilungLabel = $("<label></label>")
-                .append($("<div></div>").text("Abteilung auswählen"))
+            var abteilungLabel = $('<label></label>')
+                .append($('<div></div>').text('Abteilung auswählen'))
                 .append(abteilungenSelect);
 
-            var wochenDiv = $("<div></div>")
-                .append($("<span></span>").text("Wochen: "))
+            var wochenDiv = $('<div></div>')
+                .append($('<span></span>').text('Wochen: '))
                 .append($(`<input type="number" name="${ WOCHEN }" />`));
 
-            var praeferieren = $("<div></div>").append(
-                $("<label></label>")
-                    .append($("<span></span>").text("Präferieren: "))
+            var praeferieren = $('<div></div>').append(
+                $('<label></label>')
+                    .append($('<span></span>').text('Präferieren: '))
                     .append($(`<input type="checkbox" name="${ PRAEFERIEREN }" />`))
             );
 
-            var optional = $("<div></div>").append(
-                $("<label></label>")
-                    .append($("<span></span>").text("Optional: "))
+            var optional = $('<div></div>').append(
+                $('<label></label>')
+                    .append($('<span></span>').text('Optional: '))
                     .append($(`<input type="checkbox" name="${ OPTIONAL }" />`))
             );
 
             var deletePhaseButton = $('<input type="button" />')
-                .addClass("delete-phase")
-                .val("Phase löschen");
+                .addClass('delete-phase')
+                .val('Phase löschen');
 
             container.append(
                 item.append(abteilungLabel)
@@ -82,7 +82,7 @@ jQuery(function($) {
          * @return {string} Alle Abteilungen im JSON-Format.
          */
         function GetAbteilungen() {
-            return $.get(APIABTEILUNG + "Get");
+            return $.get(APIABTEILUNG + 'Get');
         }
 
         /**
@@ -91,7 +91,7 @@ jQuery(function($) {
          * @return {string} Alle Ausbildungsberufe im JSON-Format.
          */
         function GetAusbildungsberufe() {
-            return $.get(APIAUSBILDUNGSBERUF + "Get");
+            return $.get(APIAUSBILDUNGSBERUF + 'Get');
         }
 
         /**
@@ -102,11 +102,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -115,16 +115,16 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Standardplänen.
          */
         function HideViews() {
-            $("#Standardplaene").stop().hide(TIME);
-            $("#AddStandardplanForm").stop().hide(TIME);
-            $("#EditStandardplanForm").stop().hide(TIME);
+            $('#Standardplaene').stop().hide(TIME);
+            $('#AddStandardplanForm').stop().hide(TIME);
+            $('#EditStandardplanForm').stop().hide(TIME);
         }
 
         /**
          * Führt das Click-Event des Buttons zum Anzeigen der Standardpläne aus.
          */
         function ShowStandardPlaene() {
-            $(".data-item.standardplaene-item .show-data").click();
+            $('.data-item.standardplaene-item .show-data').click();
         }
 
         /**
@@ -132,34 +132,34 @@ jQuery(function($) {
          * Für jeden Standardplan wird ein Button zum Bearbeiten und Löschen des
          * jeweiligen Standardplans erstellt.
          */
-        $(".data-item.standardplaene-item").on("click", ".show-data", function() {
+        $('.data-item.standardplaene-item').on('click', '.show-data', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             GetAbteilungen().then(abteilungen => {
                 Abteilungen = JSON.parse(abteilungen);
             });
 
-            $.get(APISTANDARDPLAN + "Get", function(data) {
+            $.get(APISTANDARDPLAN + 'Get', function(data) {
                 data = JSON.parse(data);
 
-                var standardplaene = $("#Standardplaene");
+                var standardplaene = $('#Standardplaene');
                 standardplaene.empty();
 
                 $.each(data, function(index, standardplan) {
-                    var item = $("<div></div>").addClass("item-child");
-                    var outputDiv = $("<div></div>").text(standardplan.Ausbildungsberuf);
-                    var buttonContainer = $("<div></div>");
+                    var item = $('<div></div>').addClass('item-child');
+                    var outputDiv = $('<div></div>').text(standardplan.Ausbildungsberuf);
+                    var buttonContainer = $('<div></div>');
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child secondary-button")
+                        .addClass('edit-item-child secondary-button')
                         .data(ID_AUSBILDUNGSBERUF, standardplan.ID_Ausbildungsberuf)
-                        .val("Bearbeiten");
+                        .val('Bearbeiten');
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child secondary-button")
+                        .addClass('delete-item-child secondary-button')
                         .data(ID_AUSBILDUNGSBERUF, standardplan.ID_Ausbildungsberuf)
-                        .val("Löschen");
+                        .val('Löschen');
 
                     buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
@@ -169,7 +169,7 @@ jQuery(function($) {
 
                 HideViews();
                 standardplaene.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -178,10 +178,10 @@ jQuery(function($) {
          * Formular die Ausbildungsberufe und Abteilungen benötigt werden,
          * werden AJAX-Anfragen des Typs GET gestellt, um diese zu holen.
          */
-        $(".data-item.standardplaene-item").on("click", ".add-data", function() {
+        $('.data-item.standardplaene-item').on('click', '.add-data', function() {
 
-            $("#LoadingSpinner").show();
-            var form = $("#AddStandardplanForm");
+            $('#LoadingSpinner').show();
+            var form = $('#AddStandardplanForm');
 
             GetAusbildungsberufe().then(ausbildungsberufe => {
 
@@ -202,7 +202,7 @@ jQuery(function($) {
 
                     HideViews();
                     form.stop().show(TIME);
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 });
             })
         });
@@ -210,15 +210,15 @@ jQuery(function($) {
         /**
          * Die aktuelle Phase des jeweiligen Standardplans wird gelöscht.
          */
-        $("#AddStandardplanForm").on("click", "input.delete-phase", function() {
-            $(this).closest(".phase").remove();
+        $('#AddStandardplanForm').on('click', 'input.delete-phase', function() {
+            $(this).closest('.phase').remove();
         });
 
         /**
          * Eine Phase wird zum aktuellen Standardplan hinzugefügt.
          */
-        $("#AddStandardplanForm").on("click", "input.add-phase", function() {
-            AddPhaseHtml($("#AddStandardplanForm .plan-phasen").eq(0));
+        $('#AddStandardplanForm').on('click', 'input.add-phase', function() {
+            AddPhaseHtml($('#AddStandardplanForm .plan-phasen').eq(0));
         });
 
         /**
@@ -230,14 +230,14 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#AddStandardplanForm").on("submit", function(e) {
+        $('#AddStandardplanForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var ausbildungsberufeSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"`);
-            var phaseDivs = form.find(".phase");
+            var phaseDivs = form.find('.phase');
             var phasen = [];
 
             phaseDivs.each(index => {
@@ -257,28 +257,28 @@ jQuery(function($) {
             });
 
             $.ajax({
-                type: "POST",
-                url: APISTANDARDPLAN + "Add",
+                type: 'POST',
+                url: APISTANDARDPLAN + 'Add',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id_ausbildungsberuf: ausbildungsberufeSelect.val(),
                     phasen: phasen
                 },
                 success: function() {
 
-                    ausbildungsberufeSelect.find("option").remove();
-                    phaseDivs.not(":first").remove();
+                    ausbildungsberufeSelect.find('option').remove();
+                    phaseDivs.not(':first').remove();
 
-                    phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find("option").remove();
-                    phaseDivs.eq(0).find(`input[name="${ WOCHEN }"]`).val("");
-                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).val("");
-                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).val("");
+                    phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find('option').remove();
+                    phaseDivs.eq(0).find(`input[name="${ WOCHEN }"]`).val('');
+                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).val('');
+                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).val('');
 
                     ShowStandardPlaene();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen des Standardplans auf.");
+                    HandleError('Es traten Fehler beim Anlegen des Standardplans auf.');
                 }
             })
         });
@@ -288,35 +288,35 @@ jQuery(function($) {
          * Formulars zum Bearbeiten einer Standardplans ein und blendet dieses
          * ein.
          */
-        $("#Standardplaene").on("click", ".edit-item-child", function() {
+        $('#Standardplaene').on('click', '.edit-item-child', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
-            var form = $("#EditStandardplanForm");
+            var form = $('#EditStandardplanForm');
             form.find(`input[name="${ ID_AUSBILDUNGSBERUF }"`).val(id_ausbildungsberuf);
 
-            $.get(APISTANDARDPLAN + "GetTemplate", { id_ausbildungsberuf: id_ausbildungsberuf}, function(data) {
-                form.find(".plan").empty().append(data);
+            $.get(APISTANDARDPLAN + 'GetTemplate', { id_ausbildungsberuf: id_ausbildungsberuf}, function(data) {
+                form.find('.plan').empty().append(data);
 
                 HideViews();
                 form.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
         /**
          * Die aktuelle Phase des jeweiligen Standardplans wird gelöscht.
          */
-        $("#EditStandardplanForm").on("click", "input.delete-phase", function() {
-            $(this).closest(".phase").remove();
+        $('#EditStandardplanForm').on('click', 'input.delete-phase', function() {
+            $(this).closest('.phase').remove();
         });
 
         /**
          * Eine Phase wird zum aktuellen Standardplan hinzugefügt.
          */
-        $("#EditStandardplanForm").on("click", "input.add-phase", function() {
-            AddPhaseHtml($("#EditStandardplanForm .plan-phasen").eq(0));
+        $('#EditStandardplanForm').on('click', 'input.add-phase', function() {
+            AddPhaseHtml($('#EditStandardplanForm .plan-phasen').eq(0));
         });
 
         /**
@@ -328,14 +328,14 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#EditStandardplanForm").on("submit", function(e) {
+        $('#EditStandardplanForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var idAusbildungsberufInput = form.find(`input[name="${ ID_AUSBILDUNGSBERUF }"`);
-            var phaseDivs = form.find(".phase");
+            var phaseDivs = form.find('.phase');
             var phasen = [];
 
             phaseDivs.each(index => {
@@ -349,32 +349,32 @@ jQuery(function($) {
                 phasen.push({
                     id_abteilung: abteilungenSelect.val(),
                     wochen: wochenInput.val(),
-                    praeferieren: praeferierenCheckbox.prop("checked"),
-                    optional: optionalCheckbox.prop("checked")
+                    praeferieren: praeferierenCheckbox.prop('checked'),
+                    optional: optionalCheckbox.prop('checked')
                 });
             });
 
             $.ajax({
-                type: "POST",
-                url: APISTANDARDPLAN + "Edit",
+                type: 'POST',
+                url: APISTANDARDPLAN + 'Edit',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id_ausbildungsberuf: idAusbildungsberufInput.val(),
                     phasen: phasen
                 },
                 success: function() {
 
-                    phaseDivs.not(":first").remove();
-                    phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find("option").remove();
-                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).prop("checked", false);
-                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).prop("checked", false);
+                    phaseDivs.not(':first').remove();
+                    phaseDivs.eq(0).find(`select[name="${ ID_ABTEILUNG }"]`).find('option').remove();
+                    phaseDivs.eq(0).find(`input[name="${ PRAEFERIEREN }"]`).prop('checked', false);
+                    phaseDivs.eq(0).find(`input[name="${ OPTIONAL }"]`).prop('checked', false);
 
                     HideViews();
                     ShowStandardPlaene();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Aktualisieren des Standardplans auf.");
+                    HandleError('Es traten Fehler beim Aktualisieren des Standardplans auf.');
                 }
             })
         });
@@ -385,26 +385,26 @@ jQuery(function($) {
          * Ansicht aller Standardpläne aktualisiert. Wenn Fehler beim Löschen
          * des Standardplans auftreten, wird eine Fehlernachricht angezeigt.
          */
-        $("#Standardplaene").on("click", ".delete-item-child", function() {
+        $('#Standardplaene').on('click', '.delete-item-child', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var id_ausbildungsberuf = $(this).data(ID_AUSBILDUNGSBERUF);
-            var standardplan = $(this).closest(".item-child");
+            var standardplan = $(this).closest('.item-child');
 
             $.ajax({
-                type: "POST",
-                url: APISTANDARDPLAN + "Delete",
+                type: 'POST',
+                url: APISTANDARDPLAN + 'Delete',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id_ausbildungsberuf: id_ausbildungsberuf
                 },
                 success: function() {
                     standardplan.remove();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Löschen des Standardplans auf.");
+                    HandleError('Es traten Fehler beim Löschen des Standardplans auf.');
                 }
             })
         });

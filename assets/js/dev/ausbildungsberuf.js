@@ -2,8 +2,8 @@ jQuery(function($) {
     $(document).ready(function() {
 
         // Bezeichnungen für Ausbildungsberufsproperties
-        const ID = "id";
-        const BEZEICHNUNG = "bezeichnung";
+        const ID = 'id';
+        const BEZEICHNUNG = 'bezeichnung';
 
         /**
          * Handhabung der Anwendung bei Fehlern.
@@ -13,11 +13,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -26,9 +26,9 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Ausbildungsberufen.
          */
         function HideViews() {
-            $("#Ausbildungsberufe").stop().hide(TIME);
-            $("#AddAusbildungsberufForm").stop().hide(TIME);
-            $("#EditAusbildungsberufForm").stop().hide(TIME);
+            $('#Ausbildungsberufe').stop().hide(TIME);
+            $('#AddAusbildungsberufForm').stop().hide(TIME);
+            $('#EditAusbildungsberufForm').stop().hide(TIME);
         }
 
         /**
@@ -36,7 +36,7 @@ jQuery(function($) {
          * aus.
          */
         function ShowAusbildungsberufe() {
-            $(".data-item.ausbildungsberufe-item .show-data").click();
+            $('.data-item.ausbildungsberufe-item .show-data').click();
         }
 
         /**
@@ -44,30 +44,30 @@ jQuery(function($) {
          * an. Für jeden Ausbildungsberuf wird ein Button zum Bearbeiten und
          * Löschen des jeweiligen Ausbildungsberufes erstellt.
          */
-        $(".data-item.ausbildungsberufe-item").on("click", ".show-data", function() {
+        $('.data-item.ausbildungsberufe-item').on('click', '.show-data', function() {
 
-            $("#LoadingSpinner").show();
-            $.get(APIAUSBILDUNGSBERUF + "Get", function(data) {
+            $('#LoadingSpinner').show();
+            $.get(APIAUSBILDUNGSBERUF + 'Get', function(data) {
                 data = JSON.parse(data);
 
-                var ausbildungsberufe = $("#Ausbildungsberufe");
+                var ausbildungsberufe = $('#Ausbildungsberufe');
                 ausbildungsberufe.empty();
 
                 data.forEach(ausbildungsberuf => {
-                    var item = $("<div></div>").addClass("item-child");
-                    var outputDiv = $("<div></div>").text(ausbildungsberuf.Bezeichnung);
-                    var buttonContainer = $("<div></div>");
+                    var item = $('<div></div>').addClass('item-child');
+                    var outputDiv = $('<div></div>').text(ausbildungsberuf.Bezeichnung);
+                    var buttonContainer = $('<div></div>');
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child secondary-button")
+                        .addClass('edit-item-child secondary-button')
                         .data(ID, ausbildungsberuf.ID)
                         .data(BEZEICHNUNG, ausbildungsberuf.Bezeichnung)
-                        .val("Bearbeiten");
+                        .val('Bearbeiten');
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child secondary-button")
+                        .addClass('delete-item-child secondary-button')
                         .data(ID, ausbildungsberuf.ID)
-                        .val("Löschen");
+                        .val('Löschen');
 
                     buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
@@ -77,16 +77,16 @@ jQuery(function($) {
 
                 HideViews();
                 ausbildungsberufe.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
         /**
          * Zeigt das Formular zum Hinzufügen eines Ausbildungsberufes an.
          */
-        $(".data-item.ausbildungsberufe-item").on("click", ".add-data", function() {
+        $('.data-item.ausbildungsberufe-item').on('click', '.add-data', function() {
             HideViews();
-            $("#AddAusbildungsberufForm").stop().show(TIME);
+            $('#AddAusbildungsberufForm').stop().show(TIME);
         });
 
         /**
@@ -98,30 +98,30 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#AddAusbildungsberufForm").on("submit", function(e) {
+        $('#AddAusbildungsberufForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`).eq(0);
 
             $.ajax({
-                type: "POST",
-                url: APIAUSBILDUNGSBERUF + "Add",
+                type: 'POST',
+                url: APIAUSBILDUNGSBERUF + 'Add',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     bezeichnung: bezeichnungInput.val()
                 },
                 success: function() {
-                    bezeichnungInput.val("");
+                    bezeichnungInput.val('');
 
                     HideViews();
                     ShowAusbildungsberufe();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen des Ausbildungsberufes auf.");
+                    HandleError('Es traten Fehler beim Anlegen des Ausbildungsberufes auf.');
                 }
             })
         });
@@ -131,12 +131,12 @@ jQuery(function($) {
          * des Formulars zum Bearbeiten eines Ausbildungsberuf ein und blendet
          * dieses ein.
          */
-        $("#Ausbildungsberufe").on("click", ".edit-item-child", function() {
+        $('#Ausbildungsberufe').on('click', '.edit-item-child', function() {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
 
-            var form = $("#EditAusbildungsberufForm");
+            var form = $('#EditAusbildungsberufForm');
             form.find(`input[name="${ ID }"]`).val(id);
             form.find(`input[name="${ BEZEICHNUNG }"]`).val(bezeichnung);
 
@@ -153,33 +153,33 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#EditAusbildungsberufForm").on("submit", function(e) {
+        $('#EditAusbildungsberufForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`);
 
             $.ajax({
-                type: "POST",
-                url: APIAUSBILDUNGSBERUF + "Edit",
+                type: 'POST',
+                url: APIAUSBILDUNGSBERUF + 'Edit',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id: idInput.val(),
                     bezeichnung: bezeichnungInput.val()
                 },
                 success: function() {
-                    idInput.val("");
-                    bezeichnungInput.val("");
+                    idInput.val('');
+                    bezeichnungInput.val('');
 
                     HideViews();
                     ShowAusbildungsberufe();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Aktualisieren des Ausbildungsberufes auf.");
+                    HandleError('Es traten Fehler beim Aktualisieren des Ausbildungsberufes auf.');
                 }
             })
         });
@@ -191,29 +191,29 @@ jQuery(function($) {
          * beim Löschen des Ausbildungsberufes auftreten, wird eine
          * Fehlernachricht angezeigt.
          */
-        $("#Ausbildungsberufe").on("click", ".delete-item-child", function() {
+        $('#Ausbildungsberufe').on('click', '.delete-item-child', function() {
 
-            var ausbildungsberuf = $(this).closest(".item-child");
+            var ausbildungsberuf = $(this).closest('.item-child');
 
-            if (confirm("Soll der Ausbildungsberuf " + ausbildungsberuf.find("div").first().text() + " wirklich gelöscht werden?")) {
+            if (confirm('Soll der Ausbildungsberuf ' + ausbildungsberuf.find('div').first().text() + ' wirklich gelöscht werden?')) {
 
-                $("#LoadingSpinner").show();
+                $('#LoadingSpinner').show();
 
                 var id = $(this).data(ID);
 
                 $.ajax({
-                    type: "POST",
-                    url: APIAUSBILDUNGSBERUF + "Delete",
+                    type: 'POST',
+                    url: APIAUSBILDUNGSBERUF + 'Delete',
                     data: {
-                        csrfToken: $("#CsrfToken").val(),
+                        csrfToken: $('#CsrfToken').val(),
                         id: id
                     },
                     success: function() {
                         ausbildungsberuf.remove();
-                        $("#LoadingSpinner").hide();
+                        $('#LoadingSpinner').hide();
                     },
                     error: function() {
-                        HandleError("Es traten Fehler beim Löschen des Ausbildungsberufes auf.");
+                        HandleError('Es traten Fehler beim Löschen des Ausbildungsberufes auf.');
                     }
                 });
             }

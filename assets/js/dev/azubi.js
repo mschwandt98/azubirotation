@@ -2,15 +2,15 @@ jQuery(function($) {
     $(document).ready(function() {
 
         // Bezeichnungen für Azubiproperties
-        const ID = "id";
-        const VORNAME = "vorname";
-        const NACHNAME = "nachname";
-        const KUERZEL = "kuerzel";
-        const EMAIL = "email";
-        const ID_AUSBILDUNGSBERUF = "id_ausbildungsberuf";
-        const AUSBILDUNGSSTART = "ausbildungsstart";
-        const AUSBILDUNGSENDE = "ausbildungsende";
-        const PLANUNG_ERSTELLEN = "planung_erstellen";
+        const ID = 'id';
+        const VORNAME = 'vorname';
+        const NACHNAME = 'nachname';
+        const KUERZEL = 'kuerzel';
+        const EMAIL = 'email';
+        const ID_AUSBILDUNGSBERUF = 'id_ausbildungsberuf';
+        const AUSBILDUNGSSTART = 'ausbildungsstart';
+        const AUSBILDUNGSENDE = 'ausbildungsende';
+        const PLANUNG_ERSTELLEN = 'planung_erstellen';
 
         /**
          * Vergleicht, ob der erste Parameter (dateA) größer als der zweite
@@ -35,7 +35,7 @@ jQuery(function($) {
          * @return {string} Alle Ausbildungsberufe im JSON-Format.
          */
         function GetAusbildungsberufe() {
-            return $.get(APIAUSBILDUNGSBERUF + "Get");
+            return $.get(APIAUSBILDUNGSBERUF + 'Get');
         }
 
         /**
@@ -46,11 +46,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -59,16 +59,16 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Azubis.
          */
         function HideViews() {
-            $("#Azubis").stop().hide(TIME);
-            $("#AddAzubiForm").stop().hide(TIME);
-            $("#EditAzubiForm").stop().hide(TIME);
+            $('#Azubis').stop().hide(TIME);
+            $('#AddAzubiForm').stop().hide(TIME);
+            $('#EditAzubiForm').stop().hide(TIME);
         }
 
         /**
          * Aktualisiert die Planung mittels einer AJAX-Anfrage des Typs GET.
          */
         function RefreshPlan() {
-            $("#Plan").load(API + "Refresh/Plan");
+            $('#Plan').load(API + 'Refresh/Plan');
         }
 
         /**
@@ -76,7 +76,7 @@ jQuery(function($) {
          */
         function ShowAzubis() {
             HideViews();
-            $(".data-item.azubis-item .show-data").click();
+            $('.data-item.azubis-item .show-data').click();
         }
 
         /**
@@ -84,22 +84,22 @@ jQuery(function($) {
          * jeden Azubi wird ein Button zum Bearbeiten und Löschen des jeweiligen
          * Azubis erstellt.
          */
-        $(".data-item.azubis-item").on("click", ".show-data", function() {
+        $('.data-item.azubis-item').on('click', '.show-data', function() {
 
-            $("#LoadingSpinner").show();
-            $.get(APIAZUBI + "Get", function(data) {
+            $('#LoadingSpinner').show();
+            $.get(APIAZUBI + 'Get', function(data) {
                 data = JSON.parse(data);
 
-                var azubis = $("#Azubis");
+                var azubis = $('#Azubis');
                 azubis.empty();
 
                 data.forEach(auszubildender => {
-                    var item = $("<div></div>").addClass("item-child");
-                    var outputDiv = $("<div></div>").text(auszubildender.Nachname + ", " + auszubildender.Vorname);
-                    var buttonContainer = $("<div></div>");
+                    var item = $('<div></div>').addClass('item-child');
+                    var outputDiv = $('<div></div>').text(auszubildender.Nachname + ', ' + auszubildender.Vorname);
+                    var buttonContainer = $('<div></div>');
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child secondary-button")
+                        .addClass('edit-item-child secondary-button')
                         .data(ID, auszubildender.ID)
                         .data(VORNAME, auszubildender.Vorname)
                         .data(NACHNAME, auszubildender.Nachname)
@@ -108,12 +108,12 @@ jQuery(function($) {
                         .data(ID_AUSBILDUNGSBERUF, auszubildender.ID_Ausbildungsberuf)
                         .data(AUSBILDUNGSSTART, auszubildender.Ausbildungsstart)
                         .data(AUSBILDUNGSENDE, auszubildender.Ausbildungsende)
-                        .val("Bearbeiten");
+                        .val('Bearbeiten');
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child secondary-button")
+                        .addClass('delete-item-child secondary-button')
                         .data(ID, auszubildender.ID)
-                        .val("Löschen");
+                        .val('Löschen');
 
                     buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
@@ -123,7 +123,7 @@ jQuery(function($) {
 
                 HideViews();
                 azubis.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -132,10 +132,10 @@ jQuery(function($) {
          * alle Ausbildungsberufe benötigt werden, wird eine AJAX-Anfrage des
          * Typs GET gestellt, um diese zu holen.
          */
-        $(".data-item.azubis-item").on("click", ".add-data", function() {
+        $('.data-item.azubis-item').on('click', '.add-data', function() {
 
-            $("#LoadingSpinner").show();
-            var ausbildungsberufSelect = $("#AddAzubiForm").find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
+            $('#LoadingSpinner').show();
+            var ausbildungsberufSelect = $('#AddAzubiForm').find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
 
             GetAusbildungsberufe().then(ausbildungsberufe => {
                 ausbildungsberufe = JSON.parse(ausbildungsberufe);
@@ -149,8 +149,8 @@ jQuery(function($) {
                 });
 
                 HideViews();
-                $("#AddAzubiForm").stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#AddAzubiForm').stop().show(TIME);
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -162,11 +162,11 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste change-Event.
          */
-        $("#AddAzubiForm").on("change", `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
+        $('#AddAzubiForm').on('change', `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
 
             var value = e.target.value;
             var inputAusbildungsende = $(`#AddAzubiForm input[name="${ AUSBILDUNGSENDE }"]`);
-            inputAusbildungsende.attr("min", value);
+            inputAusbildungsende.attr('min', value);
 
             if (inputAusbildungsende.val() && CompareDates(value, inputAusbildungsende.val())) {
                 inputAusbildungsende.val(value);
@@ -181,10 +181,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#AddAzubiForm").on("submit", function(e) {
+        $('#AddAzubiForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var vornameInput = form.find(`input[name="${ VORNAME }"]`).eq(0);
@@ -197,10 +197,10 @@ jQuery(function($) {
             var planung_erstellen = form.find(`input[name="${ PLANUNG_ERSTELLEN }"]`).eq(0);
 
             $.ajax({
-                type: "POST",
-                url: APIAZUBI + "Add",
+                type: 'POST',
+                url: APIAZUBI + 'Add',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
                     kuerzel: kuerzelInput.val(),
@@ -208,23 +208,23 @@ jQuery(function($) {
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
                     ausbildungsende: ausbildungsendeInput.val(),
-                    planung_erstellen: planung_erstellen.prop("checked")
+                    planung_erstellen: planung_erstellen.prop('checked')
                 },
                 success: function() {
-                    vornameInput.val("");
-                    nachnameInput.val("");
-                    kuerzelInput.val("");
-                    emailInput.val("");
+                    vornameInput.val('');
+                    nachnameInput.val('');
+                    kuerzelInput.val('');
+                    emailInput.val('');
                     ausbildungsberufSelect.empty();
-                    planung_erstellen.prop("checked", true)
+                    planung_erstellen.prop('checked', true)
 
                     RefreshPlan();
                     HideViews();
                     ShowAzubis();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen des Auszubildenden auf.");
+                    HandleError('Es traten Fehler beim Anlegen des Auszubildenden auf.');
                 }
             })
         });
@@ -233,9 +233,9 @@ jQuery(function($) {
          * Fügt die Daten des zu bearbeitenden Azubis in die Felder des
          * Formulars zum Bearbeiten eines Azubis ein und blendet dieses ein.
          */
-        $("#Azubis").on("click", ".edit-item-child", function() {
+        $('#Azubis').on('click', '.edit-item-child', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var id = $(this).data(ID);
             var vorname = $(this).data(VORNAME);
@@ -249,7 +249,7 @@ jQuery(function($) {
             GetAusbildungsberufe().then(ausbildungsberufe => {
                 ausbildungsberufe = JSON.parse(ausbildungsberufe);
 
-                var form = $("#EditAzubiForm");
+                var form = $('#EditAzubiForm');
                 var ausbildungsberufSelect = form.find(`select[name="${ ID_AUSBILDUNGSBERUF }"]`);
                 ausbildungsberufSelect.empty();
 
@@ -272,7 +272,7 @@ jQuery(function($) {
 
                 HideViews();
                 form.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
@@ -284,11 +284,11 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste change-Event.
          */
-        $("#EditAzubiForm").on("change", `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
+        $('#EditAzubiForm').on('change', `input[name="${ AUSBILDUNGSSTART }"]`, function(e) {
 
             var value = e.target.value;
             var inputAusbildungsende = $(`#EditAzubiForm input[name="${ AUSBILDUNGSENDE }"]`);
-            inputAusbildungsende.attr("min", value);
+            inputAusbildungsende.attr('min', value);
 
             if (inputAusbildungsende.val() && CompareDates(value, inputAusbildungsende.val())) {
                 inputAusbildungsende.val(value);
@@ -304,10 +304,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#EditAzubiForm").on("submit", function(e) {
+        $('#EditAzubiForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
@@ -321,10 +321,10 @@ jQuery(function($) {
             var planung_erstellen = form.find(`input[name="${ PLANUNG_ERSTELLEN }"]`);
 
             $.ajax({
-                type: "POST",
-                url: APIAZUBI + "Edit",
+                type: 'POST',
+                url: APIAZUBI + 'Edit',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id: idInput.val(),
                     vorname: vornameInput.val(),
                     nachname: nachnameInput.val(),
@@ -333,25 +333,25 @@ jQuery(function($) {
                     id_ausbildungsberuf: ausbildungsberufSelect.val(),
                     ausbildungsstart: ausbildungsstartInput.val(),
                     ausbildungsende: ausbildungsendeInput.val(),
-                    planung_erstellen: planung_erstellen.prop("checked")
+                    planung_erstellen: planung_erstellen.prop('checked')
                 },
                 success: function() {
-                    idInput.val("");
-                    vornameInput.val("");
-                    nachnameInput.val("");
-                    kuerzelInput.val("");
-                    emailInput.val("");
+                    idInput.val('');
+                    vornameInput.val('');
+                    nachnameInput.val('');
+                    kuerzelInput.val('');
+                    emailInput.val('');
                     ausbildungsberufSelect.empty();
-                    ausbildungsstartInput.val("");
-                    ausbildungsendeInput.val("");
+                    ausbildungsstartInput.val('');
+                    ausbildungsendeInput.val('');
 
                     RefreshPlan();
                     HideViews();
                     ShowAzubis();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Aktualisieren des Auszubildenden auf.");
+                    HandleError('Es traten Fehler beim Aktualisieren des Auszubildenden auf.');
                 }
             })
         });
@@ -362,30 +362,30 @@ jQuery(function($) {
          * Azubis aktualisiert. Wenn Fehler beim Löschen des Azubis auftreten,
          * wird eine Fehlernachricht angezeigt.
          */
-        $("#Azubis").on("click", ".delete-item-child", function() {
+        $('#Azubis').on('click', '.delete-item-child', function() {
 
-            var auszubildender = $(this).closest(".item-child");
+            var auszubildender = $(this).closest('.item-child');
 
-            if (confirm("Soll der Auszubildende " + auszubildender.find("div").first().text() + " wirklich gelöscht werden?")) {
+            if (confirm('Soll der Auszubildende ' + auszubildender.find('div').first().text() + ' wirklich gelöscht werden?')) {
 
-                $("#LoadingSpinner").show();
+                $('#LoadingSpinner').show();
 
                 var id = $(this).data(ID);
 
                 $.ajax({
-                    type: "POST",
-                    url: APIAZUBI + "Delete",
+                    type: 'POST',
+                    url: APIAZUBI + 'Delete',
                     data: {
-                        csrfToken: $("#CsrfToken").val(),
+                        csrfToken: $('#CsrfToken').val(),
                         id: id
                     },
                     success: function() {
                         RefreshPlan();
                         auszubildender.remove();
-                        $("#LoadingSpinner").hide();
+                        $('#LoadingSpinner').hide();
                     },
                     error: function() {
-                        HandleError("Es traten Fehler beim Löschen des Auszubildenden auf.");
+                        HandleError('Es traten Fehler beim Löschen des Auszubildenden auf.');
                     }
                 });
             }

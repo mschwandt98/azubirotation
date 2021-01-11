@@ -2,10 +2,10 @@ jQuery(function($) {
     $(document).ready(function() {
 
         // Bezeichnungen für Abteilungsproperties
-        const ID = "id";
-        const BEZEICHNUNG = "bezeichnung";
-        const MAXAZUBIS = "maxazubis";
-        const FARBE = "farbe";
+        const ID = 'id';
+        const BEZEICHNUNG = 'bezeichnung';
+        const MAXAZUBIS = 'maxazubis';
+        const FARBE = 'farbe';
 
         /**
          * Handhabung der Anwendung bei Fehlern.
@@ -15,11 +15,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -28,23 +28,23 @@ jQuery(function($) {
          * Versteckt die Ansichten zu den Abteilungen.
          */
         function HideViews() {
-            $("#Abteilungen").stop().hide(TIME);
-            $("#AddAbteilungForm").stop().hide(TIME);
-            $("#EditAbteilungForm").stop().hide(TIME);
+            $('#Abteilungen').stop().hide(TIME);
+            $('#AddAbteilungForm').stop().hide(TIME);
+            $('#EditAbteilungForm').stop().hide(TIME);
         }
 
         /**
          * Aktualisiert die Legende im Footer mittels einer GET-Anfrage.
          */
         function RefreshFooter() {
-            $("#Legende").load(API + "Refresh/Legende");
+            $('#Legende').load(API + 'Refresh/Legende');
         }
 
         /**
          * Führt das Click-Event des Buttons zum Anzeigen der Abteilungen aus.
          */
         function ShowAbteilungen() {
-            $(".data-item.abteilung-item .show-data").click();
+            $('.data-item.abteilung-item .show-data').click();
         }
 
         /**
@@ -52,32 +52,32 @@ jQuery(function($) {
          * Für jede Abteilung wird ein Button zum Bearbeiten und Löschen der
          * jeweiligen Abteilung erstellt.
          */
-        $(".data-item.abteilung-item").on("click", ".show-data", function() {
+        $('.data-item.abteilung-item').on('click', '.show-data', function() {
 
-            $("#LoadingSpinner").show();
-            $.get(APIABTEILUNG + "Get", function(data) {
+            $('#LoadingSpinner').show();
+            $.get(APIABTEILUNG + 'Get', function(data) {
                 data = JSON.parse(data);
 
-                var abteilungen = $("#Abteilungen");
+                var abteilungen = $('#Abteilungen');
                 abteilungen.empty();
 
                 data.forEach(abteilung => {
-                    var item = $("<div></div>").addClass("item-child");
-                    var outputDiv = $("<div></div>").text(abteilung.Bezeichnung);
-                    var buttonContainer = $("<div></div>");
+                    var item = $('<div></div>').addClass('item-child');
+                    var outputDiv = $('<div></div>').text(abteilung.Bezeichnung);
+                    var buttonContainer = $('<div></div>');
 
                     var editButton = $('<input type="button" />')
-                        .addClass("edit-item-child secondary-button")
+                        .addClass('edit-item-child secondary-button')
                         .data(ID, abteilung.ID)
                         .data(BEZEICHNUNG, abteilung.Bezeichnung)
                         .data(MAXAZUBIS, abteilung.MaxAzubis)
                         .data(FARBE, abteilung.Farbe)
-                        .val("Bearbeiten");
+                        .val('Bearbeiten');
 
                     var deleteButton = $('<input type="button" />')
-                        .addClass("delete-item-child secondary-button")
+                        .addClass('delete-item-child secondary-button')
                         .data(ID, abteilung.ID)
-                        .val("Löschen");
+                        .val('Löschen');
 
                     buttonContainer.append(editButton).append(deleteButton);
                     item.append(outputDiv);
@@ -87,16 +87,16 @@ jQuery(function($) {
 
                 HideViews();
                 abteilungen.stop().show(TIME);
-                $("#LoadingSpinner").hide();
+                $('#LoadingSpinner').hide();
             });
         });
 
         /**
          * Zeigt das Formular zum Hinzufügen einer Abteilung an.
          */
-        $(".data-item.abteilung-item").on("click", ".add-data", function() {
+        $('.data-item.abteilung-item').on('click', '.add-data', function() {
             HideViews();
-            $("#AddAbteilungForm").stop().show(TIME);
+            $('#AddAbteilungForm').stop().show(TIME);
         });
 
         /**
@@ -108,10 +108,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#AddAbteilungForm").on("submit", function(e) {
+        $('#AddAbteilungForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var bezeichnungInput = form.find(`input[name="${ BEZEICHNUNG }"]`).eq(0);
@@ -119,25 +119,25 @@ jQuery(function($) {
             var farbeInput = form.find(`input[name="${ FARBE }"]`).eq(0);
 
             $.ajax({
-                type: "POST",
-                url: APIABTEILUNG + "Add",
+                type: 'POST',
+                url: APIABTEILUNG + 'Add',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     bezeichnung: bezeichnungInput.val(),
                     maxAzubis: maxAzubisInput.val(),
                     farbe: farbeInput.val()
                 },
                 success: function() {
-                    bezeichnungInput.val("");
-                    maxAzubisInput.val("");
-                    farbeInput.val("#ffffff");
+                    bezeichnungInput.val('');
+                    maxAzubisInput.val('');
+                    farbeInput.val('#ffffff');
 
                     RefreshFooter();
                     ShowAbteilungen();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen der Abteilung auf.");
+                    HandleError('Es traten Fehler beim Anlegen der Abteilung auf.');
                 }
             })
         });
@@ -146,14 +146,14 @@ jQuery(function($) {
          * Fügt die Daten der zu bearbeitenden Abteilung in die Felder des
          * Formulars zum Bearbeiten einer Abteilung ein und blendet dieses ein.
          */
-        $("#Abteilungen").on("click", ".edit-item-child", function() {
+        $('#Abteilungen').on('click', '.edit-item-child', function() {
 
             var id = $(this).data(ID);
             var bezeichnung = $(this).data(BEZEICHNUNG);
             var maxAzubis = $(this).data(MAXAZUBIS);
             var farbe = $(this).data(FARBE);
 
-            var form = $("#EditAbteilungForm");
+            var form = $('#EditAbteilungForm');
             form.find(`input[name="${ ID }"]`).val(id);
             form.find(`input[name="${ BEZEICHNUNG }"]`).val(bezeichnung);
             form.find(`input[name="${ MAXAZUBIS }"]`).val(maxAzubis);
@@ -172,10 +172,10 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste Submit-Event.
          */
-        $("#EditAbteilungForm").on("submit", function(e) {
+        $('#EditAbteilungForm').on('submit', function(e) {
 
             e.preventDefault();
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
             var form = $(this);
             var idInput = form.find(`input[name="${ ID }"]`);
@@ -184,10 +184,10 @@ jQuery(function($) {
             var farbeInput = form.find(`input[name="${ FARBE }"]`);
 
             $.ajax({
-                type: "POST",
-                url: APIABTEILUNG + "Edit",
+                type: 'POST',
+                url: APIABTEILUNG + 'Edit',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     id: idInput.val(),
                     bezeichnung: bezeichnungInput.val(),
                     maxAzubis: maxAzubisInput.val(),
@@ -196,17 +196,17 @@ jQuery(function($) {
                 success: function() {
                     HideViews();
 
-                    idInput.val("");
-                    bezeichnungInput.val("");
-                    maxAzubisInput.val("");
-                    farbeInput.val("#ffffff");
+                    idInput.val('');
+                    bezeichnungInput.val('');
+                    maxAzubisInput.val('');
+                    farbeInput.val('#ffffff');
 
                     RefreshFooter();
                     ShowAbteilungen();
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Aktualisieren der Abteilung auf.");
+                    HandleError('Es traten Fehler beim Aktualisieren der Abteilung auf.');
                 }
             })
         });
@@ -218,30 +218,30 @@ jQuery(function($) {
          * beim Löschen der Abteilung auftreten, wird eine Fehlernachricht
          * angezeigt.
          */
-        $("#Abteilungen").on("click", ".delete-item-child", function() {
+        $('#Abteilungen').on('click', '.delete-item-child', function() {
 
-            var abteilung = $(this).closest(".item-child");
+            var abteilung = $(this).closest('.item-child');
 
-            if (confirm("Soll die Abteilung " + abteilung.find("div").first().text() + " wirklich gelöscht werden?")) {
+            if (confirm('Soll die Abteilung ' + abteilung.find('div').first().text() + ' wirklich gelöscht werden?')) {
 
-                $("#LoadingSpinner").show();
+                $('#LoadingSpinner').show();
                 var id = $(this).data(ID);
 
                 $.ajax({
-                    type: "POST",
-                    url: APIABTEILUNG + "Delete",
+                    type: 'POST',
+                    url: APIABTEILUNG + 'Delete',
                     data: {
-                        csrfToken: $("#CsrfToken").val(),
+                        csrfToken: $('#CsrfToken').val(),
                         id: id
                     },
                     success: function() {
                         HideViews();
                         RefreshFooter();
                         abteilung.remove();
-                        $("#LoadingSpinner").hide();
+                        $('#LoadingSpinner').hide();
                     },
                     error: function() {
-                        HandleError("Es traten Fehler beim Löschen der Abteilung auf.");
+                        HandleError('Es traten Fehler beim Löschen der Abteilung auf.');
                     }
                 });
             }

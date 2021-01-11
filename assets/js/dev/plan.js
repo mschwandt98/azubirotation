@@ -17,12 +17,12 @@ jQuery(function($) {
          */
         function SetPopupContent(content, position = 0) {
 
-            var popup = $("#Popup");
+            var popup = $('#Popup');
             popup.empty().append(content);
 
             if (position !== 0) {
 
-                let screenWidth = $("body").width();
+                let screenWidth = $('body').width();
                 let popupWidth = popup.width();
                 let spacing = 64;
 
@@ -44,8 +44,8 @@ jQuery(function($) {
          */
         function CreateAnsprechpartnerPopup(id, position = 0) {
 
-            var popupAnsprechpartner = $("<div></div>").addClass("set-ansprechpartner-popup vertical-scroll");
-            var ansprechpartnerList = $("<ul></ul>");
+            var popupAnsprechpartner = $('<div></div>').addClass('set-ansprechpartner-popup vertical-scroll');
+            var ansprechpartnerList = $('<ul></ul>');
             var ansprechpartnerExist = false;
 
             Ansprechpartner.forEach(ansprechpartner => {
@@ -54,21 +54,21 @@ jQuery(function($) {
 
                     ansprechpartnerExist = true;
                     ansprechpartnerList.append(
-                        $("<li></li>")
-                            .attr("data-id", ansprechpartner.ID)
+                        $('<li></li>')
+                            .attr('data-id', ansprechpartner.ID)
                             .text(ansprechpartner.Name)
                     ).append(
-                        $("<hr>")
+                        $('<hr>')
                     );
                 }
             });
 
             if (ansprechpartnerExist) {
-                ansprechpartnerList.find(":last-child").remove();
+                ansprechpartnerList.find(':last-child').remove();
                 popupAnsprechpartner.append(ansprechpartnerList);
                 SetPopupContent(popupAnsprechpartner, position);
             } else {
-                SetPopupContent("");
+                SetPopupContent('');
                 RemoveSelectedStatus();
             }
         }
@@ -110,7 +110,7 @@ jQuery(function($) {
 
             while (true) {
                 let prevEl = tempEl.prev();
-                if (prevEl !== null && prevEl.attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                if (prevEl !== null && prevEl.attr('data-id-abteilung') === el.attr('data-id-abteilung')) {
                     tempEl = prevEl;
                     tds.push(tempEl);
                 } else {
@@ -121,7 +121,7 @@ jQuery(function($) {
             tempEl = el;
             while (true) {
                 let nextEl = tempEl.next();
-                if (nextEl !== null && nextEl.attr("data-id-abteilung") === el.attr("data-id-abteilung")) {
+                if (nextEl !== null && nextEl.attr('data-id-abteilung') === el.attr('data-id-abteilung')) {
                     tempEl = nextEl;
                     tds.push(tempEl);
                 } else {
@@ -129,11 +129,11 @@ jQuery(function($) {
                 }
             };
 
-            let idAnsprechpartner = el.attr("data-id-ansprechpartner");
+            let idAnsprechpartner = el.attr('data-id-ansprechpartner');
             let returnTds = [];
             $(tds).each(index => {
                 let td = $(tds[index]);
-                if (td.attr("data-id-ansprechpartner") === idAnsprechpartner) {
+                if (td.attr('data-id-ansprechpartner') === idAnsprechpartner) {
                     returnTds.push(td);
                 }
             });
@@ -142,11 +142,11 @@ jQuery(function($) {
         }
 
         /**
-         * Entfernt die Klasse "selected" von allen ausgewählten Plan-Phasen.
+         * Entfernt die Klasse 'selected' von allen ausgewählten Plan-Phasen.
          */
         function RemoveSelectedStatus() {
             tdItems.forEach(item => {
-                $(item).removeClass("selected");
+                $(item).removeClass('selected');
             });
             tdItems.length = 0;
         }
@@ -155,8 +155,8 @@ jQuery(function($) {
          * Sortiert die Items in tdItems.
          */
         function SortTdItems(a, b) {
-            var aDate = $(a).data("date");
-            var bDate = $(b).data("date");
+            var aDate = $(a).data('date');
+            var bDate = $(b).data('date');
             return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
         }
 
@@ -168,11 +168,11 @@ jQuery(function($) {
          * @param {string} errorMessage Die Fehlernachricht, die angezeigt
          *                              werden soll.
          */
-        function HandleError(errorMessage = "Es trat ein unbekannter Fehler auf.") {
+        function HandleError(errorMessage = 'Es trat ein unbekannter Fehler auf.') {
 
-            $("#LoadingSpinner").hide();
-            var emb = $("#ErrorMessageBox");
-            emb.find(".message").text(errorMessage);
+            $('#LoadingSpinner').hide();
+            var emb = $('#ErrorMessageBox');
+            emb.find('.message').text(errorMessage);
             emb.show();
             setTimeout(() => { emb.fadeOut().text(); }, 10000);
         }
@@ -180,14 +180,14 @@ jQuery(function($) {
         /**
          * Holt initial alle Abteilungen per AJAX-Anfrage des Typs GET.
          */
-        $.get(APIABTEILUNG + "Get", function(data) {
+        $.get(APIABTEILUNG + 'Get', function(data) {
             Abteilungen = JSON.parse(data);
         });
 
         /**
          * Holt initial alle Ansprechpartner per AJAX-Anfrage des Typs GET.
          */
-        $.get(APIANSPRECHPARTNER + "Get", function(data) {
+        $.get(APIANSPRECHPARTNER + 'Get', function(data) {
             Ansprechpartner = JSON.parse(data);
         });
 
@@ -196,14 +196,14 @@ jQuery(function($) {
          * (Phasen), die Informationen des Info-Buttons und das Popup versteckt,
          * sofern der Klick außerhalb der Planung ist.
          */
-        $(document).on("click", function(e) {
-            if(!$(e.target).closest("#Plan table").length && !$(e.target).closest("#Popup").length) {
+        $(document).on('click', function(e) {
+            if(!$(e.target).closest('#Plan table').length && !$(e.target).closest('#Popup').length) {
 
-                if (!$(e.target).parents(".set-abteilung-popup").length &&
-                    !$(e.target).parents(".set-ansprechpartner-popup").length &&
-                    !$(e.target).parents(".context-popup").length &&
-                    !$(e.target).parents(".set-mark-popup").length) {
-                    SetPopupContent("");
+                if (!$(e.target).parents('.set-abteilung-popup').length &&
+                    !$(e.target).parents('.set-ansprechpartner-popup').length &&
+                    !$(e.target).parents('.context-popup').length &&
+                    !$(e.target).parents('.set-mark-popup').length) {
+                    SetPopupContent('');
                     RemoveSelectedStatus();
                 }
             }
@@ -215,35 +215,35 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste click-Event.
          */
-        $("#Plan").on("click", ".plan-phase", function(e) {
+        $('#Plan').on('click', '.plan-phase', function(e) {
 
             // 1 = Linksklick und Prüfung auf undefined, falls diese Funktion im Code per .click() ausgelöst wurde
-            if (e.which === 1 || typeof e.which === "undefined") {
+            if (e.which === 1 || typeof e.which === 'undefined') {
 
                 var el = $(this);
-                el.addClass("selected");
+                el.addClass('selected');
                 tdItems.push(el);
                 tdItems.sort(SortTdItems);
 
-                var popup = $("<div></div>").addClass("set-abteilung-popup vertical-scroll");
-                var abteilungenList = $("<ul></ul>");
+                var popup = $('<div></div>').addClass('set-abteilung-popup vertical-scroll');
+                var abteilungenList = $('<ul></ul>');
 
                 Abteilungen.forEach(abteilung => {
                     abteilungenList.append(
-                        $("<li></li>")
-                            .attr("data-id", abteilung.ID)
+                        $('<li></li>')
+                            .attr('data-id', abteilung.ID)
                             .text(abteilung.Bezeichnung)
                     ).append(
-                        $("<hr>")
+                        $('<hr>')
                     );
                 });
 
-                abteilungenList.append($("<li></li>").text("Löschen").css({ color: "red" }));
+                abteilungenList.append($('<li></li>').text('Löschen').css({ color: 'red' }));
                 popup.append(abteilungenList);
                 SetPopupContent(popup, el.position());
             }
-        }).find(".plan-mark").click(function() {
-            $(this).closest(".plan-phase").click();
+        }).find('.plan-mark').click(function() {
+            $(this).closest('.plan-phase').click();
         });
 
         /**
@@ -254,18 +254,18 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste mousedown-Event.
          */
-        $("#Plan").on("mousedown", ".plan-phase", function(e) {
+        $('#Plan').on('mousedown', '.plan-phase', function(e) {
 
-            if ($(e.target).parents(".plan-phase").length > 0) return;
-            SetPopupContent("");
+            if ($(e.target).parents('.plan-phase').length > 0) return;
+            SetPopupContent('');
             RemoveSelectedStatus();
 
             var el = $(this);
 
-            if (e.ctrlKey && el.attr("data-id-abteilung")) {
-                el.attr("draggable", "true");
+            if (e.ctrlKey && el.attr('data-id-abteilung')) {
+                el.attr('draggable', 'true');
             } else {
-                el.removeAttr("draggable");
+                el.removeAttr('draggable');
                 clicking = true;
             }
         });
@@ -276,58 +276,58 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste mousemove-Event.
          */
-        $("#Plan").on("mousemove", ".plan-phase", function(e) {
+        $('#Plan').on('mousemove', '.plan-phase', function(e) {
 
             if (e.which !== 1 && e.which !== 3) return;
             if (!clicking) return;
             var currentTd = $(e.target);
 
-            if (e.which === 3 && !currentTd.data("id-abteilung")) return;
+            if (e.which === 3 && !currentTd.data('id-abteilung')) return;
 
             if (tdItems.length < 1) {
-                currentTd.addClass("selected");
+                currentTd.addClass('selected');
                 tdItems.push(currentTd);
             } else {
 
                 let lastAddedTd = $(tdItems[tdItems.length - 1]);
-                let currentTdDate = currentTd.data("date");
-                let lastAddedTdDate = lastAddedTd.data("date");
+                let currentTdDate = currentTd.data('date');
+                let lastAddedTdDate = lastAddedTd.data('date');
 
-                if (lastAddedTd.closest("tr").data("id") != currentTd.closest("tr").data("id")) return;
+                if (lastAddedTd.closest('tr').data('id') != currentTd.closest('tr').data('id')) return;
                 if (lastAddedTdDate == currentTdDate) return;
 
                 let nextTd = lastAddedTd.next();
                 let prevTd = lastAddedTd.prev();
 
-                if ((prevTd.data("date") == currentTdDate && prevTd.hasClass("selected")) ||
-                    (nextTd.data("date") == currentTdDate && nextTd.hasClass("selected"))) {
-                    lastAddedTd.removeClass("selected");
+                if ((prevTd.data('date') == currentTdDate && prevTd.hasClass('selected')) ||
+                    (nextTd.data('date') == currentTdDate && nextTd.hasClass('selected'))) {
+                    lastAddedTd.removeClass('selected');
                     tdItems.pop();
-                } else if (prevTd.data("date") == currentTdDate || nextTd.data("date") == currentTdDate) {
+                } else if (prevTd.data('date') == currentTdDate || nextTd.data('date') == currentTdDate) {
 
                     // Falls ein Child-Element ausgewählt wurde
-                    if (currentTd.parents(".plan-phase").length > 0) {
-                        currentTd = currentTd.parents(".plan-phase");
+                    if (currentTd.parents('.plan-phase').length > 0) {
+                        currentTd = currentTd.parents('.plan-phase');
                     }
 
                     let exists = false;
                     tdItems.forEach(function(item) {
-                        if ($(item).data("date") === currentTdDate) {
+                        if ($(item).data('date') === currentTdDate) {
                             exists = true;
                         }
                     });
 
                     if (!exists) {
-                        currentTd.addClass("selected");
+                        currentTd.addClass('selected');
                         tdItems.push(currentTd);
                     }
                 } else if (currentTdDate < lastAddedTdDate) {
 
                     let td = lastAddedTd;
 
-                    while (currentTdDate < td.data("date")) {
+                    while (currentTdDate < td.data('date')) {
                         td = td.prev();
-                        td.addClass("selected");
+                        td.addClass('selected');
                         tdItems.push(td);
                     }
 
@@ -335,9 +335,9 @@ jQuery(function($) {
 
                     let td = lastAddedTd;
 
-                    while (currentTdDate > td.data("date")) {
+                    while (currentTdDate > td.data('date')) {
                         td = td.next();
-                        td.addClass("selected");
+                        td.addClass('selected');
                         tdItems.push(td);
                     }
                 }
@@ -346,12 +346,12 @@ jQuery(function($) {
 
         /**
          * Bei der zuletzt ausgewählten Phase wird das click-Event ausgelöst und
-         * die globale Hilfsvariable "clicking" auf false gesetzt.
+         * die globale Hilfsvariable 'clicking' auf false gesetzt.
          *
          * @param {Event} e Das ausgelöste mouseup-Event.
          */
-        $("#Plan").on("mouseup", ".plan-phase", function(e) {
-            if ($(e.target).parents(".plan-phase").length > 0) return;
+        $('#Plan').on('mouseup', '.plan-phase', function(e) {
+            if ($(e.target).parents('.plan-phase').length > 0) return;
 
             if (e.which === 1) {
                 $(tdItems[tdItems.length - 1]).click();
@@ -367,107 +367,107 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste contextmenu-Event.
          */
-        $("#Plan").on("contextmenu", ".plan-phase", function(e) {
+        $('#Plan').on('contextmenu', '.plan-phase', function(e) {
 
             e.preventDefault();
-            if ($(e.target).parents(".plan-phase").length > 0) return;
-            if ($(e.target).parents(".set-abteilung-popup").length > 0) return;
-            if ($(e.target).parents(".set-ansprechpartner-popup").length > 0) return;
-            if ($(e.target).parents(".set-mark-popup").length > 0) return;
-            if ($(e.target).parents(".context-popup").length > 0) return;
+            if ($(e.target).parents('.plan-phase').length > 0) return;
+            if ($(e.target).parents('.set-abteilung-popup').length > 0) return;
+            if ($(e.target).parents('.set-ansprechpartner-popup').length > 0) return;
+            if ($(e.target).parents('.set-mark-popup').length > 0) return;
+            if ($(e.target).parents('.context-popup').length > 0) return;
 
             var el = $(this);
 
-            if (!el.data("id-abteilung")) return;
+            if (!el.data('id-abteilung')) return;
 
-            el.addClass("selected");
+            el.addClass('selected');
 
             if (!tdItems.length) {
                 tdItems.push(el);
             }
 
-            var popup = $("<div></div>").addClass("context-popup");
-            var contextList = $("<ul></ul>");
+            var popup = $('<div></div>').addClass('context-popup');
+            var contextList = $('<ul></ul>');
 
             if (tdItems.length === 1) {
-                if (el.attr("data-id-ansprechpartner")) {
-                    contextList.append($("<li></li>").text("Ansprechpartner ersetzen").data("update-ansprechpartner", "true"));
-                    contextList.append($("<hr>"));
-                    contextList.append($("<li></li>").text("Ansprechpartner löschen").data("delete-ansprechpartner", "true"));
+                if (el.attr('data-id-ansprechpartner')) {
+                    contextList.append($('<li></li>').text('Ansprechpartner ersetzen').data('update-ansprechpartner', 'true'));
+                    contextList.append($('<hr>'));
+                    contextList.append($('<li></li>').text('Ansprechpartner löschen').data('delete-ansprechpartner', 'true'));
                 } else {
-                    contextList.append($("<li></li>").text("Ansprechpartner setzen").data("add-ansprechpartner", "true"));
+                    contextList.append($('<li></li>').text('Ansprechpartner setzen').data('add-ansprechpartner', 'true'));
                 }
 
-                contextList.append($("<hr>"));
+                contextList.append($('<hr>'));
             }
 
-            if (el.find(".plan-mark").length > 0) {
-                contextList.append($("<li></li>").text("Termin umbenennen").data("update-termin", "true"));
-                contextList.append($("<hr>"));
-                contextList.append($("<li></li>").text("Termin löschen").data("delete-termin", "true"));
+            if (el.find('.plan-mark').length > 0) {
+                contextList.append($('<li></li>').text('Termin umbenennen').data('update-termin', 'true'));
+                contextList.append($('<hr>'));
+                contextList.append($('<li></li>').text('Termin löschen').data('delete-termin', 'true'));
             } else {
-                contextList.append($("<li></li>").text("Termin setzen").data("add-termin", "true"));
+                contextList.append($('<li></li>').text('Termin setzen').data('add-termin', 'true'));
             }
 
             popup.append(contextList);
             SetPopupContent(popup, el.position());
-        }).find(".ansprechpartner-name, .plan-mark").contextmenu(function(e) {
-            $(this).closest(".plan-phase").contextmenu();
+        }).find('.ansprechpartner-name, .plan-mark').contextmenu(function(e) {
+            $(this).closest('.plan-phase').contextmenu();
         });
 
         /**
          * Führt die angeklickte Option des Kontext-Menüs aus.
          */
-        $("#Popup").on("click", ".context-popup li", function() {
+        $('#Popup').on('click', '.context-popup li', function() {
 
             var el = $(this);
             var td = $(tdItems[0]);
 
-            if (el.data("add-ansprechpartner") || el.data("update-ansprechpartner") || el.data("delete-ansprechpartner")) {
+            if (el.data('add-ansprechpartner') || el.data('update-ansprechpartner') || el.data('delete-ansprechpartner')) {
 
                 tdItems.length = 0;
                 tdItems = tdItems.concat(GetFullPhase(td));
 
-                if (el.data("delete-ansprechpartner")) {
+                if (el.data('delete-ansprechpartner')) {
 
                     $(tdItems).each(index => {
                         let selectedTd = $(tdItems[index]);
-                        selectedTd.removeAttr("data-id-ansprechpartner").addClass("changed")
-                        selectedTd.find(".ansprechpartner-name").remove();
+                        selectedTd.removeAttr('data-id-ansprechpartner').addClass('changed')
+                        selectedTd.find('.ansprechpartner-name').remove();
                     });
-                    SetPopupContent("");
+                    SetPopupContent('');
                     RemoveSelectedStatus();
                     return;
                 }
 
-                CreateAnsprechpartnerPopup(td.data("id-abteilung"), td.position());
+                CreateAnsprechpartnerPopup(td.data('id-abteilung'), td.position());
                 return;
             }
 
-            if (el.data("delete-termin")) {
+            if (el.data('delete-termin')) {
                 tdItems.forEach(item => {
                     let jItem = $(item);
-                    jItem.find(".plan-mark").remove();
-                    jItem.addClass("changed");
+                    jItem.find('.plan-mark').remove();
+                    jItem.addClass('changed');
                 });
 
-                SetPopupContent("");
+                SetPopupContent('');
                 RemoveSelectedStatus();
                 return;
             }
 
-            if (el.data("add-termin") || el.data("update-termin")) {
+            if (el.data('add-termin') || el.data('update-termin')) {
 
-                var wrapper = $("<div></div>").addClass("set-mark-popup")
+                var wrapper = $('<div></div>').addClass('set-mark-popup')
                 .append(
-                    $("<form></form>").append(
-                        $("<label></label>").append(
-                                $("<div></div>").text((el.data("update-termin") ? "Neue ": "") + "Terminbezeichnung")
+                    $('<form></form>').append(
+                        $('<label></label>').append(
+                                $('<div></div>').text((el.data('update-termin') ? 'Neue ': '') + 'Terminbezeichnung')
                             ).append(
-                                $('<input type="text" />').css({ minWidth: "100%" }).attr("required", "true")
+                                $('<input type="text" />').css({ minWidth: '100%' }).attr('required', 'true')
                             )
                         ).append(
-                        "<br>"
+                        '<br>'
                         ).append(
                             $('<input type="button" value="Termin setzen" />')
                         )
@@ -480,52 +480,52 @@ jQuery(function($) {
         /**
          * Die Bezeichnung für den Termin wird in der Phase eingetragen.
          */
-        $("#Popup").on("click", '.set-mark-popup input[type="button"]', function(e) {
+        $('#Popup').on('click', '.set-mark-popup input[type="button"]', function(e) {
 
             e.preventDefault();
-            var markerBezeichnung = $("#Popup .set-mark-popup").find('input[type="text"]').val();
+            var markerBezeichnung = $('#Popup .set-mark-popup').find('input[type="text"]').val();
             let tdItemsLength = tdItems.length;
 
             for (let i = 0; i < tdItemsLength; i++) {
 
                 let jItem = $(tdItems[i]);
 
-                jItem.find(".plan-mark").remove();
-                jItem.addClass("changed")
+                jItem.find('.plan-mark').remove();
+                jItem.addClass('changed')
                     .append(
-                        $("<div></div>").attr("title", markerBezeichnung).addClass(
-                            "plan-mark " + (tdItemsLength > 1 ? "icon-plan-mark" : "icon-plan-mark-separat")
+                        $('<div></div>').attr('title', markerBezeichnung).addClass(
+                            'plan-mark ' + (tdItemsLength > 1 ? 'icon-plan-mark' : 'icon-plan-mark-separat')
                         )
                     );
             }
 
-            $("#Popup").empty();
+            $('#Popup').empty();
             RemoveSelectedStatus();
         });
 
         /**
          * Die angeklickte Abteilung wird in der Phase gesetzt, indem das
-         * data-Attribute "id-abteilung" gesetzt wird und der Hintergrund sowie
+         * data-Attribute 'id-abteilung' gesetzt wird und der Hintergrund sowie
          * die Border in der Abteilungsfarbe markiert wird.
          * Zudem wird ein Popup-Formular erstellt, in der ein Ansprechpartner
          * für die Phase ausgewählt werden kann. Es werden nur Ansprechpartner
          * angezeigt, die für die angeklickte Abteilung als Ansprechpartner
          * gesetzt sind.
          */
-        $("#Popup").on("click", ".set-abteilung-popup li", function() {
+        $('#Popup').on('click', '.set-abteilung-popup li', function() {
 
-            var idAbteilung = $(this).data("id");
+            var idAbteilung = $(this).data('id');
 
             if (!idAbteilung) {
 
                 tdItems.forEach(item => {
 
-                    $(item).removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
-                        .addClass("changed")
-                        .removeClass("selected")
+                    $(item).removeAttr('style data-id-abteilung data-id-ansprechpartner draggable')
+                        .addClass('changed')
+                        .removeClass('selected')
                         .find('*').not('.plan-mark').remove();
                 });
-                SetPopupContent("");
+                SetPopupContent('');
                 return;
             }
 
@@ -533,27 +533,27 @@ jQuery(function($) {
 
                 let abteilungsFarbe = GetAbteilungsFarbe(idAbteilung);
 
-                $(item).attr("data-id-abteilung", idAbteilung)
+                $(item).attr('data-id-abteilung', idAbteilung)
                     .attr(
-                        "style",
-                        "background-color: " + abteilungsFarbe +"; " +
-                        "border-left-color: " + abteilungsFarbe + "; " +
-                        "border-right-color: " + abteilungsFarbe + ";"
+                        'style',
+                        'background-color: ' + abteilungsFarbe +'; ' +
+                        'border-left-color: ' + abteilungsFarbe + '; ' +
+                        'border-right-color: ' + abteilungsFarbe + ';'
                     )
-                    .addClass("changed")
+                    .addClass('changed')
                     .find('*').not('.plan-mark').remove();
             });
 
             tdItems.sort(SortTdItems);
             var lastTd = tdItems[tdItems.length - 1].next();
 
-            if (lastTd.attr("data-id-abteilung") != idAbteilung) {
+            if (lastTd.attr('data-id-abteilung') != idAbteilung) {
 
                 Ansprechpartner.some(ansprechpartner => {
 
-                    if (ansprechpartner.ID == lastTd.attr("data-id-ansprechpartner")) {
+                    if (ansprechpartner.ID == lastTd.attr('data-id-ansprechpartner')) {
                         lastTd.append(
-                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                            $('<span></span>').addClass('ansprechpartner-name').text(ansprechpartner.Name)
                         );
                         return;
                     }
@@ -565,16 +565,16 @@ jQuery(function($) {
 
         /**
          * Der angeklickte Ansprechpartner wird bei der aktuellen Phase im
-         * data-Attribut "id-ansprechpartner" gesetzt.
+         * data-Attribut 'id-ansprechpartner' gesetzt.
          */
-        $("#Popup").on("click", ".set-ansprechpartner-popup li", function() {
+        $('#Popup').on('click', '.set-ansprechpartner-popup li', function() {
 
-            var idAnsprechpartner = $(this).data("id");
+            var idAnsprechpartner = $(this).data('id');
 
             tdItems.forEach(item => {
                 let jItem = $(item);
-                jItem.attr("data-id-ansprechpartner", idAnsprechpartner).addClass("changed");
-                jItem.find(".ansprechpartner-name").remove();
+                jItem.attr('data-id-ansprechpartner', idAnsprechpartner).addClass('changed');
+                jItem.find('.ansprechpartner-name').remove();
             });
 
             tdItems.sort(SortTdItems);
@@ -587,17 +587,17 @@ jQuery(function($) {
 
                     if (prevTd = tdItems[0].prev()) {
 
-                        if (prevTd.attr("data-id-ansprechpartner") == idAnsprechpartner) {
+                        if (prevTd.attr('data-id-ansprechpartner') == idAnsprechpartner) {
                            return;
                         }
 
                         $(tdItems[0]).append(
-                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                            $('<span></span>').addClass('ansprechpartner-name').text(ansprechpartner.Name)
                         );
 
                     } else {
                         $(tdItems[0]).append(
-                            $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                            $('<span></span>').addClass('ansprechpartner-name').text(ansprechpartner.Name)
                         );
                     }
 
@@ -605,7 +605,7 @@ jQuery(function($) {
                 }
             });
 
-            SetPopupContent("");
+            SetPopupContent('');
             RemoveSelectedStatus();
         });
 
@@ -618,17 +618,17 @@ jQuery(function($) {
          * Falls es zu Fehlern beim Speichern der Planung kam, wird eine
          * Fehlernachricht angezeigt.
          */
-        $("#SavePlan").on("click", function() {
+        $('#SavePlan').on('click', function() {
 
-            $("#LoadingSpinner").show();
+            $('#LoadingSpinner').show();
 
-            var azubiRows = $("#Plan tr.azubi");
+            var azubiRows = $('#Plan tr.azubi');
             var azubis = [];
 
             azubiRows.each(index => {
 
                 var row = $(azubiRows[index]);
-                var phaseDivs = row.find(".plan-phase.changed");
+                var phaseDivs = row.find('.plan-phase.changed');
                 var phases = [];
 
                 phaseDivs.each(index => {
@@ -636,47 +636,47 @@ jQuery(function($) {
                     // .attr() anstatt .data(), da jQuery nicht direkt im Element sucht und bei gelöschten Phasen
                     // dennoch eine ID für die Abteilung und für den Ansprechpartner zurückgibt
                     let phase = $(phaseDivs[index]);
-                    let id_abteilung = phase.attr("data-id-abteilung");
-                    let termin = phase.find(".plan-mark");
+                    let id_abteilung = phase.attr('data-id-abteilung');
+                    let termin = phase.find('.plan-mark');
 
                     if (id_abteilung) {
-                        let terminTitle = termin.attr("title");
+                        let terminTitle = termin.attr('title');
 
                         phases.push({
-                            date: phase.data("date"),
+                            date: phase.data('date'),
                             id_abteilung: id_abteilung,
-                            id_ansprechpartner: phase.attr("data-id-ansprechpartner"),
-                            termin: (termin.length && termin.hasClass("icon-plan-mark")) ? terminTitle : null,
-                            termin_separat: (termin.length && termin.hasClass("icon-plan-mark-separat")) ? terminTitle : null
+                            id_ansprechpartner: phase.attr('data-id-ansprechpartner'),
+                            termin: (termin.length && termin.hasClass('icon-plan-mark')) ? terminTitle : null,
+                            termin_separat: (termin.length && termin.hasClass('icon-plan-mark-separat')) ? terminTitle : null
                         });
                     } else {
                         phases.push({
-                            date: phase.data("date")
+                            date: phase.data('date')
                         });
                     }
                 });
 
                 if (phases.length > 0) {
                     azubis.push({
-                        id: row.data("id"),
+                        id: row.data('id'),
                         phasen: phases
                     });
                 }
             });
 
             $.ajax({
-                type: "POST",
-                url: API + "Plan/Save",
+                type: 'POST',
+                url: API + 'Plan/Save',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
+                    csrfToken: $('#CsrfToken').val(),
                     azubis: azubis
                 },
                 success: function(response) {
-                    $("#Plan").html(response);
-                    $("#LoadingSpinner").hide();
+                    $('#Plan').html(response);
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler beim Anlegen der Daten auf.");
+                    HandleError('Es traten Fehler beim Anlegen der Daten auf.');
                 }
             });
         });
@@ -688,21 +688,21 @@ jQuery(function($) {
          * Sofern es zu einem Fehler beim Versenden der Emails kommt, wird eine
          * Fehlernachricht angezeigt.
          */
-        $("#SendMail").on("click", function() {
+        $('#SendMail').on('click', function() {
 
-            if (confirm("Mit Bestätigung dieser Meldung, werden Benachrichtigungs-Emails an alle Ansprechpartner und Auszubildende gesendet.")) {
+            if (confirm('Mit Bestätigung dieser Meldung, werden Benachrichtigungs-Emails an alle Ansprechpartner und Auszubildende gesendet.')) {
 
-                $("#LoadingSpinner").show();
+                $('#LoadingSpinner').show();
 
                 $.ajax({
-                    type: "POST",
-                    url: API + "Plan/SendMail",
-                    data: { csrfToken: $("#CsrfToken").val() },
+                    type: 'POST',
+                    url: API + 'Plan/SendMail',
+                    data: { csrfToken: $('#CsrfToken').val() },
                     success: function() {
-                        $("#LoadingSpinner").hide();
+                        $('#LoadingSpinner').hide();
                     },
                     error: function() {
-                        HandleError("Es traten Fehler beim Versenden der Benachrichtigungen auf.");
+                        HandleError('Es traten Fehler beim Versenden der Benachrichtigungen auf.');
                     }
                 });
             }
@@ -711,60 +711,60 @@ jQuery(function($) {
         /**
          * Führt eine AJAX-Anfrage des Typs POST aus, durch welche die Planung
          * auf Verstöße gegen Richtlinien geprüft wird.
-         * Sofern als Antwort nicht "true" zurückkommt, wird die Antwort wie ein
-         * HTML-Element behandelt und in das Element mit der ID "PlanErrors"
+         * Sofern als Antwort nicht 'true' zurückkommt, wird die Antwort wie ein
+         * HTML-Element behandelt und in das Element mit der ID 'PlanErrors'
          * eingefügt. Dieses Element wird dann eingeblendet.
          * Sofern bei der Anfrage ein Fehler geworfen wird, wird eine
          * Fehlernachricht angezeigt.
          */
-        $("#TestPlan").on("click", function() {
+        $('#TestPlan').on('click', function() {
 
-            if ($("#Plan tr.azubi .plan-phase.changed").length > 0) {
-                $("#SavePlan").click();
+            if ($('#Plan tr.azubi .plan-phase.changed').length > 0) {
+                $('#SavePlan').click();
             }
 
-            $("#LoadingSpinner").show();
-            $("#PlanErrors").hide();
+            $('#LoadingSpinner').show();
+            $('#PlanErrors').hide();
 
             $.ajax({
-                type: "POST",
-                url: API + "Plan/Test",
-                data: { csrfToken: $("#CsrfToken").val() },
+                type: 'POST',
+                url: API + 'Plan/Test',
+                data: { csrfToken: $('#CsrfToken').val() },
                 success: function(response) {
                     if (response == true) {
-                        $("#PlanErrors").html(
-                            $("<div></div>")
-                                .css({ color: "limegreen" })
-                                .text("In der Planung konnten keine Fehler gefunden werden.")
+                        $('#PlanErrors').html(
+                            $('<div></div>')
+                                .css({ color: 'limegreen' })
+                                .text('In der Planung konnten keine Fehler gefunden werden.')
                         ).fadeIn();
                         setTimeout(_ => {
-                            $("#PlanErrors > div").fadeOut();
+                            $('#PlanErrors > div').fadeOut();
                         }, 5000);
                     } else {
-                        $("#PlanErrors").html(response).fadeIn();
-                        $("html, body").animate({
-                            scrollTop: $("#PlanErrors").offset().top
+                        $('#PlanErrors').html(response).fadeIn();
+                        $('html, body').animate({
+                            scrollTop: $('#PlanErrors').offset().top
                         }, TIME)
                     }
-                    $("#LoadingSpinner").hide();
+                    $('#LoadingSpinner').hide();
                 },
                 error: function() {
-                    HandleError("Es traten Fehler bei der Authentifizierung auf.");
+                    HandleError('Es traten Fehler bei der Authentifizierung auf.');
                 }
             });
         });
 
-        $("#PlanErrors").on("click", 'input[type="checkbox"]', function() {
+        $('#PlanErrors').on('click', 'input[type="checkbox"]', function() {
 
             let checkbox = $(this);
 
             $.ajax({
-                type: "POST",
-                url: API + "Plan/MarkError",
+                type: 'POST',
+                url: API + 'Plan/MarkError',
                 data: {
-                    csrfToken: $("#CsrfToken").val(),
-                    id_error: checkbox.data("id-error"),
-                    bool: checkbox.prop("checked")
+                    csrfToken: $('#CsrfToken').val(),
+                    id_error: checkbox.data('id-error'),
+                    bool: checkbox.prop('checked')
                 }
             });
         });
@@ -782,7 +782,7 @@ jQuery(function($) {
          *
          * @param {Event} e Das ausgelöste dragstart-Event.
          */
-        $("#Plan").on("dragstart", ".plan-phase", function(e) {
+        $('#Plan').on('dragstart', '.plan-phase', function(e) {
 
             if (!e.ctrlKey) return;
 
@@ -793,71 +793,71 @@ jQuery(function($) {
             draggedTds = draggedTds.concat(GetFullPhase(el));
 
             if (draggedTds.length > 1) {
-                el.css({ minWidth: el.width() * draggedTds.length + "px" });
+                el.css({ minWidth: el.width() * draggedTds.length + 'px' });
             }
 
             setTimeout((function(el) {
                 return function() {
-                    el.css({ minWidth: "" });
+                    el.css({ minWidth: '' });
                 }
             })(el), 1);
 
-            e.originalEvent.dataTransfer.effectAllowed = "move";
-            e.originalEvent.dataTransfer.setData("farbe", el.css("backgroundColor"));
-            e.originalEvent.dataTransfer.setData("id-abteilung", el.attr("data-id-abteilung"));
-            e.originalEvent.dataTransfer.setData("id-ansprechpartner", el.attr("data-id-ansprechpartner"));
+            e.originalEvent.dataTransfer.effectAllowed = 'move';
+            e.originalEvent.dataTransfer.setData('farbe', el.css('backgroundColor'));
+            e.originalEvent.dataTransfer.setData('id-abteilung', el.attr('data-id-abteilung'));
+            e.originalEvent.dataTransfer.setData('id-ansprechpartner', el.attr('data-id-ansprechpartner'));
         });
 
         /**
-         * Setzt dem Dropeffekt "move", sofern das aktuelle Event nicht das
+         * Setzt dem Dropeffekt 'move', sofern das aktuelle Event nicht das
          * originale Event ist.
          */
-        $("#Plan").on("dragover", ".plan-phase", function(e) {
+        $('#Plan').on('dragover', '.plan-phase', function(e) {
 
             if(e.originalEvent.preventDefault) {
                 e.preventDefault();
             }
 
-            e.originalEvent.dataTransfer.dropEffect = "move";
+            e.originalEvent.dataTransfer.dropEffect = 'move';
             return false;
         });
 
         /**
-         * Die gehoverte Phase wird Betreten mit der Klasse "selected" versehen.
+         * Die gehoverte Phase wird Betreten mit der Klasse 'selected' versehen.
          */
-        $("#Plan").on("dragenter", ".plan-phase", function() {
-            $(this).addClass("selected");
+        $('#Plan').on('dragenter', '.plan-phase', function() {
+            $(this).addClass('selected');
         });
 
         /**
-         * Bei der gehoverten Phase wird beim Verlassen die Klasse "selected"
+         * Bei der gehoverten Phase wird beim Verlassen die Klasse 'selected'
          * entfernt.
          */
-        $("#Plan").on("dragleave", ".plan-phase", function() {
-            $(this).removeClass("selected");
+        $('#Plan').on('dragleave', '.plan-phase', function() {
+            $(this).removeClass('selected');
         });
 
         /**
          * Setzt die beim Ghost-Element hinterlegten Daten bei der gehoverten
          * Phase; Genauer: Die Hintergrund- und Border-Color wird mit gefärbt
-         * und die data-Attribute "id-abteilung" und "id-ansprechpartner" werden
+         * und die data-Attribute 'id-abteilung' und 'id-ansprechpartner' werden
          * gesetzt.
          */
-        $("#Plan").on("drop", ".plan-phase", function (e) {
+        $('#Plan').on('drop', '.plan-phase', function (e) {
 
             if (e.originalEvent.stopPropagation) {
                 e.originalEvent.stopPropagation();
             }
 
             var target = $(this);
-            var farbe = e.originalEvent.dataTransfer.getData("farbe");
-            var id_abteilung = e.originalEvent.dataTransfer.getData("id-abteilung");
-            var id_ansprechpartner = e.originalEvent.dataTransfer.getData("id-ansprechpartner");
+            var farbe = e.originalEvent.dataTransfer.getData('farbe');
+            var id_abteilung = e.originalEvent.dataTransfer.getData('id-abteilung');
+            var id_ansprechpartner = e.originalEvent.dataTransfer.getData('id-ansprechpartner');
 
             draggedTds.forEach(td => {
-                td.removeAttr("style data-id-abteilung data-id-ansprechpartner draggable")
-                    .addClass("changed")
-                    .removeClass("selected")
+                td.removeAttr('style data-id-abteilung data-id-ansprechpartner draggable')
+                    .addClass('changed')
+                    .removeClass('selected')
                     .find('*').not('.plan-mark').remove();
             });
 
@@ -865,10 +865,10 @@ jQuery(function($) {
             var draggedTdsLength = draggedTds.length;
             for (var i = 0; i < draggedTdsLength; i++) {
 
-                tempTarget.removeClass("selected")
-                    .attr("data-id-abteilung", id_abteilung)
-                    .attr("data-id-ansprechpartner", id_ansprechpartner)
-                    .addClass("changed")
+                tempTarget.removeClass('selected')
+                    .attr('data-id-abteilung', id_abteilung)
+                    .attr('data-id-ansprechpartner', id_ansprechpartner)
+                    .addClass('changed')
                     .css({
                         backgroundColor: farbe,
                         borderColor: farbe
@@ -887,7 +887,7 @@ jQuery(function($) {
 
                 if (ansprechpartner.ID == id_ansprechpartner) {
                     $(target).append(
-                        $("<span></span>").addClass("ansprechpartner-name").text(ansprechpartner.Name)
+                        $('<span></span>').addClass('ansprechpartner-name').text(ansprechpartner.Name)
                     );
                     return;
                 }
