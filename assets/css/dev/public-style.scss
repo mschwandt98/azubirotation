@@ -68,6 +68,10 @@ html[data-theme='dark'] {
         border-bottom-color: $selectline-dark-mode-white;
         box-shadow: 0 4px 4px 0 rgba(255, 255, 255, 0.5);
     }
+
+    #ShowMenu i {
+        color: $selectline-dark-mode-white;
+    }
 }
 
 body {
@@ -120,7 +124,6 @@ body {
     display: none;
 
     &:hover {
-        color: $selectline-blue;
         text-decoration: none;
 
         i {
@@ -129,11 +132,13 @@ body {
         }
 
         span {
+            color: $selectline-blue;
             text-decoration: none;
         }
     }
 
     i {
+        color: $selectline-dark-blue;
         display: inline-block;
         opacity: 0;
         transition: 0.4s ease;
