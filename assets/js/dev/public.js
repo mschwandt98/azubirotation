@@ -261,7 +261,7 @@ jQuery(function($) {
             $("#Menu").hide();
             $("#SubMenu").hide();
             $("#Plan").addClass("full-height");
-            $("#ShowMenu").show();
+            $("#ShowMenu").css("display", "flex");
         });
 
         /**

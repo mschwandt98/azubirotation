@@ -19,8 +19,9 @@
             </div>
         </div>
         <div>
-            <div id="ShowMenu" style="display: none;">
+            <div id="ShowMenu" title="Menü einblenden">
                 <span>Menü einblenden</span>
+                <i class="icon-expand"></i>
             </div>
         </div>
 

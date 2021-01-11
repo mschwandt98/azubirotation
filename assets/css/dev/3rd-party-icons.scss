@@ -24,6 +24,9 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-expand:before {
+  content: "\e909";
+}
 .icon-compress:before {
   content: "\e903";
 }

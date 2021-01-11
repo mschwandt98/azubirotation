@@ -115,11 +115,32 @@ body {
 }
 
 #ShowMenu {
+    align-items: center;
     cursor: pointer;
-    text-decoration: underline;
+    display: none;
 
     &:hover {
         color: $selectline-blue;
+        text-decoration: none;
+
+        i {
+            margin-left: 8px;
+            opacity: 1;
+        }
+
+        span {
+            text-decoration: none;
+        }
+    }
+
+    i {
+        display: inline-block;
+        opacity: 0;
+        transition: 0.4s ease;
+    }
+
+    span {
+        text-decoration: underline;
     }
 }
 
