@@ -102,7 +102,6 @@ Die erstellte PHP Dokumentation ist unter /docs/index.html zu finden.
 ## Was ist noch zu tun?
 * Fehler der Planung aus automatischer Suche nach Richtlinienverstöße als Popup
 * Undo und Redo der letzten nicht gespeicherten Änderungen auf Oberfläche
-* jQuery-Instanzen zu einer Instanz zusammenfügen (Auf die Konstantennamen achten! + Extra Build-Skript bauen?)
 * Deutsches Language-Pack auf Server für PHP installieren
 * Automatisierte Planung immer weiter verbessern
 * Druckversion optimieren: Filterung und Spalten umschalten mit über + nur bestimmte Zeiträume drucken
