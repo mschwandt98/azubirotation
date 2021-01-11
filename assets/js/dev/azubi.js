@@ -48,7 +48,7 @@ $(document).ready(function() {
      * Führt das Click-Event des Buttons zum Anzeigen der Azubis aus.
      */
     function ShowAzubis() {
-        var container = $('.data-item.azubis-item');
+        var container = $('#SubMenu .data-item.azubis-item');
         HideViews(container);
         container.find('.show-data').click();
     }
@@ -58,7 +58,7 @@ $(document).ready(function() {
      * jeden Azubi wird ein Button zum Bearbeiten und Löschen des jeweiligen
      * Azubis erstellt.
      */
-    $('.data-item.azubis-item').on('click', '.show-data', function() {
+    $('#SubMenu .data-item.azubis-item').on('click', '.show-data', function() {
 
         $('#LoadingSpinner').show();
         var el = $(this);
@@ -108,7 +108,7 @@ $(document).ready(function() {
      * alle Ausbildungsberufe benötigt werden, wird eine AJAX-Anfrage des
      * Typs GET gestellt, um diese zu holen.
      */
-    $('.data-item.azubis-item').on('click', '.add-data', function() {
+    $('#SubMenu .data-item.azubis-item').on('click', '.add-data', function() {
 
         $('#LoadingSpinner').show();
         var ausbildungsberufSelect = $('#AddAzubiForm').find(`select[name="${ AZUBI_ID_AUSBILDUNGSBERUF }"]`);

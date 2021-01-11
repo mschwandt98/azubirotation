@@ -9,7 +9,7 @@ $(document).ready(function() {
      * aus.
      */
     function ShowAusbildungsberufe() {
-        $('.data-item.ausbildungsberufe-item .show-data').click();
+        $('#SubMenu .data-item.ausbildungsberufe-item .show-data').click();
     }
 
     /**
@@ -17,7 +17,7 @@ $(document).ready(function() {
      * an. Für jeden Ausbildungsberuf wird ein Button zum Bearbeiten und
      * Löschen des jeweiligen Ausbildungsberufes erstellt.
      */
-    $('.data-item.ausbildungsberufe-item').on('click', '.show-data', function() {
+    $('#SubMenu .data-item.ausbildungsberufe-item').on('click', '.show-data', function() {
 
         $('#LoadingSpinner').show();
         var el = $(this);
@@ -59,7 +59,7 @@ $(document).ready(function() {
     /**
      * Zeigt das Formular zum Hinzufügen eines Ausbildungsberufes an.
      */
-    $('.data-item.ausbildungsberufe-item').on('click', '.add-data', function() {
+    $('#SubMenu .data-item.ausbildungsberufe-item').on('click', '.add-data', function() {
         HideViews($(this).closest('.data-item'));
         $('#AddAusbildungsberufForm').stop().show(TIME);
     });

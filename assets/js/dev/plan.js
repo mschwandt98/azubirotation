@@ -775,7 +775,7 @@ $(document).ready(function() {
         draggedTds = draggedTds.concat(GetFullPhase(el));
 
         if (draggedTds.length > 1) {
-            el.css({ minWidth: el.width() * draggedTds.length + 'px' });
+            el.css({ minWidth: (el.innerWidth() + 0.5) * draggedTds.length + 'px' });
         }
 
         setTimeout((function(el) {
@@ -785,6 +785,7 @@ $(document).ready(function() {
         })(el), 1);
 
         e.originalEvent.dataTransfer.effectAllowed = 'move';
+        e.originalEvent.dataTransfer.dropEffect = 'move';
         e.originalEvent.dataTransfer.setData('farbe', el.css('backgroundColor'));
         e.originalEvent.dataTransfer.setData('id-abteilung', el.attr('data-id-abteilung'));
         e.originalEvent.dataTransfer.setData('id-ansprechpartner', el.attr('data-id-ansprechpartner'));
@@ -795,28 +796,7 @@ $(document).ready(function() {
      * originale Event ist.
      */
     $('#Plan').on('dragover', '.plan-phase', function(e) {
-
-        if(e.originalEvent.preventDefault) {
-            e.preventDefault();
-        }
-
-        e.originalEvent.dataTransfer.dropEffect = 'move';
-        return false;
-    });
-
-    /**
-     * Die gehoverte Phase wird Betreten mit der Klasse 'selected' versehen.
-     */
-    $('#Plan').on('dragenter', '.plan-phase', function() {
-        $(this).addClass('selected');
-    });
-
-    /**
-     * Bei der gehoverten Phase wird beim Verlassen die Klasse 'selected'
-     * entfernt.
-     */
-    $('#Plan').on('dragleave', '.plan-phase', function() {
-        $(this).removeClass('selected');
+        e.preventDefault();
     });
 
     /**
@@ -837,7 +817,7 @@ $(document).ready(function() {
         var id_ansprechpartner = e.originalEvent.dataTransfer.getData('id-ansprechpartner');
 
         draggedTds.forEach(td => {
-            td.removeAttr('style data-id-abteilung data-id-ansprechpartner draggable')
+            td.removeAttr('style data-id-abteilung data-id-ansprechpartner title draggable')
                 .addClass('changed')
                 .removeClass('selected')
                 .find('*').not('.plan-mark').remove();

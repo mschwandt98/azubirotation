@@ -41,7 +41,7 @@ $(document).ready(function() {
      * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
      * Ausbildungsberufe, Azubis und Standardpläne.
      */
-    $('.data-item').on('click', '.icon-chevron-up', function() {
+    $('#SubMenu .data-item').on('click', '.icon-chevron-up', function() {
         var el = $(this);
         var container = el.closest('.data-item');
         container.find('form').hide(TIME);
@@ -58,7 +58,7 @@ $(document).ready(function() {
      * Datentypen sind in diesem Fall Abteilungen, Ansprechpartner,
      * Ausbildungsberufe, Azubis und Standardpläne.
      */
-    $('.data-item').on('click', '.icon-chevron-down', function() {
+    $('#SubMenu .data-item').on('click', '.icon-chevron-down', function() {
         var el = $(this);
         el.siblings('.icon-chevron-up').show();
         el.siblings('.icon-plus').show();
@@ -71,7 +71,7 @@ $(document).ready(function() {
      * Öffnet die Anzeige zum Anlegen eines Datensatzes des jeweiligen
      * Datentyps.
      */
-    $('.data-item').on('click', '.icon-plus', function() {
+    $('#SubMenu .data-item').on('click', '.icon-plus', function() {
         var el = $(this);
         el.siblings('.add-data').click();
         el.siblings('.icon-chevron-up').hide();
@@ -84,7 +84,7 @@ $(document).ready(function() {
      * Blendet die Anzeige zum Anlegen eines Datensatzes des jeweiligen
      * Datentyps aus.
      */
-    $('.data-item').on('click', '.icon-minus', function() {
+    $('#SubMenu .data-item').on('click', '.icon-minus', function() {
         var el = $(this);
         el.closest('.data-item').find('form').hide(TIME);
         el.siblings('.icon-chevron-up').hide();

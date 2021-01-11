@@ -20,7 +20,7 @@ $(document).ready(function() {
      * aus.
      */
     function ShowAnsprechpartner() {
-        $('.data-item.ansprechpartner-item .show-data').click();
+        $('#SubMenu .data-item.ansprechpartner-item .show-data').click();
     }
 
     /**
@@ -28,7 +28,7 @@ $(document).ready(function() {
      * an. Für jeden Ansprechpartner wird ein Button zum Bearbeiten und
      * Löschen des jeweiligen Ansprechpartners erstellt.
      */
-    $('.data-item.ansprechpartner-item').on('click', '.show-data', function() {
+    $('#SubMenu .data-item.ansprechpartner-item').on('click', '.show-data', function() {
 
         $('#LoadingSpinner').show();
         var el = $(this);
@@ -75,7 +75,7 @@ $(document).ready(function() {
      * dieses Formular alle Abteilungen benötigt werden, wird eine
      * AJAX-Anfrage des Typs GET gestellt.
      */
-    $('.data-item.ansprechpartner-item').on('click', '.add-data', function() {
+    $('#SubMenu .data-item.ansprechpartner-item').on('click', '.add-data', function() {
 
         $('#LoadingSpinner').show();
 
@@ -218,7 +218,7 @@ $(document).ready(function() {
                 abteilungSelect.find('option').remove();
 
                 HideViews(form.closest('.data-item'));
-                $('.data-item.ansprechpartner-item .show-data').click();
+                $('#SubMenu .data-item.ansprechpartner-item .show-data').click();
             },
             error: function() {
                 HandleError('Es traten Fehler beim Aktualisieren des Ansprechpartners auf.');

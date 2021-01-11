@@ -17,7 +17,7 @@ $(document).ready(function() {
      * Führt das Click-Event des Buttons zum Anzeigen der Abteilungen aus.
      */
     function ShowAbteilungen() {
-        $('.data-item.abteilung-item .show-data').click();
+        $('#SubMenu .data-item.abteilung-item .show-data').click();
     }
 
     /**
@@ -25,7 +25,7 @@ $(document).ready(function() {
      * Für jede Abteilung wird ein Button zum Bearbeiten und Löschen der
      * jeweiligen Abteilung erstellt.
      */
-    $('.data-item.abteilung-item').on('click', '.show-data', function() {
+    $('#SubMenu .data-item.abteilung-item').on('click', '.show-data', function() {
 
         var el = $(this);
 
@@ -69,7 +69,7 @@ $(document).ready(function() {
     /**
      * Zeigt das Formular zum Hinzufügen einer Abteilung an.
      */
-    $('.data-item.abteilung-item').on('click', '.add-data', function() {
+    $('#SubMenu .data-item.abteilung-item').on('click', '.add-data', function() {
         HideViews($(this).closest('.data-item'));
         $('#AddAbteilungForm').stop().show(TIME);
     });

@@ -93,7 +93,7 @@ $(document).ready(function() {
      * Führt das Click-Event des Buttons zum Anzeigen der Standardpläne aus.
      */
     function ShowStandardPlaene() {
-        $('.data-item.standardplaene-item .show-data').click();
+        $('#SubMenu .data-item.standardplaene-item .show-data').click();
     }
 
     /**
@@ -101,7 +101,7 @@ $(document).ready(function() {
      * Für jeden Standardplan wird ein Button zum Bearbeiten und Löschen des
      * jeweiligen Standardplans erstellt.
      */
-    $('.data-item.standardplaene-item').on('click', '.show-data', function() {
+    $('#SubMenu .data-item.standardplaene-item').on('click', '.show-data', function() {
 
         $('#LoadingSpinner').show();
         var el = $(this);
@@ -148,7 +148,7 @@ $(document).ready(function() {
      * Formular die Ausbildungsberufe und Abteilungen benötigt werden,
      * werden AJAX-Anfragen des Typs GET gestellt, um diese zu holen.
      */
-    $('.data-item.standardplaene-item').on('click', '.add-data', function() {
+    $('#SubMenu .data-item.standardplaene-item').on('click', '.add-data', function() {
 
         $('#LoadingSpinner').show();
         var form = $('#AddStandardplanForm');
@@ -221,8 +221,8 @@ $(document).ready(function() {
             phasen.push({
                 id_abteilung: abteilungenSelect.val(),
                 wochen: wochenInput.val(),
-                praeferieren: praeferierenCheckbox.val(),
-                optional: optionalCheckbox.val()
+                praeferieren: praeferierenCheckbox.prop('checked'),
+                optional: optionalCheckbox.prop('checked')
             });
         });
 
@@ -241,8 +241,8 @@ $(document).ready(function() {
 
                 phaseDivs.eq(0).find(`select[name="${ STANDARDPLAN_ID_ABTEILUNG }"]`).find('option').remove();
                 phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_WOCHEN }"]`).val('');
-                phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_PRAEFERIEREN }"]`).val('');
-                phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_OPTIONAL }"]`).val('');
+                phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_PRAEFERIEREN }"]`).prop('checked', false);
+                phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_OPTIONAL }"]`).prop('checked', false);
 
                 ShowStandardPlaene();
                 $('#LoadingSpinner').hide();
@@ -336,6 +336,7 @@ $(document).ready(function() {
 
                 phaseDivs.not(':first').remove();
                 phaseDivs.eq(0).find(`select[name="${ STANDARDPLAN_ID_ABTEILUNG }"]`).find('option').remove();
+                phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_WOCHEN }"]`).val('');
                 phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_PRAEFERIEREN }"]`).prop('checked', false);
                 phaseDivs.eq(0).find(`input[name="${ STANDARDPLAN_OPTIONAL }"]`).prop('checked', false);
 
