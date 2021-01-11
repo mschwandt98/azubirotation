@@ -200,7 +200,12 @@ jQuery(function($) {
          * Öffnet die druckbare Version des Plans.
          */
         $("#PrintPlan").on("click", function() {
-            window.open(window.location.origin + window.location.pathname + "print", "_blank", "height=600,width=1000,menubar=0,status=0,titlebar=0,toolbar=0");
+
+            let href = window.location.href;
+            if (href.match(/.*\/index.php/) || href.match(/.*\/index/)) {
+                href = href.substring(0, href.indexOf("index") - 1);
+            }
+            window.open(href + "/print", "_blank", "height=600,width=1000,menubar=0,status=0,titlebar=0,toolbar=0");
         });
 
         /**
