@@ -73,27 +73,6 @@ $(document).ready(function() {
     }
 
     /**
-     * Holt die Farbe einer Abteilung anhand dessen ID.
-     *
-     * @param {number} id Die ID der Abteilung.
-     *
-     * @return {string} Der HEX-Code zur Farbe der Abteilung.
-     */
-    function GetAbteilungsFarbe(id) {
-
-        var farbe;
-
-        Abteilungen.forEach(abteilung => {
-            if (abteilung.ID == id) {
-                farbe = abteilung.Farbe;
-                return;
-            }
-        });
-
-        return farbe;
-    }
-
-    /**
      * Holt die komplette Phase in einer Abteilung.
      *
      * @param {HTMLTableCellElement} currentTd  Die einzelne Phase, zu der
@@ -502,9 +481,9 @@ $(document).ready(function() {
 
             tdItems.forEach(item => {
 
-                $(item).removeAttr('style data-id-abteilung data-id-ansprechpartner draggable')
+                $(item).removeAttr('data-id-abteilung data-id-ansprechpartner draggable title')
                     .addClass('changed')
-                    .removeClass('selected')
+                    .removeClass('selected abteilung-' + idAbteilung)
                     .find('*').not('.plan-mark').remove();
             });
             SetPopupContent('');
@@ -512,17 +491,9 @@ $(document).ready(function() {
         }
 
         tdItems.forEach(item => {
-
-            let abteilungsFarbe = GetAbteilungsFarbe(idAbteilung);
-
-            $(item).attr('data-id-abteilung', idAbteilung)
-                .attr(
-                    'style',
-                    'background-color: ' + abteilungsFarbe +'; ' +
-                    'border-left-color: ' + abteilungsFarbe + '; ' +
-                    'border-right-color: ' + abteilungsFarbe + ';'
-                )
-                .addClass('changed')
+            $(item).removeAttr('class title')
+                .attr('data-id-abteilung', idAbteilung)
+                .addClass('plan-phase changed abteilung-' + idAbteilung)
                 .find('*').not('.plan-mark').remove();
         });
 
@@ -786,7 +757,6 @@ $(document).ready(function() {
 
         e.originalEvent.dataTransfer.effectAllowed = 'move';
         e.originalEvent.dataTransfer.dropEffect = 'move';
-        e.originalEvent.dataTransfer.setData('farbe', el.css('backgroundColor'));
         e.originalEvent.dataTransfer.setData('id-abteilung', el.attr('data-id-abteilung'));
         e.originalEvent.dataTransfer.setData('id-ansprechpartner', el.attr('data-id-ansprechpartner'));
     });
@@ -812,14 +782,13 @@ $(document).ready(function() {
         }
 
         var target = $(this);
-        var farbe = e.originalEvent.dataTransfer.getData('farbe');
         var id_abteilung = e.originalEvent.dataTransfer.getData('id-abteilung');
         var id_ansprechpartner = e.originalEvent.dataTransfer.getData('id-ansprechpartner');
 
         draggedTds.forEach(td => {
-            td.removeAttr('style data-id-abteilung data-id-ansprechpartner title draggable')
+            td.removeAttr('data-id-abteilung data-id-ansprechpartner title draggable')
                 .addClass('changed')
-                .removeClass('selected')
+                .removeClass('selected abteilung-' + id_abteilung)
                 .find('*').not('.plan-mark').remove();
         });
 
@@ -827,14 +796,10 @@ $(document).ready(function() {
         var draggedTdsLength = draggedTds.length;
         for (let i = 0; i < draggedTdsLength; i++) {
 
-            tempTarget.removeClass('selected')
+            tempTarget.removeAttr('class title')
                 .attr('data-id-abteilung', id_abteilung)
                 .attr('data-id-ansprechpartner', id_ansprechpartner)
-                .addClass('changed')
-                .css({
-                    backgroundColor: farbe,
-                    borderColor: farbe
-                })
+                .addClass('plan-phase changed abteilung-' + id_abteilung)
                 .find('*').not('.plan-mark').remove();
 
                 let nextTempTarget = tempTarget.next();

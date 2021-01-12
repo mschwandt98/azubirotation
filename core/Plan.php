@@ -133,6 +133,20 @@ unset($currentDate);
 ob_start();
 ?>
 
+<style>
+
+    <?php foreach ($Abteilungen as $abteilung) : ?>
+        <?=
+        "#Plan .plan-phase.abteilung-$abteilung->ID {
+            background-color: $abteilung->Farbe;
+            border-right: $abteilung->Farbe;
+            border-left: $abteilung->Farbe;
+        }"
+        ?>
+    <?php endforeach; ?>
+
+</style>
+
 <table>
     <thead>
         <tr>
@@ -192,13 +206,12 @@ ob_start();
                             <?php $abteilung = $Abteilungen[$plan->ID_Abteilung]; ?>
                             <?php $abteilungenInWeek[DateHelper::FormatDate($currentDate, 'W Y')][$abteilung->ID] = $abteilung; ?>
 
-                            <td class="plan-phase
+                            <td class="plan-phase abteilung-<?= $abteilung->ID; ?>
                                 <?= IsAusbildungsstart($azubi->Ausbildungsstart, $currentDate) ? 'icon-mark-begin': ''; ?>
                                 <?= IsAusbildungsende($azubi->Ausbildungsende, $currentDate) ? 'icon-mark-end': ''; ?>"
-                                style="background-color: <?= $abteilung->Farbe; ?>; border-left-color: <?= $abteilung->Farbe; ?>; border-right-color: <?= $abteilung->Farbe; ?>;"
                                 data-date="<?= $currentDate; ?>"
                                 data-id-abteilung="<?= $plan->ID_Abteilung;?>"
-                                data-id-ansprechpartner="<?= $plan->ID_Ansprechpartner ?? ''; ?>"
+                                <?= $plan->ID_Ansprechpartner ? 'data-id-ansprechpartner="' . $plan->ID_Ansprechpartner . '"' : '' ; ?>
                                 title="<?= $abteilung->Bezeichnung; ?> | <?= $fullPlanPhases[$azubi->ID][$plan->uniqid]['Startdatum']; ?> - <?= $fullPlanPhases[$azubi->ID][$plan->uniqid]['Enddatum']; ?>"
                             >
 
