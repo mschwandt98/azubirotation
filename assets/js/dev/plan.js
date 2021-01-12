@@ -747,18 +747,18 @@ $(document).ready(function() {
 
         if (draggedTds.length > 1) {
             el.css({ minWidth: (el.innerWidth() + 0.5) * draggedTds.length + 'px' });
+
+            setTimeout((function(el) {
+                return function() {
+                    el.css({ minWidth: '' });
+                }
+            })(el), 1);
+
+            e.originalEvent.dataTransfer.effectAllowed = 'move';
+            e.originalEvent.dataTransfer.dropEffect = 'move';
+            e.originalEvent.dataTransfer.setData('id-abteilung', el.attr('data-id-abteilung'));
+            e.originalEvent.dataTransfer.setData('id-ansprechpartner', el.attr('data-id-ansprechpartner'));
         }
-
-        setTimeout((function(el) {
-            return function() {
-                el.css({ minWidth: '' });
-            }
-        })(el), 1);
-
-        e.originalEvent.dataTransfer.effectAllowed = 'move';
-        e.originalEvent.dataTransfer.dropEffect = 'move';
-        e.originalEvent.dataTransfer.setData('id-abteilung', el.attr('data-id-abteilung'));
-        e.originalEvent.dataTransfer.setData('id-ansprechpartner', el.attr('data-id-ansprechpartner'));
     });
 
     /**
