@@ -23,10 +23,11 @@ include_once(dirname(__DIR__) . '/config.php');
 $cached_file = BASE . '_cache/Plan.php';
 if (file_exists($cached_file)) {
 
-    $filemtime = filemtime($cached_file);
-    if (time() - $filemtime < 120) { // 2 Minuten Cache-Lifetime
+    if (time() - filemtime($cached_file) < 120) { // 2 Minuten Cache-Lifetime
         echo file_get_contents($cached_file);
         return;
+    } else {
+        unlink($cached_file);
     }
 }
 
