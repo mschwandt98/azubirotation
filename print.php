@@ -20,7 +20,7 @@ ob_start("minifier");
 ?>
 
 <link rel="stylesheet" type="text/css" href="assets/css/print.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
 <div id="BlackScreen"></div>
 <div id="Header">
@@ -35,7 +35,8 @@ ob_start("minifier");
 </div>
 
 <script>
-    var table = $("#Plan table");
+    var wrapper = $("#Plan");
+    var table = wrapper.find("table");
     table.find("tr.space-row").remove();
 
     /* Kalenderwochen verstecken */
@@ -62,8 +63,8 @@ ob_start("minifier");
     var counter = weeksToHide;
     headerColumns.each(index => {
 
-        column = $(headerColumns[index]);
-        counter = counter - column.prop("colSpan");
+        let column = $(headerColumns[index]);
+        counter = counter - column.attr("colSpan");
 
         if (counter <= 0) {
             column.attr("colSpan", Math.abs(counter));
@@ -73,16 +74,13 @@ ob_start("minifier");
         }
     });
 
-    /* Tabelle brechen für Druck */
+    /* Tabelle brechen nach 1090px für Druck */
     var pageWidth = 1090;
-    var pageCount = Math.ceil(table.outerWidth() / (pageWidth - 100));
-    var printWrap = $("#Plan");
-    var printPage;
 
     var kuerzelEntrys = table.clone().find("tr").children('.kuerzel, .ausbildungsberuf').remove();
     var kuerzelTable = $("<table></table>");
     kuerzelEntrys.each(function (index) {
-        var entry = $(kuerzelEntrys[index]);
+        let entry = $(kuerzelEntrys[index]);
         kuerzelTable.append(
             $("<tr></tr>").append(entry)
         );
@@ -99,7 +97,8 @@ ob_start("minifier");
     }).append(kuerzelTable);
 
     var lastLeftValue = 0;
-    for (var i = 0; i < pageCount; i++) {
+    var pageCount = Math.ceil(table.outerWidth() / (pageWidth - 100));
+    for (let i = 0; i < pageCount; i++) {
         let wrapperDiv = $("<div></div>").css({
             "display": "flex",
             "overflow": "hidden",
@@ -107,7 +106,7 @@ ob_start("minifier");
             "page-break-before": i === 0 ? "auto" : "always"
         });
 
-        printPage = wrapperDiv.appendTo(printWrap);
+        let printPage = wrapperDiv.appendTo(wrapper);
 
         let clonedTable = table.clone().removeAttr("id").css({
             "position": "relative",
@@ -127,13 +126,14 @@ ob_start("minifier");
     }
     table.hide();
 
-    var tableParts = $("#Plan > div:not(:first)");
-    tableParts.css({ marginTop: $("#Header").outerHeight() });
+    $("#Plan > div:not(:first)").css({
+        marginTop: $("#Header").outerHeight()
+    });
 
-    window.print();
     window.addEventListener("afterprint", (event) => {
         window.close();
     });
+    window.print();
 </script>
 
 <?php ob_end_flush(); ?>
