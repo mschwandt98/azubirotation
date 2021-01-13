@@ -108,4 +108,41 @@
 
     <?php include_once('menu.php'); ?>
 
+    <style>
+        #NotSupportedBrowser {
+            position: absolute;
+            top: 0;
+            left: 50%;
+        }
+        #NotSupportedBrowser > div {
+            background-color: #b30f0f;
+            border: 1px solid #b30f0f;
+            color: white;
+            display: none;
+            padding: 8px 16px;
+            position: relative;
+            left: -50%;
+            z-index: 9999999;
+        }
+
+        #NotSupportedBrowser a {
+            color: white !important;
+        }
+
+        @media all and (-ms-high-contrast:none)
+        {
+            #NotSupportedBrowser {
+                display: block !important;
+            }
+        }
+    </style>
+    <div id="NotSupportedBrowser">
+        <div>
+            <div>Dein Browser ist eventuell veraltet. Einige Inhalte könnten falsch oder gar nicht dargestellt werden.</div>
+            <div>
+                Bitte nutze einen der auf folgender Website aufgeführten Browser:
+                <a href="https://browsehappy.com/#browserlist" target="_blank">https://browsehappy.com/</a>
+            </div>
+        </div>
+    </div>
 </header>
