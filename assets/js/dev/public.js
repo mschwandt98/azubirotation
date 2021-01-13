@@ -134,15 +134,17 @@ $(document).ready(function() {
     function FilterAzubis() {
 
         var searchText = ($('#Filter input[type="search"]').val()).trim().toLowerCase();
+        searchText = ReplaceUmlaute(searchText);
+
         var azubis = $('#Plan .azubi');
 
         azubis.each(index => {
 
             let azubi = $(azubis[index]);
             let data = azubi.find('> th:lt(3)');
-            let nachname = data.eq(0).text().toLowerCase();
-            let vorname = data.eq(1).text().toLowerCase();
-            let kuerzel = data.eq(2).text().toLowerCase();
+            let nachname = ReplaceUmlaute(data.eq(0).text().toLowerCase());
+            let vorname = ReplaceUmlaute(data.eq(1).text().toLowerCase());
+            let kuerzel = ReplaceUmlaute(data.eq(2).text().toLowerCase());
 
             if (nachname.includes(searchText) ||
                 vorname.includes(searchText) ||
@@ -187,6 +189,22 @@ $(document).ready(function() {
                 berufsRow.nextAll('.space-row').first().show();
             }
         });
+    }
+
+    /**
+     * Ersetzt alle Umlaute in einem String.
+     *
+     * @var {string} string Der String, in dem Umlaute ersetzt werden sollen.
+     *
+     * @return {string} Der String mit den ersetzten Umlauten.
+     */
+    function ReplaceUmlaute(string) {
+        string = string.replaceAll('ä', 'ae');
+        string = string.replaceAll('ö', 'oe');
+        string = string.replaceAll('ü', 'ue');
+        string = string.replaceAll('ß', 'ss');
+
+        return string;
     }
 
     /**
