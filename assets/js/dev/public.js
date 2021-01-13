@@ -133,7 +133,7 @@ $(document).ready(function() {
      */
     function FilterAzubis() {
 
-        var searchText = ($('#Filter input[type="search"]').val()).toLowerCase();
+        var searchText = ($('#Filter input[type="search"]').val()).trim().toLowerCase();
         var azubis = $('#Plan .azubi');
 
         azubis.each(index => {
@@ -144,17 +144,11 @@ $(document).ready(function() {
             let vorname = data.eq(1).text().toLowerCase();
             let kuerzel = data.eq(2).text().toLowerCase();
 
-            if (nachname.includes(searchText)) {
-                ShowAzubiRow(azubi);
-                return;
-            }
-
-            if (vorname.includes(searchText)) {
-                ShowAzubiRow(azubi);
-                return;
-            }
-
-            if (kuerzel.includes(searchText)) {
+            if (nachname.includes(searchText) ||
+                vorname.includes(searchText) ||
+                kuerzel.includes(searchText) ||
+                (nachname + ' ' + vorname).includes(searchText) ||
+                (vorname + ' ' + nachname).includes(searchText)) {
                 ShowAzubiRow(azubi);
                 return;
             }
