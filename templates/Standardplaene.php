@@ -49,18 +49,6 @@
         </div>
     </form>
     <form id="EditStandardplanForm" method="post" style="display: none;">
-        <style>
-            #EditStandardplanForm .plan > div:first-of-type {
-                font-weight: bold;
-                margin: 16px 0;
-            }
-            #EditStandardplanForm .plan .plan-phasen .phase {
-                border-bottom: 1px solid #bdbdcb;
-            }
-            #EditStandardplanForm .plan .plan-phasen .phase:last-of-type {
-                border-bottom: 0;
-            }
-        </style>
         <input type="hidden" name="id_ausbildungsberuf" />
         <div class="plan"></div>
         <div class="submit-button">

@@ -213,6 +213,19 @@ html[data-theme='dark'] {
     }
 }
 
+#EditStandardplanForm .plan > div:first-of-type {
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+#EditStandardplanForm .plan .plan-phasen .phase {
+    border-bottom: 1px solid #bdbdcb;
+}
+
+#EditStandardplanForm .plan .plan-phasen .phase:last-of-type {
+    border-bottom: 0;
+}
+
 @media screen and (max-width: $lg-max) and (min-width: $lg-min) {
     .grid {
         grid-template-columns: 1fr 1fr;
