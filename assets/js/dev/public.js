@@ -329,9 +329,9 @@ $(document).ready(function() {
         const cFourth = 292;
 
         if (this.checked) {
-            columns.hide();
-        } else {
             columns.show();
+        } else {
+            columns.hide();
         }
 
         var nachname = plan.find('th.nachname');
@@ -352,7 +352,7 @@ $(document).ready(function() {
         ausbildungsBerufe.attr('colspan', visibleColumnsNumber);
 
         if (visibleColumnsNumber === 1) {
-            let checkbox = $('#Information input:checkbox:not(:checked)');
+            let checkbox = $('#Information input:checkbox:checked');
             checkbox.closest('label').addClass('disabled');
             checkbox.prop('disabled', true);
         }

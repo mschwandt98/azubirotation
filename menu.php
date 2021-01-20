@@ -94,19 +94,19 @@
     <div class="menu-action" id="Information">
         <div>
             <label>
-                <input type="checkbox" value="nachname" />
+                <input type="checkbox" value="nachname" checked />
                 <span>Nachname</span>
             </label>
             <label>
-                <input type="checkbox" value="vorname" />
+                <input type="checkbox" value="vorname" checked />
                 <span>Vorname</span>
             </label>
             <label>
-                <input type="checkbox" value="kuerzel" />
+                <input type="checkbox" value="kuerzel" checked />
                 <span>Kürzel</span>
             </label>
             <label>
-                <input type="checkbox" value="zeitraum" />
+                <input type="checkbox" value="zeitraum" checked />
                 <span>Zeitraum</span>
             </label>
         </div>
