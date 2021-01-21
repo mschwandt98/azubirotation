@@ -114,19 +114,25 @@
     <div class="menu-action" id="Legende">
         <?php include_once('legende.php'); ?>
     </div>
-    <div class="menu-action" id="Data">
-        <div class="grid">
-            <div>
-                <?php include_once('templates/Abteilungen.php'); ?>
-                <?php include_once('templates/Standardplaene.php'); ?>
-            </div>
-            <div>
-                <?php include_once('templates/Ausbildungsberufe.php'); ?>
-                <?php include_once('templates/Azubis.php'); ?>
-            </div>
-            <div>
-                <?php include_once('templates/Ansprechpartner.php'); ?>
+
+    <?php if (is_logged_in()) : ?>
+
+        <div class="menu-action" id="Data">
+            <div class="grid">
+                <div>
+                    <?php include_once('templates/Abteilungen.php'); ?>
+                    <?php include_once('templates/Standardplaene.php'); ?>
+                </div>
+                <div>
+                    <?php include_once('templates/Ausbildungsberufe.php'); ?>
+                    <?php include_once('templates/Azubis.php'); ?>
+                </div>
+                <div>
+                    <?php include_once('templates/Ansprechpartner.php'); ?>
+                </div>
             </div>
         </div>
-    </div>
+
+    <?php endif; ?>
+
 </div>
