@@ -259,6 +259,10 @@ ob_start();
 
 <?php
 $html = preg_replace('/\s+/', ' ', ob_get_clean());
+$cache_path = BASE . '_cache';
+if (!file_exists($cache_path)) {
+    mkdir($cache_path, 0777, true);
+}
 file_put_contents($cached_file, $html);
 echo $html;
 
