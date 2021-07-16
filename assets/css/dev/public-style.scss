@@ -161,18 +161,29 @@ body {
         padding: 0;
 
         #Filter form {
-            height: 100%;
+            input {
+                max-width: 256px;
+                width: 256px;
+            }
+        }
+
+        li.menu-option {
+            padding-right: 16px;
+
+            > * {
+                align-items: center;
+                display: flex;
+                height: 100%;
+            }
 
             label {
                 align-items: center;
                 display: flex;
                 height: inherit;
-                padding-right: 16px;
+            }
 
-                input {
-                    max-width: 256px;
-                    width: 256px;
-                }
+            *:not(input) {
+                color: white;
             }
         }
 

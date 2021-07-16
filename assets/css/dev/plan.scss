@@ -7,7 +7,9 @@
 #Plan {
     overflow: auto;
 
-    table, th, td {
+    table,
+    th,
+    td {
         border: 1px solid $gray;
     }
 
@@ -85,12 +87,22 @@
 
                 &::before {
                     background-color: rgba(0, 0, 0, 0.2);
-                    content: " ";
+                    content: ' ';
                     position: absolute;
                     top: 0;
                     right: 0;
                     bottom: 0;
                     left: 0;
+                }
+            }
+
+            &.hidden-phase {
+                background-color: transparent !important;
+                border-right-color: $gray !important;
+                border-left-color: $gray !important;
+
+                * {
+                    visibility: hidden;
                 }
             }
 

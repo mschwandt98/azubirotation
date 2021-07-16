@@ -9,12 +9,21 @@
 <div id="Menu">
     <nav>
         <ul>
-            <li title="Auszubildende filtern" id="Filter">
+            <li title="Auszubildende filtern" id="Filter" class="menu-option">
                 <form>
                     <label>
                         <input type="search" placeholder="Auszubildende filtern..." />
                     </label>
                 </form>
+            </li>
+            <li title="Zeige Zeiträume ohne Ausbilder" id="EmptyColumnFilter" class="menu-option">
+                <div>
+                    <label class="checkbox">
+                        <span>Zeige Balken ohne Ausbilder</span>
+                        <input type="checkbox" checked />
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
             </li>
             <li class="menu-point action-information" title="Spalten umschalten">
                 <div class="menu-icon">
@@ -93,21 +102,25 @@
 <div id="SubMenu">
     <div class="menu-action" id="Information">
         <div>
-            <label>
-                <input type="checkbox" value="nachname" checked />
+            <label class="checkbox">
                 <span>Nachname</span>
+                <input type="checkbox" value="nachname" checked />
+                <span class="checkmark"></span>
             </label>
-            <label>
-                <input type="checkbox" value="vorname" checked />
+            <label class="checkbox">
                 <span>Vorname</span>
+                <input type="checkbox" value="vorname" checked />
+                <span class="checkmark"></span>
             </label>
-            <label>
-                <input type="checkbox" value="kuerzel" checked />
+            <label class="checkbox">
                 <span>Kürzel</span>
+                <input type="checkbox" value="kuerzel" checked />
+                <span class="checkmark"></span>
             </label>
-            <label>
-                <input type="checkbox" value="zeitraum" checked />
+            <label class="checkbox">
                 <span>Zeitraum</span>
+                <input type="checkbox" value="zeitraum" checked />
+                <span class="checkmark"></span>
             </label>
         </div>
     </div>

@@ -310,6 +310,19 @@ $(document).ready(function () {
     });
 
     /**
+     *
+     */
+    $('#EmptyColumnFilter').on('click', 'input[type="checkbox"]', function (e) {
+        const isChecked = $(this).prop('checked');
+        let phasesWithoutAnsprechpartner = $('#Plan [data-id-abteilung]:not([data-id-ansprechpartner])');
+        if (isChecked) {
+            phasesWithoutAnsprechpartner.removeClass('hidden-phase');
+        } else {
+            phasesWithoutAnsprechpartner.addClass('hidden-phase');
+        }
+    });
+
+    /**
      * Blendet die jeweiligen Spalten mit den Azubiinformationen in der
      * Tabelle bzw in der Planung aus.
      */

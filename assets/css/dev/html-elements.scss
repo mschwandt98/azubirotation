@@ -11,14 +11,15 @@
  * - input[type="submit"]
  */
 
-input[type="button"],
-input[type="date"],
-input[type="email"],
-input[type="number"],
-input[type="password"]
-input[type="search"],
-input[type="submit"],
-input[type="text"] {
+@import 'variables.scss';
+
+input[type='button'],
+input[type='date'],
+input[type='email'],
+input[type='number'],
+input[type='password'] input[type='search'],
+input[type='submit'],
+input[type='text'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -28,12 +29,12 @@ form label {
     color: $selectline-dark-blue;
     display: block;
 
-    input[type="date"],
-    input[type="email"],
-    input[type="number"],
-    input[type="password"],
-    input[type="search"],
-    input[type="text"],
+    input[type='date'],
+    input[type='email'],
+    input[type='number'],
+    input[type='password'],
+    input[type='search'],
+    input[type='text'],
     select {
         border: 1px solid $gray;
         border-radius: 8px;
@@ -52,7 +53,7 @@ form label {
     }
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
     border: 1px solid $gray;
     border-radius: 8px;
     color: $selectline-text-blue;
@@ -60,8 +61,8 @@ input[type="checkbox"] {
     outline: 0;
 }
 
-input[type="button"],
-input[type="submit"] {
+input[type='button'],
+input[type='submit'] {
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
@@ -81,7 +82,7 @@ input[type="submit"] {
     }
 }
 
-input[type="button"] {
+input[type='button'] {
     background-color: $selectline-blue;
     border-color: $selectline-blue;
 
@@ -106,7 +107,7 @@ input[type="button"] {
     }
 }
 
-input[type="submit"] {
+input[type='submit'] {
     background-color: $selectline-dark-blue;
     border-color: $selectline-dark-blue;
 
@@ -115,5 +116,41 @@ input[type="submit"] {
     &:hover {
         background-color: $selectline-blue;
         border-color: $selectline-blue;
+    }
+}
+
+.checkbox {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    padding-right: 1rem;
+    position: relative;
+    user-select: none;
+
+    > span:not(.checkmark) {
+        padding-right: 0.5rem;
+    }
+
+    > input[type='checkbox'] {
+        display: none;
+    }
+
+    span.checkmark::after {
+        align-items: center;
+        background-color: white;
+        border: 1px solid #bdbdcb;
+        color: $selectline-text-blue;
+        content: '';
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: calc(50% - 0.5rem);
+        right: 0;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    input:checked ~ .checkmark:after {
+        content: '\2713';
     }
 }

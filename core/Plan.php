@@ -139,8 +139,8 @@ ob_start();
         <?=
         "#Plan .plan-phase.abteilung-$abteilung->ID {
             background-color: $abteilung->Farbe;
-            border-right: $abteilung->Farbe;
-            border-left: $abteilung->Farbe;
+            border-right-color: $abteilung->Farbe;
+            border-left-color: $abteilung->Farbe;
         }"
         ?>
     <?php endforeach; ?>
