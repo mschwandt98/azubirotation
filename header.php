@@ -6,11 +6,17 @@
  * ein Login- bzw Logout-Formular. Welches Formular davon geladen wird hängt
  * davon ab, ob der Benutzer eingeloggt ist.
  */
+
+include_once(__DIR__ . '/config.php');
+
+use core\helper\DataHelper;
+use core\helper\DateHelper;
 ?>
 
 <header id="Header">
     <div id="TopHeader">
         <h1>Ausbildungsplaner</h1>
+        <span id="LastTimeUpdated">Stand: <?= DateHelper::FormatDate((new DataHelper())->GetSetting('last-time-updated')->Value); ?></span>
         <div>
             <div id="LoadingSpinner" style="display: none;">
                 <div class="bounce-1"></div>

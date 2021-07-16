@@ -21,12 +21,11 @@ if (is_logged_in() && is_token_valid()) {
         if (!empty($azubis)) {
 
             global $pdo;
-
+            $dataHelper = new DataHelper();
             foreach ($azubis as $azubi) {
 
                 $id_azubi = sanitize_string($azubi['id']);
                 $deletedPhasen = []; // beinhaltet die Startdaten
-
                 foreach ($azubi['phasen'] as $phase) {
 
                     $startDate = sanitize_string($phase['date']);
@@ -44,7 +43,7 @@ if (is_logged_in() && is_token_valid()) {
                             $ansprechpartner_id = sanitize_string($phase['id_ansprechpartner']);
 
                             // Überprüfung, ob Ansprechpartner für die Abteilung erlaubt ist
-                            if ($ansprechpartner = (new DataHelper())->GetAnsprechpartner($ansprechpartner_id)) {
+                            if ($ansprechpartner = $dataHelper->GetAnsprechpartner($ansprechpartner_id)) {
 
                                 if (!empty($ansprechpartner->ID_Abteilung) && $ansprechpartner->ID_Abteilung != $id_abteilung) {
                                     $ansprechpartner_id = NULL;
@@ -204,6 +203,9 @@ if (is_logged_in() && is_token_valid()) {
                     }
                 }
             }
+
+            // Timestamp des letzten Updates speichern
+            $dataHelper->UpdateSetting('last-time-updated' , DateHelper::Today());
 
             include_once(BASE . 'backup.php');
             unlink(BASE . '_cache/Plan.php');

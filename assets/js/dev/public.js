@@ -1,8 +1,6 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
     $('#LoadingSpinner').show();
-    $('#Plan').load('rest/Refresh/Plan', _ => {
-
+    $('#Plan').load('rest/Refresh/Plan', (_) => {
         $('#LoadingSpinner').hide();
 
         // Scrollt zum aktuellen Datum in der Planung
@@ -10,21 +8,18 @@ $(document).ready(function() {
         let timePeriodsLength = timePeriods.length;
 
         if (timePeriodsLength > 0) {
-
             let time = new Date().getTime();
             let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
 
             for (let i = 0; i < timePeriodsLength; i++) {
-
                 let dates = timePeriods.eq(i).attr('title').split(' - ');
-                let firstDateTime = new Date(dates[0].replace(pattern,'$3-$2-$1')).getTime();
-                let secondDateTime = new Date(dates[1].replace(pattern,'$3-$2-$1')).getTime();
+                let firstDateTime = new Date(dates[0].replace(pattern, '$3-$2-$1')).getTime();
+                let secondDateTime = new Date(dates[1].replace(pattern, '$3-$2-$1')).getTime();
 
                 if (time >= firstDateTime && time <= secondDateTime) {
-
                     let j = i;
 
-                    let scrollLeft = ((j - 1 > 0) ? --j : j) * ($(timePeriods[i]).innerWidth() + 1); // 1 = Border-width
+                    let scrollLeft = (j - 1 > 0 ? --j : j) * ($(timePeriods[i]).innerWidth() + 1); // 1 = Border-width
 
                     // + 400, da Sticky-Columns on mobile disabled sind
                     if ($(window).width() <= 991) {
@@ -43,8 +38,8 @@ $(document).ready(function() {
         if (cookie) {
             let hiddenColumns = cookie.split('-');
 
-            hiddenColumns.forEach(column => {
-                wrapper.find(`input[type="checkbox"][value="${ column }"]`).click();
+            hiddenColumns.forEach((column) => {
+                wrapper.find(`input[type="checkbox"][value="${column}"]`).click();
             });
         } else {
             wrapper.find('input[type="checkbox"][value="zeitraum"]').click();
@@ -63,13 +58,10 @@ $(document).ready(function() {
      * @param {requestCallback}     callback
      */
     function HideShowAzubisOfBeruf(row, hide, callback = null) {
-
         var row = $(row);
         while (true) {
-
             let nextRow = row.next();
             if (nextRow.hasClass('azubi')) {
-
                 row = nextRow;
 
                 if (hide) {
@@ -108,17 +100,16 @@ $(document).ready(function() {
     /**
      * Verhindert, dass das Formular zur Filterung submitted werden kann.
      */
-    $('#Filter').on('submit', function(e) {
+    $('#Filter').on('submit', function (e) {
         e.preventDefault();
     });
 
     /**
      * Triggert die Filterung.
      */
-    $('#Filter').on('input', 'input[type="search"]', function() {
-
+    $('#Filter').on('input', 'input[type="search"]', function () {
         var rows = $('#Plan tr .ausbildungsberuf').closest('tr');
-        rows.each(index => {
+        rows.each((index) => {
             let row = $(rows[index]);
             row.find('th i').removeClass('icon-triangle-right').addClass('icon-triangle-down');
             HideShowAzubisOfBeruf(row, false);
@@ -132,25 +123,36 @@ $(document).ready(function() {
      * Gefiltert wird in den Nachnamen, den Vornamen und den Kürzeln.
      */
     function FilterAzubis() {
-
-        var searchText = ($('#Filter input[type="search"]').val()).trim().toLowerCase();
+        var searchText = $('#Filter input[type="search"]').val().trim().toLowerCase();
         searchText = ReplaceUmlaute(searchText);
 
         var azubis = $('#Plan .azubi');
-
-        azubis.each(index => {
-
+        azubis.each((index) => {
             let azubi = $(azubis[index]);
             let data = azubi.find('> th:lt(3)');
-            let nachname = ReplaceUmlaute(data.eq(0).text().toLowerCase());
-            let vorname = ReplaceUmlaute(data.eq(1).text().toLowerCase());
-            let kuerzel = ReplaceUmlaute(data.eq(2).text().toLowerCase());
+            const nachname = ReplaceUmlaute(data.eq(0).text());
+            const vorname = ReplaceUmlaute(data.eq(1).text());
+            const kuerzel = ReplaceUmlaute(data.eq(2).text());
 
-            if (nachname.includes(searchText) ||
+            let ansprechpartnerElements = azubi.find('.ansprechpartner-name');
+            let ansprechpartner = [];
+            ansprechpartnerElements.each((index) => {
+                let name = ReplaceUmlaute($(ansprechpartnerElements[index]).text());
+                if (!ansprechpartner.includes(name)) {
+                    ansprechpartner.push(name);
+                }
+            });
+
+            const x = ansprechpartner.filter((a) => a.includes(searchText));
+
+            if (
+                nachname.includes(searchText) ||
                 vorname.includes(searchText) ||
                 kuerzel.includes(searchText) ||
-                (nachname + ' ' + vorname).includes(searchText) ||
-                (vorname + ' ' + nachname).includes(searchText)) {
+                `${nachname} ${vorname}`.includes(searchText) ||
+                `${vorname} ${nachname}`.includes(searchText) ||
+                ansprechpartner.filter((a) => a.includes(searchText)).length
+            ) {
                 ShowAzubiRow(azubi);
                 return;
             }
@@ -159,23 +161,19 @@ $(document).ready(function() {
         });
 
         var rows = $('#Plan .ausbildungsberuf').closest('tr');
-        rows.each(index => {
-
+        rows.each((index) => {
             let berufsRow = $(rows[index]);
             let row = berufsRow;
             let hide = true;
 
             while (true) {
-
                 row = row.next();
 
                 if (row.hasClass('azubi')) {
-
                     if (row.css('visibility') === 'visible') {
                         hide = false;
                         break;
                     }
-
                 } else {
                     break;
                 }
@@ -199,6 +197,7 @@ $(document).ready(function() {
      * @return {string} Der String mit den ersetzten Umlauten.
      */
     function ReplaceUmlaute(string) {
+        string = string.toLowerCase();
         string = string.replaceAll('ä', 'ae');
         string = string.replaceAll('ö', 'oe');
         string = string.replaceAll('ü', 'ue');
@@ -210,8 +209,7 @@ $(document).ready(function() {
     /**
      * Öffnet die druckbare Version des Plans.
      */
-    $('#PrintPlan').on('click', function() {
-
+    $('#PrintPlan').on('click', function () {
         let href = window.location.href;
         if (href.match(/.*\/index.php/) || href.match(/.*\/index/)) {
             href = href.substring(0, href.indexOf('index') - 1);
@@ -222,8 +220,7 @@ $(document).ready(function() {
     /**
      * Azubipläne eines Ausbildungsberufes werden ein- bzw ausgeblendet.
      */
-    $('#Plan').on('click', 'tr .ausbildungsberuf', function() {
-
+    $('#Plan').on('click', 'tr .ausbildungsberuf', function () {
         var el = $(this);
         icon = el.find('i');
 
@@ -241,34 +238,36 @@ $(document).ready(function() {
     /**
      * Toggled dem DarkMode.
      */
-    $('#DarkMode').on('click', function() {
+    $('#DarkMode')
+        .on('click', function () {
+            let el = $(this);
+            let checkbox = el.find('input[type="checkbox"]');
+            let text = el.find('> div:last-of-type');
+            let html = $('html');
 
-        let el = $(this);
-        let checkbox = el.find('input[type="checkbox"]');
-        let text = el.find('> div:last-of-type');
-        let html = $('html');
-
-        if (html.attr('data-theme') == 'dark') {
-            html.attr('data-theme', 'light');
-            checkbox.prop('checked', false);
-            text.text('Light Mode');
-            document.cookie = 'darkmode=false; max-age=2592000';
-        } else {
-            html.attr('data-theme', 'dark');
-            checkbox.prop('checked', true);
-            text.text('Dark Mode');
-            document.cookie = 'darkmode=true; max-age=2592000';
-        }
-    }).find('.slider').click(function() {
-        let checkbox = $(this).siblings('input[type="checkbox"]');
-        checkbox.prop('checked', !checkbox.prop('checked'));
-        $('#DarkMode').click();
-    });;
+            if (html.attr('data-theme') == 'dark') {
+                html.attr('data-theme', 'light');
+                checkbox.prop('checked', false);
+                text.text('Light Mode');
+                document.cookie = 'darkmode=false; max-age=2592000';
+            } else {
+                html.attr('data-theme', 'dark');
+                checkbox.prop('checked', true);
+                text.text('Dark Mode');
+                document.cookie = 'darkmode=true; max-age=2592000';
+            }
+        })
+        .find('.slider')
+        .click(function () {
+            let checkbox = $(this).siblings('input[type="checkbox"]');
+            checkbox.prop('checked', !checkbox.prop('checked'));
+            $('#DarkMode').click();
+        });
 
     /**
      * Blendet das Menü aus.
      */
-    $('#HideMenu').on('click', function() {
+    $('#HideMenu').on('click', function () {
         $('#Menu').hide();
         $('#SubMenu').hide();
         $('#Plan').addClass('full-height');
@@ -278,7 +277,7 @@ $(document).ready(function() {
     /**
      * Blendet das Menü ein.
      */
-    $('#ShowMenu').on('click', function() {
+    $('#ShowMenu').on('click', function () {
         $(this).hide();
         $('#Menu').show();
         $('#Plan').removeClass('full-height');
@@ -289,12 +288,12 @@ $(document).ready(function() {
      * bereits sichtbar ist, wird er versteckt. Ansonsten werden alle
      * anderen Menüpunkte versteckt und der angeklickte wird angezeigt.
      */
-    $('#Menu').on('click', '.menu-point', function() {
-
-        var action = $(this).attr('class').match(/action-.*/);
+    $('#Menu').on('click', '.menu-point', function () {
+        var action = $(this)
+            .attr('class')
+            .match(/action-.*/);
 
         if (action) {
-
             action = action[0].replace('action-', '');
             let actionMenu = $('#' + action.charAt(0).toUpperCase() + action.slice(1));
             let submenu = $('#SubMenu');
@@ -314,8 +313,7 @@ $(document).ready(function() {
      * Blendet die jeweiligen Spalten mit den Azubiinformationen in der
      * Tabelle bzw in der Planung aus.
      */
-    $('#Information').on('click', 'input[type="checkbox"]', function(e) {
-
+    $('#Information').on('click', 'input[type="checkbox"]', function (e) {
         $('#Information label').removeClass('disabled');
         $('#Information input:checkbox').prop('disabled', false);
 
@@ -362,30 +360,22 @@ $(document).ready(function() {
 
         if (!nachnameHidden) {
             order++;
-            nachname.css(
-                { 'left': eval('c' + getPosition(order)) + einheit
-            });
+            nachname.css({ left: eval('c' + getPosition(order)) + einheit });
         }
 
         if (!vornameHidden) {
             order++;
-            vorname.css(
-                { 'left': eval('c' + getPosition(order)) + einheit
-            });
+            vorname.css({ left: eval('c' + getPosition(order)) + einheit });
         }
 
         if (!kuerzelHidden) {
             order++;
-            kuerzel.css(
-                { 'left': eval('c' + getPosition(order)) + einheit
-            });
+            kuerzel.css({ left: eval('c' + getPosition(order)) + einheit });
         }
 
         if (!zeitraumHidden) {
             order++;
-            zeitraum.css(
-                { 'left': eval('c' + getPosition(order)) + einheit
-            });
+            zeitraum.css({ left: eval('c' + getPosition(order)) + einheit });
         }
 
         if (order === 4) {
@@ -395,7 +385,6 @@ $(document).ready(function() {
 
         // Bug: Zeitraum-Spalte wird nicht richtig positioniert
         if (!zeitraumHidden && !kuerzelHidden) {
-
             let kuerzelLeft = kuerzel.css('left');
 
             zeitraum.css(
@@ -415,7 +404,7 @@ $(document).ready(function() {
         vornameHidden ? hiddenColumns.push('vorname') : null;
         kuerzelHidden ? hiddenColumns.push('kuerzel') : null;
         zeitraumHidden ? hiddenColumns.push('zeitraum') : null;
-        document.cookie = `hidden-columns=${ hiddenColumns.join('-') }; max-age=2592000`;
+        document.cookie = `hidden-columns=${hiddenColumns.join('-')}; max-age=2592000`;
     });
 
     function getPosition(order) {

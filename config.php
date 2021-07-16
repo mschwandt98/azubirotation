@@ -13,7 +13,7 @@ define('DB_PASS', '');
 
 // globales Datenbankobjekt
 try {
-    $pdo = new PDO('mysql:dbname=' . DB_DATABASE .  ';host=' . DB_HOST, DB_USER, DB_PASS);
+    $pdo = new PDO('mysql:dbname=' . DB_DATABASE . ';host=' . DB_HOST, DB_USER, DB_PASS);
 } catch (Exception $e) {
     exit($e->getMessage());
 }

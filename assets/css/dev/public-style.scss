@@ -10,15 +10,14 @@
  * - Messagebox für Fehlernachrichten
  */
 
-@import "variables.scss";
-@import "html-elements.scss";
-@import "plan.scss";
-@import "legende.scss";
-@import "icons.scss";
-@import "3rd-party.scss";
+@import 'variables.scss';
+@import 'html-elements.scss';
+@import 'plan.scss';
+@import 'legende.scss';
+@import 'icons.scss';
+@import '3rd-party.scss';
 
 html[data-theme='dark'] {
-
     body,
     html {
         background-color: $selectline-dark-mode-black;
@@ -35,7 +34,6 @@ html[data-theme='dark'] {
     }
 
     #Plan table {
-
         th {
             background-color: $selectline-dark-mode-black-light;
 
@@ -77,7 +75,7 @@ html[data-theme='dark'] {
 body {
     background-color: white;
     color: $selectline-text-blue;
-    font-family: "Calibri";
+    font-family: 'Calibri';
     font-size: 16px;
     margin: 0;
 }
@@ -96,7 +94,7 @@ body {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     display: grid;
     column-gap: 16px;
-    grid-template-columns: auto auto auto 1fr;
+    grid-template-columns: auto auto auto auto 1fr;
     padding: 8px 16px;
 
     h1 {
@@ -234,7 +232,7 @@ body {
                     }
 
                     &:checked + .slider:before {
-                        content: "\e913";
+                        content: '\e913';
                         -webkit-transform: translateX(16px);
                         -ms-transform: translateX(16px);
                         transform: translateX(16px);
@@ -245,7 +243,7 @@ body {
                     background-color: white;
                     border-radius: 32px;
                     cursor: pointer;
-                    font-family: "icons";
+                    font-family: 'icons';
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -257,7 +255,7 @@ body {
                     &:before {
                         border-radius: 50%;
                         color: $selectline-blue;
-                        content: "\e907";
+                        content: '\e907';
                         position: absolute;
                         bottom: -3px;
                         left: 4px;
@@ -293,11 +291,11 @@ body {
     label {
         cursor: pointer;
         -webkit-touch-callout: none;
-          -webkit-user-select: none;
-           -khtml-user-select: none;
-             -moz-user-select: none;
-              -ms-user-select: none;
-                  user-select: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
         &.disabled,
         &.disabled * {
@@ -358,8 +356,7 @@ body {
     }
 }
 
-@media all and (-ms-high-contrast:none)
-{
+@media all and (-ms-high-contrast: none) {
     #NotSupportedBrowser {
         display: block !important;
     }
@@ -450,7 +447,6 @@ body {
 }
 
 @media screen and (max-width: $md-max) {
-
     #Menu,
     #SubMenu,
     #ShowMenu {
@@ -482,7 +478,7 @@ body {
             grid-row: 2;
         }
 
-        > input[type="submit"] {
+        > input[type='submit'] {
             grid-column: 2;
             grid-row: 1;
         }
