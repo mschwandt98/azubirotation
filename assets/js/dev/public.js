@@ -335,9 +335,9 @@ $(document).ready(function () {
 
         // Aufgerufen per eval()
         const cFirst = 0;
-        const cSecond = 117;
-        const cThird = 234;
-        const cFourth = 292;
+        const cSecond = 118;
+        const cThird = 236;
+        const cFourth = 295;
 
         if (this.checked) {
             columns.show();

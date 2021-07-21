@@ -383,33 +383,15 @@ body {
             }
 
             &:nth-of-type(2) {
-                left: 117px;
+                left: 118px;
             }
 
             &:nth-of-type(3) {
-                left: 234px;
+                left: 236px;
             }
 
             &:nth-of-type(4) {
-                left: 292px;
-            }
-
-            @-moz-document url-prefix() {
-                &:first-of-type {
-                    left: 1px !important;
-                }
-
-                &:nth-of-type(2) {
-                    left: 118px;
-                }
-
-                &:nth-of-type(3) {
-                    left: 235px;
-                }
-
-                &:nth-of-type(4) {
-                    left: 293px;
-                }
+                left: 295px;
             }
         }
 
@@ -425,33 +407,15 @@ body {
             }
 
             &:nth-of-type(2) {
-                left: 117px;
+                left: 118px;
             }
 
             &:nth-of-type(3) {
-                left: 234px;
+                left: 236px;
             }
 
             &:nth-of-type(4) {
-                left: 292px;
-            }
-
-            @-moz-document url-prefix() {
-                &:first-of-type {
-                    left: 1px !important;
-                }
-
-                &:nth-of-type(2) {
-                    left: 118px;
-                }
-
-                &:nth-of-type(3) {
-                    left: 235px;
-                }
-
-                &:nth-of-type(4) {
-                    left: 293px;
-                }
+                left: 295px;
             }
         }
     }

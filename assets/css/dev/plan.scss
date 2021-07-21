@@ -14,7 +14,8 @@
     }
 
     table {
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
 
         thead {
             tr:first-of-type th {
