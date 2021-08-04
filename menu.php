@@ -9,10 +9,10 @@
 <div id="Menu">
     <nav>
         <ul>
-            <li title="Auszubildende und Ansprechpartner filtern..." id="Filter" class="menu-option">
+            <li title="Nach Namen filtern..." id="Filter" class="menu-option">
                 <form>
                     <label>
-                        <input type="search" placeholder="Auszubildende und Ansprechpartner filtern..." />
+                        <input type="search" placeholder="Nach Namen filtern..." />
                     </label>
                 </form>
             </li>
