@@ -1,3 +1,5 @@
+⚠️ Dieses Tool wird nicht weiterentwickelt. ⚠️
+
 # Kurzdokumentation für die Weiterentwicklung
 
 ## Vorwort
